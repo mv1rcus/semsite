@@ -35,7 +35,7 @@ export function CityPicker({ value, onChange, disabled }: CityPickerProps) {
         onBlur={() => setOpen(false)}
       />
       {open && suggestions.length > 0 && (
-        <div className="glass absolute left-0 right-0 top-full z-10 mt-2 max-h-64 overflow-y-auto rounded-lg p-2" data-testid="city-suggestions">
+        <div className="city-suggestions absolute left-0 right-0 top-full z-10 mt-2 max-h-64 overflow-y-auto rounded-lg p-2" data-testid="city-suggestions">
           <p className="px-2 pb-1.5 text-xs text-muted-foreground">Sugestões de cidade — toque para escolher</p>
           {suggestions.map((city) => {
             const selected = city === value;
