@@ -1,9 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { OceanScene } from "@/components/OceanScene";
 import { Letters3D } from "@/components/Letters3D";
 import { Button } from "@/components/ui/button";
-
-const OceanScene = lazy(() => import("@/components/OceanScene").then((m) => ({ default: m.OceanScene })));
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -20,19 +18,9 @@ export const Route = createFileRoute("/")({
 });
 
 function Login() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center px-5 py-12">
-      {mounted && (
-        <Suspense fallback={null}>
-          <OceanScene />
-        </Suspense>
-      )}
+      <OceanScene />
       <h1 className="text-center text-5xl font-extrabold tracking-tight sm:text-7xl">
         <Letters3D text="Caça" className="text-gradient" />
         <br />
