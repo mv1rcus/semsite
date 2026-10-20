@@ -114,3 +114,16 @@
 @media (prefers-reduced-motion: reduce) {
   .letter-3d { animation: none; transition: none; }
 }
+
+.demo-site {
+  --background: oklch(0.98 0.006 190);
+  --foreground: oklch(0.25 0.035 200);
+  --primary: oklch(0.46 0.08 185);
+  --primary-foreground: oklch(0.98 0.006 190);
+  --muted-foreground: oklch(0.48 0.025 200);
+  --border: oklch(0.86 0.02 190);
+  background: var(--background); color: var(--foreground);
+}
+.demo-cover { color: var(--demo-cover-text); }
+:root { --demo-cover-text: oklch(0.99 0.005 190); --demo-cover-dark: oklch(0.17 0.03 200); }
+.demo-cover-shade { background: linear-gradient(180deg, color-mix(in srgb, var(--demo-cover-dark) 10%, transparent), color-mix(in srgb, var(--demo-cover-dark) 95%, transparent)); }

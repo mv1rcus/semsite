@@ -1,7 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { MapPin, MessageCircle, Phone, Search, Star, Check, ArrowLeft, Loader2, ExternalLink } from "lucide-react";
+import { MapPin, MessageCircle, Phone, Search, Star, Check, ArrowLeft, Loader2, ExternalLink, PanelsTopLeft } from "lucide-react";
 import { searchLeads, type Lead } from "@/lib/leads.functions";
 import { whatsappLink } from "@/lib/message";
 import { Letters3D } from "@/components/Letters3D";
@@ -9,6 +9,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { OceanScene } from "@/components/OceanScene";
 import { prospectPriority, rankProspects } from "@/lib/leads";
+import { CITIES, nextSuggestedCity } from "@/lib/cities";
+import { draftForClient } from "@/lib/demonstrations";
+import { ProspectTabs } from "@/components/ProspectTabs";
 
 export const Route = createFileRoute("/buscar")({
   head: () => ({
@@ -25,9 +28,9 @@ export const Route = createFileRoute("/buscar")({
 });
 
 const SUGGESTIONS = ["Barbearia", "Salão de beleza", "Pet shop", "Oficina mecânica", "Restaurante", "Academia", "Dentista", "Padaria"];
-const CITIES = ["Campinas, SP", "São Paulo, SP", "Belo Horizonte, MG", "Curitiba, PR", "Rio de Janeiro, RJ", "Fortaleza, CE"];
 
 function Buscar() {
+  const navigate = useNavigate();
   const search = useServerFn(searchLeads);
   const [category, setCategory] = useState("");
   const [city, setCity] = useState("");
@@ -45,6 +48,8 @@ function Buscar() {
   const ranked = useMemo(() => rankProspects(leads).sort((a, b) => Number(contacted.has(a.id)) - Number(contacted.has(b.id))), [leads, contacted]);
 
   useEffect(() => {
+    try { const suggested = nextSuggestedCity(localStorage.getItem("last-suggested-city")); setCity(suggested); localStorage.setItem("last-suggested-city", suggested); }
+    catch { setCity(nextSuggestedCity(null)); }
     try {
       const stored: unknown = JSON.parse(localStorage.getItem("contacted-leads") ?? "[]");
       if (Array.isArray(stored)) setContacted(new Set(stored.filter((id): id is string => typeof id === "string")));
@@ -81,6 +86,10 @@ function Buscar() {
     try { localStorage.setItem("contacted-leads", JSON.stringify([...updated])); }
     catch { /* The current session still tracks contacted leads. */ }
   }
+  function demonstrate(lead: Lead) {
+    try { sessionStorage.setItem("site-demo-draft", JSON.stringify(draftForClient(lead))); navigate({ to: "/demonstracoes" }); }
+    catch { setError("Permita o armazenamento deste navegador para preparar a demonstração do cliente."); }
+  }
 
   return (
     <main className="relative min-h-screen px-4 pb-20 pt-8 sm:px-8">
@@ -91,6 +100,7 @@ function Buscar() {
           <Link to="/"><ArrowLeft className="size-4" /> Voltar</Link>
         </Button>
       </header>
+      <ProspectTabs active="search" />
 
       <section className="mx-auto mt-10 max-w-6xl">
         <h1 className="text-4xl font-extrabold leading-tight sm:text-6xl">
@@ -104,7 +114,7 @@ function Buscar() {
             <Input aria-label="Cidade" required minLength={2} maxLength={80} disabled={loading} placeholder="Cidade (ex: Campinas, SP)" value={city} onFocus={() => setCityFocused(true)} onKeyDown={(e) => { if (e.key === "Escape") setCityFocused(false); }} onChange={(e) => setCity(e.target.value)} aria-expanded={cityFocused} aria-controls="city-suggestions" />
             {cityFocused && <div id="city-suggestions" className="absolute left-0 right-0 top-full z-20 mt-2 rounded-md border bg-popover p-2 shadow-sm">
               <p className="px-2 py-1 text-xs font-semibold text-muted-foreground">Cidades para começar</p>
-              {CITIES.filter((s) => !city || s.toLocaleLowerCase("pt-BR").includes(city.toLocaleLowerCase("pt-BR"))).map((s) => <Button key={s} type="button" variant="ghost" className="w-full justify-start" onClick={() => { setCity(s); setCityFocused(false); }}><MapPin />{s}</Button>)}
+              {CITIES.map((s) => <Button key={s} type="button" variant={city === s ? "secondary" : "ghost"} className="w-full justify-start" onPointerDown={(e) => e.preventDefault()} onClick={() => { setCity(s); setCityFocused(false); }}><MapPin />{s}</Button>)}
               <p className="px-2 py-1 text-xs text-muted-foreground">Exemplos de grandes mercados de serviços; você pode escolher qualquer cidade.</p>
             </div>}
           </div>
@@ -148,6 +158,7 @@ function Buscar() {
                 <p className="mt-2 flex gap-1.5 text-sm text-muted-foreground"><MapPin className="mt-0.5 size-4 shrink-0" />{l.address}</p>
                 {l.phone && <p className="mt-1 flex gap-1.5 text-sm text-muted-foreground"><Phone className="mt-0.5 size-4 shrink-0" />{l.phone}</p>}
                 {l.rating && <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground"><Star className="size-4" />{l.rating} ({l.reviews} avaliações)</p>}
+                <Button variant="outline" className="mt-4" onClick={() => demonstrate(l)}><PanelsTopLeft />Demonstração do site</Button>
                 <div className="mt-auto flex gap-2 pt-4">
                   {(l.intlPhone || l.phone) ? (
                     <Button asChild variant="whatsapp" className="flex-1" onClick={() => markContacted(l)}>
