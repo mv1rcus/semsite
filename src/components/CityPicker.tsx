@@ -1,7 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { MapPin } from "lucide-react";
 import { CITIES } from "@/lib/cities";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface CityPickerProps {
   value: string;
@@ -11,6 +12,14 @@ interface CityPickerProps {
 
 export function CityPicker({ value, onChange, disabled }: CityPickerProps) {
   const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    function closeOutside(event: PointerEvent) {
+      if (event.target instanceof Node && !containerRef.current?.contains(event.target)) setOpen(false);
+    }
+    document.addEventListener("pointerdown", closeOutside);
+    return () => document.removeEventListener("pointerdown", closeOutside);
+  }, []);
   const query = value.trim().toLowerCase();
   const suggestions = useMemo(() => {
     const matches = query.length >= 2
@@ -20,7 +29,14 @@ export function CityPicker({ value, onChange, disabled }: CityPickerProps) {
   }, [query]);
 
   return (
-    <div className="relative">
+    <div
+      ref={containerRef}
+      className="relative"
+      onBlur={(event) => {
+        if (event.relatedTarget instanceof Node && !event.currentTarget.contains(event.relatedTarget)) setOpen(false);
+      }}
+      onKeyDown={(event) => { if (event.key === "Escape") setOpen(false); }}
+    >
       <Input
         aria-label="Cidade"
         required
@@ -32,7 +48,6 @@ export function CityPicker({ value, onChange, disabled }: CityPickerProps) {
         autoComplete="off"
         onChange={(e) => { onChange(e.target.value); setOpen(true); }}
         onFocus={() => setOpen(true)}
-        onBlur={() => setOpen(false)}
       />
       {open && suggestions.length > 0 && (
         <div className="city-suggestions absolute left-0 right-0 top-full z-10 mt-2 max-h-64 overflow-y-auto rounded-lg p-2" data-testid="city-suggestions">
@@ -40,17 +55,17 @@ export function CityPicker({ value, onChange, disabled }: CityPickerProps) {
           {suggestions.map((city) => {
             const selected = city === value;
             return (
-              <button
+              <Button
                 key={city}
                 type="button"
+                variant="ghost"
                 disabled={disabled}
-                onPointerDown={(e) => e.preventDefault()}
                 onClick={() => { onChange(city); setOpen(false); }}
                 aria-pressed={selected}
-                className={`city-chip flex w-full items-center gap-2 rounded-md px-2 py-2 text-left text-sm font-display transition-colors hover:bg-secondary hover:text-secondary-foreground ${selected ? "city-chip-active" : ""}`}
+                className={`city-chip flex w-full justify-start items-center gap-2 rounded-md px-2 py-2 text-left text-sm font-display transition-colors hover:bg-secondary hover:text-secondary-foreground ${selected ? "city-chip-active" : ""}`}
               >
                 <MapPin className="size-4 shrink-0" /> {city}
-              </button>
+              </Button>
             );
           })}
         </div>
