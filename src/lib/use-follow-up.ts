@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FOLLOW_UP_KEY, parseClients, trackClient, type FollowUpClient, type Stage } from "./follow-up";
+import { FOLLOW_UP_KEY, parseClients, trackClient, updateClient, type FollowUpClient, type Stage } from "./follow-up";
 import type { Lead } from "./leads";
 
 export function useFollowUp() {
@@ -22,6 +22,6 @@ export function useFollowUp() {
   }
   return { clients, storageError,
     track: (lead: Lead, stage?: Stage) => write((current) => trackClient(current, lead, stage)),
-    update: (id: string, patch: Partial<Pick<FollowUpClient, "stage" | "stageDate" | "nextContact">>) => write((current) => current.map((client) => client.id === id ? { ...client, ...patch, stageDate: patch.stage && patch.stage !== client.stage ? new Date().toISOString() : patch.stageDate ?? client.stageDate } : client)),
+    update: (id: string, patch: Partial<Pick<FollowUpClient, "stage" | "stageDate" | "nextContact">>) => write((current) => current.map((client) => client.id === id ? updateClient(client, patch) : client)),
   };
 }

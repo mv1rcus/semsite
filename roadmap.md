@@ -1,4 +1,6 @@
 # Tasks
+- [ ] Add daily, monthly and yearly client activity charts with preserved contact and closing history.
+- [ ] Test period totals, history persistence and the charts in the running app.
 - [x] Add browser-local client stages, dates and next-contact reminders with a management panel.
 - [x] Verify persistence, stage changes and reminders with tests and the running app.
 - [x] Make suggested cities reliably selectable and rotate the default city on every search entry.
