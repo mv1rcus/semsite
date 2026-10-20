@@ -44,7 +44,6 @@ function Buscar() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [contacted, setContacted] = useState<Set<string>>(new Set());
-  const [manualCity, setManualCity] = useState(false);
   const [searched, setSearched] = useState(false);
   const [activeQuery, setActiveQuery] = useState<{ category: string; city: string } | null>(null);
   const busy = useRef(false);
@@ -122,11 +121,6 @@ function Buscar() {
             </Button>
           </div>
           <CityPicker value={city} disabled={loading} onChange={setCity} />
-          {manualCity ? (
-            <Input aria-label="Cidade" required minLength={2} maxLength={80} disabled={loading} placeholder="Cidade (ex: Campinas, SP)" value={city} autoFocus onChange={(e) => setCity(e.target.value)} />
-          ) : (
-            <Button type="button" variant="ghost" size="sm" className="justify-self-start" onClick={() => setManualCity(true)}>Digitar outra cidade</Button>
-          )}
         </form>
         <div className="mt-3 flex flex-wrap gap-2">
           {SUGGESTIONS.map((s) => (
