@@ -101,7 +101,7 @@ function SpaceScene({ palette, reduced }: { palette: Palette; reduced: boolean }
         <bufferGeometry><bufferAttribute attach="attributes-position" args={[stars, 3]} /></bufferGeometry>
         <pointsMaterial color={palette.star} size={0.018} transparent opacity={0.65} sizeAttenuation />
       </points>
-      <group scale={scale} position={[0, -viewport.height * 0.17, 0]}>
+      <group scale={scale} position={[0, -viewport.height * 0.28, 0]}>
         <Suspense fallback={null}>
           <Earth palette={palette} reduced={reduced} />
           {[0, 1, 2, 3].map((index) => <Orbit key={index} index={index} palette={palette} reduced={reduced} />)}
