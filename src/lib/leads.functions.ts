@@ -1,19 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
-import { z } from "zod";
+import { searchInputSchema, rankProspects, type Lead } from "./leads";
+export type { Lead } from "./leads";
 
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/google_maps";
-
-export type Lead = {
-  id: string;
-  name: string;
-  address: string;
-  phone: string | null;
-  intlPhone: string | null;
-  rating: number | null;
-  reviews: number | null;
-  category: string | null;
-  mapsUrl: string | null;
-};
 
 type Place = {
   id: string;
@@ -30,21 +19,14 @@ type Place = {
 };
 
 export const searchLeads = createServerFn({ method: "POST" })
-  .inputValidator((d) =>
-    z
-      .object({
-        category: z.string().trim().min(2).max(80),
-        city: z.string().trim().min(2).max(80),
-        pageToken: z.string().max(1000).optional(),
-      })
-      .parse(d),
-  )
+  .inputValidator((d) => searchInputSchema.parse(d))
   .handler(async ({ data }) => {
     const lovableKey = process.env["LOVABLE_API_KEY"];
     const mapsKey = process.env["GOOGLE_MAPS_API_KEY"];
     if (!lovableKey || !mapsKey) throw new Error("Google Maps não está configurado.");
 
     const res = await fetch(`${GATEWAY_URL}/places/v1/places:searchText`, {
+      signal: AbortSignal.timeout(25000),
       method: "POST",
       headers: {
         Authorization: `Bearer ${lovableKey}`,
@@ -64,7 +46,11 @@ export const searchLeads = createServerFn({ method: "POST" })
     if (!res.ok) {
       const body = await res.text();
       console.error(`Places failed [${res.status}]: ${body}`);
-      throw new Error(`Erro na busca (${res.status}): ${body.slice(0, 200)}`);
+      const message = res.status === 403 ? "O Google Maps recusou a pesquisa. Confira a conexão e as permissões do serviço."
+        : res.status === 429 ? "Limite de pesquisas do Google Maps atingido. Tente novamente mais tarde."
+        : res.status === 400 && data.pageToken ? "Esta pesquisa expirou. Clique em Buscar para começar novamente."
+        : "Não foi possível consultar o Google Maps agora. Tente novamente em instantes.";
+      throw new Error(message);
     }
     const json = (await res.json()) as { places?: Place[]; nextPageToken?: string };
     const places = json.places ?? [];
@@ -81,5 +67,5 @@ export const searchLeads = createServerFn({ method: "POST" })
         category: p.primaryTypeDisplayName?.text ?? null,
         mapsUrl: p.googleMapsUri ?? null,
       }));
-    return { leads, scanned: places.length, nextPageToken: json.nextPageToken ?? null };
+    return { leads: rankProspects(leads), scanned: places.length, nextPageToken: json.nextPageToken ?? null };
   });
