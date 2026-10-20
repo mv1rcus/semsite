@@ -1,4 +1,6 @@
 # Tasks
+- [x] Add browser-local client stages, dates and next-contact reminders with a management panel.
+- [x] Verify persistence, stage changes and reminders with tests and the running app.
 - [x] Make suggested cities reliably selectable and rotate the default city on every search entry.
 - [x] Add client-specific demonstration creation and a shareable preview page.
 - [x] Verify city selection and demonstration creation/sharing end to end (saved concept opened in a fresh browser; live Maps remains unverified).

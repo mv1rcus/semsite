@@ -12,6 +12,8 @@ import { prospectPriority, rankProspects } from "@/lib/leads";
 import { CITIES, nextSuggestedCity } from "@/lib/cities";
 import { draftForClient } from "@/lib/demonstrations";
 import { ProspectTabs } from "@/components/ProspectTabs";
+import { useFollowUp } from "@/lib/use-follow-up";
+import { ClientStageSelect } from "@/components/ClientStageSelect";
 
 export const Route = createFileRoute("/buscar")({
   head: () => ({
@@ -30,6 +32,7 @@ export const Route = createFileRoute("/buscar")({
 const SUGGESTIONS = ["Barbearia", "Salão de beleza", "Pet shop", "Oficina mecânica", "Restaurante", "Academia", "Dentista", "Padaria"];
 
 function Buscar() {
+  const followUp = useFollowUp();
   const navigate = useNavigate();
   const search = useServerFn(searchLeads);
   const [category, setCategory] = useState("");
@@ -81,12 +84,14 @@ function Buscar() {
   }
 
   function markContacted(l: Lead) {
+    followUp.track(l);
     const updated = new Set(contacted).add(l.id);
     setContacted(updated);
     try { localStorage.setItem("contacted-leads", JSON.stringify([...updated])); }
     catch { /* The current session still tracks contacted leads. */ }
   }
   function demonstrate(lead: Lead) {
+    followUp.track(lead);
     try { sessionStorage.setItem("site-demo-draft", JSON.stringify(draftForClient(lead))); navigate({ to: "/demonstracoes" }); }
     catch { setError("Permita o armazenamento deste navegador para preparar a demonstração do cliente."); }
   }
@@ -132,6 +137,7 @@ function Buscar() {
         <p className="mt-5 text-sm text-muted-foreground">Prioridade para negócios sem site informado no Google, com telefone e boa reputação. Fechamento não é garantido.</p>
 
         {error && <p role="alert" className="mt-6 text-destructive">{error}</p>}
+        {followUp.storageError && <p role="alert" className="mt-4 text-destructive">{followUp.storageError}</p>}
         {searched && !loading && leads.length === 0 && <p className="mt-6 text-muted-foreground">Nenhum negócio sem site informado nesta página. Tente outra categoria ou cidade{next ? ", ou busque mais resultados" : ""}.</p>}
         {scanned > 0 && (
           <p className="mt-8 text-sm text-muted-foreground">
@@ -158,6 +164,8 @@ function Buscar() {
                 <p className="mt-2 flex gap-1.5 text-sm text-muted-foreground"><MapPin className="mt-0.5 size-4 shrink-0" />{l.address}</p>
                 {l.phone && <p className="mt-1 flex gap-1.5 text-sm text-muted-foreground"><Phone className="mt-0.5 size-4 shrink-0" />{l.phone}</p>}
                 {l.rating && <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground"><Star className="size-4" />{l.rating} ({l.reviews} avaliações)</p>}
+                <div className="mt-4"><ClientStageSelect value={followUp.clients.find((client) => client.id === l.id)?.stage ?? "new"} onChange={(stage) => followUp.track(l, stage)} label={`Etapa de ${l.name}`} /></div>
+                <Button variant="ghost" size="sm" className="mt-2" onClick={() => { if (followUp.track(l)) navigate({ to: "/clientes" }); }}>Acompanhar e definir lembrete</Button>
                 <Button variant="outline" className="mt-4" onClick={() => demonstrate(l)}><PanelsTopLeft />Demonstração do site</Button>
                 <div className="mt-auto flex gap-2 pt-4">
                   {(l.intlPhone || l.phone) ? (
