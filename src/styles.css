@@ -58,6 +58,17 @@
   --ring: oklch(0.76 0.09 185);
   --gradient-text: linear-gradient(120deg, var(--foreground), var(--primary) 60%, var(--accent));
   --shadow-glow: 0 20px 60px -20px color-mix(in oklab, var(--primary) 55%, transparent);
+  --space-background: #071522;
+  --space-star: #d3e5ef;
+  --space-sunlight: #fff5e3;
+  --space-atmosphere: #2d8a9e;
+  --space-connection: #5cbdb9;
+  --space-orbit: #1a4a6e;
+}
+
+.earth-background { background: var(--space-background); }
+.earth-shade {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--space-background) 30%, transparent), transparent 65%);
 }
 
 @layer base {
