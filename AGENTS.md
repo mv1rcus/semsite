@@ -11,6 +11,7 @@
 
 - Entry and search are public routes with no account requirement; the search server function is public to support account-free access.
 - Contacted lead markers are stored only in browser localStorage; existing account-owned records remain private and are not exposed to anonymous visitors.
+- Client follow-up uses a shared browser-local store for stages, stage dates and next-contact reminders; reminders appear in the panel, never in public demonstration records.
 - Entry and search share a static abstract SVG background using CSS semantic tokens; avoid WebGL and media downloads on these pages to keep prospecting lightweight.
 - Google page tokens are opaque strings validated in the shared search schema and never truncated; rank and deduplicate loaded prospects using observable contact and reputation signals, never conversion probabilities.
 - Demonstrations are immutable public business-only records with no access to account-owned leads; browser-local history lists created links and typed public server reads load the share page.
