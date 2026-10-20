@@ -13,8 +13,12 @@ export function CityPicker({ value, onChange, disabled }: CityPickerProps) {
   const scroller = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const selected = scroller.current?.querySelector<HTMLElement>('[data-selected="true"]');
-    selected?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    const scroller = scrollerRef.current;
+    const selected = scroller?.querySelector<HTMLElement>('[data-selected="true"]');
+    if (scroller && selected) {
+      const target = selected.offsetLeft - (scroller.clientWidth - selected.offsetWidth) / 2;
+      scroller.scrollTo({ left: Math.max(0, target), behavior: "smooth" });
+    }
   }, [value]);
 
   return (
