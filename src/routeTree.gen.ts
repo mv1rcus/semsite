@@ -10,49 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
-import { Route as AuthenticatedBuscarRouteImport } from './routes/_authenticated/buscar'
+import { Route as BuscarRouteImport } from './routes/buscar'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedBuscarRoute = AuthenticatedBuscarRouteImport.update({
+const BuscarRoute = BuscarRouteImport.update({
   id: '/buscar',
   path: '/buscar',
-  getParentRoute: () => AuthenticatedRouteRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/buscar': typeof AuthenticatedBuscarRoute
+  '/buscar': typeof BuscarRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/buscar': typeof AuthenticatedBuscarRoute
+  '/buscar': typeof BuscarRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/_authenticated/buscar': typeof AuthenticatedBuscarRoute
+  '/buscar': typeof BuscarRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths: '/' | '/buscar'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/buscar'
-  id: '__root__' | '/' | '/_authenticated' | '/_authenticated/buscar'
+  id: '__root__' | '/' | '/buscar'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  BuscarRoute: typeof BuscarRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -64,37 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/buscar': {
-      id: '/_authenticated/buscar'
+    '/buscar': {
+      id: '/buscar'
       path: '/buscar'
       fullPath: '/buscar'
-      preLoaderRoute: typeof AuthenticatedBuscarRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      preLoaderRoute: typeof BuscarRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface AuthenticatedRouteRouteChildren {
-  AuthenticatedBuscarRoute: typeof AuthenticatedBuscarRoute
-}
-
-const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedBuscarRoute: AuthenticatedBuscarRoute,
-}
-
-const AuthenticatedRouteRouteWithChildren =
-  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  BuscarRoute: BuscarRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

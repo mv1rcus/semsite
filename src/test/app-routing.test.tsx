@@ -14,4 +14,13 @@ describe("App routing", () => {
 
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
   });
+
+  it("allows /buscar without any account guard", () => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+    const matches = router.matchRoutes("/buscar");
+    expect(matches.at(-1)?.routeId).toBe("/buscar");
+    for (const match of matches) {
+      expect(router.routesById[match.routeId]?.options.beforeLoad).toBeUndefined();
+    }
+  });
 });

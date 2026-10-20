@@ -1,8 +1,7 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { lazy, Suspense, useEffect, useState } from "react";
-import { MapPin, MessageCircle, Phone, Search, Star, Check, LogOut, Loader2, ExternalLink } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { MapPin, MessageCircle, Phone, Search, Star, Check, ArrowLeft, Loader2, ExternalLink } from "lucide-react";
 import { searchLeads, type Lead } from "@/lib/leads.functions";
 import { whatsappLink } from "@/lib/message";
 import { Letters3D } from "@/components/Letters3D";
@@ -11,13 +10,15 @@ import { Input } from "@/components/ui/input";
 
 const OceanScene = lazy(() => import("@/components/OceanScene").then((m) => ({ default: m.OceanScene })));
 
-export const Route = createFileRoute("/_authenticated/buscar")({
+export const Route = createFileRoute("/buscar")({
   head: () => ({
     meta: [
       { title: "Buscar clientes sem site — Caça Clientes" },
       { name: "description", content: "Busque negócios sem site em qualquer cidade." },
       { property: "og:title", content: "Buscar clientes — Caça Clientes" },
       { property: "og:description", content: "Busque negócios sem site em qualquer cidade." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Buscar,
@@ -26,7 +27,6 @@ export const Route = createFileRoute("/_authenticated/buscar")({
 const SUGGESTIONS = ["Barbearia", "Salão de beleza", "Pet shop", "Oficina mecânica", "Restaurante", "Academia", "Dentista", "Padaria"];
 
 function Buscar() {
-  const navigate = useNavigate();
   const search = useServerFn(searchLeads);
   const [category, setCategory] = useState("");
   const [city, setCity] = useState("");
@@ -38,9 +38,10 @@ function Buscar() {
   const [contacted, setContacted] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    supabase.from("contacted_leads").select("place_id").then(({ data }) => {
-      if (data) setContacted(new Set(data.map((r) => r.place_id)));
-    });
+    try {
+      const stored: unknown = JSON.parse(localStorage.getItem("contacted-leads") ?? "[]");
+      if (Array.isArray(stored)) setContacted(new Set(stored.filter((id): id is string => typeof id === "string")));
+    } catch { /* Keep the search usable if browser storage is unavailable. */ }
   }, []);
 
   async function run(pageToken?: string) {
@@ -58,12 +59,11 @@ function Buscar() {
     setLoading(false);
   }
 
-  async function markContacted(l: Lead) {
-    setContacted((s) => new Set(s).add(l.id));
-    await supabase.from("contacted_leads").upsert(
-      { place_id: l.id, name: l.name, phone: l.intlPhone, city },
-      { onConflict: "user_id,place_id", ignoreDuplicates: true },
-    );
+  function markContacted(l: Lead) {
+    const updated = new Set(contacted).add(l.id);
+    setContacted(updated);
+    try { localStorage.setItem("contacted-leads", JSON.stringify([...updated])); }
+    catch { /* The current session still tracks contacted leads. */ }
   }
 
   return (
@@ -73,8 +73,8 @@ function Buscar() {
       </Suspense>
       <header className="mx-auto flex max-w-6xl items-center justify-between">
         <span className="font-display text-lg font-bold text-gradient">Caça Clientes</span>
-        <Button variant="ghost" size="sm" onClick={async () => { await supabase.auth.signOut(); navigate({ to: "/" }); }}>
-          <LogOut className="size-4" /> Sair
+        <Button asChild variant="ghost" size="sm">
+          <Link to="/"><ArrowLeft className="size-4" /> Voltar</Link>
         </Button>
       </header>
 
