@@ -32,6 +32,9 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-chart-messages: var(--chart-messages);
+  --color-chart-demos: var(--chart-demos);
+  --color-chart-closed: var(--chart-closed);
 }
 
 :root {
@@ -56,6 +59,9 @@
   --border: oklch(0.76 0.09 185 / 0.18);
   --input: oklch(0.76 0.09 185 / 0.25);
   --ring: oklch(0.76 0.09 185);
+  --chart-messages: oklch(0.76 0.09 185);
+  --chart-demos: oklch(0.78 0.14 80);
+  --chart-closed: oklch(0.72 0.17 150);
   --gradient-text: linear-gradient(120deg, var(--foreground), var(--primary) 60%, var(--accent));
   --shadow-glow: 0 20px 60px -20px color-mix(in oklab, var(--primary) 55%, transparent);
   --space-background: #071522;
