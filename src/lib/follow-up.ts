@@ -13,11 +13,12 @@ const clientSchema = z.object({
   intlPhone: z.string().nullable(), category: z.string().nullable(), mapsUrl: z.string().nullable(),
   stage: z.enum(["new", "contacted", "demo_sent", "closed"]),
   stageDate: z.string(), nextContact: z.string(), createdAt: z.string(),
+  events: z.array(z.object({ stage: z.enum(["new", "contacted", "demo_sent", "closed"]), date: z.string() })).default([]),
 });
 export type FollowUpClient = z.infer<typeof clientSchema>;
 export const FOLLOW_UP_KEY = "client-follow-up-v1";
 export function parseClients(raw: string | null): FollowUpClient[] {
-  try { const parsed = z.array(clientSchema).safeParse(JSON.parse(raw ?? "[]")); return parsed.success ? parsed.data : []; }
+  try { const parsed = z.array(clientSchema).safeParse(JSON.parse(raw ?? "[]")); return parsed.success ? parsed.data.map((client) => ({ ...client, events: client.events.length ? client.events : [{ stage: client.stage, date: client.stageDate }] })) : []; }
   catch { return []; }
 }
 export function trackClient(clients: FollowUpClient[], lead: Lead, stage?: Stage, now = new Date().toISOString()) {
@@ -28,8 +29,19 @@ export function trackClient(clients: FollowUpClient[], lead: Lead, stage?: Stage
     category: lead.category, mapsUrl: lead.mapsUrl, stage: nextStage,
     stageDate: previous && previous.stage === nextStage ? previous.stageDate : now,
     nextContact: previous?.nextContact ?? "", createdAt: previous?.createdAt ?? now,
+    events: previous ? previous.stage === nextStage ? previous.events : [...previous.events, { stage: nextStage, date: now }] : [{ stage: nextStage, date: now }],
   };
   return previous ? clients.map((old) => old.id === lead.id ? client : old) : [client, ...clients];
+}
+export function updateClient(client: FollowUpClient, patch: Partial<Pick<FollowUpClient, "stage" | "stageDate" | "nextContact">>, now = new Date().toISOString()): FollowUpClient {
+  if (patch.stage && patch.stage !== client.stage) return { ...client, ...patch, stageDate: now, events: [...client.events, { stage: patch.stage, date: now }] };
+  const events = [...client.events];
+  if (patch.stageDate) {
+    const index = events.map((event) => event.stage).lastIndexOf(client.stage);
+    if (index >= 0) events[index] = { stage: client.stage, date: patch.stageDate };
+    else events.push({ stage: client.stage, date: patch.stageDate });
+  }
+  return { ...client, ...patch, events };
 }
 export function reminderDue(client: FollowUpClient, now = Date.now()) {
   return client.stage !== "closed" && !!client.nextContact && new Date(client.nextContact).getTime() <= now;
