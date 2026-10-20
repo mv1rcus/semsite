@@ -13,3 +13,5 @@
 - Contacted lead markers are stored only in browser localStorage; existing account-owned records remain private and are not exposed to anonymous visitors.
 - Entry and search share a static abstract SVG background using CSS semantic tokens; avoid WebGL and media downloads on these pages to keep prospecting lightweight.
 - Google page tokens are opaque strings validated in the shared search schema and never truncated; rank and deduplicate loaded prospects using observable contact and reputation signals, never conversion probabilities.
+- Demonstrations are immutable public business-only records with no access to account-owned leads; browser-local history lists created links and typed public server reads load the share page.
+- Website concepts use sector-matched illustrative assets and editable client details, never fabricated reviews, opening hours, certifications or services; drafts move from search through sessionStorage.
