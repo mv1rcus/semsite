@@ -10,7 +10,7 @@ interface CityPickerProps {
 }
 
 export function CityPicker({ value, onChange, disabled }: CityPickerProps) {
-  const scroller = useRef<HTMLDivElement>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const scroller = scrollerRef.current;
@@ -23,7 +23,7 @@ export function CityPicker({ value, onChange, disabled }: CityPickerProps) {
 
   return (
     <div className="glass rounded-lg p-2">
-      <div ref={scroller} className="city-scroller flex snap-x snap-mandatory gap-2 overflow-x-auto px-1 py-1">
+      <div ref={scrollerRef} className="city-scroller relative flex snap-x snap-mandatory gap-2 overflow-x-auto px-1 py-1">
         {CITIES.map((city) => {
           const selected = city === value;
           return (
