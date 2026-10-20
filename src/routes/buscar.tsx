@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 
 const OceanScene = lazy(() => import("@/components/OceanScene").then((m) => ({ default: m.OceanScene })));
 
-export const Route = createFileRoute("/_authenticated/buscar")({
+export const Route = createFileRoute("/buscar")({
   head: () => ({
     meta: [
       { title: "Buscar clientes sem site — Caça Clientes" },
