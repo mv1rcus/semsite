@@ -68,7 +68,7 @@
 
 .earth-background { background: var(--space-background); }
 .earth-shade {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--space-background) 30%, transparent), transparent 65%);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--space-background) 60%, transparent), transparent 75%);
 }
 
 @layer base {
@@ -86,6 +86,13 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+.text-gradient:has(.letter-3d) { background: none; }
+.text-gradient .letter-3d {
+  background: var(--gradient-text);
+  background-clip: text;
+  -webkit-background-clip: text;
 }
 
 @utility glass {
