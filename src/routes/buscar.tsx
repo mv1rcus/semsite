@@ -1,14 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { MapPin, MessageCircle, Phone, Search, Star, Check, ArrowLeft, Loader2, ExternalLink } from "lucide-react";
 import { searchLeads, type Lead } from "@/lib/leads.functions";
 import { whatsappLink } from "@/lib/message";
 import { Letters3D } from "@/components/Letters3D";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-const OceanScene = lazy(() => import("@/components/OceanScene").then((m) => ({ default: m.OceanScene })));
+import { OceanScene } from "@/components/OceanScene";
+import { prospectPriority, rankProspects } from "@/lib/leads";
 
 export const Route = createFileRoute("/buscar")({
   head: () => ({
@@ -25,6 +25,7 @@ export const Route = createFileRoute("/buscar")({
 });
 
 const SUGGESTIONS = ["Barbearia", "Salão de beleza", "Pet shop", "Oficina mecânica", "Restaurante", "Academia", "Dentista", "Padaria"];
+const CITIES = ["Campinas, SP", "São Paulo, SP", "Belo Horizonte, MG", "Curitiba, PR", "Rio de Janeiro, RJ", "Fortaleza, CE"];
 
 function Buscar() {
   const search = useServerFn(searchLeads);
@@ -36,6 +37,12 @@ function Buscar() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [contacted, setContacted] = useState<Set<string>>(new Set());
+  const [cityFocused, setCityFocused] = useState(false);
+  const [searched, setSearched] = useState(false);
+  const [activeQuery, setActiveQuery] = useState<{ category: string; city: string } | null>(null);
+  const busy = useRef(false);
+  const queryChanged = activeQuery && (activeQuery.category !== category.trim() || activeQuery.city !== city.trim());
+  const ranked = useMemo(() => rankProspects(leads).sort((a, b) => Number(contacted.has(a.id)) - Number(contacted.has(b.id))), [leads, contacted]);
 
   useEffect(() => {
     try {
@@ -45,18 +52,27 @@ function Buscar() {
   }, []);
 
   async function run(pageToken?: string) {
-    if (!category.trim() || !city.trim()) return;
+    if (busy.current) return;
+    if (category.trim().length < 2 || city.trim().length < 2) { setError("Informe um tipo de negócio e uma cidade com pelo menos 2 caracteres."); return; }
+    const query = pageToken ? activeQuery : { category: category.trim(), city: city.trim() };
+    if (!query) return;
+    busy.current = true;
     setLoading(true);
     setError(null);
     try {
-      const r = await search({ data: { category, city, pageToken } });
-      setLeads((prev) => (pageToken ? [...prev, ...r.leads] : r.leads));
+      const r = await search({ data: { ...query, pageToken } });
+      setLeads((prev) => rankProspects(pageToken ? [...prev, ...r.leads] : r.leads));
       setScanned((s) => (pageToken ? s + r.scanned : r.scanned));
       setNext(r.nextPageToken);
+      setActiveQuery(query);
+      setSearched(true);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Erro na busca");
+      const message = e instanceof Error ? e.message : "";
+      setError(message.startsWith("[") ? "Não foi possível pesquisar. Confira a cidade e o tipo de negócio e tente novamente." : message || "Erro na busca. Tente novamente.");
+    } finally {
+      busy.current = false;
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   function markContacted(l: Lead) {
@@ -68,9 +84,7 @@ function Buscar() {
 
   return (
     <main className="relative min-h-screen px-4 pb-20 pt-8 sm:px-8">
-      <Suspense fallback={null}>
-        <OceanScene />
-      </Suspense>
+      <OceanScene />
       <header className="mx-auto flex max-w-6xl items-center justify-between">
         <span className="font-display text-lg font-bold text-gradient">Caça Clientes</span>
         <Button asChild variant="ghost" size="sm">
@@ -84,22 +98,31 @@ function Buscar() {
           <Letters3D text="não tem site?" className="text-gradient" />
         </h1>
 
-        <form onSubmit={(e) => { e.preventDefault(); run(); }} className="glass mt-8 grid gap-3 rounded-2xl p-4 sm:grid-cols-[1fr_1fr_auto]">
-          <Input placeholder="Tipo de negócio (ex: barbearia)" value={category} onChange={(e) => setCategory(e.target.value)} />
-          <Input placeholder="Cidade (ex: Campinas, SP)" value={city} onChange={(e) => setCity(e.target.value)} />
+        <form onSubmit={(e) => { e.preventDefault(); setCityFocused(false); run(); }} className="mt-8 grid gap-3 sm:grid-cols-[1fr_1fr_auto]">
+          <Input aria-label="Tipo de negócio" required minLength={2} maxLength={80} disabled={loading} placeholder="Tipo de negócio (ex: barbearia)" value={category} onChange={(e) => setCategory(e.target.value)} />
+          <div className="relative" onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setCityFocused(false); }}>
+            <Input aria-label="Cidade" required minLength={2} maxLength={80} disabled={loading} placeholder="Cidade (ex: Campinas, SP)" value={city} onFocus={() => setCityFocused(true)} onKeyDown={(e) => { if (e.key === "Escape") setCityFocused(false); }} onChange={(e) => setCity(e.target.value)} aria-expanded={cityFocused} aria-controls="city-suggestions" />
+            {cityFocused && <div id="city-suggestions" className="absolute left-0 right-0 top-full z-20 mt-2 rounded-md border bg-popover p-2 shadow-sm">
+              <p className="px-2 py-1 text-xs font-semibold text-muted-foreground">Cidades para começar</p>
+              {CITIES.filter((s) => !city || s.toLocaleLowerCase("pt-BR").includes(city.toLocaleLowerCase("pt-BR"))).map((s) => <Button key={s} type="button" variant="ghost" className="w-full justify-start" onClick={() => { setCity(s); setCityFocused(false); }}><MapPin />{s}</Button>)}
+              <p className="px-2 py-1 text-xs text-muted-foreground">Exemplos de grandes mercados de serviços; você pode escolher qualquer cidade.</p>
+            </div>}
+          </div>
           <Button type="submit" disabled={loading}>
             {loading ? <Loader2 className="size-4 animate-spin" /> : <Search className="size-4" />} Buscar
           </Button>
         </form>
         <div className="mt-3 flex flex-wrap gap-2">
           {SUGGESTIONS.map((s) => (
-            <button key={s} onClick={() => setCategory(s)} className="rounded-full border px-3 py-1 text-xs text-muted-foreground transition hover:border-primary hover:text-primary">
+            <Button key={s} disabled={loading} variant="outline" size="sm" onClick={() => setCategory(s)}>
               {s}
-            </button>
+            </Button>
           ))}
         </div>
+        <p className="mt-5 text-sm text-muted-foreground">Prioridade para negócios sem site informado no Google, com telefone e boa reputação. Fechamento não é garantido.</p>
 
-        {error && <p className="mt-6 text-destructive">{error}</p>}
+        {error && <p role="alert" className="mt-6 text-destructive">{error}</p>}
+        {searched && !loading && leads.length === 0 && <p className="mt-6 text-muted-foreground">Nenhum negócio sem site informado nesta página. Tente outra categoria ou cidade{next ? ", ou busque mais resultados" : ""}.</p>}
         {scanned > 0 && (
           <p className="mt-8 text-sm text-muted-foreground">
             <span className="font-bold text-primary">{leads.length}</span> sem site, de {scanned} locais analisados
@@ -107,26 +130,28 @@ function Buscar() {
         )}
 
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {leads.map((l, i) => {
+           {ranked.map((l) => {
             const done = contacted.has(l.id);
+            const priority = prospectPriority(l);
             return (
               <article
                 key={l.id}
-                className="glass tilt-card animate-in fade-in slide-in-from-bottom-6 fill-mode-both flex flex-col rounded-2xl p-5"
-                style={{ animationDelay: `${(i % 20) * 50}ms` }}
+                className="glass flex flex-col rounded-lg p-5"
               >
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="text-lg font-bold">{l.name}</h3>
                   {done && <span className="flex items-center gap-1 rounded-full bg-secondary px-2 py-0.5 text-xs text-primary"><Check className="size-3" />Enviado</span>}
                 </div>
                 {l.category && <p className="text-xs uppercase tracking-wide text-primary">{l.category}</p>}
+                {priority.score >= 65 && <p className="mt-2 text-xs font-semibold text-primary">Prioridade alta</p>}
+                {priority.reasons.length > 0 && <p className="mt-1 text-xs text-muted-foreground">{priority.reasons.join(" · ")}</p>}
                 <p className="mt-2 flex gap-1.5 text-sm text-muted-foreground"><MapPin className="mt-0.5 size-4 shrink-0" />{l.address}</p>
                 {l.phone && <p className="mt-1 flex gap-1.5 text-sm text-muted-foreground"><Phone className="mt-0.5 size-4 shrink-0" />{l.phone}</p>}
                 {l.rating && <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground"><Star className="size-4" />{l.rating} ({l.reviews} avaliações)</p>}
                 <div className="mt-auto flex gap-2 pt-4">
-                  {l.intlPhone ? (
+                  {(l.intlPhone || l.phone) ? (
                     <Button asChild variant="whatsapp" className="flex-1" onClick={() => markContacted(l)}>
-                      <a href={whatsappLink(l.intlPhone, l.name)} target="_blank" rel="noreferrer">
+                      <a href={whatsappLink(l.intlPhone || `+55${l.phone?.replace(/\D/g, "")}`, l.name)} target="_blank" rel="noreferrer">
                         <MessageCircle className="size-4" /> Mandar mensagem
                       </a>
                     </Button>
@@ -144,7 +169,7 @@ function Buscar() {
           })}
         </div>
 
-        {next && (
+        {next && !queryChanged && (
           <div className="mt-8 text-center">
             <Button variant="secondary" onClick={() => run(next)} disabled={loading}>
               {loading && <Loader2 className="size-4 animate-spin" />} Buscar mais

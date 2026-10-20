@@ -66,10 +66,9 @@
   --space-orbit: #1a4a6e;
 }
 
-.earth-background { background: var(--space-background); }
-.earth-shade {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--space-background) 60%, transparent), transparent 75%);
-}
+.ocean-backdrop { background: var(--space-background); }
+.ocean-globe { position: absolute; width: min(85vw, 700px); height: auto; right: -8%; bottom: -12%; stroke: var(--space-connection); stroke-width: 1; opacity: 0.2; }
+.ocean-node { fill: var(--space-connection); }
 
 @layer base {
   * { border-color: var(--color-border); }
@@ -97,9 +96,7 @@
 
 @utility glass {
   background: var(--card);
-  backdrop-filter: blur(16px);
   border: 1px solid var(--border);
-  box-shadow: var(--shadow-glow);
 }
 
 @utility letter-3d {
@@ -112,4 +109,8 @@
 @utility tilt-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   &:hover { transform: perspective(800px) rotateX(4deg) translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .letter-3d { animation: none; transition: none; }
 }
