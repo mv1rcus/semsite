@@ -44,7 +44,7 @@ function Buscar() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [contacted, setContacted] = useState<Set<string>>(new Set());
-  const [cityFocused, setCityFocused] = useState(false);
+  const [manualCity, setManualCity] = useState(false);
   const [searched, setSearched] = useState(false);
   const [activeQuery, setActiveQuery] = useState<{ category: string; city: string } | null>(null);
   const busy = useRef(false);
@@ -114,19 +114,19 @@ function Buscar() {
           <Letters3D text="não tem site?" className="text-gradient" />
         </h1>
 
-        <form onSubmit={(e) => { e.preventDefault(); setCityFocused(false); run(); }} className="mt-8 grid gap-3 sm:grid-cols-[1fr_1fr_auto]">
-          <Input aria-label="Tipo de negócio" required minLength={2} maxLength={80} disabled={loading} placeholder="Tipo de negócio (ex: barbearia)" value={category} onChange={(e) => setCategory(e.target.value)} />
-          <div className="relative" onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setCityFocused(false); }}>
-            <Input aria-label="Cidade" required minLength={2} maxLength={80} disabled={loading} placeholder="Cidade (ex: Campinas, SP)" value={city} onFocus={() => setCityFocused(true)} onKeyDown={(e) => { if (e.key === "Escape") setCityFocused(false); }} onChange={(e) => setCity(e.target.value)} aria-expanded={cityFocused} aria-controls="city-suggestions" />
-            {cityFocused && <div id="city-suggestions" className="absolute left-0 right-0 top-full z-20 mt-2 rounded-md border bg-popover p-2 shadow-sm">
-              <p className="px-2 py-1 text-xs font-semibold text-muted-foreground">Cidades para começar</p>
-              {CITIES.map((s) => <Button key={s} type="button" variant={city === s ? "secondary" : "ghost"} className="w-full justify-start" onPointerDown={(e) => e.preventDefault()} onClick={() => { setCity(s); setCityFocused(false); }}><MapPin />{s}</Button>)}
-              <p className="px-2 py-1 text-xs text-muted-foreground">Exemplos de grandes mercados de serviços; você pode escolher qualquer cidade.</p>
-            </div>}
+        <form onSubmit={(e) => { e.preventDefault(); run(); }} className="mt-8 grid gap-3">
+          <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
+            <Input aria-label="Tipo de negócio" required minLength={2} maxLength={80} disabled={loading} placeholder="Tipo de negócio (ex: barbearia)" value={category} onChange={(e) => setCategory(e.target.value)} />
+            <Button type="submit" disabled={loading}>
+              {loading ? <Loader2 className="size-4 animate-spin" /> : <Search className="size-4" />} Buscar
+            </Button>
           </div>
-          <Button type="submit" disabled={loading}>
-            {loading ? <Loader2 className="size-4 animate-spin" /> : <Search className="size-4" />} Buscar
-          </Button>
+          <CityPicker value={city} disabled={loading} onChange={setCity} />
+          {manualCity ? (
+            <Input aria-label="Cidade" required minLength={2} maxLength={80} disabled={loading} placeholder="Cidade (ex: Campinas, SP)" value={city} autoFocus onChange={(e) => setCity(e.target.value)} />
+          ) : (
+            <Button type="button" variant="ghost" size="sm" className="justify-self-start" onClick={() => setManualCity(true)}>Digitar outra cidade</Button>
+          )}
         </form>
         <div className="mt-3 flex flex-wrap gap-2">
           {SUGGESTIONS.map((s) => (
