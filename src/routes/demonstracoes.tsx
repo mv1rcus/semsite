@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Copy, ExternalLink, Loader2, MessageCircle, PanelsTopLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { demoSchema, draftForClient, type Demonstration } from "@/lib/demonstrations";
+import { demoSchema, draftForClient, demonstrationLink, type Demonstration } from "@/lib/demonstrations";
 import { DemoSite } from "@/components/DemoSite";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,7 @@ function Demonstracoes() {
   const [notice, setNotice] = useState("");
   const [origin, setOrigin] = useState("");
   useEffect(() => {
-    setOrigin(window.location.hostname === "localhost" ? window.location.origin : "https://clienteprospectar.lovable.app");
+    setOrigin(window.location.origin);
     try {
       const draft = sessionStorage.getItem("site-demo-draft");
       if (draft) { const parsed = demoSchema.safeParse(JSON.parse(draft)); if (parsed.success) setDemo(parsed.data); sessionStorage.removeItem("site-demo-draft"); }
@@ -31,7 +31,7 @@ function Demonstracoes() {
       if (Array.isArray(list)) setSaved(list.filter((item): item is Saved => !!item && typeof item.id === "string" && typeof item.name === "string"));
     } catch { /* Storage is optional. */ }
   }, []);
-  const link = id ? `${origin}/demo/${id}` : "";
+  const link = id && origin ? demonstrationLink(id, origin) : "";
   function edit(key: keyof Demonstration, value: string) { setDemo((old) => ({ ...old, [key]: value })); setId(null); setNotice(""); }
   async function save() {
     if (loading) return;

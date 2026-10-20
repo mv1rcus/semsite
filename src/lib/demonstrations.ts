@@ -6,6 +6,11 @@ export const demoSchema = z.object({
   headline: z.string().trim().min(2).max(200), description: z.string().trim().min(2).max(1000),
 });
 export type Demonstration = z.infer<typeof demoSchema>;
+export function demonstrationLink(id: string, origin: string) {
+  const url = new URL(origin);
+  const local = url.hostname === "localhost" || url.hostname === "127.0.0.1";
+  return `${local ? url.origin : "https://cacacliente.lovable.app"}/demo/${encodeURIComponent(id)}`;
+}
 export function demoSector(category: string) {
   const c = category.toLocaleLowerCase("pt-BR");
   if (/dent|clín|clinic|saúde|fisi|médic/.test(c)) return "health";
