@@ -44,6 +44,39 @@ export type Database = {
         }
         Relationships: []
       }
+      site_demonstrations: {
+        Row: {
+          address: string
+          category: string
+          created_at: string
+          description: string
+          headline: string
+          id: string
+          name: string
+          phone: string
+        }
+        Insert: {
+          address?: string
+          category: string
+          created_at?: string
+          description: string
+          headline: string
+          id?: string
+          name: string
+          phone?: string
+        }
+        Update: {
+          address?: string
+          category?: string
+          created_at?: string
+          description?: string
+          headline?: string
+          id?: string
+          name?: string
+          phone?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
