@@ -25,7 +25,7 @@ export function scheduleContact(days: number, now = new Date()) {
   return date.toISOString();
 }
 
-export function agendaWhatsApp(client: FollowUpClient, message: string) {
+export function agendaWhatsApp(client: Pick<FollowUpClient, "intlPhone" | "phone">, message: string) {
   const digits = (client.intlPhone || client.phone || "").replace(/\D/g, "");
   return digits ? `https://wa.me/${digits.startsWith("55") ? digits : `55${digits}`}?text=${encodeURIComponent(message)}` : null;
 }
