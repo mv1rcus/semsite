@@ -11,7 +11,6 @@ import { Input } from "@/components/ui/input";
 import { OceanScene } from "@/components/OceanScene";
 import { prospectPriority, rankProspects } from "@/lib/leads";
 import { nextSuggestedCity } from "@/lib/cities";
-import { CityPicker } from "@/components/CityPicker";
 import { draftForClient } from "@/lib/demonstrations";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { useFollowUp } from "@/lib/use-follow-up";
@@ -50,6 +49,7 @@ function Buscar() {
   const search = useServerFn(searchLeads);
   const [category, setCategory] = useState("");
   const [group, setGroup] = useState("Saúde");
+  const [target, setTarget] = useState(20);
   const [city, setCity] = useState("");
   const [leads, setLeads] = useState<Lead[]>([]);
   const [next, setNext] = useState<string | null>(null);
@@ -90,10 +90,23 @@ function Buscar() {
     setRetryToken(null);
     if (!pageToken) { setLeads([]); setScanned(0); setNext(null); setSearched(false); }
     try {
-      const r = await search({ data: { ...query, pageToken } });
-      setLeads((prev) => rankProspects(pageToken ? [...prev, ...r.leads] : r.leads));
-      setScanned((s) => (pageToken ? s + r.scanned : r.scanned));
-      setNext(r.nextPageToken);
+      let acc = pageToken ? leads : [];
+      const goal = acc.length + target;
+      let token = pageToken;
+      let total = 0;
+      let nextTok: string | null = null;
+      let pages = 0;
+      do {
+        const r = await search({ data: { ...query, pageToken: token } });
+        acc = rankProspects([...acc, ...r.leads]);
+        total += r.scanned;
+        nextTok = r.nextPageToken;
+        token = nextTok ?? undefined;
+        pages++;
+        setLeads(acc);
+      } while (token && acc.length < goal && pages < 10);
+      setScanned((s) => (pageToken ? s + total : total));
+      setNext(nextTok);
       setActiveQuery(query);
       setSearched(true);
       if (!pageToken) {
@@ -165,7 +178,20 @@ function Buscar() {
 
           <div className="grid gap-2">
             <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">2 · Em qual cidade?</label>
-            <CityPicker value={city} disabled={loading} onChange={setCity} />
+            <div className="relative">
+              <MapPin className="pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2 text-primary" />
+              <Input aria-label="Cidade" required minLength={2} maxLength={80} disabled={loading} placeholder="Digite a cidade, ex: Campinas, SP" value={city} onChange={(e) => setCity(e.target.value)} className="h-12 pl-10 text-base" />
+            </div>
+          </div>
+
+          <div className="grid gap-2">
+            <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">3 · Quantos clientes sem site?</label>
+            <div className="flex flex-wrap gap-2">
+              {[10, 20, 40, 60].map((n) => (
+                <Button key={n} type="button" size="sm" disabled={loading} variant={target === n ? "default" : "outline"} aria-pressed={target === n} className="rounded-full" onClick={() => setTarget(n)}>{n}</Button>
+              ))}
+            </div>
+            <p className="text-xs text-muted-foreground">O Google mostra no máximo 60 locais por busca; cada página extra conta no seu limite do Google Maps.</p>
           </div>
 
           <Button type="submit" size="lg" disabled={loading} className="h-14 text-base font-bold shadow-[var(--shadow-glow)]">
