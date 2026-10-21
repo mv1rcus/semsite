@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { searchInputSchema, rankProspects, type Lead } from "./leads";
 export type { Lead } from "./leads";
+import { mapsErrorMessage } from "./search-errors";
 
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/google_maps";
 
@@ -25,34 +26,37 @@ export const searchLeads = createServerFn({ method: "POST" })
     const mapsKey = process.env["GOOGLE_MAPS_API_KEY"];
     if (!lovableKey || !mapsKey) throw new Error("Google Maps não está configurado.");
 
-    const res = await fetch(`${GATEWAY_URL}/places/v1/places:searchText`, {
-      signal: AbortSignal.timeout(25000),
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${lovableKey}`,
-        "X-Connection-Api-Key": mapsKey,
-        "Content-Type": "application/json",
-        "X-Goog-FieldMask":
-          "places.id,places.displayName,places.formattedAddress,places.nationalPhoneNumber,places.internationalPhoneNumber,places.websiteUri,places.rating,places.userRatingCount,places.googleMapsUri,places.primaryTypeDisplayName,places.businessStatus,nextPageToken",
-      },
-      body: JSON.stringify({
-        textQuery: `${data.category} em ${data.city}`,
-        languageCode: "pt-BR",
-        regionCode: "BR",
-        pageSize: 20,
-        ...(data.pageToken ? { pageToken: data.pageToken } : {}),
-      }),
-    });
+    let res: Response;
+    try {
+      res = await fetch(`${GATEWAY_URL}/places/v1/places:searchText`, {
+        signal: AbortSignal.timeout(25000),
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${lovableKey}`,
+          "X-Connection-Api-Key": mapsKey,
+          "Content-Type": "application/json",
+          "X-Goog-FieldMask":
+            "places.id,places.displayName,places.formattedAddress,places.nationalPhoneNumber,places.internationalPhoneNumber,places.websiteUri,places.rating,places.userRatingCount,places.googleMapsUri,places.primaryTypeDisplayName,places.businessStatus,nextPageToken",
+        },
+        body: JSON.stringify({
+          textQuery: `${data.category} em ${data.city}`,
+          languageCode: "pt-BR",
+          regionCode: "BR",
+          pageSize: 20,
+          ...(data.pageToken ? { pageToken: data.pageToken } : {}),
+        }),
+      });
+    } catch (e) {
+      const timeout = e instanceof Error && (e.name === "TimeoutError" || e.name === "AbortError");
+      throw new Error(timeout ? "O Google Maps demorou demais para responder. Tente novamente." : "Não foi possível conectar ao Google Maps. Tente novamente em instantes.");
+    }
     if (!res.ok) {
       const body = await res.text();
       console.error(`Places failed [${res.status}]: ${body}`);
-      const message = res.status === 403 ? "O Google Maps recusou a pesquisa. Confira a conexão e as permissões do serviço."
-        : res.status === 429 ? "Limite de pesquisas do Google Maps atingido. Tente novamente mais tarde."
-        : res.status === 400 && data.pageToken ? "Esta pesquisa expirou. Clique em Buscar para começar novamente."
-        : "Não foi possível consultar o Google Maps agora. Tente novamente em instantes.";
-      throw new Error(message);
+      throw new Error(mapsErrorMessage(res.status, body, Boolean(data.pageToken)));
     }
-    const json = (await res.json()) as { places?: Place[]; nextPageToken?: string };
+    let json: { places?: Place[]; nextPageToken?: string };
+    try { json = await res.json(); } catch { throw new Error("O Google Maps enviou uma resposta inválida. Tente novamente."); }
     const places = json.places ?? [];
     const leads: Lead[] = places
       .filter((p) => !p.websiteUri && p.businessStatus !== "CLOSED_PERMANENTLY")
