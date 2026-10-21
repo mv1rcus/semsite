@@ -1,5 +1,5 @@
 import { reminderDue, type FollowUpClient } from "./follow-up";
-import { buildMessage } from "./message";
+import { buildMessage, senderIntro } from "./message";
 
 export function contactAgenda(clients: FollowUpClient[], now: number) {
   const end = new Date(now);
@@ -15,8 +15,8 @@ export function contactAgenda(clients: FollowUpClient[], now: number) {
 
 export function followUpMessage(client: FollowUpClient) {
   if (client.stage === "new") return buildMessage(client.name);
-  if (client.stage === "demo_sent") return `Olá! Aqui é o Marcus 😊 Tudo bem? Conseguiu olhar a ideia de site que enviei para ${client.name}? Queria saber o que achou e se gostaria de ajustar algum detalhe. Se fizer sentido para vocês, podemos conversar sobre os próximos passos, sem compromisso.`;
-  return `Olá! Aqui é o Marcus 😊 Estou retomando nossa conversa sobre um site para ${client.name}. Posso te mostrar uma ideia personalizada, sem compromisso? A entrega do site é em até uma semana.`;
+  if (client.stage === "demo_sent") return `${senderIntro()} Tudo bem? Conseguiu olhar a ideia de site que enviei para ${client.name}? Queria saber o que achou e se gostaria de ajustar algum detalhe. Se fizer sentido para vocês, podemos conversar sobre os próximos passos, sem compromisso.`;
+  return `${senderIntro()} Estou retomando nossa conversa sobre um site para ${client.name}. Posso te mostrar uma ideia personalizada, sem compromisso? A entrega do site é em até uma semana.`;
 }
 
 export function scheduleContact(days: number, now = new Date()) {
