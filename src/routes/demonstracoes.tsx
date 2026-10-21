@@ -50,10 +50,10 @@ function Demonstracoes() {
     if (!origin || activityLoaded || saved.length === 0) return;
     setActivityLoaded(true);
     loadActivity({ data: { ids: saved.map((s) => s.id) } }).then((rows) => {
-      const map = Object.fromEntries(rows.map((r) => [r.id, r]));
+      const map: Record<string, DemoActivity> = Object.fromEntries(rows.map((r) => [r.id, r]));
       setActivity(map);
       const stamp = Date.now();
-      const gone = saved.filter((s) => map[s.id] && isInactiveDemo(map[s.id], stamp));
+      const gone = saved.filter((s) => { const a = map[s.id]; return a ? isInactiveDemo(a, stamp) : false; });
       if (gone.length) { setRemoved(gone.map((g) => g.name)); setSaved((list) => list.filter((s) => !gone.some((g) => g.id === s.id))); }
     }).catch(() => setNotice("Não foi possível carregar os últimos acessos agora."));
   }, [origin, saved, activityLoaded, loadActivity]);
@@ -101,7 +101,7 @@ function Demonstracoes() {
         return <li key={item.id} className="flex flex-wrap items-center justify-between gap-3 py-4">
           <div className="min-w-0 flex-1"><Button asChild variant="link" className="h-auto max-w-full justify-start whitespace-normal px-0 text-left"><Link to="/demo/$id" params={{ id: item.id }}><ExternalLink className="shrink-0" /><span className="break-words">{item.name}</span></Link></Button>
             <p role="status" className={`mt-1 flex items-start gap-2 text-xs ${state === "recent" ? "text-primary" : state === "failed" ? "text-destructive" : "text-muted-foreground"}`}><Icon className="size-4 shrink-0" />{label}</p>
-            {activity[item.id] && <p className="mt-1 flex items-center gap-1.5 text-xs text-foreground"><Eye className="size-3.5 shrink-0" />{activity[item.id].lastOpenedAt ? <>Último acesso: <time dateTime={activity[item.id].lastOpenedAt!}>{new Date(activity[item.id].lastOpenedAt!).toLocaleString("pt-BR")}</time></> : "Ninguém abriu ainda — sai da lista 24h após a criação"}</p>}
+            {activity[item.id] && <p className="mt-1 flex items-center gap-1.5 text-xs text-foreground"><Eye className="size-3.5 shrink-0" />{activity[item.id]?.lastOpenedAt ? <>Último acesso: <time dateTime={activity[item.id]?.lastOpenedAt ?? ""}>{new Date(activity[item.id]?.lastOpenedAt ?? 0).toLocaleString("pt-BR")}</time></> : "Ninguém abriu ainda — sai da lista 24h após a criação"}</p>}
             {item.verification && <p className="mt-1 text-xs text-muted-foreground">Última tentativa: <time dateTime={item.verification.checkedAt}>{new Date(item.verification.checkedAt).toLocaleString("pt-BR")}</time></p>}
           </div><Button type="button" variant="outline" size="sm" disabled={checking !== null} onClick={() => check(item)} aria-label={`Verificar link de ${item.name}`}>
             {checking === item.id ? <Loader2 className="animate-spin" /> : <RefreshCw />} {checking === item.id ? "Verificando…" : "Verificar link"}
