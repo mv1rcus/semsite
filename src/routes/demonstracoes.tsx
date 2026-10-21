@@ -41,7 +41,7 @@ function Demonstracoes() {
       const draft = sessionStorage.getItem("site-demo-draft");
       if (draft) { const parsed = demoSchema.safeParse(JSON.parse(draft)); if (parsed.success) setDemo(parsed.data); sessionStorage.removeItem("site-demo-draft"); }
       const list: unknown = JSON.parse(localStorage.getItem("site-demo-links") || "[]");
-      if (Array.isArray(list)) setSaved(list.flatMap((item) => { const parsed = savedDemoSchema.safeParse(item); return parsed.success ? [parsed.data] : []; }));
+      if (Array.isArray(list)) setSaved(list.flatMap((item) => { const parsed = savedDemoSchema.safeParse(item); return parsed.success && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(parsed.data.id) ? [parsed.data] : []; }));
     } catch { /* Storage is optional. */ }
     return () => window.clearInterval(timer);
   }, []);
