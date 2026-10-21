@@ -8,7 +8,7 @@ export const STAGES = [
   { value: "closed", label: "Fechado" },
 ] as const;
 export type Stage = (typeof STAGES)[number]["value"];
-const clientSchema = z.object({
+export const clientSchema = z.object({
   id: z.string(), name: z.string(), address: z.string(), phone: z.string().nullable(),
   intlPhone: z.string().nullable(), category: z.string().nullable(), mapsUrl: z.string().nullable(),
   stage: z.enum(["new", "contacted", "demo_sent", "closed"]),
