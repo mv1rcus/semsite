@@ -111,23 +111,52 @@ function Buscar() {
           <Letters3D text="não tem site?" className="text-gradient" />
         </h1>
 
-        <form onSubmit={(e) => { e.preventDefault(); run(); }} className="mt-8 grid gap-3">
-          <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
-            <Input aria-label="Tipo de negócio" required minLength={2} maxLength={80} disabled={loading} placeholder="Tipo de negócio (ex: barbearia)" value={category} onChange={(e) => setCategory(e.target.value)} />
-            <Button type="submit" disabled={loading}>
-              {loading ? <Loader2 className="size-4 animate-spin" /> : <Search className="size-4" />} Buscar
-            </Button>
+        <form onSubmit={(e) => { e.preventDefault(); run(); }} className="glass mt-8 grid gap-5 rounded-2xl p-4 sm:p-6">
+          <div className="grid gap-2">
+            <label htmlFor="busca-negocio" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">1 · O que você quer caçar?</label>
+            <div className="relative">
+              <Store className="pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2 text-primary" />
+              <Input id="busca-negocio" aria-label="Tipo de negócio" required minLength={2} maxLength={80} disabled={loading} placeholder="Ex: barbearia, pet shop…" value={category} onChange={(e) => setCategory(e.target.value)} className="h-12 pl-10 pr-10 text-base" />
+              {category && !loading && (
+                <button type="button" aria-label="Limpar tipo de negócio" onClick={() => setCategory("")} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1.5 text-muted-foreground hover:bg-secondary hover:text-foreground"><X className="size-4" /></button>
+              )}
+            </div>
+            <div className="city-scroller -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap">
+              {SUGGESTIONS.map((s) => {
+                const on = category.trim().toLowerCase() === s.toLowerCase();
+                return (
+                  <Button key={s} type="button" disabled={loading} variant={on ? "default" : "outline"} size="sm" aria-pressed={on} className="shrink-0 rounded-full" onClick={() => setCategory(s)}>
+                    {on && <Check className="size-3.5" />}{s}
+                  </Button>
+                );
+              })}
+            </div>
           </div>
-          <CityPicker value={city} disabled={loading} onChange={setCity} />
+
+          <div className="grid gap-2">
+            <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">2 · Em qual cidade?</label>
+            <CityPicker value={city} disabled={loading} onChange={setCity} />
+          </div>
+
+          <Button type="submit" size="lg" disabled={loading} className="h-14 text-base font-bold shadow-[var(--shadow-glow)]">
+            {loading ? <Loader2 className="size-5 animate-spin" /> : <Search className="size-5" />}
+            <span className="truncate">{loading ? "Caçando clientes…" : category.trim() && city.trim() ? `Caçar ${category.trim().toLowerCase()} em ${city.split(",")[0]}` : "Caçar clientes"}</span>
+          </Button>
+
+          {recent.length > 0 && (
+            <div className="grid gap-2 border-t border-border pt-4">
+              <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-muted-foreground"><History className="size-3.5" />Buscas recentes</p>
+              <div className="city-scroller -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap">
+                {recent.map((r) => (
+                  <Button key={`${r.category}|${r.city}`} type="button" variant="secondary" size="sm" disabled={loading} className="shrink-0 rounded-full" onClick={() => { setCategory(r.category); setCity(r.city); run(undefined, r); }}>
+                    {r.category} · {r.city.split(",")[0]}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          )}
         </form>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {SUGGESTIONS.map((s) => (
-            <Button key={s} disabled={loading} variant="outline" size="sm" onClick={() => setCategory(s)}>
-              {s}
-            </Button>
-          ))}
-        </div>
-        <p className="mt-5 text-sm text-muted-foreground">Prioridade para negócios sem site informado no Google, com telefone e boa reputação. Fechamento não é garantido.</p>
+        <p className="mt-4 text-sm text-muted-foreground">Mostramos só negócios sem site no Google, priorizando quem tem telefone e boa reputação. Fechamento não é garantido.</p>
 
         {error && (
           <div role="alert" className="mt-6 flex flex-col gap-3 rounded-lg border border-destructive/50 bg-destructive/10 p-4 sm:flex-row sm:items-center sm:justify-between">
