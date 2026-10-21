@@ -22,18 +22,24 @@ type Place = {
 export const searchLeads = createServerFn({ method: "POST" })
   .inputValidator((d) => searchInputSchema.parse(d))
   .handler(async ({ data }) => {
+    // Outside Lovable hosting (e.g. Vercel) the gateway credentials don't exist,
+    // so a self-owned Google key (GOOGLE_PLACES_API_KEY) calls Google directly.
+    const ownKey = process.env["GOOGLE_PLACES_API_KEY"];
     const lovableKey = process.env["LOVABLE_API_KEY"];
     const mapsKey = process.env["GOOGLE_MAPS_API_KEY"];
-    if (!lovableKey || !mapsKey) throw new Error("O Google Maps não está conectado a este site. Conecte o Google Maps nas configurações do projeto.");
+    if (!ownKey && (!lovableKey || !mapsKey)) throw new Error("O Google Maps não está configurado neste servidor. Adicione a variável GOOGLE_PLACES_API_KEY com sua chave do Google.");
+    const url = ownKey ? "https://places.googleapis.com/v1/places:searchText" : `${GATEWAY_URL}/places/v1/places:searchText`;
+    const authHeaders: Record<string, string> = ownKey
+      ? { "X-Goog-Api-Key": ownKey }
+      : { Authorization: `Bearer ${lovableKey}`, "X-Connection-Api-Key": mapsKey! };
 
     let res: Response;
     try {
-      res = await fetch(`${GATEWAY_URL}/places/v1/places:searchText`, {
+      res = await fetch(url, {
         signal: AbortSignal.timeout(25000),
         method: "POST",
         headers: {
-          Authorization: `Bearer ${lovableKey}`,
-          "X-Connection-Api-Key": mapsKey,
+          ...authHeaders,
           "Content-Type": "application/json",
           "X-Goog-FieldMask":
             "places.id,places.displayName,places.formattedAddress,places.nationalPhoneNumber,places.internationalPhoneNumber,places.websiteUri,places.rating,places.userRatingCount,places.googleMapsUri,places.primaryTypeDisplayName,places.businessStatus,nextPageToken",
