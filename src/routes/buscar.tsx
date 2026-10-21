@@ -33,13 +33,23 @@ export const Route = createFileRoute("/buscar")({
 
 type Query = { category: string; city: string };
 const RECENT_KEY = "recent-searches-v1";
-const SUGGESTIONS = ["Barbearia", "Salão de beleza", "Pet shop", "Oficina mecânica", "Restaurante", "Academia", "Dentista", "Padaria"];
+const GROUPS: { label: string; items: string[] }[] = [
+  { label: "Saúde", items: ["Médico", "Dentista", "Clínica", "Fisioterapia", "Psicólogo", "Nutricionista", "Farmácia", "Laboratório"] },
+  { label: "Comida", items: ["Restaurante", "Pizzaria", "Lanchonete", "Hamburgueria", "Padaria", "Cafeteria", "Açaí", "Sorveteria"] },
+  { label: "Beleza", items: ["Barbearia", "Salão de beleza", "Manicure", "Estética", "Sobrancelha", "Tatuagem"] },
+  { label: "Automotivo", items: ["Oficina mecânica", "Auto elétrica", "Lava jato", "Borracharia", "Funilaria", "Autopeças"] },
+  { label: "Casa", items: ["Eletricista", "Encanador", "Marcenaria", "Vidraçaria", "Serralheria", "Material de construção"] },
+  { label: "Pets", items: ["Pet shop", "Veterinário", "Banho e tosa", "Adestrador"] },
+  { label: "Fitness", items: ["Academia", "Crossfit", "Pilates", "Personal trainer"] },
+  { label: "Serviços", items: ["Contabilidade", "Advogado", "Imobiliária", "Assistência técnica", "Costureira", "Gráfica"] },
+];
 
 function Buscar() {
   const followUp = useFollowUp();
   const navigate = useNavigate();
   const search = useServerFn(searchLeads);
   const [category, setCategory] = useState("");
+  const [group, setGroup] = useState("Saúde");
   const [city, setCity] = useState("");
   const [leads, setLeads] = useState<Lead[]>([]);
   const [next, setNext] = useState<string | null>(null);
@@ -136,7 +146,13 @@ function Buscar() {
               )}
             </div>
             <div className="city-scroller -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap">
-              {SUGGESTIONS.map((s) => {
+              {GROUPS.map((g) => (
+                <button key={g.label} type="button" aria-pressed={group === g.label} onClick={() => setGroup(g.label)}
+                  className={`shrink-0 rounded-md px-3 py-1.5 text-xs font-bold uppercase tracking-wide ${group === g.label ? "bg-accent text-accent-foreground" : "bg-secondary text-muted-foreground"}`}>{g.label}</button>
+              ))}
+            </div>
+            <div className="city-scroller -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap">
+              {(GROUPS.find((g) => g.label === group)?.items ?? []).map((s) => {
                 const on = category.trim().toLowerCase() === s.toLowerCase();
                 return (
                   <Button key={s} type="button" disabled={loading} variant={on ? "default" : "outline"} size="sm" aria-pressed={on} className="shrink-0 rounded-full" onClick={() => setCategory(s)}>
