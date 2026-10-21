@@ -16,6 +16,7 @@
 - No-response is a manually set client flag independent of stage history; confirmed client removal only changes the browser-local follow-up store, never public demonstrations or account-owned records.
 - The contact agenda derives priorities from due reminders and actual stages, offers editable stage-specific messages, and schedules through the shared follow-up store; copying or opening WhatsApp never changes stages or metrics.
 - Client charts aggregate unique clients per metric and period from persisted stage-event history; WhatsApp opens are not proof of sending, and legacy records contribute only their known current-stage date.
+- Chart format only changes presentation: bar/line use event-period series and pie uses unique-client totals per metric, which may overlap and are never represented as conversion rates.
 - Entry and search share a static abstract SVG background using CSS semantic tokens; avoid WebGL and media downloads on these pages to keep prospecting lightweight.
 - Google page tokens are opaque strings validated in the shared search schema and never truncated; rank and deduplicate loaded prospects using observable contact and reputation signals, never conversion probabilities.
 - Demonstrations are immutable public business-only records with no access to account-owned leads; browser-local history lists created links and typed public server reads load the share page.

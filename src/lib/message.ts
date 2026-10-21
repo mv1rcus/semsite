@@ -18,9 +18,18 @@ Quer dar uma olhada? É sem compromisso!` },
   { label: "Foco em clientes", template: `Olá! Meu nome é {seu_nome}. Hoje muita gente procura no Google antes de escolher onde ir, e o {empresa} ainda não aparece com um site próprio.
 
 Posso criar um site para vocês em até uma semana, com WhatsApp, localização e serviços. Posso te mostrar um exemplo sem compromisso?` },
+  { label: "Profissional", template: `Olá! Meu nome é {seu_nome}. Encontrei {empresa} no Google Maps e gostaria de apresentar uma proposta de site próprio para o negócio.
+
+Trabalho com sites profissionais, com entrega em até uma semana. Podemos conversar sobre uma ideia, sem compromisso?` },
+  { label: "Catálogo e serviços", template: `Olá! Aqui é {seu_nome}. Vi {empresa} no Google Maps e pensei em um site para apresentar seus produtos ou serviços e facilitar o contato pelo WhatsApp.
+
+A entrega é em até uma semana. Posso mostrar um exemplo para vocês avaliarem, sem compromisso?` },
+  { label: "Conversa leve", template: `Oi! Tudo bem? Sou {seu_nome}. Quem cuida da presença online de {empresa}?
+
+Eu crio sites com entrega em até uma semana e gostaria de conversar sobre uma ideia para o negócio, sem compromisso. Faz sentido para vocês?` },
 ];
 
-export const DEFAULT_SETTINGS: MessageSettings = { senderName: "", template: MESSAGE_SUGGESTIONS[0]!.template };
+export const DEFAULT_SETTINGS: MessageSettings = { senderName: "", template: MESSAGE_SUGGESTIONS[0]?.template ?? "" };
 
 export function loadMessageSettings(): MessageSettings {
   if (typeof localStorage === "undefined") return DEFAULT_SETTINGS;
