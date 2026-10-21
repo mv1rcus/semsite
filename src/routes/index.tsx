@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({
     meta: [
       { title: "Caça Clientes — Acessar" },
       { name: "description", content: "Encontre negócios sem site e ofereça seu trabalho pelo WhatsApp." },
-      { property: "og:title", content: "Caça Clientes" },
+      { property: "og:title", content: "Caça Clientes — Encontre negócios sem site e ofereça seu trabalho pelo WhatsApp" },
       { property: "og:description", content: "Encontre negócios sem site e ofereça seu trabalho pelo WhatsApp." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
