@@ -1,7 +1,7 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { MapPin, MessageCircle, Phone, Search, Star, Check, ArrowLeft, Loader2, ExternalLink, PanelsTopLeft } from "lucide-react";
+import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft } from "lucide-react";
 import { searchLeads, type Lead } from "@/lib/leads.functions";
 import { whatsappLink } from "@/lib/message";
 import { Letters3D } from "@/components/Letters3D";
@@ -99,12 +99,6 @@ function Buscar() {
   return (
     <main className="relative min-h-screen px-4 pb-20 pt-8 sm:px-8">
       <OceanScene />
-      <header className="mx-auto flex max-w-6xl items-center justify-between">
-        <span className="font-display text-lg font-bold text-gradient">Caça Clientes</span>
-        <Button asChild variant="ghost" size="sm">
-          <Link to="/"><ArrowLeft className="size-4" /> Voltar</Link>
-        </Button>
-      </header>
       <ProspectTabs active="search" />
 
       <section className="mx-auto mt-10 max-w-6xl">
