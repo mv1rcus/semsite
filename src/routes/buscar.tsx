@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX } from "lucide-react";
+import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX, Store, X, History } from "lucide-react";
 import { searchLeads, type Lead } from "@/lib/leads.functions";
 import { clientSearchError } from "@/lib/search-errors";
 import { whatsappLink } from "@/lib/message";
