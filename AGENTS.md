@@ -20,3 +20,4 @@
 - Generate demonstration sharing URLs through the shared link helper using the active published domain outside localhost, so preview addresses and obsolete domains are never sent to clients.
 - Demonstration verification checks the published HTML anonymously with a bounded server fetch to the fixed sharing domain; persist results only in browser history and expire successful indicators after 24 hours, never infer availability from saving or opening the editor.
 - Website concepts use sector-matched illustrative assets and editable client details, never fabricated reviews, opening hours, certifications or services; drafts move from search through sessionStorage.
+- Client data lives only in this browser: the panel exports manual CSV/JSON downloads and restores backups by merge, keeping the newest stage date and never losing existing clients; exports are never auto-uploaded anywhere.
