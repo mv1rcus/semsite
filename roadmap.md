@@ -1,4 +1,5 @@
 # Tasks
+- [x] Add persisted per-demonstration recent verification indicators and verify success/failure states end to end (published HTML checked anonymously; persistence and mobile verified).
 - [x] Verify saved demonstrations on the published domain without a session, including mobile refresh (new demonstration and three existing links opened successfully).
 - [ ] Reproduce and fix the recipient's failing demonstration link — blocked until Marcus supplies the exact link that fails.
 - [ ] Enable paid access only after payment confirmation and pricing details from Marcus.
