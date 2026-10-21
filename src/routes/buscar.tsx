@@ -1,8 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft } from "lucide-react";
+import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX } from "lucide-react";
 import { searchLeads, type Lead } from "@/lib/leads.functions";
+import { clientSearchError } from "@/lib/search-errors";
 import { whatsappLink } from "@/lib/message";
 import { Letters3D } from "@/components/Letters3D";
 import { Button } from "@/components/ui/button";
@@ -43,6 +44,7 @@ function Buscar() {
   const [scanned, setScanned] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [retryToken, setRetryToken] = useState<string | null>(null);
   const [contacted, setContacted] = useState<Set<string>>(new Set());
   const [searched, setSearched] = useState(false);
   const [activeQuery, setActiveQuery] = useState<{ category: string; city: string } | null>(null);
@@ -67,6 +69,8 @@ function Buscar() {
     busy.current = true;
     setLoading(true);
     setError(null);
+    setRetryToken(null);
+    if (!pageToken) { setLeads([]); setScanned(0); setNext(null); setSearched(false); }
     try {
       const r = await search({ data: { ...query, pageToken } });
       setLeads((prev) => rankProspects(pageToken ? [...prev, ...r.leads] : r.leads));
@@ -75,8 +79,8 @@ function Buscar() {
       setActiveQuery(query);
       setSearched(true);
     } catch (e) {
-      const message = e instanceof Error ? e.message : "";
-      setError(message.startsWith("[") ? "Não foi possível pesquisar. Confira a cidade e o tipo de negócio e tente novamente." : message || "Erro na busca. Tente novamente.");
+      setRetryToken(pageToken ?? null);
+      setError(clientSearchError(e));
     } finally {
       busy.current = false;
       setLoading(false);
@@ -125,9 +129,26 @@ function Buscar() {
         </div>
         <p className="mt-5 text-sm text-muted-foreground">Prioridade para negócios sem site informado no Google, com telefone e boa reputação. Fechamento não é garantido.</p>
 
-        {error && <p role="alert" className="mt-6 text-destructive">{error}</p>}
+        {error && (
+          <div role="alert" className="mt-6 flex flex-col gap-3 rounded-lg border border-destructive/50 bg-destructive/10 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <p className="flex gap-2 text-sm text-destructive"><AlertTriangle className="mt-0.5 size-4 shrink-0" />{error}</p>
+            <Button size="sm" variant="outline" disabled={loading} onClick={() => run(retryToken ?? undefined)}><RefreshCw className="size-4" />Tentar novamente</Button>
+          </div>
+        )}
         {followUp.storageError && <p role="alert" className="mt-4 text-destructive">{followUp.storageError}</p>}
-        {searched && !loading && leads.length === 0 && <p className="mt-6 text-muted-foreground">Nenhum negócio sem site informado nesta página. Tente outra categoria ou cidade{next ? ", ou busque mais resultados" : ""}.</p>}
+        {loading && (
+          <div aria-live="polite" className="mt-8">
+            <p className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" />Procurando negócios sem site no Google Maps…</p>
+            {leads.length === 0 && <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{[0, 1, 2].map((i) => <div key={i} className="glass h-56 animate-pulse rounded-lg" />)}</div>}
+          </div>
+        )}
+        {searched && !loading && !error && leads.length === 0 && (
+          <div className="glass mt-8 rounded-lg p-6 text-center">
+            <SearchX className="mx-auto size-8 text-muted-foreground" />
+            <p className="mt-3 font-semibold">{scanned === 0 ? "Nenhum local encontrado para essa pesquisa." : `Todos os ${scanned} locais encontrados já têm site.`}</p>
+            <p className="mt-1 text-sm text-muted-foreground">{next ? "Busque mais resultados ou tente outra categoria ou cidade." : "Tente outra categoria, um termo mais comum ou uma cidade vizinha."}</p>
+          </div>
+        )}
         {scanned > 0 && (
           <p className="mt-8 text-sm text-muted-foreground">
             <span className="font-bold text-primary">{leads.length}</span> sem site, de {scanned} locais analisados
