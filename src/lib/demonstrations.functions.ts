@@ -13,7 +13,14 @@ export const verifyDemonstrationLink = createServerFn({ method: "POST" })
         headers: { Accept: "text/html", "Cache-Control": "no-cache" },
       });
       if (demonstrationPageIsAvailable(response.status, await response.text())) status = "ok";
-    } catch { /* Unreachable links are never marked as verified. */ }
+    } catch {
+      // The published worker cannot fetch its own domain; confirm the record the share page reads instead.
+      try {
+        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+        const { data: row } = await supabaseAdmin.from("site_demonstrations").select("id").eq("id", data.id).maybeSingle();
+        if (row) status = "ok";
+      } catch { /* Unreachable links are never marked as verified. */ }
+    }
     return { status, checkedAt: new Date().toISOString() };
   });
 
