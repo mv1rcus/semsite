@@ -31,6 +31,8 @@ export const Route = createFileRoute("/buscar")({
   component: Buscar,
 });
 
+type Query = { category: string; city: string };
+const RECENT_KEY = "recent-searches-v1";
 const SUGGESTIONS = ["Barbearia", "Salão de beleza", "Pet shop", "Oficina mecânica", "Restaurante", "Academia", "Dentista", "Padaria"];
 
 function Buscar() {
