@@ -1,13 +1,12 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX, Store, X, History, Radar, SlidersHorizontal } from "lucide-react";
+import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX, Store, X, History, Radar, SlidersHorizontal, HeartPulse, Utensils, Scissors, Car, House, PawPrint, Dumbbell, BriefcaseBusiness, ArrowUpRight, type LucideIcon } from "lucide-react";
 import { searchLeads, type Lead } from "@/lib/leads.functions";
 import { clientSearchError } from "@/lib/search-errors";
 import { filterProspects, type ProspectFilter, type ProspectOrder } from "@/lib/prospect-filters";
 import { ProspectMessage } from "@/components/ProspectMessage";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Letters3D } from "@/components/Letters3D";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { OceanScene } from "@/components/OceanScene";
@@ -21,10 +20,12 @@ import { ClientStageSelect } from "@/components/ClientStageSelect";
 export const Route = createFileRoute("/buscar")({
   head: () => ({
     meta: [
-      { title: "Buscar clientes sem site — Caça Clientes" },
-      { name: "description", content: "Busque negócios sem site em qualquer cidade." },
-      { property: "og:title", content: "Buscar clientes — Caça Clientes" },
-      { property: "og:description", content: "Busque negócios sem site em qualquer cidade." },
+      { title: "Caça Clientes | Encontre empresas sem site na sua cidade" },
+      { name: "description", content: "Encontre empresas sem site no Google Maps por cidade e segmento. Organize seus contatos, personalize mensagens e prepare demonstrações para suas propostas." },
+      { property: "og:title", content: "Caça Clientes — Seu próximo projeto começa aqui" },
+      { property: "og:description", content: "Negócios sem site, novas oportunidades. Busque por cidade e segmento, prepare sua mensagem e mostre uma ideia de site ao cliente." },
+      { name: "twitter:title", content: "Caça Clientes — Seu próximo projeto começa aqui" },
+      { name: "twitter:description", content: "Encontre empresas sem site por cidade e segmento. Prepare mensagens e demonstrações para apresentar seu trabalho." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -34,6 +35,7 @@ export const Route = createFileRoute("/buscar")({
 
 type Query = { category: string; city: string };
 const RECENT_KEY = "recent-searches-v1";
+const GROUP_ICONS: Record<string, LucideIcon> = { Saúde: HeartPulse, Comida: Utensils, Beleza: Scissors, Automotivo: Car, Casa: House, Pets: PawPrint, Fitness: Dumbbell, Serviços: BriefcaseBusiness };
 const GROUPS: { label: string; items: string[] }[] = [
   { label: "Saúde", items: ["Médico", "Dentista", "Clínica", "Fisioterapia", "Psicólogo", "Nutricionista", "Farmácia", "Laboratório"] },
   { label: "Comida", items: ["Restaurante", "Pizzaria", "Lanchonete", "Hamburgueria", "Padaria", "Cafeteria", "Açaí", "Sorveteria"] },
@@ -162,20 +164,22 @@ function Buscar() {
   }
 
   return (
-    <main className="relative min-h-screen px-4 pb-20 pt-8 sm:px-8">
+    <main className="search-page relative min-h-screen px-4 pb-20 pt-3 sm:px-8">
       <OceanScene />
       <ProspectTabs active="search" />
 
-      <section className="mx-auto mt-10 max-w-6xl">
-        <p className="mb-4 flex items-center gap-2 text-xs font-bold uppercase text-accent"><Radar className="size-4" />Seu radar de oportunidades</p>
-        <h1 className="text-4xl font-extrabold leading-tight sm:text-6xl">
-          <Letters3D text="Quem ainda" /> <br />
-          <Letters3D text="não tem site?" className="text-gradient" />
-        </h1>
+      <section className="mx-auto mt-7 max-w-6xl sm:mt-10">
+        <div className="flex items-start justify-between gap-4">
+          <div><p className="mb-3 flex items-center gap-2 text-xs font-bold uppercase text-accent"><Radar className="size-4" />Radar de oportunidades</p>
+            <h1 className="text-3xl font-extrabold leading-tight sm:text-5xl">Buscar <span className="text-primary">clientes.</span></h1>
+            <p className="mt-3 text-sm text-muted-foreground sm:text-base">Seu próximo projeto começa com uma boa conversa.</p>
+          </div>
+          <Radar aria-hidden="true" className="mt-2 hidden size-20 shrink-0 text-accent/40 sm:block" />
+        </div>
 
-        <form onSubmit={(e) => { e.preventDefault(); run(); }} className="mt-8 grid gap-5 border-y py-6 sm:grid-cols-2 sm:gap-6">
+        <form onSubmit={(e) => { e.preventDefault(); run(); }} className="mt-6 grid gap-5 border-y py-6 sm:grid-cols-2 sm:gap-6">
           <div className="grid gap-2 sm:col-span-2">
-            <label htmlFor="busca-negocio" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">1 · O que você quer caçar?</label>
+            <label htmlFor="busca-negocio" className="text-sm font-semibold">Qual tipo de negócio?</label>
             <div className="relative">
               <Store className="pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2 text-primary" />
               <Input id="busca-negocio" aria-label="Tipo de negócio" required minLength={2} maxLength={80} disabled={loading} placeholder="Ex: barbearia, pet shop…" value={category} onChange={(e) => setCategory(e.target.value)} className="h-12 pl-10 pr-10 text-base" />
@@ -183,11 +187,11 @@ function Buscar() {
                 <Button type="button" variant="ghost" size="icon" aria-label="Limpar tipo de negócio" onClick={() => setCategory("")} className="absolute right-2 top-1/2 size-8 -translate-y-1/2 text-muted-foreground"><X className="size-4" /></Button>
               )}
             </div>
-            <div className="city-scroller -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap">
-              {GROUPS.map((g) => (
-                <Button key={g.label} type="button" size="sm" variant={group === g.label ? "secondary" : "ghost"} aria-pressed={group === g.label} onClick={() => setGroup(g.label)}
-                  className={`shrink-0 text-xs font-bold uppercase ${group === g.label ? "text-accent" : "text-muted-foreground"}`}>{g.label}</Button>
-              ))}
+            <div className="mt-2 grid grid-cols-4 gap-2 sm:grid-cols-8">
+              {GROUPS.map((g) => { const Icon = GROUP_ICONS[g.label] ?? Store; return (
+                <Button key={g.label} type="button" disabled={loading} variant="outline" aria-pressed={group === g.label} onClick={() => setGroup(g.label)}
+                  className={`h-16 min-w-0 flex-col gap-2 px-1 text-[11px] sm:h-20 sm:text-xs ${group === g.label ? "border-accent bg-accent/10 text-accent" : "border-border text-muted-foreground"}`}><Icon className="size-5" />{g.label}</Button>
+              ); })}
             </div>
             <div className="city-scroller -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap">
               {(GROUPS.find((g) => g.label === group)?.items ?? []).map((s) => {
@@ -202,18 +206,18 @@ function Buscar() {
           </div>
 
           <div className="grid gap-2">
-            <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">2 · Em qual cidade?</label>
+            <label htmlFor="busca-cidade" className="text-sm font-semibold">Em qual cidade?</label>
             <div className="relative">
               <MapPin className="pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2 text-primary" />
-              <Input aria-label="Cidade" required minLength={2} maxLength={80} disabled={loading} placeholder="Digite a cidade, ex: Campinas, SP" value={city} onChange={(e) => setCity(e.target.value)} className="h-12 pl-10 text-base" />
+              <Input id="busca-cidade" aria-label="Cidade" required minLength={2} maxLength={80} disabled={loading} placeholder="Digite a cidade, ex: Campinas, SP" value={city} onChange={(e) => setCity(e.target.value)} className="h-12 pl-10 text-base" />
             </div>
           </div>
 
           <div className="grid gap-2">
-            <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">3 · Quantos clientes sem site?</label>
+            <span className="text-sm font-semibold">Quantidade de clientes</span>
             <div className="flex flex-wrap gap-2">
               {[10, 20, 40, 60].map((n) => (
-                <Button key={n} type="button" size="sm" disabled={loading} variant={target === n ? "default" : "outline"} aria-pressed={target === n} className="rounded-full" onClick={() => setTarget(n)}>{n}</Button>
+                <Button key={n} type="button" disabled={loading} variant={target === n ? "secondary" : "outline"} aria-pressed={target === n} className={`h-12 min-w-14 flex-1 ${target === n ? "border border-accent text-accent" : ""}`} onClick={() => setTarget(n)}>{n}</Button>
               ))}
             </div>
             <p className="text-xs text-muted-foreground">O Google mostra no máximo 60 locais por busca; cada página extra conta no seu limite do Google Maps.</p>
@@ -222,6 +226,7 @@ function Buscar() {
           <Button type="submit" size="lg" disabled={loading} className="h-14 min-w-0 px-4 text-base font-bold shadow-[var(--shadow-glow)] sm:col-span-2">
             {loading ? <Loader2 className="size-5 animate-spin" /> : <Search className="size-5" />}
             <span className="min-w-0 whitespace-normal break-words">{loading ? "Caçando clientes…" : "Encontrar clientes sem site"}</span>
+            {!loading && <ArrowUpRight className="ml-auto" />}
           </Button>
 
           {recent.length > 0 && (
@@ -293,14 +298,14 @@ function Buscar() {
               >
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="min-w-0 break-words text-lg font-bold">{l.name}</h3>
-                  {done && <span className="flex shrink-0 items-center gap-1 bg-secondary px-2 py-0.5 text-xs text-accent"><Check className="size-3" />Contatado</span>}
+                  {done && <span className="flex shrink-0 items-center gap-1 rounded-sm bg-secondary px-2 py-0.5 text-xs text-accent"><Check className="size-3" />Contatado</span>}
                 </div>
                 {l.category && <p className="text-xs uppercase tracking-wide text-primary">{l.category}</p>}
-                {priority.score >= 65 && <p className="mt-2 text-xs font-semibold text-primary">Prioridade alta</p>}
+                {priority.score >= 65 && <p className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-accent"><Radar className="size-3.5" />Prioridade alta</p>}
                 {priority.reasons.length > 0 && <p className="mt-1 text-xs text-muted-foreground">{priority.reasons.join(" · ")}</p>}
                 <p className="mt-2 flex gap-1.5 break-words text-sm text-muted-foreground"><MapPin className="mt-0.5 size-4 shrink-0" />{l.address}</p>
                 {l.phone && <p className="mt-1 flex gap-1.5 text-sm text-muted-foreground"><Phone className="mt-0.5 size-4 shrink-0" />{l.phone}</p>}
-                {l.rating && <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground"><Star className="size-4" />{l.rating} ({l.reviews} avaliações)</p>}
+                {l.rating && <p className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground"><Star className="size-4 text-primary" /><span className="font-semibold text-foreground">{l.rating}</span> · {l.reviews ?? 0} avaliações</p>}
                 <div className="mt-4"><ClientStageSelect value={followUp.clients.find((client) => client.id === l.id)?.stage ?? "new"} onChange={(stage) => followUp.track(l, stage)} label={`Etapa de ${l.name}`} /></div>
                 <Button variant="ghost" size="sm" className="mt-2" onClick={() => { if (followUp.track(l)) navigate({ to: "/clientes" }); }}>Acompanhar e definir lembrete</Button>
                 <Button variant="outline" className="mt-4" onClick={() => demonstrate(l)}><PanelsTopLeft />Demonstração do site</Button>
