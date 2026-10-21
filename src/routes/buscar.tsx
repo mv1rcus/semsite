@@ -1,10 +1,12 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX, Store, X, History } from "lucide-react";
+import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX, Store, X, History, Radar, SlidersHorizontal } from "lucide-react";
 import { searchLeads, type Lead } from "@/lib/leads.functions";
 import { clientSearchError } from "@/lib/search-errors";
-import { whatsappLink } from "@/lib/message";
+import { filterProspects, type ProspectFilter, type ProspectOrder } from "@/lib/prospect-filters";
+import { ProspectMessage } from "@/components/ProspectMessage";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Letters3D } from "@/components/Letters3D";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -61,9 +63,16 @@ function Buscar() {
   const [searched, setSearched] = useState(false);
   const [activeQuery, setActiveQuery] = useState<Query | null>(null);
   const [recent, setRecent] = useState<Query[]>([]);
+  const [filter, setFilter] = useState<ProspectFilter>("all");
+  const [order, setOrder] = useState<ProspectOrder>("priority");
+  const [resultTerm, setResultTerm] = useState("");
+  const [messageLead, setMessageLead] = useState<Lead | null>(null);
   const busy = useRef(false);
   const queryChanged = activeQuery && (activeQuery.category !== category.trim() || activeQuery.city !== city.trim());
   const ranked = useMemo(() => rankProspects(leads), [leads]);
+  const visible = useMemo(() => filterProspects(leads, followUp.clients, filter, order, resultTerm), [leads, followUp.clients, filter, order, resultTerm]);
+  const reachableCount = ranked.filter((lead) => lead.phone || lead.intlPhone).length;
+  const priorityCount = ranked.filter((lead) => prospectPriority(lead).score >= 65).length;
 
   // Keeps the results when the phone reloads the page after returning from WhatsApp.
   useEffect(() => {
@@ -101,7 +110,7 @@ function Buscar() {
     setLoading(true);
     setError(null);
     setRetryToken(null);
-    if (!pageToken) { setLeads([]); setScanned(0); setNext(null); setSearched(false); }
+    if (!pageToken) { setLeads([]); setScanned(0); setNext(null); setSearched(false); setFilter("all"); setResultTerm(""); }
     try {
       let acc = pageToken ? leads : [];
       const goal = acc.length + target;
@@ -138,11 +147,13 @@ function Buscar() {
   }
 
   function markContacted(l: Lead) {
-    followUp.track(l);
+    const current = followUp.clients.find((client) => client.id === l.id);
+    if (!followUp.track(l, !current || current.stage === "new" ? "contacted" : current.stage)) return false;
     const updated = new Set(contacted).add(l.id);
     setContacted(updated);
     try { localStorage.setItem("contacted-leads", JSON.stringify([...updated])); }
     catch { /* The current session still tracks contacted leads. */ }
+    return true;
   }
   function demonstrate(lead: Lead) {
     followUp.track(lead);
@@ -156,25 +167,26 @@ function Buscar() {
       <ProspectTabs active="search" />
 
       <section className="mx-auto mt-10 max-w-6xl">
+        <p className="mb-4 flex items-center gap-2 text-xs font-bold uppercase text-accent"><Radar className="size-4" />Seu radar de oportunidades</p>
         <h1 className="text-4xl font-extrabold leading-tight sm:text-6xl">
           <Letters3D text="Quem ainda" /> <br />
           <Letters3D text="não tem site?" className="text-gradient" />
         </h1>
 
-        <form onSubmit={(e) => { e.preventDefault(); run(); }} className="glass mt-8 grid gap-5 rounded-2xl p-4 sm:p-6">
-          <div className="grid gap-2">
+        <form onSubmit={(e) => { e.preventDefault(); run(); }} className="mt-8 grid gap-5 border-y py-6 sm:grid-cols-2 sm:gap-6">
+          <div className="grid gap-2 sm:col-span-2">
             <label htmlFor="busca-negocio" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">1 · O que você quer caçar?</label>
             <div className="relative">
               <Store className="pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2 text-primary" />
               <Input id="busca-negocio" aria-label="Tipo de negócio" required minLength={2} maxLength={80} disabled={loading} placeholder="Ex: barbearia, pet shop…" value={category} onChange={(e) => setCategory(e.target.value)} className="h-12 pl-10 pr-10 text-base" />
               {category && !loading && (
-                <button type="button" aria-label="Limpar tipo de negócio" onClick={() => setCategory("")} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1.5 text-muted-foreground hover:bg-secondary hover:text-foreground"><X className="size-4" /></button>
+                <Button type="button" variant="ghost" size="icon" aria-label="Limpar tipo de negócio" onClick={() => setCategory("")} className="absolute right-2 top-1/2 size-8 -translate-y-1/2 text-muted-foreground"><X className="size-4" /></Button>
               )}
             </div>
             <div className="city-scroller -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap">
               {GROUPS.map((g) => (
-                <button key={g.label} type="button" aria-pressed={group === g.label} onClick={() => setGroup(g.label)}
-                  className={`shrink-0 rounded-md px-3 py-1.5 text-xs font-bold uppercase tracking-wide ${group === g.label ? "bg-accent text-accent-foreground" : "bg-secondary text-muted-foreground"}`}>{g.label}</button>
+                <Button key={g.label} type="button" size="sm" variant={group === g.label ? "secondary" : "ghost"} aria-pressed={group === g.label} onClick={() => setGroup(g.label)}
+                  className={`shrink-0 text-xs font-bold uppercase ${group === g.label ? "text-accent" : "text-muted-foreground"}`}>{g.label}</Button>
               ))}
             </div>
             <div className="city-scroller -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap">
@@ -207,13 +219,13 @@ function Buscar() {
             <p className="text-xs text-muted-foreground">O Google mostra no máximo 60 locais por busca; cada página extra conta no seu limite do Google Maps.</p>
           </div>
 
-          <Button type="submit" size="lg" disabled={loading} className="h-14 text-base font-bold shadow-[var(--shadow-glow)]">
+          <Button type="submit" size="lg" disabled={loading} className="h-14 min-w-0 px-4 text-base font-bold shadow-[var(--shadow-glow)] sm:col-span-2">
             {loading ? <Loader2 className="size-5 animate-spin" /> : <Search className="size-5" />}
-            <span className="truncate">{loading ? "Caçando clientes…" : category.trim() && city.trim() ? `Caçar ${category.trim().toLowerCase()} em ${city.split(",")[0]}` : "Caçar clientes"}</span>
+            <span className="min-w-0 whitespace-normal break-words">{loading ? "Caçando clientes…" : "Encontrar clientes sem site"}</span>
           </Button>
 
           {recent.length > 0 && (
-            <div className="grid gap-2 border-t border-border pt-4">
+            <div className="grid gap-2 border-t border-border pt-4 sm:col-span-2">
               <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-muted-foreground"><History className="size-3.5" />Buscas recentes</p>
               <div className="city-scroller -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap">
                 {recent.map((r) => (
@@ -253,23 +265,40 @@ function Buscar() {
           </p>
         )}
 
+        {leads.length > 0 && <section aria-label="Filtrar resultados" className="mt-6 border-y py-5">
+          <div className="mb-5 grid grid-cols-3 divide-x border-b pb-5">
+            {[{ label: "Sem site", value: ranked.length }, { label: "Com telefone", value: reachableCount }, { label: "Prioridade alta", value: priorityCount }].map((metric) => <div key={metric.label} className="px-2 first:pl-0 sm:px-5"><p className="font-display text-3xl font-bold text-accent">{metric.value}</p><p className="mt-1 text-xs text-muted-foreground">{metric.label}</p></div>)}
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <SlidersHorizontal className="mr-1 size-4 text-muted-foreground" />
+            {([{ value: "all", label: "Todos" }, { value: "reachable", label: "Com telefone" }, { value: "priority", label: "Prioridade alta" }, { value: "new", label: "Novos" }] as const).map((item) => <Button key={item.value} variant={filter === item.value ? "secondary" : "ghost"} size="sm" aria-pressed={filter === item.value} onClick={() => setFilter(item.value)}>{item.label}</Button>)}
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_220px]">
+            <Input aria-label="Buscar nos resultados" placeholder="Nome, bairro ou categoria" value={resultTerm} onChange={(event) => setResultTerm(event.target.value)} />
+            <Select value={order} onValueChange={(value) => { if (value === "priority" || value === "reviews" || value === "name") setOrder(value); }}><SelectTrigger aria-label="Ordenar resultados"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="priority">Maior prioridade</SelectItem><SelectItem value="reviews">Mais avaliações</SelectItem><SelectItem value="name">Nome: A a Z</SelectItem></SelectContent></Select>
+          </div>
+          <p role="status" className="mt-3 text-xs text-muted-foreground">{visible.length} de {ranked.length} clientes</p>
+        </section>}
+        {leads.length > 0 && visible.length === 0 && <div className="py-12 text-center"><SearchX className="mx-auto size-7 text-muted-foreground" /><p className="mt-3 font-semibold">Nenhum cliente corresponde aos filtros.</p><Button variant="link" onClick={() => { setFilter("all"); setResultTerm(""); }}>Limpar filtros</Button></div>}
+
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-           {ranked.map((l) => {
-            const done = contacted.has(l.id);
+           {visible.map((l) => {
+            const stage = followUp.clients.find((client) => client.id === l.id)?.stage;
+            const done = stage ? stage !== "new" : contacted.has(l.id);
             const priority = prospectPriority(l);
             return (
               <article
                 key={l.id}
-                className="glass flex flex-col rounded-lg p-5"
+                className="glass flex min-w-0 flex-col rounded-lg p-5 transition-colors hover:border-accent/50"
               >
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="text-lg font-bold">{l.name}</h3>
-                  {done && <span className="flex items-center gap-1 rounded-full bg-secondary px-2 py-0.5 text-xs text-primary"><Check className="size-3" />Enviado</span>}
+                  <h3 className="min-w-0 break-words text-lg font-bold">{l.name}</h3>
+                  {done && <span className="flex shrink-0 items-center gap-1 bg-secondary px-2 py-0.5 text-xs text-accent"><Check className="size-3" />Contatado</span>}
                 </div>
                 {l.category && <p className="text-xs uppercase tracking-wide text-primary">{l.category}</p>}
                 {priority.score >= 65 && <p className="mt-2 text-xs font-semibold text-primary">Prioridade alta</p>}
                 {priority.reasons.length > 0 && <p className="mt-1 text-xs text-muted-foreground">{priority.reasons.join(" · ")}</p>}
-                <p className="mt-2 flex gap-1.5 text-sm text-muted-foreground"><MapPin className="mt-0.5 size-4 shrink-0" />{l.address}</p>
+                <p className="mt-2 flex gap-1.5 break-words text-sm text-muted-foreground"><MapPin className="mt-0.5 size-4 shrink-0" />{l.address}</p>
                 {l.phone && <p className="mt-1 flex gap-1.5 text-sm text-muted-foreground"><Phone className="mt-0.5 size-4 shrink-0" />{l.phone}</p>}
                 {l.rating && <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground"><Star className="size-4" />{l.rating} ({l.reviews} avaliações)</p>}
                 <div className="mt-4"><ClientStageSelect value={followUp.clients.find((client) => client.id === l.id)?.stage ?? "new"} onChange={(stage) => followUp.track(l, stage)} label={`Etapa de ${l.name}`} /></div>
@@ -277,11 +306,7 @@ function Buscar() {
                 <Button variant="outline" className="mt-4" onClick={() => demonstrate(l)}><PanelsTopLeft />Demonstração do site</Button>
                 <div className="mt-auto flex gap-2 pt-4">
                   {(l.intlPhone || l.phone) ? (
-                    <Button asChild variant="whatsapp" className="flex-1" onClick={() => markContacted(l)}>
-                      <a href={whatsappLink(l.intlPhone || `+55${l.phone?.replace(/\D/g, "")}`, l.name)} target="_blank" rel="noreferrer">
-                        <MessageCircle className="size-4" /> Mandar mensagem
-                      </a>
-                    </Button>
+                    <Button variant="whatsapp" className="min-w-0 flex-1" onClick={() => setMessageLead(l)}><MessageCircle className="size-4" />Preparar mensagem</Button>
                   ) : (
                     <span className="flex-1 text-sm text-muted-foreground">Sem telefone cadastrado</span>
                   )}
@@ -304,6 +329,7 @@ function Buscar() {
           </div>
         )}
       </section>
+      {messageLead && <ProspectMessage key={messageLead.id} lead={messageLead} close={() => setMessageLead(null)} markContacted={() => markContacted(messageLead)} />}
     </main>
   );
 }
