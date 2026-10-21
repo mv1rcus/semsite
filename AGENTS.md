@@ -12,6 +12,7 @@
 - Entry and search are public routes with no account requirement; the search server function is public to support account-free access.
 - Contacted lead markers are stored only in browser localStorage; existing account-owned records remain private and are not exposed to anonymous visitors.
 - Client follow-up uses a shared browser-local store for stages, stage dates and next-contact reminders; reminders appear in the panel, never in public demonstration records.
+- The contact agenda derives priorities from due reminders and actual stages, offers editable stage-specific messages, and schedules through the shared follow-up store; copying or opening WhatsApp never changes stages or metrics.
 - Client charts aggregate unique clients per metric and period from persisted stage-event history; WhatsApp opens are not proof of sending, and legacy records contribute only their known current-stage date.
 - Entry and search share a static abstract SVG background using CSS semantic tokens; avoid WebGL and media downloads on these pages to keep prospecting lightweight.
 - Google page tokens are opaque strings validated in the shared search schema and never truncated; rank and deduplicate loaded prospects using observable contact and reputation signals, never conversion probabilities.
