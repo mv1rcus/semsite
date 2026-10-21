@@ -1,6 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { draftForClient } from "@/lib/demonstrations";
 import { useEffect, useRef, useState } from "react";
-import { Bell, CalendarClock, Download, FileUp, MessageCircle, Plus, Search, Check } from "lucide-react";
+import { Bell, CalendarClock, Download, FileUp, MessageCircle, Plus, Search, Check, PanelsTopLeft } from "lucide-react";
 import { OceanScene } from "@/components/OceanScene";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,10 @@ export const Route = createFileRoute("/clientes")({
 });
 function Clientes() {
   const { clients, track, update, restore, storageError } = useFollowUp();
+  const navigate = useNavigate();
+  function demonstrate(c: (typeof clients)[number]) {
+    try { sessionStorage.setItem("site-demo-draft", JSON.stringify(draftForClient({ id: c.id, name: c.name, address: c.address, phone: c.phone, intlPhone: c.intlPhone, category: c.category, mapsUrl: c.mapsUrl, rating: null, reviews: null }))); navigate({ to: "/demonstracoes" }); } catch { /* Storage blocked. */ }
+  }
   const [filter, setFilter] = useState("all");
   const [query, setQuery] = useState("");
   const [now, setNow] = useState(0);
@@ -61,6 +66,7 @@ function Clientes() {
           {reminderDue(client, now) && <p className="flex items-center gap-2 text-sm text-destructive"><Bell className="size-4" />Contato pendente</p>}
           {client.nextContact && <Button variant="ghost" size="sm" onClick={() => update(client.id, { nextContact: "" })}>Limpar lembrete</Button>}
           {(client.intlPhone || client.phone) && <Button asChild variant="whatsapp" className="w-full"><a href={whatsappLink(client.intlPhone || `+55${client.phone?.replace(/\D/g, "")}`, client.name)} target="_blank" rel="noreferrer"><MessageCircle />Abrir WhatsApp</a></Button>}
+          <Button variant="outline" className="w-full" onClick={() => demonstrate(client)}><PanelsTopLeft />Demonstração do site</Button>
         </div></article>)}</div>
       <p className="mt-8 text-xs text-muted-foreground">Os lembretes aparecem aqui enquanto o painel está aberto; não são enviados fora do site.</p>
     </section></main>;
