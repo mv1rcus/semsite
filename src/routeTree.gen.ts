@@ -14,6 +14,7 @@ import { Route as BuscarRouteImport } from './routes/buscar'
 import { Route as ClientesRouteImport } from './routes/clientes'
 import { Route as DemonstracoesRouteImport } from './routes/demonstracoes'
 import { Route as GraficosRouteImport } from './routes/graficos'
+import { Route as MensagemRouteImport } from './routes/mensagem'
 import { Route as DemoIdRouteImport } from './routes/demo.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -41,6 +42,11 @@ const GraficosRoute = GraficosRouteImport.update({
   path: '/graficos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MensagemRoute = MensagemRouteImport.update({
+  id: '/mensagem',
+  path: '/mensagem',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DemoIdRoute = DemoIdRouteImport.update({
   id: '/demo/$id',
   path: '/demo/$id',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/clientes': typeof ClientesRoute
   '/demonstracoes': typeof DemonstracoesRoute
   '/graficos': typeof GraficosRoute
+  '/mensagem': typeof MensagemRoute
   '/demo/$id': typeof DemoIdRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/clientes': typeof ClientesRoute
   '/demonstracoes': typeof DemonstracoesRoute
   '/graficos': typeof GraficosRoute
+  '/mensagem': typeof MensagemRoute
   '/demo/$id': typeof DemoIdRoute
 }
 export interface FileRoutesById {
@@ -70,15 +78,28 @@ export interface FileRoutesById {
   '/clientes': typeof ClientesRoute
   '/demonstracoes': typeof DemonstracoesRoute
   '/graficos': typeof GraficosRoute
+  '/mensagem': typeof MensagemRoute
   '/demo/$id': typeof DemoIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/buscar' | '/clientes' | '/demonstracoes' | '/graficos' | '/demo/$id'
+    | '/'
+    | '/buscar'
+    | '/clientes'
+    | '/demonstracoes'
+    | '/graficos'
+    | '/mensagem'
+    | '/demo/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/buscar' | '/clientes' | '/demonstracoes' | '/graficos' | '/demo/$id'
+    | '/'
+    | '/buscar'
+    | '/clientes'
+    | '/demonstracoes'
+    | '/graficos'
+    | '/mensagem'
+    | '/demo/$id'
   id:
     | '__root__'
     | '/'
@@ -86,6 +107,7 @@ export interface FileRouteTypes {
     | '/clientes'
     | '/demonstracoes'
     | '/graficos'
+    | '/mensagem'
     | '/demo/$id'
   fileRoutesById: FileRoutesById
 }
@@ -95,6 +117,7 @@ export interface RootRouteChildren {
   ClientesRoute: typeof ClientesRoute
   DemonstracoesRoute: typeof DemonstracoesRoute
   GraficosRoute: typeof GraficosRoute
+  MensagemRoute: typeof MensagemRoute
   DemoIdRoute: typeof DemoIdRoute
 }
 
@@ -135,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GraficosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mensagem': {
+      id: '/mensagem'
+      path: '/mensagem'
+      fullPath: '/mensagem'
+      preLoaderRoute: typeof MensagemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/demo/$id': {
       id: '/demo/$id'
       path: '/demo/$id'
@@ -151,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   ClientesRoute: ClientesRoute,
   DemonstracoesRoute: DemonstracoesRoute,
   GraficosRoute: GraficosRoute,
+  MensagemRoute: MensagemRoute,
   DemoIdRoute: DemoIdRoute,
 }
 export const routeTree = rootRouteImport
