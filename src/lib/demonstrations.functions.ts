@@ -24,6 +24,7 @@ export const getDemonstration = createServerFn({ method: "GET" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: demo, error } = await supabaseAdmin.from("site_demonstrations").select("id,name,category,address,phone,headline,description").eq("id", data.id).maybeSingle();
     if (error) throw new Error("Não foi possível abrir esta demonstração.");
+    if (demo) await supabaseAdmin.from("site_demonstrations").update({ last_opened_at: new Date().toISOString() }).eq("id", demo.id);
     return demo;
   });
 
@@ -34,4 +35,14 @@ export const createDemonstration = createServerFn({ method: "POST" })
     const { data: row, error } = await supabaseAdmin.from("site_demonstrations").insert(data).select("id,name").single();
     if (error || !row) throw new Error("Não foi possível salvar a demonstração.");
     return row;
+  });
+
+export const getDemonstrationActivity = createServerFn({ method: "POST" })
+  .inputValidator((input) => z.object({ ids: z.array(z.string().uuid()).max(30) }).parse(input))
+  .handler(async ({ data }) => {
+    if (data.ids.length === 0) return [];
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: rows, error } = await supabaseAdmin.from("site_demonstrations").select("id,created_at,last_opened_at").in("id", data.ids);
+    if (error) throw new Error("Não foi possível consultar os acessos.");
+    return (rows ?? []).map((r) => ({ id: r.id, createdAt: r.created_at, lastOpenedAt: r.last_opened_at }));
   });

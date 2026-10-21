@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Copy, ExternalLink, Loader2, MessageCircle, PanelsTopLeft, CircleCheck, CircleAlert, Clock, RefreshCw } from "lucide-react";
+import { Copy, ExternalLink, Loader2, MessageCircle, PanelsTopLeft, CircleCheck, CircleAlert, Clock, RefreshCw, Eye } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
-import { createDemonstration, verifyDemonstrationLink } from "@/lib/demonstrations.functions";
-import { savedDemoSchema, verificationState, type SavedDemo } from "@/lib/demo-verification";
+import { createDemonstration, getDemonstrationActivity, verifyDemonstrationLink } from "@/lib/demonstrations.functions";
+import { isInactiveDemo, savedDemoSchema, verificationState, type DemoActivity, type SavedDemo } from "@/lib/demo-verification";
 import { demoSchema, draftForClient, demonstrationLink, type Demonstration } from "@/lib/demonstrations";
 import { DemoSite } from "@/components/DemoSite";
 import { ProspectTabs } from "@/components/ProspectTabs";
@@ -22,6 +22,10 @@ function Demonstracoes() {
   const [checking, setChecking] = useState<string | null>(null);
   const [now, setNow] = useState(0);
   const verifyLink = useServerFn(verifyDemonstrationLink);
+  const loadActivity = useServerFn(getDemonstrationActivity);
+  const [activity, setActivity] = useState<Record<string, DemoActivity>>({});
+  const [removed, setRemoved] = useState<string[]>([]);
+  const [activityLoaded, setActivityLoaded] = useState(false);
   const [id, setId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [notice, setNotice] = useState("");
@@ -42,6 +46,17 @@ function Demonstracoes() {
     if (!origin) return;
     try { localStorage.setItem("site-demo-links", JSON.stringify(saved)); } catch { /* History is optional. */ }
   }, [saved, origin]);
+  useEffect(() => {
+    if (!origin || activityLoaded || saved.length === 0) return;
+    setActivityLoaded(true);
+    loadActivity({ data: { ids: saved.map((s) => s.id) } }).then((rows) => {
+      const map = Object.fromEntries(rows.map((r) => [r.id, r]));
+      setActivity(map);
+      const stamp = Date.now();
+      const gone = saved.filter((s) => map[s.id] && isInactiveDemo(map[s.id], stamp));
+      if (gone.length) { setRemoved(gone.map((g) => g.name)); setSaved((list) => list.filter((s) => !gone.some((g) => g.id === s.id))); }
+    }).catch(() => setNotice("Não foi possível carregar os últimos acessos agora."));
+  }, [origin, saved, activityLoaded, loadActivity]);
   async function check(item: SavedDemo) {
     if (checking) return;
     setChecking(item.id);
@@ -78,6 +93,7 @@ function Demonstracoes() {
         {notice && <p role="status" className="text-sm text-primary">{notice}</p>}
         {id && <div className="space-y-3"><Input aria-label="Link da demonstração" readOnly value={link} /><div className="flex flex-wrap gap-2"><Button type="button" variant="outline" onClick={copy}><Copy />Copiar link</Button><Button asChild variant="outline"><Link to="/demo/$id" params={{ id }}><ExternalLink />Abrir</Link></Button><Button asChild variant="whatsapp"><a href={`https://wa.me/?text=${encodeURIComponent(`Olá! Preparei uma ideia de site para ${demo.name}, sem compromisso: ${link}`)}`} target="_blank" rel="noreferrer"><MessageCircle />Enviar</a></Button></div></div>}
       </form><div className="min-w-0 overflow-hidden rounded-lg border"><DemoSite demo={{ ...demo, name: demo.name || "Nome do seu cliente" }} /></div></div>
+      {removed.length > 0 && <div role="alert" className="mt-10 flex items-start justify-between gap-3 rounded-lg border border-destructive/50 bg-destructive/10 p-4 text-sm"><p className="flex gap-2 text-destructive"><CircleAlert className="mt-0.5 size-4 shrink-0" /><span>{removed.length === 1 ? `"${removed[0]}" foi removida da lista porque ninguém abriu o link nas últimas 24 horas.` : `${removed.length} demonstrações foram removidas da lista porque ninguém abriu o link nas últimas 24 horas: ${removed.join(", ")}.`}</span></p><Button type="button" size="sm" variant="ghost" onClick={() => setRemoved([])}>OK</Button></div>}
       {saved.length > 0 && <section className="mt-10 border-t pt-6"><h2 className="text-xl font-semibold">Demonstrações criadas neste navegador</h2><ul className="mt-4 divide-y">{saved.map((item) => {
         const state = verificationState(item.verification, now);
         const Icon = state === "recent" ? CircleCheck : state === "failed" ? CircleAlert : Clock;
@@ -85,6 +101,7 @@ function Demonstracoes() {
         return <li key={item.id} className="flex flex-wrap items-center justify-between gap-3 py-4">
           <div className="min-w-0 flex-1"><Button asChild variant="link" className="h-auto max-w-full justify-start whitespace-normal px-0 text-left"><Link to="/demo/$id" params={{ id: item.id }}><ExternalLink className="shrink-0" /><span className="break-words">{item.name}</span></Link></Button>
             <p role="status" className={`mt-1 flex items-start gap-2 text-xs ${state === "recent" ? "text-primary" : state === "failed" ? "text-destructive" : "text-muted-foreground"}`}><Icon className="size-4 shrink-0" />{label}</p>
+            {activity[item.id] && <p className="mt-1 flex items-center gap-1.5 text-xs text-foreground"><Eye className="size-3.5 shrink-0" />{activity[item.id].lastOpenedAt ? <>Último acesso: <time dateTime={activity[item.id].lastOpenedAt!}>{new Date(activity[item.id].lastOpenedAt!).toLocaleString("pt-BR")}</time></> : "Ninguém abriu ainda — sai da lista 24h após a criação"}</p>}
             {item.verification && <p className="mt-1 text-xs text-muted-foreground">Última tentativa: <time dateTime={item.verification.checkedAt}>{new Date(item.verification.checkedAt).toLocaleString("pt-BR")}</time></p>}
           </div><Button type="button" variant="outline" size="sm" disabled={checking !== null} onClick={() => check(item)} aria-label={`Verificar link de ${item.name}`}>
             {checking === item.id ? <Loader2 className="animate-spin" /> : <RefreshCw />} {checking === item.id ? "Verificando…" : "Verificar link"}
