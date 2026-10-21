@@ -49,7 +49,7 @@ function Buscar() {
   const navigate = useNavigate();
   const search = useServerFn(searchLeads);
   const [category, setCategory] = useState("");
-  const [group, setGroup] = useState(GROUPS[0].label);
+  const [group, setGroup] = useState("Saúde");
   const [city, setCity] = useState("");
   const [leads, setLeads] = useState<Lead[]>([]);
   const [next, setNext] = useState<string | null>(null);
