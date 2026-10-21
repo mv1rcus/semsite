@@ -1,4 +1,7 @@
 # Tasks
+- [x] Verify saved demonstrations on the published domain without a session, including mobile refresh (new demonstration and three existing links opened successfully).
+- [ ] Reproduce and fix the recipient's failing demonstration link — blocked until Marcus supplies the exact link that fails.
+- [ ] Enable paid access only after payment confirmation and pricing details from Marcus.
 - [x] Add daily, monthly and yearly client activity charts with preserved contact and closing history.
 - [x] Test period totals, history persistence and the charts in the running app.
 - [x] Add browser-local client stages, dates and next-contact reminders with a management panel.
