@@ -52,6 +52,7 @@ export type Database = {
           description: string
           headline: string
           id: string
+          last_opened_at: string | null
           name: string
           phone: string
         }
@@ -62,6 +63,7 @@ export type Database = {
           description: string
           headline: string
           id?: string
+          last_opened_at?: string | null
           name: string
           phone?: string
         }
@@ -72,6 +74,7 @@ export type Database = {
           description?: string
           headline?: string
           id?: string
+          last_opened_at?: string | null
           name?: string
           phone?: string
         }

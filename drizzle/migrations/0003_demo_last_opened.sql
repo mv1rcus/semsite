@@ -1,0 +1,1 @@
+ALTER TABLE public.site_demonstrations ADD COLUMN IF NOT EXISTS last_opened_at timestamptz;
