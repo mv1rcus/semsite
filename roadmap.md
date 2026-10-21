@@ -1,5 +1,5 @@
 # Tasks
-- [ ] Add selectable bar, line and pie charts without changing metrics; improve welcome-message editing, suggestions and preview; verify both flows.
+- [x] Add selectable bar, line and pie charts without changing metrics; improve welcome-message editing, seven suggestions and editable-business preview. 29 tests passed; real client creation/stages read back in all charts, chart preference persisted, message save/reload/discard/copy and mobile layouts verified without runtime errors.
 - [x] Add confirmed individual and selected removal from demonstration link history; 10 tests passed, real creation, cancellation, selected deletion, reload persistence and preserved shared page verified; mobile has no overflow.
 - [x] Renew demonstration sites with three functional tabs, fuller sector content and contact actions; reorganize editor/preview/history and add named, backwards-compatible share links. 17 tests passed; real creation/readback, old/new links, WhatsApp preparation, access history and mobile layouts verified; temporary record removed.
 - [x] Optimize /clientes with manual no-response markers, filters, selected deletion and confirmed cleanup; 34 tests passed and real manual creation, persistence, cancellation, deletion and mobile layout verified.
