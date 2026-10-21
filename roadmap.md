@@ -1,5 +1,5 @@
 # Tasks
-- [ ] Improve search presentation, local result filters and editable message preview; verify without extra Google requests.
+- [x] Improve search presentation, local result filters and editable message preview; 21 tests passed and desktop/mobile flows verified using loaded fixtures without extra Google requests.
 - [x] Test the CSV/backup export and restore plus the monthly goal in the running app (downloads verified, restore kept the client, goal persisted after reload).
 - [x] Add a prioritized contact agenda with editable stage-specific messages and quick reminder scheduling; verify persistence and no automatic sent-message claims (20 tests passed; desktop/mobile flow verified).
 - [x] Add persisted per-demonstration recent verification indicators and verify success/failure states end to end (published HTML checked anonymously; persistence and mobile verified).
