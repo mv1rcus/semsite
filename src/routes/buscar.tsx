@@ -90,10 +90,23 @@ function Buscar() {
     setRetryToken(null);
     if (!pageToken) { setLeads([]); setScanned(0); setNext(null); setSearched(false); }
     try {
-      const r = await search({ data: { ...query, pageToken } });
-      setLeads((prev) => rankProspects(pageToken ? [...prev, ...r.leads] : r.leads));
-      setScanned((s) => (pageToken ? s + r.scanned : r.scanned));
-      setNext(r.nextPageToken);
+      let acc = pageToken ? leads : [];
+      const goal = acc.length + target;
+      let token = pageToken;
+      let total = 0;
+      let nextTok: string | null = null;
+      let pages = 0;
+      do {
+        const r = await search({ data: { ...query, pageToken: token } });
+        acc = rankProspects([...acc, ...r.leads]);
+        total += r.scanned;
+        nextTok = r.nextPageToken;
+        token = nextTok ?? undefined;
+        pages++;
+        setLeads(acc);
+      } while (token && acc.length < goal && pages < 10);
+      setScanned((s) => (pageToken ? s + total : total));
+      setNext(nextTok);
       setActiveQuery(query);
       setSearched(true);
       if (!pageToken) {
