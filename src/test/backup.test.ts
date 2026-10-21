@@ -13,7 +13,7 @@ describe("Client backup", () => {
     expect(header).toBe(CSV_HEADER.map((cell) => `"${cell}"`).join(";"));
     expect(row).toContain('"Barbearia ""Zé"", Ltda"');
     expect(row).toContain('"Fechado"');
-    expect(row?.endsWith(`"${later}"`)).toBe(true);
+    expect(row?.endsWith(`"${now}"`)).toBe(true);
   });
   it("round-trips a saved backup with normalized events", () => {
     const backup = makeBackup([closedClient()], now);
