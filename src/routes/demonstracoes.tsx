@@ -106,7 +106,7 @@ function Demonstracoes() {
         const state = verificationState(item.verification, now);
         const Icon = state === "recent" ? CircleCheck : state === "failed" ? CircleAlert : Clock;
         const label = state === "recent" ? "Verificado nas últimas 24h" : state === "failed" ? "Link indisponível na última tentativa" : state === "stale" ? "Verificação há mais de 24h" : "Ainda não verificado";
-        return <li key={item.id} className="flex flex-wrap items-center justify-between gap-3 py-4">
+        return <li key={item.id} className="flex flex-col items-start justify-between gap-4 py-5 sm:flex-row sm:items-center">
           <div className="min-w-0 flex-1"><Button asChild variant="link" className="h-auto max-w-full justify-start whitespace-normal px-0 text-left"><Link to="/site/$slug/$code" params={{ slug: demonstrationSlug(item.name), code: demonstrationCode(item.id) }}><ExternalLink className="shrink-0" /><span className="break-words">{item.name}</span></Link></Button>
             <p className="mt-1 break-all text-xs text-muted-foreground">{demonstrationLink(item.id, origin || "https://cacacliente.lovable.app", item.name).replace(/^https?:\/\//, "")}</p>
             <p role="status" className={`mt-1 flex items-start gap-2 text-xs ${state === "recent" ? "text-primary" : state === "failed" ? "text-destructive" : "text-muted-foreground"}`}><Icon className="size-4 shrink-0" />{label}</p>
