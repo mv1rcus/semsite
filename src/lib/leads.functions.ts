@@ -24,7 +24,7 @@ export const searchLeads = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const lovableKey = process.env["LOVABLE_API_KEY"];
     const mapsKey = process.env["GOOGLE_MAPS_API_KEY"];
-    if (!lovableKey || !mapsKey) throw new Error("Google Maps não está configurado.");
+    if (!lovableKey || !mapsKey) throw new Error("O Google Maps não está conectado a este site. Conecte o Google Maps nas configurações do projeto.");
 
     let res: Response;
     try {
