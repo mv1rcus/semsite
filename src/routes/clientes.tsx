@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { Bell, CalendarClock, MessageCircle, Plus, Search, Check } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Bell, CalendarClock, Download, FileUp, MessageCircle, Plus, Search, Check } from "lucide-react";
 import { OceanScene } from "@/components/OceanScene";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { Button } from "@/components/ui/button";
@@ -10,19 +10,22 @@ import { useFollowUp } from "@/lib/use-follow-up";
 import { localDateInput, reminderDue, STAGES } from "@/lib/follow-up";
 import { whatsappLink } from "@/lib/message";
 import { ContactAgenda } from "@/components/ContactAgenda";
+import { backupFileName, clientsToCsv, downloadText, makeBackup, parseBackup } from "@/lib/backup";
 
 export const Route = createFileRoute("/clientes")({
   head: () => ({ meta: [{ title: "Painel de clientes — Caça Clientes" }, { name: "description", content: "Acompanhe clientes, etapas de negociação e lembretes de próximo contato." }, { property: "og:title", content: "Painel de clientes — Caça Clientes" }, { property: "og:description", content: "Organize contatos, demonstrações enviadas e negócios fechados." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: Clientes,
 });
 function Clientes() {
-  const { clients, track, update, storageError } = useFollowUp();
+  const { clients, track, update, restore, storageError } = useFollowUp();
   const [filter, setFilter] = useState("all");
   const [query, setQuery] = useState("");
   const [now, setNow] = useState(0);
   const [adding, setAdding] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [importError, setImportError] = useState("");
+  const fileRef = useRef<HTMLInputElement>(null);
   useEffect(() => { setNow(Date.now()); const timer = window.setInterval(() => setNow(Date.now()), 30000); return () => window.clearInterval(timer); }, []);
   const due = clients.filter((client) => reminderDue(client, now));
   const visible = clients.filter((client) => (filter === "all" || (filter === "due" ? reminderDue(client, now) : client.stage === filter)) && `${client.name} ${client.address}`.toLocaleLowerCase("pt-BR").includes(query.toLocaleLowerCase("pt-BR"))).sort((a, b) => Number(reminderDue(b, now)) - Number(reminderDue(a, now)) || (a.nextContact || "9999").localeCompare(b.nextContact || "9999"));
@@ -30,6 +33,22 @@ function Clientes() {
     <section className="mx-auto mt-8 max-w-6xl"><div className="flex flex-wrap items-center justify-between gap-4"><div><h1 className="text-3xl font-bold">Painel de clientes</h1><p className="mt-2 text-sm text-muted-foreground">{clients.length} clientes · Salvos neste navegador</p></div><Button onClick={() => setAdding(!adding)} variant="outline"><Plus />Adicionar cliente</Button></div>
       {adding && <form className="mt-6 grid gap-3 border-y py-5 sm:grid-cols-[1fr_1fr_auto]" onSubmit={(event) => { event.preventDefault(); if (!name.trim()) return; if (track({ id: crypto.randomUUID(), name: name.trim(), phone: phone.trim() || null, intlPhone: null, address: "", category: null, rating: null, reviews: null, mapsUrl: null })) { setName(""); setPhone(""); setAdding(false); } }}><Input aria-label="Nome do cliente" placeholder="Nome do cliente" required maxLength={160} value={name} onChange={(e) => setName(e.target.value)} /><Input aria-label="Telefone do cliente" placeholder="Telefone com DDD" maxLength={40} value={phone} onChange={(e) => setPhone(e.target.value)} /><Button type="submit"><Check />Salvar cliente</Button></form>}
       {storageError && <p role="alert" className="mt-4 text-destructive">{storageError}</p>}
+      {importError && <p role="alert" className="mt-4 text-destructive">{importError}</p>}
+      <div className="mt-6 flex flex-wrap gap-2" aria-label="Cópia de segurança">
+        <Button variant="outline" disabled={!clients.length} onClick={() => downloadText(backupFileName("csv"), `\ufeff${clientsToCsv(clients)}`, "text/csv;charset=utf-8")}><Download />Exportar planilha</Button>
+        <Button variant="outline" disabled={!clients.length} onClick={() => downloadText(backupFileName("json"), JSON.stringify(makeBackup(clients), null, 2), "application/json")}><Download />Salvar backup</Button>
+        <Button variant="outline" onClick={() => fileRef.current?.click()}><FileUp />Restaurar backup</Button>
+        <input ref={fileRef} type="file" accept="application/json,.json" className="hidden" aria-label="Arquivo de backup" onChange={async (event) => {
+          const file = event.target.files?.[0];
+          event.target.value = "";
+          if (!file) return;
+          const imported = parseBackup(await file.text());
+          if (!imported) { setImportError("Este arquivo não é um backup válido do Caça Clientes."); return; }
+          setImportError("");
+          restore(imported);
+        }} />
+      </div>
+      <p className="mt-2 text-xs text-muted-foreground">Seus clientes ficam somente neste navegador; salve o backup de vez em quando e use "Restaurar backup" para recuperá-los em outro aparelho.</p>
       <ContactAgenda clients={clients} now={now} update={update} />
       {due.length > 0 && <div role="status" className="mt-6 flex items-center gap-3 border-l-2 border-destructive bg-muted p-4"><Bell className="size-5 shrink-0 text-destructive" /><span>{due.length} {due.length === 1 ? "contato pendente" : "contatos pendentes"}</span><Button variant="ghost" size="sm" onClick={() => setFilter("due")}>Ver</Button></div>}
       <div className="mt-6 flex flex-wrap gap-2"><Button variant={filter === "all" ? "secondary" : "outline"} onClick={() => setFilter("all")}>Todos ({clients.length})</Button>{STAGES.map((stage) => <Button key={stage.value} variant={filter === stage.value ? "secondary" : "outline"} onClick={() => setFilter(stage.value)}>{stage.label} ({clients.filter((c) => c.stage === stage.value).length})</Button>)}<Button variant={filter === "due" ? "secondary" : "outline"} onClick={() => setFilter("due")}><Bell />Pendentes ({due.length})</Button></div>

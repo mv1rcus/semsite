@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { FOLLOW_UP_KEY, parseClients, trackClient, updateClient, type FollowUpClient, type Stage } from "./follow-up";
+import { mergeClients } from "./backup";
 import type { Lead } from "./leads";
 
 export function useFollowUp() {
@@ -23,5 +24,6 @@ export function useFollowUp() {
   return { clients, storageError,
     track: (lead: Lead, stage?: Stage) => write((current) => trackClient(current, lead, stage)),
     update: (id: string, patch: Partial<Pick<FollowUpClient, "stage" | "stageDate" | "nextContact">>) => write((current) => current.map((client) => client.id === id ? updateClient(client, patch) : client)),
+    restore: (imported: FollowUpClient[]) => write((current) => mergeClients(current, imported)),
   };
 }

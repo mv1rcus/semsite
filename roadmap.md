@@ -1,4 +1,5 @@
 # Tasks
+- [x] Test the CSV/backup export and restore plus the monthly goal in the running app (downloads verified, restore kept the client, goal persisted after reload).
 - [x] Add a prioritized contact agenda with editable stage-specific messages and quick reminder scheduling; verify persistence and no automatic sent-message claims (20 tests passed; desktop/mobile flow verified).
 - [x] Add persisted per-demonstration recent verification indicators and verify success/failure states end to end (published HTML checked anonymously; persistence and mobile verified).
 - [x] Verify saved demonstrations on the published domain without a session, including mobile refresh (new demonstration and three existing links opened successfully).
