@@ -19,7 +19,7 @@ function Mensagem() {
   const [status, setStatus] = useState("");
   const preview = fillTemplate(settings.template, "Pizzaria Bella Vista", settings.senderName);
   function save() {
-    if (!settings.template.trim()) return setStatus("Escreva uma mensagem antes de salvar.");
+    if (!settings.template.trim()) { setStatus("Escreva uma mensagem antes de salvar."); return; }
     saveMessageSettings(settings); setStatus("Mensagem salva! Ela já vale para os próximos contatos.");
   }
   return <main className="relative min-h-screen px-4 pb-16">

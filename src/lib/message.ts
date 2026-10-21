@@ -20,7 +20,7 @@ Quer dar uma olhada? É sem compromisso!` },
 Posso criar um site para vocês em até uma semana, com WhatsApp, localização e serviços. Posso te mostrar um exemplo sem compromisso?` },
 ];
 
-export const DEFAULT_SETTINGS: MessageSettings = { senderName: "", template: MESSAGE_SUGGESTIONS[0].template };
+export const DEFAULT_SETTINGS: MessageSettings = { senderName: "", template: MESSAGE_SUGGESTIONS[0]!.template };
 
 export function loadMessageSettings(): MessageSettings {
   if (typeof localStorage === "undefined") return DEFAULT_SETTINGS;
