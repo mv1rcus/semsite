@@ -63,11 +63,24 @@ function Buscar() {
   const [recent, setRecent] = useState<Query[]>([]);
   const busy = useRef(false);
   const queryChanged = activeQuery && (activeQuery.category !== category.trim() || activeQuery.city !== city.trim());
-  const ranked = useMemo(() => rankProspects(leads).sort((a, b) => Number(contacted.has(a.id)) - Number(contacted.has(b.id))), [leads, contacted]);
+  const ranked = useMemo(() => rankProspects(leads), [leads]);
+
+  // Keeps the results when the phone reloads the page after returning from WhatsApp.
+  useEffect(() => {
+    if (!searched || !activeQuery) return;
+    try { sessionStorage.setItem("last-search-v1", JSON.stringify({ leads, scanned, next, activeQuery })); } catch { /* Optional. */ }
+  }, [leads, scanned, next, activeQuery, searched]);
 
   useEffect(() => {
-    try { const suggested = nextSuggestedCity(localStorage.getItem("last-suggested-city")); setCity(suggested); localStorage.setItem("last-suggested-city", suggested); }
-    catch { setCity(nextSuggestedCity(null)); }
+    try {
+      const saved = JSON.parse(sessionStorage.getItem("last-search-v1") ?? "null");
+      if (saved && Array.isArray(saved.leads) && saved.activeQuery?.city) {
+        setLeads(saved.leads); setScanned(Number(saved.scanned) || 0); setNext(typeof saved.next === "string" ? saved.next : null);
+        setActiveQuery(saved.activeQuery); setCategory(saved.activeQuery.category); setCity(saved.activeQuery.city); setSearched(true);
+      }
+    } catch { /* Optional. */ }
+    try { if (sessionStorage.getItem("last-search-v1")) throw 0; const suggested = nextSuggestedCity(localStorage.getItem("last-suggested-city")); setCity(suggested); localStorage.setItem("last-suggested-city", suggested); }
+    catch (e) { if (e !== 0) setCity(nextSuggestedCity(null)); }
     try {
       const stored: unknown = JSON.parse(localStorage.getItem("contacted-leads") ?? "[]");
       if (Array.isArray(stored)) setContacted(new Set(stored.filter((id): id is string => typeof id === "string")));
