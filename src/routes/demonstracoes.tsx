@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Copy, ExternalLink, Loader2, MessageCircle, PanelsTopLeft, CircleCheck, CircleAlert, Clock, RefreshCw, Eye, Search, ArrowRight, Plus } from "lucide-react";
+import { Copy, ExternalLink, Loader2, MessageCircle, PanelsTopLeft, CircleCheck, CircleAlert, Clock, RefreshCw, Eye, Search, ArrowRight, Plus, Trash2 } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { createDemonstration, getDemonstrationActivity, verifyDemonstrationLink } from "@/lib/demonstrations.functions";
-import { isInactiveDemo, savedDemoSchema, verificationState, type DemoActivity, type SavedDemo } from "@/lib/demo-verification";
+import { isInactiveDemo, removeSavedDemos, savedDemoSchema, verificationState, type DemoActivity, type SavedDemo } from "@/lib/demo-verification";
 import { demoSchema, draftForClient, demonstrationLink, demonstrationSlug, demonstrationCode, type Demonstration } from "@/lib/demonstrations";
 import { SECTOR_HEADLINE } from "@/lib/demo-catalog";
 import { DemoSite } from "@/components/DemoSite";
@@ -11,6 +11,8 @@ import { ProspectTabs } from "@/components/ProspectTabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel } from "@/components/ui/alert-dialog";
 import { OceanScene } from "@/components/OceanScene";
 export const Route = createFileRoute("/demonstracoes")({
   head: () => ({ meta: [{ title: "Criar demonstração — Caça Clientes" }, { name: "description", content: "Prepare uma proposta visual de site personalizada para seu cliente." }, { property: "og:title", content: "Demonstrações de sites — Caça Clientes" }, { property: "og:description", content: "Crie uma demonstração relacionada ao negócio do cliente e compartilhe o link." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
@@ -22,6 +24,8 @@ function Demonstracoes() {
   const [historyQuery, setHistoryQuery] = useState("");
   const [demo, setDemo] = useState<Demonstration>(blank);
   const [saved, setSaved] = useState<SavedDemo[]>([]);
+  const [selected, setSelected] = useState<string[]>([]);
+  const [pendingDelete, setPendingDelete] = useState<string[]>([]);
   const [checking, setChecking] = useState<string | null>(null);
   const [now, setNow] = useState(0);
   const verifyLink = useServerFn(verifyDemonstrationLink);
@@ -89,6 +93,19 @@ function Demonstracoes() {
   async function copy() { try { await navigator.clipboard.writeText(link); setNotice("Link copiado!"); } catch { setNotice("Selecione o link abaixo e copie para enviar."); } }
   async function copySaved(item: SavedDemo) { try { await navigator.clipboard.writeText(demonstrationLink(item.id, origin, item.name)); setNotice(`Link de ${item.name} copiado.`); } catch { setNotice("Não foi possível copiar. Abra a demonstração e copie o endereço."); } }
   const history = saved.filter(item => item.name.toLocaleLowerCase("pt-BR").includes(historyQuery.toLocaleLowerCase("pt-BR")));
+  const selectedIds = selected.filter(key => saved.some(item => item.id === key));
+  const deleting = saved.filter(item => pendingDelete.includes(item.id));
+  function confirmRemoval() {
+    if (!deleting.length) { setPendingDelete([]); return; }
+    const ids = deleting.map(item => item.id);
+    const updated = removeSavedDemos(saved, ids);
+    try { localStorage.setItem("site-demo-links", JSON.stringify(updated)); }
+    catch { setNotice("Não foi possível excluir os links neste navegador. Tente novamente."); setPendingDelete([]); return; }
+    setSaved(updated);
+    setSelected(previous => previous.filter(key => !ids.includes(key)));
+    setPendingDelete([]);
+    setNotice(`${deleting.length} ${deleting.length === 1 ? "link removido" : "links removidos"} da lista. Os sites compartilhados continuam disponíveis.`);
+  }
   return <main className="min-h-screen px-4 py-8 sm:px-8"><OceanScene /><ProspectTabs active="demos" />
     <section className="mx-auto mt-8 max-w-6xl"><div className="flex flex-wrap items-start justify-between gap-4"><div><h1 className="text-3xl font-bold">Sites de demonstração.</h1><p className="mt-2 text-sm text-muted-foreground">Uma proposta com a cara de cada negócio.</p></div><Button variant="outline" onClick={() => { setDemo(blank); setId(null); setNotice(""); setTab("edit"); }}><Plus />Nova demonstração</Button></div>
       <div role="tablist" aria-label="Gerenciar demonstrações" className="mt-7 flex flex-wrap gap-2 border-b pb-4">{[{ id: "edit", label: "Criar", icon: PanelsTopLeft }, { id: "preview", label: "Prévia", icon: Eye }, { id: "history", label: `Meus links (${saved.length})`, icon: ExternalLink }].map(item => <Button key={item.id} role="tab" aria-selected={tab === item.id} variant={tab === item.id ? "default" : "outline"} onClick={() => setTab(item.id)}><item.icon />{item.label}</Button>)}</div>
@@ -107,6 +124,7 @@ function Demonstracoes() {
         const Icon = state === "recent" ? CircleCheck : state === "failed" ? CircleAlert : Clock;
         const label = state === "recent" ? "Verificado nas últimas 24h" : state === "failed" ? "Link indisponível na última tentativa" : state === "stale" ? "Verificação há mais de 24h" : "Ainda não verificado";
         return <li key={item.id} className="flex flex-col items-start justify-between gap-4 py-5 sm:flex-row sm:items-center">
+          <Checkbox aria-label={`Selecionar ${item.name}`} checked={selectedIds.includes(item.id)} onCheckedChange={checked => setSelected(previous => checked === true ? [...new Set([...previous, item.id])] : previous.filter(key => key !== item.id))} />
           <div className="min-w-0 flex-1"><Button asChild variant="link" className="h-auto max-w-full justify-start whitespace-normal px-0 text-left"><Link to="/site/$slug/$code" params={{ slug: demonstrationSlug(item.name), code: demonstrationCode(item.id) }}><ExternalLink className="shrink-0" /><span className="break-words">{item.name}</span></Link></Button>
             <p className="mt-1 break-all text-xs text-muted-foreground">{demonstrationLink(item.id, origin || "https://cacacliente.lovable.app", item.name).replace(/^https?:\/\//, "")}</p>
             <p role="status" className={`mt-1 flex items-start gap-2 text-xs ${state === "recent" ? "text-primary" : state === "failed" ? "text-destructive" : "text-muted-foreground"}`}><Icon className="size-4 shrink-0" />{label}</p>
@@ -114,9 +132,11 @@ function Demonstracoes() {
             {item.verification && <p className="mt-1 text-xs text-muted-foreground">Última tentativa: <time dateTime={item.verification.checkedAt}>{new Date(item.verification.checkedAt).toLocaleString("pt-BR")}</time></p>}
           </div><div className="flex flex-wrap gap-2"><Button type="button" variant="outline" size="sm" onClick={() => copySaved(item)} aria-label={`Copiar link de ${item.name}`}><Copy />Copiar</Button><Button type="button" variant="outline" size="sm" disabled={checking !== null} onClick={() => check(item)} aria-label={`Verificar link de ${item.name}`}>
             {checking === item.id ? <Loader2 className="animate-spin" /> : <RefreshCw />} {checking === item.id ? "Verificando…" : "Verificar link"}
-          </Button></div>
+          </Button><Button type="button" variant="ghost" size="icon" aria-label={`Excluir link de ${item.name}`} title={`Excluir link de ${item.name}`} onClick={() => setPendingDelete([item.id])}><Trash2 className="size-4 text-destructive" /></Button></div>
         </li>;
       })}</ul></section>}
+      {tab === "history" && history.length > 0 && <div className="flex flex-wrap items-center gap-3 border-y py-3"><label className="flex cursor-pointer items-center gap-2 text-sm"><Checkbox aria-label="Selecionar links exibidos" checked={history.every(item => selectedIds.includes(item.id)) ? true : history.some(item => selectedIds.includes(item.id)) ? "indeterminate" : false} onCheckedChange={checked => setSelected(previous => checked === true ? [...new Set([...previous, ...history.map(item => item.id)])] : previous.filter(key => !history.some(item => item.id === key)))} />Selecionar exibidos</label>{selectedIds.length > 0 && <><span className="text-sm text-muted-foreground">{selectedIds.length} selecionados</span><Button variant="destructive" size="sm" onClick={() => setPendingDelete(selectedIds)}><Trash2 />Excluir selecionados</Button><Button variant="ghost" size="sm" onClick={() => setSelected([])}>Cancelar seleção</Button></>}</div>}
+      <AlertDialog open={pendingDelete.length > 0} onOpenChange={open => { if (!open) setPendingDelete([]); }}><AlertDialogContent className="max-h-[85dvh] max-w-[calc(100%-2rem)] overflow-y-auto sm:max-w-lg"><AlertDialogHeader><AlertDialogTitle>Excluir {deleting.length === 1 ? `o link de ${deleting[0]?.name}` : `${deleting.length} links`}?</AlertDialogTitle><AlertDialogDescription>Os links serão removidos apenas da lista deste navegador. Os sites de demonstração continuarão abrindo para quem já recebeu o endereço. A remoção da lista não pode ser desfeita.</AlertDialogDescription></AlertDialogHeader><ul className="max-h-32 overflow-y-auto text-sm">{deleting.map(item => <li key={item.id} className="break-words py-1">{item.name}</li>)}</ul><AlertDialogFooter><AlertDialogCancel>Cancelar</AlertDialogCancel><Button variant="destructive" disabled={!deleting.length} onClick={confirmRemoval}><Trash2 />Confirmar exclusão</Button></AlertDialogFooter></AlertDialogContent></AlertDialog>
     </section>
   </main>;
 }

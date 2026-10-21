@@ -9,6 +9,11 @@ export const savedDemoSchema = z.object({
   id: z.string(), name: z.string(), verification: verificationSchema.optional(),
 });
 export type SavedDemo = z.infer<typeof savedDemoSchema>;
+/** Remove only selected entries from local history, preserving other links. */
+export function removeSavedDemos(saved: SavedDemo[], ids: string[]) {
+  const selected = new Set(ids);
+  return saved.filter(item => !selected.has(item.id));
+}
 export const RECENT_VERIFICATION_MS = 24 * 60 * 60 * 1000;
 
 export function verificationState(verification?: DemoVerification, now = Date.now()) {
