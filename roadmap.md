@@ -1,4 +1,5 @@
 # Tasks
+- [ ] Renew demonstration sites with three functional tabs, fuller sector content and contact actions; reorganize editor/preview/history and add named, backwards-compatible share links.
 - [x] Optimize /clientes with manual no-response markers, filters, selected deletion and confirmed cleanup; 34 tests passed and real manual creation, persistence, cancellation, deletion and mobile layout verified.
 - [x] Refresh /buscar visual presentation and social/search titles and descriptions; desktop/mobile controls and rendered metadata verified, 11 tests passed without Google requests.
 - [x] Improve search presentation, local result filters and editable message preview; 21 tests passed and desktop/mobile flows verified using loaded fixtures without extra Google requests.

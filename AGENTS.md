@@ -20,6 +20,8 @@
 - Google page tokens are opaque strings validated in the shared search schema and never truncated; rank and deduplicate loaded prospects using observable contact and reputation signals, never conversion probabilities.
 - Demonstrations are immutable public business-only records with no access to account-owned leads; browser-local history lists created links and typed public server reads load the share page.
 - Generate demonstration sharing URLs through the shared link helper using the active published domain outside localhost, so preview addresses and obsolete domains are never sent to clients.
+- Named demonstration URLs encode the complete UUID losslessly in a URL-safe code and include a cosmetic business slug; legacy /demo/:id links remain valid and both routes share the same exact-id query and activity read.
+- Demonstration sites expose three interactive views (home, sector catalog, contact); contact forms only prepare WhatsApp messages and never claim delivery, with illustrative content clearly identified.
 - Demonstration verification fetches the published share page with a bounded request; when the worker cannot reach its own domain it confirms the record the share page reads. Results live only in browser history and expire after 24h.
 - Website concepts use sector-matched illustrative assets and editable client details, never fabricated reviews, opening hours, certifications or services; drafts move from search through sessionStorage.
 - Client data lives only in this browser: the panel exports manual CSV/JSON downloads and restores backups by merge, keeping the newest stage date and never losing existing clients; exports are never auto-uploaded anywhere.
