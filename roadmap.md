@@ -1,4 +1,5 @@
 # Tasks
+- [ ] Optimize /clientes with manual no-response markers, filters, selected deletion and confirmed cleanup; verify saved data and mobile flow.
 - [x] Refresh /buscar visual presentation and social/search titles and descriptions; desktop/mobile controls and rendered metadata verified, 11 tests passed without Google requests.
 - [x] Improve search presentation, local result filters and editable message preview; 21 tests passed and desktop/mobile flows verified using loaded fixtures without extra Google requests.
 - [x] Test the CSV/backup export and restore plus the monthly goal in the running app (downloads verified, restore kept the client, goal persisted after reload).

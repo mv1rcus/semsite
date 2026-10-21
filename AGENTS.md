@@ -13,6 +13,7 @@
 - Result filtering and sorting run locally on loaded prospects; message previews reuse the saved welcome template, and only explicit contact confirmation changes the client's stage.
 - Contacted lead markers are stored only in browser localStorage; existing account-owned records remain private and are not exposed to anonymous visitors.
 - Client follow-up uses a shared browser-local store for stages, stage dates and next-contact reminders; reminders appear in the panel, never in public demonstration records.
+- No-response is a manually set client flag independent of stage history; confirmed client removal only changes the browser-local follow-up store, never public demonstrations or account-owned records.
 - The contact agenda derives priorities from due reminders and actual stages, offers editable stage-specific messages, and schedules through the shared follow-up store; copying or opening WhatsApp never changes stages or metrics.
 - Client charts aggregate unique clients per metric and period from persisted stage-event history; WhatsApp opens are not proof of sending, and legacy records contribute only their known current-stage date.
 - Entry and search share a static abstract SVG background using CSS semantic tokens; avoid WebGL and media downloads on these pages to keep prospecting lightweight.

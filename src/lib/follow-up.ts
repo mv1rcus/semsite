@@ -13,6 +13,7 @@ export const clientSchema = z.object({
   intlPhone: z.string().nullable(), category: z.string().nullable(), mapsUrl: z.string().nullable(),
   stage: z.enum(["new", "contacted", "demo_sent", "closed"]),
   stageDate: z.string(), nextContact: z.string(), createdAt: z.string(),
+  noResponse: z.boolean().default(false),
   events: z.array(z.object({ stage: z.enum(["new", "contacted", "demo_sent", "closed"]), date: z.string() })).default([]),
 });
 export type FollowUpClient = z.infer<typeof clientSchema>;
@@ -29,11 +30,12 @@ export function trackClient(clients: FollowUpClient[], lead: Lead, stage?: Stage
     category: lead.category, mapsUrl: lead.mapsUrl, stage: nextStage,
     stageDate: previous && previous.stage === nextStage ? previous.stageDate : now,
     nextContact: previous?.nextContact ?? "", createdAt: previous?.createdAt ?? now,
+    noResponse: previous?.noResponse ?? false,
     events: previous ? previous.stage === nextStage ? previous.events : [...previous.events, { stage: nextStage, date: now }] : [{ stage: nextStage, date: now }],
   };
   return previous ? clients.map((old) => old.id === lead.id ? client : old) : [client, ...clients];
 }
-export function updateClient(client: FollowUpClient, patch: Partial<Pick<FollowUpClient, "stage" | "stageDate" | "nextContact">>, now = new Date().toISOString()): FollowUpClient {
+export function updateClient(client: FollowUpClient, patch: Partial<Pick<FollowUpClient, "stage" | "stageDate" | "nextContact" | "noResponse">>, now = new Date().toISOString()): FollowUpClient {
   if (patch.stage && patch.stage !== client.stage) return { ...client, ...patch, stageDate: now, events: [...client.events, { stage: patch.stage, date: now }] };
   const events = [...client.events];
   if (patch.stageDate) {
@@ -45,6 +47,10 @@ export function updateClient(client: FollowUpClient, patch: Partial<Pick<FollowU
 }
 export function reminderDue(client: FollowUpClient, now = Date.now()) {
   return client.stage !== "closed" && !!client.nextContact && new Date(client.nextContact).getTime() <= now;
+}
+export function removeClients(clients: FollowUpClient[], ids: string[]) {
+  const selected = new Set(ids);
+  return clients.filter((client) => !selected.has(client.id));
 }
 export function localDateInput(value: string) {
   if (!value) return "";
