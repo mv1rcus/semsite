@@ -128,6 +128,17 @@
   --primary-foreground: oklch(0.98 0.006 190);
   --muted-foreground: oklch(0.48 0.025 200);
   --border: oklch(0.86 0.02 190);
+  --card: oklch(0.99 0.004 190);
+  --card-foreground: var(--foreground);
+  --muted: oklch(0.94 0.012 190);
+  --secondary: oklch(0.91 0.025 190);
+  --secondary-foreground: var(--foreground);
+  --accent: oklch(0.90 0.035 185);
+  --accent-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+  --input: var(--border);
+  --ring: var(--primary);
   background: var(--background); color: var(--foreground);
 }
 .demo-cover { color: var(--demo-cover-text); }

@@ -7,10 +7,28 @@ export const demoSchema = z.object({
   headline: z.string().trim().min(2).max(200), description: z.string().trim().min(2).max(1000),
 });
 export type Demonstration = z.infer<typeof demoSchema>;
-export function demonstrationLink(id: string, origin: string) {
+export function demonstrationSlug(name: string) {
+  return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 70).replace(/-$/g, "") || "meu-negocio";
+}
+export function demonstrationCode(id: string) {
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) throw new Error("Identificador inválido.");
+  const bytes = id.replace(/-/g, "").match(/.{2}/g) ?? [];
+  return btoa(bytes.map(byte => String.fromCharCode(parseInt(byte, 16))).join("")).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+export function demonstrationId(code: string): string | null {
+  if (!/^[A-Za-z0-9_-]{22}$/.test(code)) return null;
+  try {
+    const bytes = atob(code.replace(/-/g, "+").replace(/_/g, "/") + "==");
+    const hex = Array.from(bytes, byte => byte.charCodeAt(0).toString(16).padStart(2, "0")).join("");
+    const id = `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+    return demonstrationCode(id) === code ? id : null;
+  } catch { return null; }
+}
+export function demonstrationLink(id: string, origin: string, name?: string) {
   const url = new URL(origin);
   const local = url.hostname === "localhost" || url.hostname === "127.0.0.1";
-  return `${local ? url.origin : "https://cacacliente.lovable.app"}/demo/${encodeURIComponent(id)}`;
+  const path = name ? `/site/${demonstrationSlug(name)}/${demonstrationCode(id)}` : `/demo/${encodeURIComponent(id)}`;
+  return `${local ? url.origin : "https://cacacliente.lovable.app"}${path}`;
 }
 export function demoSector(category: string): Sector {
   const c = category.toLocaleLowerCase("pt-BR");

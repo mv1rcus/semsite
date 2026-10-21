@@ -16,6 +16,7 @@ import { Route as DemonstracoesRouteImport } from './routes/demonstracoes'
 import { Route as GraficosRouteImport } from './routes/graficos'
 import { Route as MensagemRouteImport } from './routes/mensagem'
 import { Route as DemoIdRouteImport } from './routes/demo.$id'
+import { Route as SiteSlugCodeRouteImport } from './routes/site.$slug.$code'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +53,11 @@ const DemoIdRoute = DemoIdRouteImport.update({
   path: '/demo/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SiteSlugCodeRoute = SiteSlugCodeRouteImport.update({
+  id: '/site/$slug/$code',
+  path: '/site/$slug/$code',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/graficos': typeof GraficosRoute
   '/mensagem': typeof MensagemRoute
   '/demo/$id': typeof DemoIdRoute
+  '/site/$slug/$code': typeof SiteSlugCodeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +77,7 @@ export interface FileRoutesByTo {
   '/graficos': typeof GraficosRoute
   '/mensagem': typeof MensagemRoute
   '/demo/$id': typeof DemoIdRoute
+  '/site/$slug/$code': typeof SiteSlugCodeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +88,7 @@ export interface FileRoutesById {
   '/graficos': typeof GraficosRoute
   '/mensagem': typeof MensagemRoute
   '/demo/$id': typeof DemoIdRoute
+  '/site/$slug/$code': typeof SiteSlugCodeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +100,7 @@ export interface FileRouteTypes {
     | '/graficos'
     | '/mensagem'
     | '/demo/$id'
+    | '/site/$slug/$code'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/graficos'
     | '/mensagem'
     | '/demo/$id'
+    | '/site/$slug/$code'
   id:
     | '__root__'
     | '/'
@@ -109,6 +120,7 @@ export interface FileRouteTypes {
     | '/graficos'
     | '/mensagem'
     | '/demo/$id'
+    | '/site/$slug/$code'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,6 +131,7 @@ export interface RootRouteChildren {
   GraficosRoute: typeof GraficosRoute
   MensagemRoute: typeof MensagemRoute
   DemoIdRoute: typeof DemoIdRoute
+  SiteSlugCodeRoute: typeof SiteSlugCodeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -172,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/site/$slug/$code': {
+      id: '/site/$slug/$code'
+      path: '/site/$slug/$code'
+      fullPath: '/site/$slug/$code'
+      preLoaderRoute: typeof SiteSlugCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -183,6 +203,7 @@ const rootRouteChildren: RootRouteChildren = {
   GraficosRoute: GraficosRoute,
   MensagemRoute: MensagemRoute,
   DemoIdRoute: DemoIdRoute,
+  SiteSlugCodeRoute: SiteSlugCodeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

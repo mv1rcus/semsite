@@ -1,8 +1,7 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { getDemonstration } from "@/lib/demonstrations.functions";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { demoQuery } from "@/lib/demo-query";
 import { DemoSite } from "@/components/DemoSite";
-const demoQuery = (id: string) => queryOptions({ queryKey: ["demonstration", id], queryFn: () => getDemonstration({ data: { id } }) });
 export const Route = createFileRoute("/demo/$id")({
   loader: async ({ params, context }) => { if (!/^[0-9a-f-]{36}$/i.test(params.id)) throw notFound(); const demo = await context.queryClient.ensureQueryData(demoQuery(params.id)); if (!demo) throw notFound(); return demo; },
   head: ({ loaderData }) => ({ meta: [{ title: `${loaderData?.name || "Site"} — Demonstração por Marcus` }, { name: "description", content: loaderData?.description || "Proposta visual de site para um negócio local." }, { property: "og:title", content: `${loaderData?.name || "Site"} — Demonstração` }, { property: "og:description", content: loaderData?.description || "Proposta visual de site preparada por Marcus." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
