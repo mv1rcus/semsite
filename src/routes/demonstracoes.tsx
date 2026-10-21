@@ -71,7 +71,7 @@ function Demonstracoes() {
     finally { setLoading(false); }
   }
   async function copy() { try { await navigator.clipboard.writeText(link); setNotice("Link copiado!"); } catch { setNotice("Selecione o link abaixo e copie para enviar."); } }
-  return <main className="min-h-screen px-4 py-8 sm:px-8"><OceanScene /><header className="mx-auto flex max-w-6xl items-center justify-between gap-4"><Link to="/" className="font-display font-bold text-primary">Caça Clientes</Link><span className="text-sm text-muted-foreground">Estúdio de demonstrações</span></header><ProspectTabs active="demos" />
+  return <main className="min-h-screen px-4 py-8 sm:px-8"><OceanScene /><ProspectTabs active="demos" />
     <section className="mx-auto mt-8 max-w-6xl"><h1 className="text-3xl font-bold">Uma ideia de site para seu cliente</h1>
       <div className="mt-6 grid items-start gap-8 lg:grid-cols-[320px_minmax(0,1fr)]"><form onSubmit={(e) => { e.preventDefault(); save(); }} className="space-y-4">
         {([{ key: "name", label: "Nome do cliente", max: 160 }, { key: "category", label: "Segmento", max: 120 }, { key: "address", label: "Endereço", max: 400 }, { key: "phone", label: "Telefone", max: 40 }, { key: "headline", label: "Chamada", max: 200 }] as const).map((field) => <label key={field.key} className="block text-sm"><span className="mb-2 block">{field.label}</span><Input aria-label={field.label} value={demo[field.key]} maxLength={field.max} disabled={loading} onChange={(e) => edit(field.key, e.target.value)} /></label>)}
