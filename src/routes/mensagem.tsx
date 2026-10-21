@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Check, RotateCcw, Save } from "lucide-react";
-import { toast } from "sonner";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { OceanScene } from "@/components/OceanScene";
 import { Button } from "@/components/ui/button";
@@ -17,10 +16,11 @@ export const Route = createFileRoute("/mensagem")({
 function Mensagem() {
   const [settings, setSettings] = useState<MessageSettings>(DEFAULT_SETTINGS);
   useEffect(() => setSettings(loadMessageSettings()), []);
+  const [status, setStatus] = useState("");
   const preview = fillTemplate(settings.template, "Pizzaria Bella Vista", settings.senderName);
   function save() {
-    if (!settings.template.trim()) return toast.error("Escreva uma mensagem antes de salvar.");
-    saveMessageSettings(settings); toast.success("Mensagem salva! Ela já vale para os próximos contatos.");
+    if (!settings.template.trim()) return setStatus("Escreva uma mensagem antes de salvar.");
+    saveMessageSettings(settings); setStatus("Mensagem salva! Ela já vale para os próximos contatos.");
   }
   return <main className="relative min-h-screen px-4 pb-16">
     <OceanScene />
@@ -37,6 +37,7 @@ function Mensagem() {
           <Textarea rows={10} value={settings.template} onChange={(e) => setSettings({ ...settings, template: e.target.value })} />
           <span className="block text-xs text-muted-foreground">Use {"{seu_nome}"} para o seu nome e {"{empresa}"} para o nome do negócio.</span></label>
         <div className="flex flex-wrap gap-2"><Button type="button" onClick={save}><Save />Salvar mensagem</Button><Button type="button" variant="ghost" onClick={() => setSettings({ ...settings, template: DEFAULT_SETTINGS.template })}><RotateCcw />Voltar ao padrão</Button></div>
+        {status && <p role="status" className="text-sm text-primary">{status}</p>}
       </div>
       <div className="glass rounded-xl p-5"><p className="text-sm font-semibold">Prévia (exemplo: Pizzaria Bella Vista)</p>
         <div className="mt-3 whitespace-pre-wrap rounded-lg border bg-card p-4 text-sm leading-relaxed">{preview}</div></div>
