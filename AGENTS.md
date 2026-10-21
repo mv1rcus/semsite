@@ -26,5 +26,6 @@
 - Demonstration sites expose three interactive views (home, sector catalog, contact); contact forms only prepare WhatsApp messages and never claim delivery, with illustrative content clearly identified.
 - Demonstration verification fetches the published share page with a bounded request; when the worker cannot reach its own domain it confirms the record the share page reads. Results live only in browser history and expire after 24h.
 - Website concepts use sector-matched illustrative assets and editable client details, never fabricated reviews, opening hours, certifications or services; drafts move from search through sessionStorage.
+- Demonstration image overrides live in a browser-safe category photo resolver, independent of catalog and draft rules, so more specific photos also apply to previously shared sites without changing stored records.
 - Client data lives only in this browser: the panel exports manual CSV/JSON downloads and restores backups by merge, keeping the newest stage date and never losing existing clients; exports are never auto-uploaded anywhere.
 - Each share-page view stamps the demonstration's last-opened time server-side; the browser list removes (but never deletes from the database) demos nobody opened in 24h, falling back to creation time, and tells the user which were removed.
