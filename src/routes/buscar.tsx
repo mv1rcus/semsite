@@ -47,7 +47,8 @@ function Buscar() {
   const [retryToken, setRetryToken] = useState<string | null>(null);
   const [contacted, setContacted] = useState<Set<string>>(new Set());
   const [searched, setSearched] = useState(false);
-  const [activeQuery, setActiveQuery] = useState<{ category: string; city: string } | null>(null);
+  const [activeQuery, setActiveQuery] = useState<Query | null>(null);
+  const [recent, setRecent] = useState<Query[]>([]);
   const busy = useRef(false);
   const queryChanged = activeQuery && (activeQuery.category !== category.trim() || activeQuery.city !== city.trim());
   const ranked = useMemo(() => rankProspects(leads).sort((a, b) => Number(contacted.has(a.id)) - Number(contacted.has(b.id))), [leads, contacted]);
@@ -59,12 +60,17 @@ function Buscar() {
       const stored: unknown = JSON.parse(localStorage.getItem("contacted-leads") ?? "[]");
       if (Array.isArray(stored)) setContacted(new Set(stored.filter((id): id is string => typeof id === "string")));
     } catch { /* Keep the search usable if browser storage is unavailable. */ }
+    try {
+      const stored: unknown = JSON.parse(localStorage.getItem(RECENT_KEY) ?? "[]");
+      if (Array.isArray(stored)) setRecent(stored.filter((r): r is Query => typeof r?.category === "string" && typeof r?.city === "string").slice(0, 5));
+    } catch { /* Recent searches are optional. */ }
   }, []);
 
-  async function run(pageToken?: string) {
+  async function run(pageToken?: string, preset?: Query) {
     if (busy.current) return;
-    if (category.trim().length < 2 || city.trim().length < 2) { setError("Informe um tipo de negócio e uma cidade com pelo menos 2 caracteres."); return; }
-    const query = pageToken ? activeQuery : { category: category.trim(), city: city.trim() };
+    const typed = preset ?? { category: category.trim(), city: city.trim() };
+    if (!pageToken && (typed.category.length < 2 || typed.city.length < 2)) { setError("Informe um tipo de negócio e uma cidade com pelo menos 2 caracteres."); return; }
+    const query = pageToken ? activeQuery : typed;
     if (!query) return;
     busy.current = true;
     setLoading(true);
@@ -78,6 +84,12 @@ function Buscar() {
       setNext(r.nextPageToken);
       setActiveQuery(query);
       setSearched(true);
+      if (!pageToken) {
+        const key = (q: Query) => `${q.category.toLowerCase()}|${q.city.toLowerCase()}`;
+        const updated = [query, ...recent.filter((q) => key(q) !== key(query))].slice(0, 5);
+        setRecent(updated);
+        try { localStorage.setItem(RECENT_KEY, JSON.stringify(updated)); } catch { /* Optional. */ }
+      }
     } catch (e) {
       setRetryToken(pageToken ?? null);
       setError(clientSearchError(e));
