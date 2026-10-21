@@ -1,8 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
-import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
-import type { Database } from "@/integrations/supabase/types";
-import { demonstrationLink } from "./demonstrations";
+import { demonstrationLink, demoSchema } from "./demonstrations";
 import { demonstrationPageIsAvailable, type DemoVerification } from "./demo-verification";
 
 export const verifyDemonstrationLink = createServerFn({ method: "POST" })
@@ -19,19 +17,21 @@ export const verifyDemonstrationLink = createServerFn({ method: "POST" })
     return { status, checkedAt: new Date().toISOString() };
   });
 
+// The table has no public policies: rows are only reachable by exact id (never listed) through these functions.
 export const getDemonstration = createServerFn({ method: "GET" })
   .inputValidator((input) => z.object({ id: z.string().uuid() }).parse(input))
   .handler(async ({ data }) => {
-    const url = process.env["SUPABASE_URL"];
-    const key = process.env["SUPABASE_PUBLISHABLE_KEY"];
-    if (!url || !key) throw new Error("Demonstrações indisponíveis no momento.");
-    const client = createClient<Database>(url, key, { auth: { persistSession: false, autoRefreshToken: false }, global: { fetch: (input, init) => {
-      const headers = new Headers(init?.headers);
-      if (key.startsWith("sb_") && headers.get("Authorization") === `Bearer ${key}`) headers.delete("Authorization");
-      headers.set("apikey", key);
-      return fetch(input, { ...init, headers });
-    } } });
-    const { data: demo, error } = await client.from("site_demonstrations").select("id,name,category,address,phone,headline,description").eq("id", data.id).maybeSingle();
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: demo, error } = await supabaseAdmin.from("site_demonstrations").select("id,name,category,address,phone,headline,description").eq("id", data.id).maybeSingle();
     if (error) throw new Error("Não foi possível abrir esta demonstração.");
     return demo;
+  });
+
+export const createDemonstration = createServerFn({ method: "POST" })
+  .inputValidator((input) => demoSchema.parse(input))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: row, error } = await supabaseAdmin.from("site_demonstrations").insert(data).select("id,name").single();
+    if (error || !row) throw new Error("Não foi possível salvar a demonstração.");
+    return row;
   });

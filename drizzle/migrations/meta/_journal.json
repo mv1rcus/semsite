@@ -15,6 +15,13 @@
       "when": 1792539355099,
       "tag": "0001_create_site_demonstrations",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792547782599,
+      "tag": "0002_lock_site_demonstrations",
+      "breakpoints": true
     }
   ]
 }

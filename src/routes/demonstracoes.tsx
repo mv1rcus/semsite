@@ -2,9 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Copy, ExternalLink, Loader2, MessageCircle, PanelsTopLeft, CircleCheck, CircleAlert, Clock, RefreshCw } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
-import { verifyDemonstrationLink } from "@/lib/demonstrations.functions";
+import { createDemonstration, verifyDemonstrationLink } from "@/lib/demonstrations.functions";
 import { savedDemoSchema, verificationState, type SavedDemo } from "@/lib/demo-verification";
-import { supabase } from "@/integrations/supabase/client";
 import { demoSchema, draftForClient, demonstrationLink, type Demonstration } from "@/lib/demonstrations";
 import { DemoSite } from "@/components/DemoSite";
 import { ProspectTabs } from "@/components/ProspectTabs";
@@ -61,8 +60,7 @@ function Demonstracoes() {
     if (!parsed.success) { setNotice("Preencha o nome, o segmento, a chamada e a descrição antes de criar o link."); return; }
     setLoading(true); setNotice("");
     try {
-      const { data, error } = await supabase.from("site_demonstrations").insert(parsed.data).select("id,name").single();
-      if (error || !data) throw new Error("Não foi possível salvar a demonstração. Tente novamente.");
+      const data = await createDemonstration({ data: parsed.data });
       setId(data.id);
       const updated = [data, ...saved].slice(0, 30); setSaved(updated);
       try { localStorage.setItem("site-demo-links", JSON.stringify(updated)); } catch { /* Link remains available. */ }
