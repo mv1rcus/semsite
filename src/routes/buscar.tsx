@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX } from "lucide-react";
+import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX, Store, X, History } from "lucide-react";
 import { searchLeads, type Lead } from "@/lib/leads.functions";
 import { clientSearchError } from "@/lib/search-errors";
 import { whatsappLink } from "@/lib/message";
@@ -31,6 +31,8 @@ export const Route = createFileRoute("/buscar")({
   component: Buscar,
 });
 
+type Query = { category: string; city: string };
+const RECENT_KEY = "recent-searches-v1";
 const SUGGESTIONS = ["Barbearia", "Salão de beleza", "Pet shop", "Oficina mecânica", "Restaurante", "Academia", "Dentista", "Padaria"];
 
 function Buscar() {
@@ -47,7 +49,8 @@ function Buscar() {
   const [retryToken, setRetryToken] = useState<string | null>(null);
   const [contacted, setContacted] = useState<Set<string>>(new Set());
   const [searched, setSearched] = useState(false);
-  const [activeQuery, setActiveQuery] = useState<{ category: string; city: string } | null>(null);
+  const [activeQuery, setActiveQuery] = useState<Query | null>(null);
+  const [recent, setRecent] = useState<Query[]>([]);
   const busy = useRef(false);
   const queryChanged = activeQuery && (activeQuery.category !== category.trim() || activeQuery.city !== city.trim());
   const ranked = useMemo(() => rankProspects(leads).sort((a, b) => Number(contacted.has(a.id)) - Number(contacted.has(b.id))), [leads, contacted]);
@@ -59,12 +62,17 @@ function Buscar() {
       const stored: unknown = JSON.parse(localStorage.getItem("contacted-leads") ?? "[]");
       if (Array.isArray(stored)) setContacted(new Set(stored.filter((id): id is string => typeof id === "string")));
     } catch { /* Keep the search usable if browser storage is unavailable. */ }
+    try {
+      const stored: unknown = JSON.parse(localStorage.getItem(RECENT_KEY) ?? "[]");
+      if (Array.isArray(stored)) setRecent(stored.filter((r): r is Query => typeof r?.category === "string" && typeof r?.city === "string").slice(0, 5));
+    } catch { /* Recent searches are optional. */ }
   }, []);
 
-  async function run(pageToken?: string) {
+  async function run(pageToken?: string, preset?: Query) {
     if (busy.current) return;
-    if (category.trim().length < 2 || city.trim().length < 2) { setError("Informe um tipo de negócio e uma cidade com pelo menos 2 caracteres."); return; }
-    const query = pageToken ? activeQuery : { category: category.trim(), city: city.trim() };
+    const typed = preset ?? { category: category.trim(), city: city.trim() };
+    if (!pageToken && (typed.category.length < 2 || typed.city.length < 2)) { setError("Informe um tipo de negócio e uma cidade com pelo menos 2 caracteres."); return; }
+    const query = pageToken ? activeQuery : typed;
     if (!query) return;
     busy.current = true;
     setLoading(true);
@@ -78,6 +86,12 @@ function Buscar() {
       setNext(r.nextPageToken);
       setActiveQuery(query);
       setSearched(true);
+      if (!pageToken) {
+        const key = (q: Query) => `${q.category.toLowerCase()}|${q.city.toLowerCase()}`;
+        const updated = [query, ...recent.filter((q) => key(q) !== key(query))].slice(0, 5);
+        setRecent(updated);
+        try { localStorage.setItem(RECENT_KEY, JSON.stringify(updated)); } catch { /* Optional. */ }
+      }
     } catch (e) {
       setRetryToken(pageToken ?? null);
       setError(clientSearchError(e));
@@ -111,23 +125,52 @@ function Buscar() {
           <Letters3D text="não tem site?" className="text-gradient" />
         </h1>
 
-        <form onSubmit={(e) => { e.preventDefault(); run(); }} className="mt-8 grid gap-3">
-          <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
-            <Input aria-label="Tipo de negócio" required minLength={2} maxLength={80} disabled={loading} placeholder="Tipo de negócio (ex: barbearia)" value={category} onChange={(e) => setCategory(e.target.value)} />
-            <Button type="submit" disabled={loading}>
-              {loading ? <Loader2 className="size-4 animate-spin" /> : <Search className="size-4" />} Buscar
-            </Button>
+        <form onSubmit={(e) => { e.preventDefault(); run(); }} className="glass mt-8 grid gap-5 rounded-2xl p-4 sm:p-6">
+          <div className="grid gap-2">
+            <label htmlFor="busca-negocio" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">1 · O que você quer caçar?</label>
+            <div className="relative">
+              <Store className="pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2 text-primary" />
+              <Input id="busca-negocio" aria-label="Tipo de negócio" required minLength={2} maxLength={80} disabled={loading} placeholder="Ex: barbearia, pet shop…" value={category} onChange={(e) => setCategory(e.target.value)} className="h-12 pl-10 pr-10 text-base" />
+              {category && !loading && (
+                <button type="button" aria-label="Limpar tipo de negócio" onClick={() => setCategory("")} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1.5 text-muted-foreground hover:bg-secondary hover:text-foreground"><X className="size-4" /></button>
+              )}
+            </div>
+            <div className="city-scroller -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap">
+              {SUGGESTIONS.map((s) => {
+                const on = category.trim().toLowerCase() === s.toLowerCase();
+                return (
+                  <Button key={s} type="button" disabled={loading} variant={on ? "default" : "outline"} size="sm" aria-pressed={on} className="shrink-0 rounded-full" onClick={() => setCategory(s)}>
+                    {on && <Check className="size-3.5" />}{s}
+                  </Button>
+                );
+              })}
+            </div>
           </div>
-          <CityPicker value={city} disabled={loading} onChange={setCity} />
+
+          <div className="grid gap-2">
+            <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">2 · Em qual cidade?</label>
+            <CityPicker value={city} disabled={loading} onChange={setCity} />
+          </div>
+
+          <Button type="submit" size="lg" disabled={loading} className="h-14 text-base font-bold shadow-[var(--shadow-glow)]">
+            {loading ? <Loader2 className="size-5 animate-spin" /> : <Search className="size-5" />}
+            <span className="truncate">{loading ? "Caçando clientes…" : category.trim() && city.trim() ? `Caçar ${category.trim().toLowerCase()} em ${city.split(",")[0]}` : "Caçar clientes"}</span>
+          </Button>
+
+          {recent.length > 0 && (
+            <div className="grid gap-2 border-t border-border pt-4">
+              <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-muted-foreground"><History className="size-3.5" />Buscas recentes</p>
+              <div className="city-scroller -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap">
+                {recent.map((r) => (
+                  <Button key={`${r.category}|${r.city}`} type="button" variant="secondary" size="sm" disabled={loading} className="shrink-0 rounded-full" onClick={() => { setCategory(r.category); setCity(r.city); run(undefined, r); }}>
+                    {r.category} · {r.city.split(",")[0]}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          )}
         </form>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {SUGGESTIONS.map((s) => (
-            <Button key={s} disabled={loading} variant="outline" size="sm" onClick={() => setCategory(s)}>
-              {s}
-            </Button>
-          ))}
-        </div>
-        <p className="mt-5 text-sm text-muted-foreground">Prioridade para negócios sem site informado no Google, com telefone e boa reputação. Fechamento não é garantido.</p>
+        <p className="mt-4 text-sm text-muted-foreground">Mostramos só negócios sem site no Google, priorizando quem tem telefone e boa reputação. Fechamento não é garantido.</p>
 
         {error && (
           <div role="alert" className="mt-6 flex flex-col gap-3 rounded-lg border border-destructive/50 bg-destructive/10 p-4 sm:flex-row sm:items-center sm:justify-between">

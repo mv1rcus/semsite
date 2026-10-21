@@ -37,8 +37,10 @@ export function CityPicker({ value, onChange, disabled }: CityPickerProps) {
       }}
       onKeyDown={(event) => { if (event.key === "Escape") setOpen(false); }}
     >
+      <MapPin className="pointer-events-none absolute left-3 top-6 z-[1] size-5 -translate-y-1/2 text-primary" />
       <Input
         aria-label="Cidade"
+        className="h-12 pl-10 text-base"
         required
         minLength={2}
         maxLength={80}
