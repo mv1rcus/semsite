@@ -1,4 +1,6 @@
 # Tasks
+- [ ] Diagnose and fix demonstration links that recipients cannot open; verify a saved link without a session.
+- [ ] Enable paid access only after payment confirmation and pricing details from Marcus.
 - [x] Add daily, monthly and yearly client activity charts with preserved contact and closing history.
 - [x] Test period totals, history persistence and the charts in the running app.
 - [x] Add browser-local client stages, dates and next-contact reminders with a management panel.
