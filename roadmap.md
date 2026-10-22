@@ -1,4 +1,5 @@
 # Tasks
+- [ ] Add public business analysis with validated establishment data, AI website opportunities and an editable personalized sales approach; verify real generation and tests.
 - [x] Add selectable bar, line and pie charts without changing metrics; improve welcome-message editing, seven suggestions and editable-business preview. 29 tests passed; real client creation/stages read back in all charts, chart preference persisted, message save/reload/discard/copy and mobile layouts verified without runtime errors.
 - [x] Add confirmed individual and selected removal from demonstration link history; 10 tests passed, real creation, cancellation, selected deletion, reload persistence and preserved shared page verified; mobile has no overflow.
 - [x] Renew demonstration sites with three functional tabs, fuller sector content and contact actions; reorganize editor/preview/history and add named, backwards-compatible share links. 17 tests passed; real creation/readback, old/new links, WhatsApp preparation, access history and mobile layouts verified; temporary record removed.
