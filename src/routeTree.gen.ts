@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AnaliseRouteImport } from './routes/analise'
 import { Route as BuscarRouteImport } from './routes/buscar'
 import { Route as ClientesRouteImport } from './routes/clientes'
 import { Route as DemonstracoesRouteImport } from './routes/demonstracoes'
@@ -21,6 +22,11 @@ import { Route as SiteSlugCodeRouteImport } from './routes/site.$slug.$code'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnaliseRoute = AnaliseRouteImport.update({
+  id: '/analise',
+  path: '/analise',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BuscarRoute = BuscarRouteImport.update({
@@ -61,6 +67,7 @@ const SiteSlugCodeRoute = SiteSlugCodeRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/analise': typeof AnaliseRoute
   '/buscar': typeof BuscarRoute
   '/clientes': typeof ClientesRoute
   '/demonstracoes': typeof DemonstracoesRoute
@@ -71,6 +78,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/analise': typeof AnaliseRoute
   '/buscar': typeof BuscarRoute
   '/clientes': typeof ClientesRoute
   '/demonstracoes': typeof DemonstracoesRoute
@@ -82,6 +90,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/analise': typeof AnaliseRoute
   '/buscar': typeof BuscarRoute
   '/clientes': typeof ClientesRoute
   '/demonstracoes': typeof DemonstracoesRoute
@@ -94,6 +103,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/analise'
     | '/buscar'
     | '/clientes'
     | '/demonstracoes'
@@ -104,6 +114,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/analise'
     | '/buscar'
     | '/clientes'
     | '/demonstracoes'
@@ -114,6 +125,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/analise'
     | '/buscar'
     | '/clientes'
     | '/demonstracoes'
@@ -125,6 +137,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnaliseRoute: typeof AnaliseRoute
   BuscarRoute: typeof BuscarRoute
   ClientesRoute: typeof ClientesRoute
   DemonstracoesRoute: typeof DemonstracoesRoute
@@ -141,6 +154,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/analise': {
+      id: '/analise'
+      path: '/analise'
+      fullPath: '/analise'
+      preLoaderRoute: typeof AnaliseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/buscar': {
@@ -197,6 +217,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnaliseRoute: AnaliseRoute,
   BuscarRoute: BuscarRoute,
   ClientesRoute: ClientesRoute,
   DemonstracoesRoute: DemonstracoesRoute,
