@@ -18,9 +18,9 @@ export const analyzeBusiness = createServerFn({ method: "POST" })
           type: "object", additionalProperties: false,
           properties: {
             summary: { type: "string" },
-            opportunities: { type: "array", items: { type: "object", additionalProperties: false, properties: { title: { type: "string" }, benefit: { type: "string" }, basis: { type: "string" } }, required: ["title", "benefit", "basis"] } },
-            sections: { type: "array", items: { type: "string" } },
-            approach: { type: "string" }, questions: { type: "array", items: { type: "string" } }, opening: { type: "string" },
+            opportunities: { type: "array", minItems: 1, maxItems: 4, items: { type: "object", additionalProperties: false, properties: { title: { type: "string" }, benefit: { type: "string" }, basis: { type: "string" } }, required: ["title", "benefit", "basis"] } },
+            sections: { type: "array", minItems: 1, maxItems: 6, items: { type: "string" } },
+            approach: { type: "string" }, questions: { type: "array", minItems: 1, maxItems: 4, items: { type: "string" } }, opening: { type: "string" },
           }, required: ["summary", "opportunities", "sections", "approach", "questions", "opening"],
         } } },
       });
