@@ -10,7 +10,7 @@
 <!-- LOVABLE:END -->
 
 - Entry and search are public routes with no account requirement; the search server function is public to support account-free access.
-- Business analysis is a public, explicitly submitted server function using the AI Gateway SDK and validated structured output; it only analyzes supplied business data and never writes clients or stage metrics, to preserve account-free access and browser-local records.
+- Business analysis is paused at the owner's request: /analise renders only a notice and must never import the analysis server function, so opening it cannot use AI credit; the full studio lives in src/components/AnalysisStudio.tsx and is re-linked from ProspectTabs only when paid Pro access ships. The analysis server function still validates input and output with zod, analyses only supplied data and never writes clients or stage metrics.
 - Result filtering and sorting run locally on loaded prospects; message previews reuse the saved welcome template, and only explicit contact confirmation changes the client's stage.
 - Contacted lead markers are stored only in browser localStorage; existing account-owned records remain private and are not exposed to anonymous visitors.
 - Client follow-up uses a shared browser-local store for stages, stage dates and next-contact reminders; reminders appear in the panel, never in public demonstration records.
