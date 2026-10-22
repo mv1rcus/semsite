@@ -1,4 +1,5 @@
 # Tasks
+- [ ] Re-enable business analysis in the paid Pro version — tab hidden, /analise shows a paused notice, studio kept in src/components/AnalysisStudio.tsx. Blocked until Marcus sets Pro pricing and access rules.
 - [x] Add public business analysis with validated establishment data, AI website opportunities and an editable personalized sales approach; real pizzaria generation, personalized message, copy, WhatsApp and mobile verified; 12 tests passed.
 - [x] Add selectable bar, line and pie charts without changing metrics; improve welcome-message editing, seven suggestions and editable-business preview. 29 tests passed; real client creation/stages read back in all charts, chart preference persisted, message save/reload/discard/copy and mobile layouts verified without runtime errors.
 - [x] Add confirmed individual and selected removal from demonstration link history; 10 tests passed, real creation, cancellation, selected deletion, reload persistence and preserved shared page verified; mobile has no overflow.
