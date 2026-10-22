@@ -17,10 +17,10 @@ export const analyzeBusiness = createServerFn({ method: "POST" })
         text: { format: { type: "json_schema", name: "business_analysis", strict: true, schema: {
           type: "object", additionalProperties: false,
           properties: {
-            summary: { type: "string" },
-            opportunities: { type: "array", minItems: 1, maxItems: 4, items: { type: "object", additionalProperties: false, properties: { title: { type: "string" }, benefit: { type: "string" }, basis: { type: "string" } }, required: ["title", "benefit", "basis"] } },
-            sections: { type: "array", minItems: 1, maxItems: 6, items: { type: "string" } },
-            approach: { type: "string" }, questions: { type: "array", minItems: 1, maxItems: 4, items: { type: "string" } }, opening: { type: "string" },
+            summary: { type: "string", minLength: 1, maxLength: 1600 },
+            opportunities: { type: "array", minItems: 1, maxItems: 4, items: { type: "object", additionalProperties: false, properties: { title: { type: "string", minLength: 1, maxLength: 160 }, benefit: { type: "string", minLength: 1, maxLength: 700 }, basis: { type: "string", minLength: 1, maxLength: 500 } }, required: ["title", "benefit", "basis"] } },
+            sections: { type: "array", minItems: 1, maxItems: 6, items: { type: "string", minLength: 1, maxLength: 200 } },
+            approach: { type: "string", minLength: 1, maxLength: 1200 }, questions: { type: "array", minItems: 1, maxItems: 4, items: { type: "string", minLength: 1, maxLength: 300 } }, opening: { type: "string", minLength: 1, maxLength: 800 },
           }, required: ["summary", "opportunities", "sections", "approach", "questions", "opening"],
         } } },
       });
