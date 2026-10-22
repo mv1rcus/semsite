@@ -19,7 +19,7 @@ const allText = (a: ReturnType<typeof analyzeBusinessLocally>) =>
 describe("analyzeBusinessLocally", () => {
   it("gera análise completa sem site e sugere presença digital própria", () => {
     const result = analyzeBusinessLocally(base);
-    expect(result.opportunities[0].title).toBe("Presença digital própria");
+    expect(result.opportunities[0]?.title).toBe("Presença digital própria");
     expect(result.opportunities.length).toBeGreaterThanOrEqual(1);
     expect(result.opportunities.length).toBeLessThanOrEqual(4);
     expect(result.sections.length).toBeGreaterThanOrEqual(1);
@@ -29,7 +29,7 @@ describe("analyzeBusinessLocally", () => {
   it("não afirma ausência de site quando o status é desconhecido", () => {
     const result = analyzeBusinessLocally({ ...base, website: "unknown", services: "", social: "" });
     expect(allText(result)).not.toContain("o estabelecimento não possui site");
-    expect(result.opportunities[0].basis).toContain("não se sabe");
+    expect(result.opportunities[0]?.basis).toContain("não se sabe");
   });
 
   it("nunca inclui preço em nenhum campo", () => {
@@ -59,6 +59,6 @@ describe("analyzeBusinessLocally", () => {
     for (const opportunity of result.opportunities) {
       expect(opportunity.basis.length).toBeGreaterThan(0);
     }
-    expect(result.opportunities[0].title).toBe("Evolução do site atual");
+    expect(result.opportunities[0]?.title).toBe("Evolução do site atual");
   });
 });
