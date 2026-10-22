@@ -1,7 +1,11 @@
+// ============= Full file contents =============
+
 import { Link } from "@tanstack/react-router";
-import { Search, PanelsTopLeft, Users, ChartNoAxesCombined, MessageSquareText, Sparkles } from "lucide-react";
+import { Search, PanelsTopLeft, Users, ChartNoAxesCombined, MessageSquareText } from "lucide-react";
 import { Button } from "./ui/button";
 import logoMark from "@/assets/logo-mark.png";
+// "analysis" stays in the type so the paused studio (src/components/AnalysisStudio.tsx) still compiles;
+// the tab is intentionally not rendered until the paid Pro version.
 export function ProspectTabs({ active }: { active: "search" | "demos" | "clients" | "charts" | "message" | "analysis" }) {
   return <header className="mx-auto mt-6 max-w-6xl border-b pb-3">
     <Link to="/" aria-label="Início" className="mb-3 flex items-center gap-2">
@@ -14,7 +18,6 @@ export function ProspectTabs({ active }: { active: "search" | "demos" | "clients
       <Button asChild variant={active === "clients" ? "secondary" : "ghost"}><Link to="/clientes"><Users />Clientes</Link></Button>
       <Button asChild variant={active === "charts" ? "secondary" : "ghost"}><Link to="/graficos"><ChartNoAxesCombined />Gráficos</Link></Button>
       <Button asChild variant={active === "message" ? "secondary" : "ghost"}><Link to="/mensagem"><MessageSquareText />Mensagem</Link></Button>
-      <Button asChild variant={active === "analysis" ? "secondary" : "ghost"}><Link to="/analise"><Sparkles />Análise com IA</Link></Button>
     </nav>
   </header>;
 }
