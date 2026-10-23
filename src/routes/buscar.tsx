@@ -209,7 +209,7 @@ function Buscar() {
             <label htmlFor="busca-cidade" className="text-sm font-semibold">Em qual cidade?</label>
             <div className="relative">
               <MapPin className="pointer-events-none absolute left-3 top-1/2 size-5 -translate-y-1/2 text-primary" />
-              <Input id="busca-cidade" aria-label="Cidade" required minLength={2} maxLength={80} disabled={loading} placeholder="Digite a cidade, ex: Campinas, SP" value={city} onChange={(e) => setCity(e.target.value)} className="h-12 pl-10 text-base" />
+              <Input id="busca-cidade" aria-label="Cidade" required minLength={2} maxLength={80} disabled={loading} placeholder="Digite a cidade, ex: Holambra, SP" value={city} onChange={(e) => setCity(e.target.value)} className="h-12 pl-10 text-base" />
             </div>
           </div>
 
