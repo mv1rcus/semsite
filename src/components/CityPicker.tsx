@@ -45,7 +45,7 @@ export function CityPicker({ value, onChange, disabled }: CityPickerProps) {
         minLength={2}
         maxLength={80}
         disabled={disabled}
-        placeholder="Cidade (ex: Campinas, SP)"
+        placeholder="Cidade (ex: Holambra, SP)"
         value={value}
         autoComplete="off"
         onChange={(e) => { onChange(e.target.value); setOpen(true); }}
