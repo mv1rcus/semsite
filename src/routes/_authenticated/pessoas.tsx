@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { useEffect, useState } from "react";
 import { Search, MapPin, UserRound } from "lucide-react";
 import { ProspectTabs } from "@/components/ProspectTabs";
@@ -10,7 +11,7 @@ export const Route = createFileRoute("/_authenticated/pessoas")({
   component: Pessoas,
 });
 
-type P = { username: string; display_name: string; city: string; bio: string; avatar_url: string };
+type P = { username: string; display_name: string; city: string; bio: string; avatar_url: string; verified?: boolean };
 
 function Pessoas() {
   const [q, setQ] = useState("");
@@ -47,7 +48,7 @@ function Pessoas() {
                 ? <img src={p.avatar_url} alt="" width={56} height={56} referrerPolicy="no-referrer" className="size-14 shrink-0 rounded-full object-cover" />
                 : <div className="flex size-14 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary"><UserRound /></div>}
               <div className="min-w-0">
-                <p className="truncate font-semibold">{p.display_name || "Sem nome"}</p>
+                <p className="flex items-center gap-1 truncate font-semibold">{p.display_name || "Sem nome"}{p.verified && <VerifiedBadge size={16} />}</p>
                 <p className="text-sm text-primary">@{p.username}</p>
                 {p.city && <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground"><MapPin className="size-3.5" />{p.city}</p>}
                 {p.bio && <p className="mt-1 text-sm">{p.bio}</p>}

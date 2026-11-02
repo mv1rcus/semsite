@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, Heart, MapPin, UserPlus, UserCheck, UserRound } from "lucide-react";
 import { ProspectTabs } from "@/components/ProspectTabs";
@@ -11,7 +12,7 @@ export const Route = createFileRoute("/_authenticated/u/$username")({
   component: PublicProfile,
 });
 
-type Profile = { id: string; username: string; display_name: string; city: string; bio: string; avatar_url: string; followers: number; following: number; likes: number; i_follow: boolean; i_liked: boolean };
+type Profile = { id: string; username: string; display_name: string; city: string; bio: string; avatar_url: string; followers: number; following: number; likes: number; i_follow: boolean; i_liked: boolean; verified?: boolean };
 
 function PublicProfile() {
   const { username } = Route.useParams();
@@ -53,7 +54,7 @@ function PublicProfile() {
             {p.avatar_url
               ? <img src={p.avatar_url} alt="" width={112} height={112} referrerPolicy="no-referrer" className="mx-auto size-28 rounded-full object-cover" />
               : <div className="mx-auto flex size-28 items-center justify-center rounded-full bg-primary/10 text-primary"><UserRound className="size-10" /></div>}
-            <h1 className="mt-3 text-4xl">{p.display_name || "Sem nome"}</h1>
+            <h1 className="mt-3 flex items-center justify-center gap-2 text-4xl">{p.display_name || "Sem nome"}{p.verified && <VerifiedBadge size={26} />}</h1>
             <p className="text-primary">@{p.username}</p>
             {p.city && <p className="mt-1 flex items-center justify-center gap-1 text-sm text-muted-foreground"><MapPin className="size-3.5" />{p.city}</p>}
             {p.bio && <p className="mx-auto mt-3 max-w-md">{p.bio}</p>}
