@@ -1,9 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { Search, PanelsTopLeft, Users, ChartNoAxesCombined, MessageSquareText, Sparkles } from "lucide-react";
-import logoMark from "@/assets/logo-mark.png";
+import logoMark from "@/assets/semsite-mark.png";
 
 const TABS = [
-  { key: "search", to: "/buscar", label: "Caçar clientes", icon: Search },
+  { key: "search", to: "/buscar", label: "Buscar clientes", icon: Search },
   { key: "demos", to: "/demonstracoes", label: "Demonstrações", icon: PanelsTopLeft },
   { key: "clients", to: "/clientes", label: "Clientes", icon: Users },
   { key: "charts", to: "/graficos", label: "Gráficos", icon: ChartNoAxesCombined },
@@ -17,8 +17,8 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
   return (
     <header className="mx-auto mt-6 max-w-6xl">
       <Link to="/" aria-label="Início" className="flex w-fit items-center gap-2">
-        <img src={logoMark} alt="" width={412} height={420} loading="lazy" className="h-9 w-auto" />
-        <span className="font-display text-lg font-bold tracking-tight">Caça Clientes</span>
+        <img src={logoMark} alt="" width={420} height={420} loading="lazy" className="h-9 w-auto" />
+        <span className="font-display text-2xl tracking-wide">SemSite</span>
       </Link>
       <nav aria-label="Áreas" className="no-scrollbar -mx-1 mt-4 flex gap-2 overflow-x-auto px-1 pb-1">
         {TABS.map(({ key, to, label, icon: Icon }) => {

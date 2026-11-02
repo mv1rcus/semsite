@@ -20,7 +20,7 @@ export function ProspectMessage({ lead, close, markContacted }: { lead: Lead; cl
         {url && <Button asChild variant="whatsapp" disabled={!message.trim()}><a href={url} target="_blank" rel="noreferrer"><MessageCircle />Abrir WhatsApp</a></Button>}
       </div>
       <Button variant="secondary" onClick={() => { if (markContacted()) setNotice("Cliente marcado como contatado."); else setNotice("Não foi possível salvar o contato neste navegador."); }}><Check />Já enviei a mensagem</Button>
-      {notice && <p role="status" className="text-sm text-accent">{notice}</p>}
+      {notice && <p role="status" className="text-sm text-primary">{notice}</p>}
     </DialogContent>
   </Dialog>;
 }

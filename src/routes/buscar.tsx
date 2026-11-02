@@ -20,11 +20,11 @@ import { ClientStageSelect } from "@/components/ClientStageSelect";
 export const Route = createFileRoute("/buscar")({
   head: () => ({
     meta: [
-      { title: "Caça Clientes | Encontre empresas sem site na sua cidade" },
+      { title: "SemSite | Encontre empresas sem site na sua cidade" },
       { name: "description", content: "Encontre empresas sem site no Google Maps por cidade e segmento. Organize seus contatos, personalize mensagens e prepare demonstrações para suas propostas." },
-      { property: "og:title", content: "Caça Clientes — Seu próximo projeto começa aqui" },
+      { property: "og:title", content: "SemSite — Seu próximo projeto começa aqui" },
       { property: "og:description", content: "Negócios sem site, novas oportunidades. Busque por cidade e segmento, prepare sua mensagem e mostre uma ideia de site ao cliente." },
-      { name: "twitter:title", content: "Caça Clientes — Seu próximo projeto começa aqui" },
+      { name: "twitter:title", content: "SemSite — Seu próximo projeto começa aqui" },
       { name: "twitter:description", content: "Encontre empresas sem site por cidade e segmento. Prepare mensagens e demonstrações para apresentar seu trabalho." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -170,11 +170,11 @@ function Buscar() {
 
       <section className="mx-auto mt-7 max-w-6xl sm:mt-10">
         <div className="flex items-start justify-between gap-4">
-          <div><p className="mb-3 flex items-center gap-2 text-xs font-bold uppercase text-accent"><Radar className="size-4" />Radar de oportunidades</p>
+          <div><p className="mb-3 flex items-center gap-2 text-xs font-bold uppercase text-primary"><Radar className="size-4" />Radar de oportunidades</p>
             <h1 className="text-3xl font-extrabold leading-tight sm:text-5xl">Buscar <span className="text-primary">clientes.</span></h1>
             <p className="mt-3 text-sm text-muted-foreground sm:text-base">Seu próximo projeto começa com uma boa conversa.</p>
           </div>
-          <Radar aria-hidden="true" className="mt-2 hidden size-20 shrink-0 text-accent/40 sm:block" />
+          <Radar aria-hidden="true" className="mt-2 hidden size-20 shrink-0 text-primary/40 sm:block" />
         </div>
 
         <form onSubmit={(e) => { e.preventDefault(); run(); }} className="mt-6 grid gap-5 border-y py-6 sm:grid-cols-2 sm:gap-6">
@@ -190,7 +190,7 @@ function Buscar() {
             <div className="mt-2 grid grid-cols-4 gap-2 sm:grid-cols-8">
               {GROUPS.map((g) => { const Icon = GROUP_ICONS[g.label] ?? Store; return (
                 <Button key={g.label} type="button" disabled={loading} variant="outline" aria-pressed={group === g.label} onClick={() => setGroup(g.label)}
-                  className={`h-16 min-w-0 flex-col gap-2 px-1 text-[11px] sm:h-20 sm:text-xs ${group === g.label ? "border-accent bg-accent/10 text-accent" : "border-border text-muted-foreground"}`}><Icon className="size-5" />{g.label}</Button>
+                  className={`h-16 min-w-0 flex-col gap-2 px-1 text-[11px] sm:h-20 sm:text-xs ${group === g.label ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground"}`}><Icon className="size-5" />{g.label}</Button>
               ); })}
             </div>
             <div className="city-scroller -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap">
@@ -217,7 +217,7 @@ function Buscar() {
             <span className="text-sm font-semibold">Quantidade de clientes</span>
             <div className="flex flex-wrap gap-2">
               {[10, 20, 40, 60].map((n) => (
-                <Button key={n} type="button" disabled={loading} variant={target === n ? "secondary" : "outline"} aria-pressed={target === n} className={`h-12 min-w-14 flex-1 ${target === n ? "border border-accent text-accent" : ""}`} onClick={() => setTarget(n)}>{n}</Button>
+                <Button key={n} type="button" disabled={loading} variant={target === n ? "secondary" : "outline"} aria-pressed={target === n} className={`h-12 min-w-14 flex-1 ${target === n ? "border border-primary text-primary" : ""}`} onClick={() => setTarget(n)}>{n}</Button>
               ))}
             </div>
             <p className="text-xs text-muted-foreground">O Google mostra no máximo 60 locais por busca; cada página extra conta no seu limite do Google Maps.</p>
@@ -225,7 +225,7 @@ function Buscar() {
 
           <Button type="submit" size="lg" disabled={loading} className="h-14 min-w-0 px-4 text-base font-bold shadow-[var(--shadow-glow)] sm:col-span-2">
             {loading ? <Loader2 className="size-5 animate-spin" /> : <Search className="size-5" />}
-            <span className="min-w-0 whitespace-normal break-words">{loading ? "Caçando clientes…" : "Encontrar clientes sem site"}</span>
+            <span className="min-w-0 whitespace-normal break-words">{loading ? "Buscando clientes…" : "Encontrar clientes sem site"}</span>
             {!loading && <ArrowUpRight className="ml-auto" />}
           </Button>
 
@@ -272,7 +272,7 @@ function Buscar() {
 
         {leads.length > 0 && <section aria-label="Filtrar resultados" className="mt-6 border-y py-5">
           <div className="mb-5 grid grid-cols-3 divide-x border-b pb-5">
-            {[{ label: "Sem site", value: ranked.length }, { label: "Com telefone", value: reachableCount }, { label: "Prioridade alta", value: priorityCount }].map((metric) => <div key={metric.label} className="px-2 first:pl-0 sm:px-5"><p className="font-display text-3xl font-bold text-accent">{metric.value}</p><p className="mt-1 text-xs text-muted-foreground">{metric.label}</p></div>)}
+            {[{ label: "Sem site", value: ranked.length }, { label: "Com telefone", value: reachableCount }, { label: "Prioridade alta", value: priorityCount }].map((metric) => <div key={metric.label} className="px-2 first:pl-0 sm:px-5"><p className="font-display text-3xl font-bold text-primary">{metric.value}</p><p className="mt-1 text-xs text-muted-foreground">{metric.label}</p></div>)}
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <SlidersHorizontal className="mr-1 size-4 text-muted-foreground" />
@@ -294,14 +294,14 @@ function Buscar() {
             return (
               <article
                 key={l.id}
-                className="glass flex min-w-0 flex-col rounded-lg p-5 transition-colors hover:border-accent/50"
+                className="glass flex min-w-0 flex-col rounded-lg p-5 transition-colors hover:border-primary/50"
               >
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="min-w-0 break-words text-lg font-bold">{l.name}</h3>
-                  {done && <span className="flex shrink-0 items-center gap-1 rounded-sm bg-secondary px-2 py-0.5 text-xs text-accent"><Check className="size-3" />Contatado</span>}
+                  {done && <span className="flex shrink-0 items-center gap-1 rounded-sm bg-secondary px-2 py-0.5 text-xs text-primary"><Check className="size-3" />Contatado</span>}
                 </div>
                 {l.category && <p className="text-xs uppercase tracking-wide text-primary">{l.category}</p>}
-                {priority.score >= 65 && <p className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-accent"><Radar className="size-3.5" />Prioridade alta</p>}
+                {priority.score >= 65 && <p className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-primary"><Radar className="size-3.5" />Prioridade alta</p>}
                 {priority.reasons.length > 0 && <p className="mt-1 text-xs text-muted-foreground">{priority.reasons.join(" · ")}</p>}
                 <p className="mt-2 flex gap-1.5 break-words text-sm text-muted-foreground"><MapPin className="mt-0.5 size-4 shrink-0" />{l.address}</p>
                 {l.phone && <p className="mt-1 flex gap-1.5 text-sm text-muted-foreground"><Phone className="mt-0.5 size-4 shrink-0" />{l.phone}</p>}

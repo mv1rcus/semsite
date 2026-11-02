@@ -17,7 +17,7 @@ import { ContactAgenda } from "@/components/ContactAgenda";
 import { backupFileName, clientsToCsv, downloadText, makeBackup, parseBackup } from "@/lib/backup";
 
 export const Route = createFileRoute("/clientes")({
-  head: () => ({ meta: [{ title: "Painel de clientes — Caça Clientes" }, { name: "description", content: "Acompanhe clientes, etapas de negociação e lembretes de próximo contato." }, { property: "og:title", content: "Painel de clientes — Caça Clientes" }, { property: "og:description", content: "Organize contatos, demonstrações enviadas e negócios fechados." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
+  head: () => ({ meta: [{ title: "Painel de clientes — SemSite" }, { name: "description", content: "Acompanhe clientes, etapas de negociação e lembretes de próximo contato." }, { property: "og:title", content: "Painel de clientes — SemSite" }, { property: "og:description", content: "Organize contatos, demonstrações enviadas e negócios fechados." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: Clientes,
 });
 function Clientes() {
@@ -50,12 +50,12 @@ function Clientes() {
   return <main className="min-h-screen px-4 py-8 sm:px-8"><OceanScene /><ProspectTabs active="clients" />
     <section className="mx-auto mt-8 max-w-6xl"><div className="flex flex-wrap items-center justify-between gap-4"><div><h1 className="text-3xl font-bold">Seus clientes.</h1><p className="mt-2 text-sm text-muted-foreground">Contatos, próximos passos e negócios fechados.</p></div><Button onClick={() => setAdding(!adding)} variant="outline"><Plus />Adicionar cliente</Button></div>
       <div className="mt-7 grid grid-cols-2 gap-x-5 gap-y-6 border-y py-5 sm:grid-cols-4">
-        {[{ label: "Total de clientes", count: clients.length, icon: Users }, { label: "Contato pendente", count: due.length, icon: Bell }, { label: "Sem resposta", count: unanswered.length, icon: MessageCircleOff }, { label: "Fechados", count: clients.filter(c => c.stage === "closed").length, icon: Trophy }].map(item => <div key={item.label}><item.icon className="mb-2 size-4 text-accent" /><p className="text-2xl font-bold">{item.count}</p><p className="mt-1 text-xs text-muted-foreground">{item.label}</p></div>)}
+        {[{ label: "Total de clientes", count: clients.length, icon: Users }, { label: "Contato pendente", count: due.length, icon: Bell }, { label: "Sem resposta", count: unanswered.length, icon: MessageCircleOff }, { label: "Fechados", count: clients.filter(c => c.stage === "closed").length, icon: Trophy }].map(item => <div key={item.label}><item.icon className="mb-2 size-4 text-primary" /><p className="text-2xl font-bold">{item.count}</p><p className="mt-1 text-xs text-muted-foreground">{item.label}</p></div>)}
       </div>
       {adding && <form className="mt-6 grid gap-3 border-y py-5 sm:grid-cols-[1fr_1fr_auto]" onSubmit={(event) => { event.preventDefault(); if (!name.trim()) return; if (track({ id: crypto.randomUUID(), name: name.trim(), phone: phone.trim() || null, intlPhone: null, address: "", category: null, rating: null, reviews: null, mapsUrl: null })) { setName(""); setPhone(""); setAdding(false); } }}><Input aria-label="Nome do cliente" placeholder="Nome do cliente" required maxLength={160} value={name} onChange={(e) => setName(e.target.value)} /><Input aria-label="Telefone do cliente" placeholder="Telefone com DDD" maxLength={40} value={phone} onChange={(e) => setPhone(e.target.value)} /><Button type="submit"><Check />Salvar cliente</Button></form>}
       {storageError && <p role="alert" className="mt-4 text-destructive">{storageError}</p>}
       {importError && <p role="alert" className="mt-4 text-destructive">{importError}</p>}
-      {notice && <p role="status" className="mt-4 text-accent">{notice}</p>}
+      {notice && <p role="status" className="mt-4 text-primary">{notice}</p>}
       <details className="mt-5 border-b pb-4"><summary className="cursor-pointer text-sm text-muted-foreground">Cópia de segurança</summary>
       <div className="mt-4 flex flex-wrap gap-2" aria-label="Cópia de segurança">
         <Button variant="outline" disabled={!clients.length} onClick={() => downloadText(backupFileName("csv"), `\ufeff${clientsToCsv(clients)}`, "text/csv;charset=utf-8")}><Download />Exportar planilha</Button>
@@ -67,7 +67,7 @@ function Clientes() {
           if (!file) return;
           try {
             const imported = parseBackup(await file.text());
-            if (!imported) { setImportError("Este arquivo não é um backup válido do Caça Clientes."); return; }
+            if (!imported) { setImportError("Este arquivo não é um backup válido do SemSite."); return; }
             setImportError("");
             if (restore(imported)) setNotice("Backup restaurado.");
           } catch { setImportError("Não foi possível abrir o arquivo. Tente selecionar o backup novamente."); }
