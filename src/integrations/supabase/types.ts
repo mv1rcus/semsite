@@ -53,6 +53,7 @@ export type Database = {
           id: string
           phone: string
           updated_at: string
+          username: string | null
         }
         Insert: {
           avatar_url?: string
@@ -62,6 +63,7 @@ export type Database = {
           id: string
           phone?: string
           updated_at?: string
+          username?: string | null
         }
         Update: {
           avatar_url?: string
@@ -71,6 +73,7 @@ export type Database = {
           id?: string
           phone?: string
           updated_at?: string
+          username?: string | null
         }
         Relationships: []
       }
@@ -115,7 +118,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      search_profiles: {
+        Args: { q: string }
+        Returns: {
+          avatar_url: string
+          bio: string
+          city: string
+          display_name: string
+          username: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

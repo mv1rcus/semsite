@@ -14,8 +14,8 @@ export const Route = createFileRoute("/_authenticated/perfil")({
   component: Perfil,
 });
 
-type Form = { display_name: string; phone: string; city: string; bio: string; avatar_url: string };
-const EMPTY: Form = { display_name: "", phone: "", city: "", bio: "", avatar_url: "" };
+type Form = { username: string; display_name: string; phone: string; city: string; bio: string; avatar_url: string };
+const EMPTY: Form = { username: "", display_name: "", phone: "", city: "", bio: "", avatar_url: "" };
 
 function Perfil() {
   const [form, setForm] = useState<Form>(EMPTY);
@@ -23,6 +23,7 @@ function Perfil() {
   const [userId, setUserId] = useState("");
   const [useInMessages, setUseInMessages] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState("");
   const [status, setStatus] = useState<"" | "saving" | "saved" | "error">("");
 
   useEffect(() => {
@@ -30,9 +31,9 @@ function Perfil() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
       setUserId(user.id); setEmail(user.email ?? "");
-      const { data } = await supabase.from("profiles").select("display_name, phone, city, bio, avatar_url").eq("id", user.id).maybeSingle();
+      const { data } = await supabase.from("profiles").select("username, display_name, phone, city, bio, avatar_url").eq("id", user.id).maybeSingle();
       const meta = user.user_metadata ?? {};
-      setForm(data ?? { ...EMPTY, display_name: String(meta["full_name"] ?? meta["name"] ?? ""), avatar_url: String(meta["avatar_url"] ?? "") });
+      setForm(data ? { ...data, username: data.username ?? "" } : { ...EMPTY, display_name: String(meta["full_name"] ?? meta["name"] ?? ""), avatar_url: String(meta["avatar_url"] ?? "") });
       setLoading(false);
     })();
   }, []);
@@ -42,9 +43,11 @@ function Perfil() {
   async function save(e: React.FormEvent) {
     e.preventDefault();
     setStatus("saving");
-    const clean = { display_name: form.display_name.trim().slice(0, 60), phone: form.phone.trim().slice(0, 30), city: form.city.trim().slice(0, 80), bio: form.bio.trim().slice(0, 300) };
+    const username = form.username.trim().replace(/^@/, "").toLowerCase();
+    if (username && !/^[a-z0-9_.]{3,30}$/.test(username)) { setStatus("error"); setErr("O @ precisa ter 3 a 30 letras, números, ponto ou _ (sem espaço)."); return; }
+    const clean = { username: username || null, display_name: form.display_name.trim().slice(0, 60), phone: form.phone.trim().slice(0, 30), city: form.city.trim().slice(0, 80), bio: form.bio.trim().slice(0, 300) };
     const { error } = await supabase.from("profiles").upsert({ id: userId, ...clean, avatar_url: form.avatar_url, updated_at: new Date().toISOString() });
-    if (error) { setStatus("error"); return; }
+    if (error) { setStatus("error"); setErr(error.code === "23505" ? "Esse @ já está em uso. Escolha outro." : "Não foi possível salvar. Tente de novo."); return; }
     if (useInMessages && clean.display_name) saveMessageSettings({ ...loadMessageSettings(), senderName: clean.display_name });
     setStatus("saved");
   }
@@ -56,7 +59,7 @@ function Perfil() {
       <ProspectTabs active="profile" />
       <section className="mx-auto mt-8 max-w-2xl">
         <h1 className="text-5xl">Meu <span className="text-primary">perfil</span></h1>
-        <p className="mt-1 text-muted-foreground">Seus dados aparecem só pra você e podem ir nas suas mensagens.</p>
+        <p className="mt-1 text-muted-foreground">Seu @, nome, cidade, foto e "sobre você" aparecem pra quem te buscar. O WhatsApp fica só pra você.</p>
 
         <form onSubmit={save} className="glass mt-6 space-y-5 rounded-xl p-5 sm:p-7">
           <div className="flex items-center gap-4">
@@ -69,6 +72,8 @@ function Perfil() {
             </div>
           </div>
 
+          <label className="block space-y-1.5"><span className="text-sm font-semibold">Seu @ (pra outras pessoas te acharem)</span>
+            <Input disabled={loading} value={form.username} maxLength={31} autoCapitalize="none" onChange={e => update({ username: e.target.value.replace(/\s/g, "").toLowerCase() })} placeholder="@seunome" /></label>
           <label className="block space-y-1.5"><span className="text-sm font-semibold">Nome de usuário</span>
             <Input disabled={loading} value={form.display_name} maxLength={60} onChange={e => update({ display_name: e.target.value })} placeholder="Como você quer ser chamado" /></label>
           <div className="grid gap-5 sm:grid-cols-2">
@@ -84,7 +89,7 @@ function Perfil() {
           <Button type="submit" size="lg" disabled={loading || status === "saving"} className="w-full gap-2 font-bold">
             {status === "saved" ? <><Check />Perfil salvo</> : <><Save />{status === "saving" ? "Salvando…" : "Salvar perfil"}</>}
           </Button>
-          {status === "error" && <p role="alert" className="text-sm text-destructive">Não foi possível salvar. Tente de novo.</p>}
+          {status === "error" && <p role="alert" className="text-sm text-destructive">{err}</p>}
         </form>
       </section>
     </main>
