@@ -123,7 +123,7 @@ function Perfil() {
                 : <div className="flex size-24 items-center justify-center rounded-full bg-muted font-display text-4xl text-primary sm:size-32">{initials || <UserRound />}</div>}
             </div>
           </div>
-          <h1 className="mt-3 flex items-center gap-2 font-sans text-2xl font-extrabold">{saved.display_name || "Sem nome"}{stats.verified && <VerifiedBadge size={22} />}</h1>
+          <h1 className="mt-3 flex items-center gap-2 font-sans text-2xl font-extrabold">{saved.display_name || "Sem nome"}{stats.verified && <VerifiedBadge size={22} />}{savedUser === DEVELOPER_USERNAME && <DeveloperBadge size={20} />}</h1>
           <p className="text-muted-foreground">{savedUser ? `@${savedUser}` : "Escolha seu @ em Editar perfil"}</p>
           {saved.bio && <p className="mt-3 whitespace-pre-wrap">{saved.bio}</p>}
           {splitProfileLinks(saved.link_url).length > 0 && <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">{splitProfileLinks(saved.link_url).map(l => <a key={l} href={l} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-semibold text-link hover:underline"><Link2 className="size-4" />{profileLinkLabel(l)}</a>)}</div>}
