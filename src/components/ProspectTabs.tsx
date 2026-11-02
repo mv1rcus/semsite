@@ -2,7 +2,8 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { notificationsSeenAt } from "@/lib/social-unread";
 import { supabase } from "@/integrations/supabase/client";
-import { Search, PanelsTopLeft, Users, ChartNoAxesCombined, MessageSquareText, Sparkles, LogOut, UserRound, Newspaper, Bell, Send } from "lucide-react";
+import { Search, PanelsTopLeft, Users, ChartNoAxesCombined, MessageSquareText, Sparkles, LogOut, UserRound, Newspaper, Bell, Send, Menu, UserSearch } from "lucide-react";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import mascot from "@/assets/semsite-mascote-acenando.png";
 
 const TABS = [
@@ -38,39 +39,54 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
     await supabase.auth.signOut();
     navigate({ to: "/", replace: true });
   }
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    document.body.style.paddingBottom = "5rem";
+    return () => { document.body.style.paddingBottom = ""; };
+  }, []);
+  const toolActive = TABS.find(t => t.key === active);
+  const BOTTOM = [
+    { key: "search", to: "/buscar", label: "Buscar clientes", icon: Search, badge: 0 },
+    { key: "feed", to: "/feed", label: "Feed", icon: Newspaper, badge: 0 },
+    { key: "people", to: "/pessoas", label: "Pesquisar pessoas", icon: UserSearch, badge: 0 },
+    { key: "notifications", to: "/notificacoes", label: "Notificações", icon: Bell, badge: unread.n },
+    { key: "dm", to: "/mensagens", label: "Mensagens", icon: Send, badge: unread.dm },
+  ] as const;
+  const item = (isActive: boolean) => `flex w-full items-center gap-4 rounded-full px-4 py-3 text-lg ${isActive ? "font-bold text-primary" : "text-foreground hover:bg-muted"}`;
   return (
-    <header className="mx-auto mt-6 max-w-6xl">
-      <div className="flex items-center justify-between gap-3">
-      <Link to="/buscar" aria-label="Início" className="flex w-fit items-center gap-2.5">
-        <img src={mascot} alt="Mascote SemSite" width={1024} height={1024} loading="lazy" className="h-10 w-10 shrink-0 rounded-full bg-accent object-cover ring-1 ring-border" />
-        <span className="hidden font-display text-2xl tracking-wide sm:inline">SemSite</span>
-      </Link>
-      <div className="flex items-center gap-1.5 sm:gap-2">
-        <Link to="/notificacoes" aria-label="Notificações" title="Notificações" className={`relative ${active === "notifications" ? "tab-pill tab-pill-active" : "tab-pill"}`}><Bell size={16} />{dot(unread.n)}</Link>
-        <Link to="/mensagens" aria-label="Mensagens" title="Mensagens" className={`relative ${active === "dm" ? "tab-pill tab-pill-active" : "tab-pill"}`}><Send size={16} />{dot(unread.dm)}</Link>
-        <Link to="/feed" aria-label="Feed" title="Feed" className={active === "feed" ? "tab-pill tab-pill-active" : "tab-pill"}><Newspaper size={16} /></Link>
-        <Link to="/pessoas" aria-label="Pesquisar pessoas" title="Pesquisar pessoas" className={active === "people" ? "tab-pill tab-pill-active" : "tab-pill"}><Search size={16} /></Link>
-        <Link to="/perfil" aria-label="Meu perfil" title="Meu perfil" className={active === "profile" ? "tab-pill tab-pill-active" : "tab-pill"}><UserRound size={16} /></Link>
-        <button type="button" onClick={signOut} aria-label="Sair" title="Sair" className="tab-pill"><LogOut size={16} /></button>
+    <header className="mx-auto mt-4 max-w-6xl">
+      <div className="flex items-center justify-between gap-3 border-b border-border/50 pb-3">
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild>
+            <button type="button" aria-label="Abrir menu" className="flex items-center gap-2.5">
+              <img src={mascot} alt="Mascote SemSite" width={1024} height={1024} className="h-10 w-10 shrink-0 rounded-full bg-accent object-cover ring-1 ring-border" />
+              <Menu className="size-5 text-muted-foreground" />
+            </button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-72 overflow-y-auto p-4">
+            <SheetTitle className="mb-4 font-display text-3xl tracking-wide">Sem<span className="text-primary">Site</span></SheetTitle>
+            <nav className="flex flex-col gap-1" aria-label="Menu">
+              <Link to="/perfil" onClick={() => setOpen(false)} className={item(active === "profile")}><UserRound className="size-6" />Meu perfil</Link>
+              {TABS.map(({ key, to, label, icon: Icon }) => (
+                <Link key={key} to={to} onClick={() => setOpen(false)} aria-current={active === key ? "page" : undefined} className={item(active === key)}><Icon className="size-6" />{label}</Link>
+              ))}
+              <div className="my-2 border-t border-border" />
+              <button type="button" onClick={signOut} className={item(false)}><LogOut className="size-6" />Sair</button>
+            </nav>
+          </SheetContent>
+        </Sheet>
+        <span className="font-display text-2xl tracking-wide">{toolActive ? toolActive.label : "SemSite"}</span>
+        <Link to="/perfil" aria-label="Meu perfil" className={`flex size-10 items-center justify-center rounded-full ${active === "profile" ? "bg-primary text-primary-foreground" : "bg-muted"}`}><UserRound className="size-5" /></Link>
       </div>
-      </div>
-      <nav aria-label="Áreas" className="no-scrollbar -mx-1 mt-4 flex gap-2 overflow-x-auto px-1 pb-1">
-        {TABS.map(({ key, to, label, icon: Icon }) => {
-          const isActive = active === key;
-          return (
-            <Link
-              key={key}
-              to={to}
-              aria-current={isActive ? "page" : undefined}
-              className={isActive ? "tab-pill tab-pill-active" : "tab-pill"}
-            >
-              <Icon size={16} strokeWidth={isActive ? 2.4 : 2} />
-              {label}
+      <nav aria-label="Navegação" className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur">
+        <div className="mx-auto flex max-w-2xl items-center justify-around py-2">
+          {BOTTOM.map(({ key, to, label, icon: Icon, badge }) => (
+            <Link key={key} to={to} aria-label={label} title={label} className={`relative flex size-12 items-center justify-center rounded-full ${active === key ? "text-primary" : "text-muted-foreground"}`}>
+              <Icon className="size-6" strokeWidth={active === key ? 2.6 : 2} />{dot(badge)}
             </Link>
-          );
-        })}
+          ))}
+        </div>
       </nav>
-      <div className="mt-3 border-b border-border/50" />
     </header>
   );
 }
