@@ -11,7 +11,7 @@ import { VERIFIED_PLANS, type VerifiedPriceId } from "@/lib/verified-plans";
 import { useVerified } from "@/lib/use-verified";
 
 export const Route = createFileRoute("/_authenticated/verificado")({
-  validateSearch: (s: Record<string, unknown>): { pago?: string } => ({ pago: typeof s.pago === "string" ? s.pago : undefined }),
+  validateSearch: (s: Record<string, unknown>): { pago?: string | undefined } => ({ pago: typeof s['pago'] === "string" ? s['pago'] : undefined }),
   head: () => ({ meta: [{ title: "Obter verificado — SemSite" }, { name: "description", content: "Assine o Verificado do SemSite: selo no perfil, buscas sem limite, demonstrações, mensagem personalizada e análise." }, { property: "og:title", content: "Obter verificado — SemSite" }, { property: "og:description", content: "Selo verificado e acesso completo ao SemSite a partir de R$ 7,99 por mês." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
   component: Verificado,
 });
@@ -19,7 +19,7 @@ export const Route = createFileRoute("/_authenticated/verificado")({
 const PERKS = ["Selo verificado no perfil", "Buscas de clientes sem limite (grátis: 5 por dia)", "Criar sites de demonstração", "Personalizar a mensagem do WhatsApp", "Análise comercial"];
 
 function TestBanner() {
-  const t = import.meta.env.VITE_PAYMENTS_CLIENT_TOKEN as string | undefined;
+  const t = import.meta.env['VITE_PAYMENTS_CLIENT_TOKEN'] as string | undefined;
   if (!t) return <div className="rounded-xl border border-destructive/40 bg-destructive/10 p-3 text-center text-sm">Pagamentos ainda não ativados no site oficial.</div>;
   if (t.startsWith("pk_test_")) return <div className="rounded-xl border border-accent bg-accent/40 p-3 text-center text-sm">Modo de teste: nenhum pagamento é cobrado de verdade.</div>;
   return null;

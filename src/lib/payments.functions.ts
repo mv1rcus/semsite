@@ -5,7 +5,7 @@ import { VERIFIED_PRICE_IDS, type VerifiedPriceId } from "@/lib/verified-plans";
 
 type Stripe = ReturnType<typeof createStripeClient>;
 
-async function resolveOrCreateCustomer(stripe: Stripe, options: { email?: string; userId: string }): Promise<string> {
+async function resolveOrCreateCustomer(stripe: Stripe, options: { email?: string | undefined; userId: string }): Promise<string> {
   if (!/^[a-zA-Z0-9_-]+$/.test(options.userId)) throw new Error("Invalid userId");
   const found = await stripe.customers.search({ query: `metadata['userId']:'${options.userId}'`, limit: 1 });
   if (found.data[0]) return found.data[0].id;
@@ -13,7 +13,7 @@ async function resolveOrCreateCustomer(stripe: Stripe, options: { email?: string
     const existing = await stripe.customers.list({ email: options.email, limit: 1 });
     const customer = existing.data[0];
     if (customer) {
-      if (customer.metadata?.userId !== options.userId) {
+      if (customer.metadata?.['userId'] !== options.userId) {
         await stripe.customers.update(customer.id, { metadata: { ...customer.metadata, userId: options.userId } });
       }
       return customer.id;
