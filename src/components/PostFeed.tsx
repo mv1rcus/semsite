@@ -18,7 +18,7 @@ function ago(d: string) {
   return new Date(d).toLocaleDateString("pt-BR", { day: "numeric", month: "short" });
 }
 
-export function PostFeed({ onlyUser, canPost = true, followingOnly = false }: { onlyUser?: string; canPost?: boolean; followingOnly?: boolean }) {
+export function PostFeed({ onlyUser, canPost = true, followingOnly = false, composerOpen = true, onPosted }: { onlyUser?: string; canPost?: boolean; followingOnly?: boolean; composerOpen?: boolean; onPosted?: () => void }) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [me, setMe] = useState("");
   const [loading, setLoading] = useState(true);
@@ -69,7 +69,7 @@ export function PostFeed({ onlyUser, canPost = true, followingOnly = false }: { 
     }
     const { error: ins } = await supabase.from("posts").insert({ body: body.trim().slice(0, 2000), media_path, media_type });
     if (ins) setError("Não deu pra publicar. Tente de novo.");
-    else { setBody(""); setFile(null); setPreview(""); await load(); }
+    else { setBody(""); setFile(null); setPreview(""); await load(); onPosted?.(); }
     setSending(false);
   }
 
@@ -98,11 +98,11 @@ export function PostFeed({ onlyUser, canPost = true, followingOnly = false }: { 
 
   return (
     <div className="overflow-hidden rounded-2xl border border-border bg-card">
-      {canPost && (
+      {canPost && composerOpen && (
         <form id="compor" onSubmit={publish} className="flex gap-3 border-b border-border p-4">
           <Avatar src={myAvatar} />
           <div className="min-w-0 flex-1 space-y-3">
-          <Textarea value={body} maxLength={2000} rows={2} onChange={e => setBody(e.target.value)} placeholder="O que está acontecendo?" className="resize-none border-0 bg-transparent px-0 text-lg shadow-none focus-visible:ring-0" />
+          <Textarea value={body} maxLength={2000} rows={2} autoFocus={!!onPosted} onChange={e => setBody(e.target.value)} placeholder="O que está acontecendo?" className="resize-none border-0 bg-transparent px-0 text-lg shadow-none focus-visible:ring-0" />
           {preview && (
             <div className="relative">
               {file?.type.startsWith("video") ? <video src={preview} controls className="max-h-80 w-full rounded-lg" /> : <img src={preview} alt="" className="max-h-80 w-full rounded-lg object-cover" />}

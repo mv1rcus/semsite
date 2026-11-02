@@ -11,6 +11,7 @@ export const Route = createFileRoute("/_authenticated/feed")({
 
 function Feed() {
   const [tab, setTab] = useState<"all" | "following">("all");
+  const [compose, setCompose] = useState(false);
   return (
     <main className="relative min-h-screen px-4 pb-24">
       <ProspectTabs active="feed" />
@@ -23,11 +24,11 @@ function Feed() {
             </button>
           ))}
         </div>
-        <PostFeed key={tab} followingOnly={tab === "following"} />
+        <PostFeed key={tab} followingOnly={tab === "following"} composerOpen={compose} onPosted={() => setCompose(false)} />
       </section>
-      <button type="button" aria-label="Nova publicação" onClick={() => { const f = document.getElementById("compor"); f?.scrollIntoView({ behavior: "smooth", block: "center" }); f?.querySelector("textarea")?.focus(); }}
+      <button type="button" aria-label="Nova publicação" onClick={() => { setCompose(c => !c); window.scrollTo({ top: 0, behavior: "smooth" }); }}
         className="fixed bottom-6 right-6 flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg hover:scale-105">
-        <Plus className="size-7" />
+        <Plus className={`size-7 transition-transform ${compose ? "rotate-45" : ""}`} />
       </button>
     </main>
   );
