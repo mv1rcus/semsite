@@ -179,6 +179,21 @@ export function PostFeed({ onlyUser, tag, canPost = true, followingOnly = false,
             </div>
             {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
           </div>
+          {mention !== null && people.length > 0 && (
+            <ul onMouseDown={e => e.preventDefault()} className="absolute left-0 right-0 top-full z-30 mt-1 overflow-hidden rounded-xl border border-border bg-card shadow-xl">
+              {people.map(p => (
+                <li key={p.username}>
+                  <button type="button" onClick={() => pickMention(p.username)} className="flex w-full items-center gap-3 px-3 py-2 text-left transition hover:bg-muted">
+                    <Avatar src={p.avatar_url || null} size={32} />
+                    <span className="min-w-0">
+                      <span className="block truncate text-sm font-semibold">{p.display_name || "Sem nome"}</span>
+                      <span className="block truncate text-xs text-muted-foreground">@{p.username}</span>
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
         </form>
       )}
       {loading && <p className="p-4 text-sm text-muted-foreground">Carregando publicações…</p>}
