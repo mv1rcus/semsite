@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { demonstrationLink, demoSchema } from "./demonstrations";
 import { demonstrationPageIsAvailable, type DemoVerification } from "./demo-verification";
 
@@ -36,8 +37,11 @@ export const getDemonstration = createServerFn({ method: "GET" })
   });
 
 export const createDemonstration = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((input) => demoSchema.parse(input))
-  .handler(async ({ data }) => {
+  .handler(async ({ data, context }) => {
+    const { data: verified } = await context.supabase.rpc("am_i_verified");
+    if (!verified) throw new Error("Demonstrações são exclusivas para contas verificadas.");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: row, error } = await supabaseAdmin.from("site_demonstrations").insert(data).select("id,name").single();
     if (error || !row) throw new Error("Não foi possível salvar a demonstração.");
