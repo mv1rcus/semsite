@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { notificationsSeenAt } from "@/lib/social-unread";
 import { supabase } from "@/integrations/supabase/client";
 import { Search, PanelsTopLeft, Users, ChartNoAxesCombined, MessageSquareText, Sparkles, LogOut, UserRound, Newspaper, Bell, Send } from "lucide-react";
-import logoMark from "@/assets/semsite-mark.png";
+import mascot from "@/assets/semsite-mascote-acenando.png";
 
 const TABS = [
   { key: "search", to: "/buscar", label: "Buscar clientes", icon: Search },
@@ -41,8 +41,8 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
   return (
     <header className="mx-auto mt-6 max-w-6xl">
       <div className="flex items-center justify-between gap-3">
-      <Link to="/buscar" aria-label="Início" className="flex w-fit items-center gap-2">
-        <img src={logoMark} alt="" width={420} height={420} loading="lazy" className="h-9 w-auto" />
+      <Link to="/buscar" aria-label="Início" className="flex w-fit items-center gap-2.5">
+        <img src={mascot} alt="Mascote SemSite" width={1024} height={1024} loading="lazy" className="h-10 w-10 shrink-0 rounded-full bg-accent object-cover ring-1 ring-border" />
         <span className="hidden font-display text-2xl tracking-wide sm:inline">SemSite</span>
       </Link>
       <div className="flex items-center gap-1.5 sm:gap-2">
