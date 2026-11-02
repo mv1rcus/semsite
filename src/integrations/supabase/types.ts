@@ -460,6 +460,7 @@ export type Database = {
           city: string
           display_name: string
           followers: number
+          id: string
           username: string
           verified: boolean
         }[]
