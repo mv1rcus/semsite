@@ -19,8 +19,8 @@ export const Route = createFileRoute("/_authenticated/perfil")({
   component: Perfil,
 });
 
-type Form = { username: string; display_name: string; phone: string; city: string; bio: string; avatar_url: string };
-const EMPTY: Form = { username: "", display_name: "", phone: "", city: "", bio: "", avatar_url: "" };
+type Form = { username: string; display_name: string; phone: string; city: string; bio: string; avatar_url: string; banner_url: string };
+const EMPTY: Form = { username: "", display_name: "", phone: "", city: "", bio: "", avatar_url: "", banner_url: "" };
 
 function Perfil() {
   const [form, setForm] = useState<Form>(EMPTY);
@@ -43,7 +43,7 @@ function Perfil() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
       setUserId(user.id); setEmail(user.email ?? ""); setJoined(user.created_at);
-      const { data } = await supabase.from("profiles").select("username, display_name, phone, city, bio, avatar_url").eq("id", user.id).maybeSingle();
+      const { data } = await supabase.from("profiles").select("username, display_name, phone, city, bio, avatar_url, banner_url").eq("id", user.id).maybeSingle();
       const meta = user.user_metadata ?? {};
       setForm(data ? { ...data, username: data.username ?? "" } : { ...EMPTY, display_name: String(meta["full_name"] ?? meta["name"] ?? ""), avatar_url: String(meta["avatar_url"] ?? "") });
       setSavedUser(data?.username ?? "");
@@ -61,6 +61,16 @@ function Perfil() {
     update({ avatar_url: c.toDataURL("image/jpeg", 0.82) });
   }
 
+  async function pickBanner(file?: File) {
+    if (!file || !file.type.startsWith("image/")) return;
+    const img = new Image(); img.src = URL.createObjectURL(file); await img.decode();
+    const w = 900, h = 300, c = document.createElement("canvas"); c.width = w; c.height = h;
+    const scale = Math.max(w / img.width, h / img.height);
+    const sw = w / scale, sh = h / scale;
+    c.getContext("2d")!.drawImage(img, (img.width - sw) / 2, (img.height - sh) / 2, sw, sh, 0, 0, w, h);
+    update({ banner_url: c.toDataURL("image/jpeg", 0.8) });
+  }
+
   function update(patch: Partial<Form>) { setForm(f => ({ ...f, ...patch })); setStatus(""); }
 
   async function save(e: React.FormEvent) {
@@ -69,7 +79,7 @@ function Perfil() {
     const username = form.username.trim().replace(/^@/, "").toLowerCase();
     if (username && !/^[a-z0-9_.]{3,30}$/.test(username)) { setStatus("error"); setErr("O @ precisa ter 3 a 30 letras, números, ponto ou _ (sem espaço)."); return; }
     const clean = { username: username || null, display_name: form.display_name.trim().slice(0, 60), phone: form.phone.trim().slice(0, 30), city: form.city.trim().slice(0, 80), bio: form.bio.trim().slice(0, 300) };
-    const { error } = await supabase.from("profiles").upsert({ id: userId, ...clean, avatar_url: form.avatar_url, updated_at: new Date().toISOString() });
+    const { error } = await supabase.from("profiles").upsert({ id: userId, ...clean, avatar_url: form.avatar_url, banner_url: form.banner_url, updated_at: new Date().toISOString() });
     if (error) { setStatus("error"); setErr(error.code === "23505" ? "Esse @ já está em uso. Escolha outro." : "Não foi possível salvar. Tente de novo."); return; }
     if (useInMessages && clean.display_name) saveMessageSettings({ ...loadMessageSettings(), senderName: clean.display_name });
     setSavedUser(clean.username ?? "");
@@ -97,7 +107,9 @@ function Perfil() {
     <main className="relative min-h-screen px-4 pb-16">
       <ProspectTabs active="profile" />
       <section className="mx-auto mt-6 max-w-2xl overflow-hidden rounded-2xl border border-border bg-card">
-        <div className="h-32 bg-gradient-to-br from-primary via-primary/80 to-accent sm:h-44" />
+        <div className="h-32 bg-gradient-to-br from-primary via-primary/80 to-accent sm:h-44">
+          {saved.banner_url && <img src={saved.banner_url} alt="" referrerPolicy="no-referrer" className="size-full object-cover" />}
+        </div>
         <div className="px-4 pb-4 sm:px-6">
           <div className="flex items-end justify-between">
             <div className="-mt-12 rounded-full border-4 border-card bg-card sm:-mt-16">
@@ -137,7 +149,18 @@ function Perfil() {
           <DialogHeader><DialogTitle>Editar perfil</DialogTitle></DialogHeader>
           <p className="text-xs text-muted-foreground">O WhatsApp fica só pra você.</p>
           <form onSubmit={save} className="space-y-5">
-          <div className="flex items-center gap-4">
+           <div>
+             <span className="mb-1.5 block text-sm font-semibold">Foto de capa</span>
+             <label className="relative block cursor-pointer overflow-hidden rounded-xl border border-border bg-gradient-to-br from-primary via-primary/80 to-accent" title="Trocar foto de capa">
+               <input type="file" accept="image/*" className="sr-only" onChange={e => pickBanner(e.target.files?.[0])} />
+               {form.banner_url
+                 ? <img src={form.banner_url} alt="" className="h-24 w-full object-cover" />
+                 : <div className="flex h-24 w-full items-center justify-center text-primary-foreground"><Camera className="size-6" /></div>}
+               <span className="absolute bottom-2 right-2 rounded-full bg-foreground/60 px-2.5 py-1 text-xs font-semibold text-background backdrop-blur">{form.banner_url ? "Trocar capa" : "Adicionar capa"}</span>
+             </label>
+             {form.banner_url && <button type="button" onClick={() => update({ banner_url: "" })} className="mt-1 text-xs text-muted-foreground hover:text-destructive">Remover capa</button>}
+           </div>
+           <div className="flex items-center gap-4">
             <label className="relative cursor-pointer" title="Trocar foto">
             <input type="file" accept="image/*" className="sr-only" onChange={e => pickPhoto(e.target.files?.[0])} />
             <span className="absolute -bottom-1 -right-1 rounded-full bg-primary p-1.5 text-primary-foreground"><Camera className="size-3.5" /></span>
