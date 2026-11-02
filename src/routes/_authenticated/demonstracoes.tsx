@@ -1,3 +1,4 @@
+import { VerifiedGate } from "@/components/VerifiedGate";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Copy, ExternalLink, Loader2, MessageCircle, PanelsTopLeft, CircleCheck, CircleAlert, Clock, RefreshCw, Eye, Search, ArrowRight, Plus, Trash2 } from "lucide-react";
@@ -16,7 +17,7 @@ import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, A
 import { OceanScene } from "@/components/OceanScene";
 export const Route = createFileRoute("/_authenticated/demonstracoes")({
   head: () => ({ meta: [{ title: "Criar demonstração — SemSite" }, { name: "description", content: "Prepare uma proposta visual de site personalizada para seu cliente." }, { property: "og:title", content: "Demonstrações de sites — SemSite" }, { property: "og:description", content: "Crie uma demonstração relacionada ao negócio do cliente e compartilhe o link." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
-  component: Demonstracoes,
+  component: () => <VerifiedGate feature="Demonstrações"><Demonstracoes /></VerifiedGate>,
 });
 const blank = draftForClient({ id: "", name: "", category: "Serviços locais", address: "", phone: null, intlPhone: null, rating: null, reviews: null, mapsUrl: null });
 function Demonstracoes() {
