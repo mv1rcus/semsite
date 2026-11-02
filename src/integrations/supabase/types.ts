@@ -62,6 +62,56 @@ export type Database = {
         }
         Relationships: []
       }
+      post_likes: {
+        Row: {
+          post_id: string
+          user_id: string
+        }
+        Insert: {
+          post_id: string
+          user_id?: string
+        }
+        Update: {
+          post_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "post_likes_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      posts: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          media_path: string | null
+          media_type: string | null
+          user_id: string
+        }
+        Insert: {
+          body?: string
+          created_at?: string
+          id?: string
+          media_path?: string | null
+          media_type?: string | null
+          user_id?: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          media_path?: string | null
+          media_type?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profile_likes: {
         Row: {
           created_at: string
@@ -154,6 +204,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      feed_posts: {
+        Args: { only_user?: string }
+        Returns: {
+          avatar_url: string
+          body: string
+          created_at: string
+          display_name: string
+          i_liked: boolean
+          id: string
+          likes: number
+          media_path: string
+          media_type: string
+          user_id: string
+          username: string
+        }[]
+      }
       get_public_profile: {
         Args: { uname: string }
         Returns: {
