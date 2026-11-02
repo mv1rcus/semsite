@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { DEFAULT_SETTINGS, MESSAGE_SUGGESTIONS, fillTemplate, loadMessageSettings, saveMessageSettings, type MessageSettings } from "@/lib/message";
 
 export const Route = createFileRoute("/mensagem")({
-  head: () => ({ meta: [{ title: "Mensagem de boas-vindas — Caça Clientes" }, { name: "description", content: "Personalize a primeira mensagem de WhatsApp enviada aos negócios sem site." }, { property: "og:title", content: "Mensagem de boas-vindas — Caça Clientes" }, { property: "og:description", content: "Escolha uma sugestão ou escreva sua própria mensagem de WhatsApp." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
+  head: () => ({ meta: [{ title: "Mensagem de boas-vindas — SemSite" }, { name: "description", content: "Personalize a primeira mensagem de WhatsApp enviada aos negócios sem site." }, { property: "og:title", content: "Mensagem de boas-vindas — SemSite" }, { property: "og:description", content: "Escolha uma sugestão ou escreva sua própria mensagem de WhatsApp." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: Mensagem,
 });
 

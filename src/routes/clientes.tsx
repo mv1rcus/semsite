@@ -17,7 +17,7 @@ import { ContactAgenda } from "@/components/ContactAgenda";
 import { backupFileName, clientsToCsv, downloadText, makeBackup, parseBackup } from "@/lib/backup";
 
 export const Route = createFileRoute("/clientes")({
-  head: () => ({ meta: [{ title: "Painel de clientes — Caça Clientes" }, { name: "description", content: "Acompanhe clientes, etapas de negociação e lembretes de próximo contato." }, { property: "og:title", content: "Painel de clientes — Caça Clientes" }, { property: "og:description", content: "Organize contatos, demonstrações enviadas e negócios fechados." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
+  head: () => ({ meta: [{ title: "Painel de clientes — SemSite" }, { name: "description", content: "Acompanhe clientes, etapas de negociação e lembretes de próximo contato." }, { property: "og:title", content: "Painel de clientes — SemSite" }, { property: "og:description", content: "Organize contatos, demonstrações enviadas e negócios fechados." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: Clientes,
 });
 function Clientes() {
@@ -67,7 +67,7 @@ function Clientes() {
           if (!file) return;
           try {
             const imported = parseBackup(await file.text());
-            if (!imported) { setImportError("Este arquivo não é um backup válido do Caça Clientes."); return; }
+            if (!imported) { setImportError("Este arquivo não é um backup válido do SemSite."); return; }
             setImportError("");
             if (restore(imported)) setNotice("Backup restaurado.");
           } catch { setImportError("Não foi possível abrir o arquivo. Tente selecionar o backup novamente."); }

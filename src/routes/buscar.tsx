@@ -20,11 +20,11 @@ import { ClientStageSelect } from "@/components/ClientStageSelect";
 export const Route = createFileRoute("/buscar")({
   head: () => ({
     meta: [
-      { title: "Caça Clientes | Encontre empresas sem site na sua cidade" },
+      { title: "SemSite | Encontre empresas sem site na sua cidade" },
       { name: "description", content: "Encontre empresas sem site no Google Maps por cidade e segmento. Organize seus contatos, personalize mensagens e prepare demonstrações para suas propostas." },
-      { property: "og:title", content: "Caça Clientes — Seu próximo projeto começa aqui" },
+      { property: "og:title", content: "SemSite — Seu próximo projeto começa aqui" },
       { property: "og:description", content: "Negócios sem site, novas oportunidades. Busque por cidade e segmento, prepare sua mensagem e mostre uma ideia de site ao cliente." },
-      { name: "twitter:title", content: "Caça Clientes — Seu próximo projeto começa aqui" },
+      { name: "twitter:title", content: "SemSite — Seu próximo projeto começa aqui" },
       { name: "twitter:description", content: "Encontre empresas sem site por cidade e segmento. Prepare mensagens e demonstrações para apresentar seu trabalho." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -225,7 +225,7 @@ function Buscar() {
 
           <Button type="submit" size="lg" disabled={loading} className="h-14 min-w-0 px-4 text-base font-bold shadow-[var(--shadow-glow)] sm:col-span-2">
             {loading ? <Loader2 className="size-5 animate-spin" /> : <Search className="size-5" />}
-            <span className="min-w-0 whitespace-normal break-words">{loading ? "Caçando clientes…" : "Encontrar clientes sem site"}</span>
+            <span className="min-w-0 whitespace-normal break-words">{loading ? "Buscando clientes…" : "Encontrar clientes sem site"}</span>
             {!loading && <ArrowUpRight className="ml-auto" />}
           </Button>
 

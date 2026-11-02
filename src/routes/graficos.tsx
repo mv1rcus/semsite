@@ -11,7 +11,7 @@ import { reportRange, reportSeries, uniqueClientTotals, type ReportPeriod } from
 import { GOAL_KEY, goalProgress, parseGoal } from "@/lib/sales-goal";
 
 export const Route = createFileRoute("/graficos")({
-  head: () => ({ meta: [{ title: "Gráficos de clientes — Caça Clientes" }, { name: "description", content: "Veja mensagens registradas, demonstrações enviadas e clientes fechados por dia, mês e ano." }, { property: "og:title", content: "Gráficos de clientes — Caça Clientes" }, { property: "og:description", content: "Acompanhe seus resultados de prospecção por período." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
+  head: () => ({ meta: [{ title: "Gráficos de clientes — SemSite" }, { name: "description", content: "Veja mensagens registradas, demonstrações enviadas e clientes fechados por dia, mês e ano." }, { property: "og:title", content: "Gráficos de clientes — SemSite" }, { property: "og:description", content: "Acompanhe seus resultados de prospecção por período." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: Graficos,
 });
 function Graficos() {
