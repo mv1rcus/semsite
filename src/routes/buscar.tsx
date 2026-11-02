@@ -190,7 +190,7 @@ function Buscar() {
             <div className="mt-2 grid grid-cols-4 gap-2 sm:grid-cols-8">
               {GROUPS.map((g) => { const Icon = GROUP_ICONS[g.label] ?? Store; return (
                 <Button key={g.label} type="button" disabled={loading} variant="outline" aria-pressed={group === g.label} onClick={() => setGroup(g.label)}
-                  className={`h-16 min-w-0 flex-col gap-2 px-1 text-[11px] sm:h-20 sm:text-xs ${group === g.label ? "border-accent bg-accent/10 text-primary" : "border-border text-muted-foreground"}`}><Icon className="size-5" />{g.label}</Button>
+                  className={`h-16 min-w-0 flex-col gap-2 px-1 text-[11px] sm:h-20 sm:text-xs ${group === g.label ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground"}`}><Icon className="size-5" />{g.label}</Button>
               ); })}
             </div>
             <div className="city-scroller -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap">
@@ -217,7 +217,7 @@ function Buscar() {
             <span className="text-sm font-semibold">Quantidade de clientes</span>
             <div className="flex flex-wrap gap-2">
               {[10, 20, 40, 60].map((n) => (
-                <Button key={n} type="button" disabled={loading} variant={target === n ? "secondary" : "outline"} aria-pressed={target === n} className={`h-12 min-w-14 flex-1 ${target === n ? "border border-accent text-primary" : ""}`} onClick={() => setTarget(n)}>{n}</Button>
+                <Button key={n} type="button" disabled={loading} variant={target === n ? "secondary" : "outline"} aria-pressed={target === n} className={`h-12 min-w-14 flex-1 ${target === n ? "border border-primary text-primary" : ""}`} onClick={() => setTarget(n)}>{n}</Button>
               ))}
             </div>
             <p className="text-xs text-muted-foreground">O Google mostra no máximo 60 locais por busca; cada página extra conta no seu limite do Google Maps.</p>
@@ -294,7 +294,7 @@ function Buscar() {
             return (
               <article
                 key={l.id}
-                className="glass flex min-w-0 flex-col rounded-lg p-5 transition-colors hover:border-accent/50"
+                className="glass flex min-w-0 flex-col rounded-lg p-5 transition-colors hover:border-primary/50"
               >
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="min-w-0 break-words text-lg font-bold">{l.name}</h3>
