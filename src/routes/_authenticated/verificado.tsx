@@ -116,7 +116,7 @@ function Verificado() {
             <ul className="mt-4 space-y-2">
               {COMPARISON.map(c => (
                 <li key={c.paid} className="grid gap-1 rounded-xl border border-border bg-muted/30 p-3 sm:grid-cols-2 sm:items-center">
-                  <span className="flex items-center gap-2 text-sm text-muted-foreground"><X className="size-4 shrink-0 text-destructive" />{c.free}</span>
+                  <span className="flex items-center gap-2 text-sm text-foreground/70"><X className="size-4 shrink-0 text-destructive" />{c.free}</span>
                   <span className="flex items-center gap-2 font-semibold"><Check className="size-4 shrink-0 text-primary" />{c.paid}</span>
                 </li>
               ))}
@@ -126,8 +126,8 @@ function Verificado() {
           <section className="rounded-2xl border bg-card p-5">
             <h2 className="font-display text-3xl tracking-wide">Por que vale os R$ 7,99</h2>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              {VANTAGENS.map(v => (
-                <div key={v.title} className="rounded-xl border border-border bg-background/60 p-4">
+              {VANTAGENS.map((v, i) => (
+                <div key={v.title} className={`rounded-xl border border-border bg-background/60 p-4 ${i === VANTAGENS.length - 1 ? "sm:col-span-2" : ""}`}>
                   <v.icon className="size-6 text-primary" />
                   <p className="mt-2 font-bold">{v.title}</p>
                   <p className="mt-1 text-sm text-muted-foreground">{v.text}</p>
