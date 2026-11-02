@@ -18,6 +18,7 @@ import { Route as AuthenticatedDemonstracoesRouteImport } from './routes/_authen
 import { Route as AuthenticatedGraficosRouteImport } from './routes/_authenticated/graficos'
 import { Route as AuthenticatedMensagemRouteImport } from './routes/_authenticated/mensagem'
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
+import { Route as AuthenticatedPessoasRouteImport } from './routes/_authenticated/pessoas'
 import { Route as DemoIdRouteImport } from './routes/demo.$id'
 import { Route as SiteSlugCodeRouteImport } from './routes/site.$slug.$code'
 
@@ -66,6 +67,11 @@ const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
   path: '/perfil',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPessoasRoute = AuthenticatedPessoasRouteImport.update({
+  id: '/pessoas',
+  path: '/pessoas',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const DemoIdRoute = DemoIdRouteImport.update({
   id: '/demo/$id',
   path: '/demo/$id',
@@ -86,6 +92,7 @@ export interface FileRoutesByFullPath {
   '/graficos': typeof AuthenticatedGraficosRoute
   '/mensagem': typeof AuthenticatedMensagemRoute
   '/perfil': typeof AuthenticatedPerfilRoute
+  '/pessoas': typeof AuthenticatedPessoasRoute
   '/demo/$id': typeof DemoIdRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
 }
@@ -98,6 +105,7 @@ export interface FileRoutesByTo {
   '/graficos': typeof AuthenticatedGraficosRoute
   '/mensagem': typeof AuthenticatedMensagemRoute
   '/perfil': typeof AuthenticatedPerfilRoute
+  '/pessoas': typeof AuthenticatedPessoasRoute
   '/demo/$id': typeof DemoIdRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
 }
@@ -112,6 +120,7 @@ export interface FileRoutesById {
   '/_authenticated/graficos': typeof AuthenticatedGraficosRoute
   '/_authenticated/mensagem': typeof AuthenticatedMensagemRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
+  '/_authenticated/pessoas': typeof AuthenticatedPessoasRoute
   '/demo/$id': typeof DemoIdRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
 }
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/graficos'
     | '/mensagem'
     | '/perfil'
+    | '/pessoas'
     | '/demo/$id'
     | '/site/$slug/$code'
   fileRoutesByTo: FileRoutesByTo
@@ -138,6 +148,7 @@ export interface FileRouteTypes {
     | '/graficos'
     | '/mensagem'
     | '/perfil'
+    | '/pessoas'
     | '/demo/$id'
     | '/site/$slug/$code'
   id:
@@ -151,6 +162,7 @@ export interface FileRouteTypes {
     | '/_authenticated/graficos'
     | '/_authenticated/mensagem'
     | '/_authenticated/perfil'
+    | '/_authenticated/pessoas'
     | '/demo/$id'
     | '/site/$slug/$code'
   fileRoutesById: FileRoutesById
@@ -227,6 +239,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPerfilRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/pessoas': {
+      id: '/_authenticated/pessoas'
+      path: '/pessoas'
+      fullPath: '/pessoas'
+      preLoaderRoute: typeof AuthenticatedPessoasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/demo/$id': {
       id: '/demo/$id'
       path: '/demo/$id'
@@ -252,6 +271,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedGraficosRoute: typeof AuthenticatedGraficosRoute
   AuthenticatedMensagemRoute: typeof AuthenticatedMensagemRoute
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
+  AuthenticatedPessoasRoute: typeof AuthenticatedPessoasRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -262,6 +282,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedGraficosRoute: AuthenticatedGraficosRoute,
   AuthenticatedMensagemRoute: AuthenticatedMensagemRoute,
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
+  AuthenticatedPessoasRoute: AuthenticatedPessoasRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
