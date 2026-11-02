@@ -155,6 +155,32 @@ export type Database = {
           },
         ]
       }
+      post_reposts: {
+        Row: {
+          created_at: string
+          post_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          post_id: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          post_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "post_reposts_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       posts: {
         Row: {
           body: string
@@ -322,10 +348,14 @@ export type Database = {
           created_at: string
           display_name: string
           i_liked: boolean
+          i_reposted: boolean
           id: string
           likes: number
           media_path: string
           media_type: string
+          reposted_by: string
+          reposted_by_name: string
+          reposts: number
           user_id: string
           username: string
           verified: boolean
@@ -385,6 +415,25 @@ export type Database = {
           verified: boolean
         }[]
       }
+      posts_by_tag: {
+        Args: { p_tag: string }
+        Returns: {
+          avatar_url: string
+          body: string
+          created_at: string
+          display_name: string
+          i_liked: boolean
+          i_reposted: boolean
+          id: string
+          likes: number
+          media_path: string
+          media_type: string
+          reposts: number
+          user_id: string
+          username: string
+          verified: boolean
+        }[]
+      }
       search_profiles: {
         Args: { q: string }
         Returns: {
@@ -392,6 +441,26 @@ export type Database = {
           bio: string
           city: string
           display_name: string
+          username: string
+          verified: boolean
+        }[]
+      }
+      trending_tags: {
+        Args: never
+        Returns: {
+          tag: string
+          uses: number
+        }[]
+      }
+      who_to_follow: {
+        Args: never
+        Returns: {
+          avatar_url: string
+          bio: string
+          city: string
+          display_name: string
+          followers: number
+          id: string
           username: string
           verified: boolean
         }[]

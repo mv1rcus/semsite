@@ -1,4 +1,6 @@
 # Tasks
+- [x] Add repost (retweet), clickable hashtags and @ mentions, "who to follow" suggestions and trending topics to the feed; repost count and label, tag page, trending refresh right after posting and side panel verified on desktop and mobile with no horizontal overflow.
+- [x] Add @-mention picker in the composer so typing @ suggests real profiles and inserts the tag into the post; verified on desktop and phone, and the suggestion menu no longer covers the Postar button.
 - [ ] Re-enable business analysis in the paid Pro version — tab hidden, /analise shows a paused notice, studio kept in src/components/AnalysisStudio.tsx. Blocked until Marcus sets Pro pricing and access rules.
 - [x] Add public business analysis with validated establishment data, AI website opportunities and an editable personalized sales approach; real pizzaria generation, personalized message, copy, WhatsApp and mobile verified; 12 tests passed.
 - [x] Add selectable bar, line and pie charts without changing metrics; improve welcome-message editing, seven suggestions and editable-business preview. 29 tests passed; real client creation/stages read back in all charts, chart preference persisted, message save/reload/discard/copy and mobile layouts verified without runtime errors.
