@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { useCallback, useEffect, useState } from "react";
-import { Heart, ImagePlus, Send, Trash2, UserRound, X } from "lucide-react";
+import { PostComments } from "@/components/PostComments";
+import { Heart, MessageCircle, ImagePlus, Send, Trash2, UserRound, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
@@ -17,6 +18,9 @@ export function PostFeed({ onlyUser, canPost = true }: { onlyUser?: string; canP
   const [preview, setPreview] = useState("");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
+  const [open, setOpen] = useState<Record<string, boolean>>({});
+  const [counts, setCounts] = useState<Record<string, number>>({});
+  const setCount = useCallback((id: string, n: number) => setCounts(c => c[id] === n ? c : { ...c, [id]: n }), []);
 
   const load = useCallback(async () => {
     const [{ data: { user } }, { data }] = await Promise.all([supabase.auth.getUser(), supabase.rpc("feed_posts", onlyUser ? { only_user: onlyUser } : {})]);
@@ -104,8 +108,10 @@ export function PostFeed({ onlyUser, canPost = true }: { onlyUser?: string; canP
           {p.url && (p.media_type === "video" ? <video src={p.url} controls className="mt-3 max-h-[28rem] w-full rounded-lg" /> : <img src={p.url} alt="" loading="lazy" className="mt-3 max-h-[28rem] w-full rounded-lg object-cover" />)}
           <footer className="mt-3 flex items-center gap-2">
             <button type="button" onClick={() => like(p)} className="tab-pill"><Heart size={16} className={p.i_liked ? "fill-primary text-primary" : ""} />{p.likes}</button>
-            {p.user_id === me && <button type="button" onClick={() => remove(p)} aria-label="Apagar" className="tab-pill ml-auto"><Trash2 size={16} /></button>}
+            <button type="button" onClick={() => setOpen(o => ({ ...o, [p.id]: !o[p.id] }))} className="tab-pill"><MessageCircle size={16} />{counts[p.id] ?? "Comentar"}</button>
+            {p.user_id === me && <button type="button" onClick={() => remove(p)} aria-label="Apagar publicação" className="tab-pill ml-auto"><Trash2 size={16} />Apagar</button>}
           </footer>
+          {open[p.id] && <PostComments postId={p.id} me={me} postOwner={p.user_id} onCount={n => setCount(p.id, n)} />}
         </article>
       ))}
     </div>
