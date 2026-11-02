@@ -7,11 +7,10 @@ import { routeTree } from "@/routeTree.gen";
 // Match routes without running loaders or rendering: loaders may need a server or
 // network the test run lacks, and jsdom never loads the stylesheets React waits on.
 describe("App routing", () => {
-  it("keeps the paused analysis page reachable without an account guard", () => {
+  it("requires sign-in for /analise", () => {
     const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
     const matches = router.matchRoutes("/analise");
-    expect(matches.at(-1)?.routeId).toBe("/analise");
-    for (const match of matches) expect(router.routesById[match.routeId]?.options.beforeLoad).toBeUndefined();
+    expect(matches.some((m) => m.routeId === "/_authenticated")).toBe(true);
   });
   it("matches a page for / instead of falling back to not found", () => {
     const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
@@ -21,12 +20,9 @@ describe("App routing", () => {
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
   });
 
-  it("allows /buscar without any account guard", () => {
+  it("requires sign-in for /buscar", () => {
     const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
     const matches = router.matchRoutes("/buscar");
-    expect(matches.at(-1)?.routeId).toBe("/buscar");
-    for (const match of matches) {
-      expect(router.routesById[match.routeId]?.options.beforeLoad).toBeUndefined();
-    }
+    expect(matches.some((m) => m.routeId === "/_authenticated")).toBe(true);
   });
 });
