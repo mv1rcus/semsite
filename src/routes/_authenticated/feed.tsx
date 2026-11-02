@@ -16,7 +16,7 @@ function Feed() {
       <ProspectTabs active="feed" />
       <section className="mx-auto mt-4 max-w-2xl">
         <h1 className="sr-only">Feed</h1>
-        <div className="sticky top-0 z-10 mb-3 flex rounded-2xl border border-border bg-card/90 backdrop-blur">
+        <div className="sticky top-[var(--app-bar-h,0px)] z-10 mb-3 flex rounded-2xl border border-border bg-card/90 backdrop-blur">
           {([["all", "Para você"], ["following", "Seguindo"]] as const).map(([k, l]) => (
             <button key={k} type="button" onClick={() => setTab(k)} className={`flex-1 py-3 text-center ${tab === k ? "font-bold" : "text-muted-foreground hover:bg-muted"}`}>
               <span className={`inline-block pb-2 ${tab === k ? "border-b-4 border-primary" : ""}`}>{l}</span>

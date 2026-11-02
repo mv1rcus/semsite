@@ -47,12 +47,16 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
   useEffect(() => {
     const el = barRef.current;
     if (!el) return;
-    const apply = () => { document.body.style.paddingTop = `${el.offsetHeight}px`; };
+    const apply = () => {
+      const h = `${el.offsetHeight}px`;
+      document.body.style.paddingTop = h;
+      document.documentElement.style.setProperty("--app-bar-h", h);
+    };
     apply();
     const ro = new ResizeObserver(apply);
     ro.observe(el);
     window.addEventListener("resize", apply);
-    return () => { ro.disconnect(); window.removeEventListener("resize", apply); document.body.style.paddingTop = ""; };
+    return () => { ro.disconnect(); window.removeEventListener("resize", apply); document.body.style.paddingTop = ""; document.documentElement.style.removeProperty("--app-bar-h"); };
   }, []);
 
   const toolActive = TABS.find(t => t.key === active);
