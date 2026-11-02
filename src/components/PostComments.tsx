@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Send, Trash2, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,12 +13,13 @@ export function PostComments({ postId, me, postOwner, onCount }: { postId: strin
   const [text, setText] = useState("");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
+  const countRef = useRef(onCount); countRef.current = onCount;
 
   const load = useCallback(async () => {
     const { data } = await supabase.rpc("post_comments_list", { pid: postId });
     const rows = (data as C[] | null) ?? [];
-    setItems(rows); onCount(rows.length);
-  }, [postId, onCount]);
+    setItems(rows); countRef.current(rows.length);
+  }, [postId]);
   useEffect(() => { load(); }, [load]);
 
   async function send(e: React.FormEvent) {
