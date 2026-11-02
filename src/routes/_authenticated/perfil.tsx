@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { CalendarDays, Camera, Check, MapPin, Save, Share2, UserRound } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { FollowListDialog, type FollowKind } from "@/components/FollowListDialog";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { PostFeed } from "@/components/PostFeed";
 import { ProspectTabs } from "@/components/ProspectTabs";
@@ -27,6 +28,7 @@ function Perfil() {
   const [userId, setUserId] = useState("");
   const [savedUser, setSavedUser] = useState("");
   const [editing, setEditing] = useState(false);
+  const [list, setList] = useState<FollowKind | null>(null);
   const [joined, setJoined] = useState("");
   const [stats, setStats] = useState({ followers: 0, following: 0, likes: 0, verified: false });
   const [copied, setCopied] = useState(false);
@@ -112,8 +114,8 @@ function Perfil() {
             {joinedLabel && <span className="flex items-center gap-1"><CalendarDays className="size-4" />Entrou em {joinedLabel}</span>}
           </div>
           <div className="mt-3 flex gap-4 text-sm">
-            <span><b className="text-foreground">{stats.following}</b> <span className="text-muted-foreground">Seguindo</span></span>
-            <span><b className="text-foreground">{stats.followers}</b> <span className="text-muted-foreground">Seguidores</span></span>
+            <button type="button" disabled={!savedUser} onClick={() => setList("following")} className="hover:underline"><b className="text-foreground">{stats.following}</b> <span className="text-muted-foreground">Seguindo</span></button>
+            <button type="button" disabled={!savedUser} onClick={() => setList("followers")} className="hover:underline"><b className="text-foreground">{stats.followers}</b> <span className="text-muted-foreground">Seguidores</span></button>
             <span><b className="text-foreground">{stats.likes}</b> <span className="text-muted-foreground">Curtidas</span></span>
           </div>
           <div className="mt-4 grid grid-cols-2 gap-3">
@@ -129,6 +131,7 @@ function Perfil() {
       <section className="mx-auto mt-4 max-w-2xl">
         {savedUser ? <PostFeed key={savedUser} onlyUser={savedUser} canPost={false} /> : !loading && <p className="text-sm text-muted-foreground">Escolha seu @ em Editar perfil pra ver suas publicações aqui.</p>}
       </section>
+      {savedUser && <FollowListDialog username={savedUser} kind={list} onClose={() => setList(null)} />}
       <Dialog open={editing} onOpenChange={setEditing}>
         <DialogContent className="max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>Editar perfil</DialogTitle></DialogHeader>

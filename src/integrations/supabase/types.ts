@@ -44,6 +44,41 @@ export type Database = {
         }
         Relationships: []
       }
+      direct_messages: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          read_at: string | null
+          recipient_id: string
+          sender_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          recipient_id: string
+          sender_id?: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          recipient_id?: string
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "direct_messages_recipient_id_fkey"
+            columns: ["recipient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       follows: {
         Row: {
           created_at: string
@@ -96,14 +131,17 @@ export type Database = {
       }
       post_likes: {
         Row: {
+          created_at: string
           post_id: string
           user_id: string
         }
         Insert: {
+          created_at?: string
           post_id: string
           user_id?: string
         }
         Update: {
+          created_at?: string
           post_id?: string
           user_id?: string
         }
@@ -259,6 +297,20 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      dm_threads: {
+        Args: never
+        Returns: {
+          avatar_url: string
+          display_name: string
+          last_at: string
+          last_body: string
+          last_from_me: boolean
+          other_id: string
+          unread: number
+          username: string
+          verified: boolean
+        }[]
+      }
       feed_posts: {
         Args: { only_user?: string }
         Returns: {
@@ -276,6 +328,16 @@ export type Database = {
           verified: boolean
         }[]
       }
+      follow_list: {
+        Args: { kind: string; uname: string }
+        Returns: {
+          avatar_url: string
+          bio: string
+          display_name: string
+          username: string
+          verified: boolean
+        }[]
+      }
       get_public_profile: {
         Args: { uname: string }
         Returns: {
@@ -289,6 +351,19 @@ export type Database = {
           i_liked: boolean
           id: string
           likes: number
+          username: string
+          verified: boolean
+        }[]
+      }
+      my_notifications: {
+        Args: never
+        Returns: {
+          avatar_url: string
+          created_at: string
+          display_name: string
+          kind: string
+          post_id: string
+          snippet: string
           username: string
           verified: boolean
         }[]
