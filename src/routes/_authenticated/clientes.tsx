@@ -16,7 +16,7 @@ import { whatsappLink } from "@/lib/message";
 import { ContactAgenda } from "@/components/ContactAgenda";
 import { backupFileName, clientsToCsv, downloadText, makeBackup, parseBackup } from "@/lib/backup";
 
-export const Route = createFileRoute("/clientes")({
+export const Route = createFileRoute("/_authenticated/clientes")({
   head: () => ({ meta: [{ title: "Painel de clientes — SemSite" }, { name: "description", content: "Acompanhe clientes, etapas de negociação e lembretes de próximo contato." }, { property: "og:title", content: "Painel de clientes — SemSite" }, { property: "og:description", content: "Organize contatos, demonstrações enviadas e negócios fechados." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: Clientes,
 });

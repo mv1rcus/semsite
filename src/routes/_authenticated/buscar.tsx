@@ -17,7 +17,7 @@ import { ProspectTabs } from "@/components/ProspectTabs";
 import { useFollowUp } from "@/lib/use-follow-up";
 import { ClientStageSelect } from "@/components/ClientStageSelect";
 
-export const Route = createFileRoute("/buscar")({
+export const Route = createFileRoute("/_authenticated/buscar")({
   head: () => ({
     meta: [
       { title: "SemSite | Encontre empresas sem site na sua cidade" },
