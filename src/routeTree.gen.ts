@@ -27,6 +27,7 @@ import { Route as AuthenticatedMensagensUsernameRouteImport } from './routes/_au
 import { Route as AuthenticatedTagTagRouteImport } from './routes/_authenticated/tag.$tag'
 import { Route as AuthenticatedUUsernameRouteImport } from './routes/_authenticated/u.$username'
 import { Route as SiteSlugCodeRouteImport } from './routes/site.$slug.$code'
+import { Route as ApiPublicJobsSemsiteDailyPostRouteImport } from './routes/api/public/jobs/semsite-daily-post'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -121,6 +122,12 @@ const SiteSlugCodeRoute = SiteSlugCodeRouteImport.update({
   path: '/site/$slug/$code',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicJobsSemsiteDailyPostRoute =
+  ApiPublicJobsSemsiteDailyPostRouteImport.update({
+    id: '/api/public/jobs/semsite-daily-post',
+    path: '/api/public/jobs/semsite-daily-post',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -140,6 +147,7 @@ export interface FileRoutesByFullPath {
   '/u/$username': typeof AuthenticatedUUsernameRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
   '/mensagens/': typeof AuthenticatedMensagensIndexRoute
+  '/api/public/jobs/semsite-daily-post': typeof ApiPublicJobsSemsiteDailyPostRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -159,6 +167,7 @@ export interface FileRoutesByTo {
   '/u/$username': typeof AuthenticatedUUsernameRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
   '/mensagens': typeof AuthenticatedMensagensIndexRoute
+  '/api/public/jobs/semsite-daily-post': typeof ApiPublicJobsSemsiteDailyPostRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -180,6 +189,7 @@ export interface FileRoutesById {
   '/_authenticated/u/$username': typeof AuthenticatedUUsernameRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
   '/_authenticated/mensagens/': typeof AuthenticatedMensagensIndexRoute
+  '/api/public/jobs/semsite-daily-post': typeof ApiPublicJobsSemsiteDailyPostRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -201,6 +211,7 @@ export interface FileRouteTypes {
     | '/u/$username'
     | '/site/$slug/$code'
     | '/mensagens/'
+    | '/api/public/jobs/semsite-daily-post'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -220,6 +231,7 @@ export interface FileRouteTypes {
     | '/u/$username'
     | '/site/$slug/$code'
     | '/mensagens'
+    | '/api/public/jobs/semsite-daily-post'
   id:
     | '__root__'
     | '/'
@@ -240,6 +252,7 @@ export interface FileRouteTypes {
     | '/_authenticated/u/$username'
     | '/site/$slug/$code'
     | '/_authenticated/mensagens/'
+    | '/api/public/jobs/semsite-daily-post'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -247,6 +260,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   DemoIdRoute: typeof DemoIdRoute
   SiteSlugCodeRoute: typeof SiteSlugCodeRoute
+  ApiPublicJobsSemsiteDailyPostRoute: typeof ApiPublicJobsSemsiteDailyPostRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -377,6 +391,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteSlugCodeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/jobs/semsite-daily-post': {
+      id: '/api/public/jobs/semsite-daily-post'
+      path: '/api/public/jobs/semsite-daily-post'
+      fullPath: '/api/public/jobs/semsite-daily-post'
+      preLoaderRoute: typeof ApiPublicJobsSemsiteDailyPostRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -422,6 +443,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   DemoIdRoute: DemoIdRoute,
   SiteSlugCodeRoute: SiteSlugCodeRoute,
+  ApiPublicJobsSemsiteDailyPostRoute: ApiPublicJobsSemsiteDailyPostRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
