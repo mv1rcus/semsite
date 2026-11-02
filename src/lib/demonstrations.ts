@@ -28,7 +28,7 @@ export function demonstrationLink(id: string, origin: string, name?: string) {
   const url = new URL(origin);
   const local = url.hostname === "localhost" || url.hostname === "127.0.0.1";
   const path = name ? `/site/${demonstrationSlug(name)}/${demonstrationCode(id)}` : `/demo/${encodeURIComponent(id)}`;
-  return `${local ? url.origin : "https://cacacliente.lovable.app"}${path}`;
+  return `${local ? url.origin : "https://semsite.lovable.app"}${path}`;
 }
 export function demoSector(category: string): Sector {
   const c = category.toLocaleLowerCase("pt-BR");
