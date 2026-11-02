@@ -157,32 +157,15 @@ export function PostFeed({ onlyUser, tag, canPost = true, followingOnly = false,
   return (
     <div className="overflow-hidden rounded-2xl border border-border bg-card">
       {canPost && composerOpen && (
-        <form id="compor" onSubmit={publish} className="flex gap-3 border-b border-border p-4">
+        <form id="compor" onSubmit={publish} className="relative flex gap-3 border-b border-border p-4">
           <Avatar src={myAvatar} />
           <div className="min-w-0 flex-1 space-y-3">
-            <div className="relative">
-              <Textarea id="compor-texto" value={body} maxLength={2000} rows={2} autoFocus={!!onPosted}
-                onChange={e => { setBody(e.target.value); setCaret(e.target.selectionStart); }}
-                onSelect={e => setCaret(e.currentTarget.selectionStart)}
-                onKeyUp={e => setCaret(e.currentTarget.selectionStart)}
-                onClick={e => setCaret(e.currentTarget.selectionStart)}
-                placeholder="O que está acontecendo?" className="resize-none border-0 bg-transparent px-0 text-lg shadow-none focus-visible:ring-0" />
-              {mention !== null && people.length > 0 && (
-                <ul onMouseDown={e => e.preventDefault()} className="absolute left-0 right-0 top-full z-20 overflow-hidden rounded-xl border border-border bg-card shadow-lg">
-                  {people.map(p => (
-                    <li key={p.username}>
-                      <button type="button" onClick={() => pickMention(p.username)} className="flex w-full items-center gap-3 px-3 py-2 text-left transition hover:bg-muted">
-                        <Avatar src={p.avatar_url || null} size={32} />
-                        <span className="min-w-0">
-                          <span className="block truncate text-sm font-semibold">{p.display_name || "Sem nome"}</span>
-                          <span className="block truncate text-xs text-muted-foreground">@{p.username}</span>
-                        </span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
+            <Textarea id="compor-texto" value={body} maxLength={2000} rows={2} autoFocus={!!onPosted}
+              onChange={e => { setBody(e.target.value); setCaret(e.target.selectionStart); }}
+              onSelect={e => setCaret(e.currentTarget.selectionStart)}
+              onKeyUp={e => setCaret(e.currentTarget.selectionStart)}
+              onClick={e => setCaret(e.currentTarget.selectionStart)}
+              placeholder="O que está acontecendo?" className="resize-none border-0 bg-transparent px-0 text-lg shadow-none focus-visible:ring-0" />
             {preview && (
               <div className="relative">
                 {file?.type.startsWith("video") ? <video src={preview} controls className="max-h-80 w-full rounded-lg" /> : <img src={preview} alt="" className="max-h-80 w-full rounded-lg object-cover" />}
