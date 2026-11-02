@@ -2,8 +2,12 @@ import { describe, expect, it } from "vitest";
 import { CITIES, nextSuggestedCity } from "@/lib/cities";
 import { demoSector, draftForClient, demonstrationLink, demonstrationCode, demonstrationId, demonstrationSlug } from "@/lib/demonstrations";
 describe("Suggested cities", () => {
-  it("changes city on the next entry", () => { expect(nextSuggestedCity("Campinas, SP")).toBe("São Paulo, SP"); });
-  it("wraps around after the last city", () => { expect(nextSuggestedCity(CITIES.at(-1) ?? null)).toBe("Campinas, SP"); });
+  it("changes city on the next entry", () => { expect(nextSuggestedCity("Holambra, SP")).toBe("São Miguel Arcanjo, SP"); });
+  it("wraps around after the last city", () => { expect(nextSuggestedCity(CITIES.at(-1) ?? null)).toBe("Holambra, SP"); });
+  it("never suggests a state capital", () => {
+    const capitals = ["São Paulo, SP", "Rio de Janeiro, RJ", "Belo Horizonte, MG", "Porto Alegre, RS", "Curitiba, PR", "Florianópolis, SC", "Salvador, BA", "Recife, PE", "Fortaleza, CE", "Goiânia, GO", "Cuiabá, MT", "Manaus, AM", "Belém, PA", "Maceió, AL", "Aracaju, SE", "Teresina, PI", "São Luís, MA", "Natal, RN", "João Pessoa, PB", "Porto Velho, RO", "Palmas, TO", "Boa Vista, RR", "Rio Branco, AC", "Macapá, AP", "Vitória, ES", "Brasília, DF", "Campo Grande, MS"];
+    expect(CITIES.filter(c => capitals.includes(c))).toEqual([]);
+  });
 });
 describe("Client website concepts", () => {
   it("creates readable named links without dropping any identifier information", () => {

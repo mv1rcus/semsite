@@ -9,7 +9,7 @@ export const verifyDemonstrationLink = createServerFn({ method: "POST" })
   .handler(async ({ data }): Promise<DemoVerification> => {
     let status: DemoVerification["status"] = "failed";
     try {
-      const response = await fetch(demonstrationLink(data.id, "https://cacacliente.lovable.app"), {
+      const response = await fetch(demonstrationLink(data.id, "https://semsite.lovable.app"), {
         redirect: "error", signal: AbortSignal.timeout(15000),
         headers: { Accept: "text/html", "Cache-Control": "no-cache" },
       });
