@@ -208,9 +208,9 @@ export function PostFeed({ onlyUser, tag, canPost = true, followingOnly = false,
               <span className="truncate">{p.reposted_by_name || p.reposted_by} repostou</span>
             </p>
           )}
-          <div className="flex gap-3">
+          <div className="flex gap-3" onClick={e => openPost(e, p.id)} role="link" tabIndex={0} onKeyDown={e => { if (e.key === "Enter") navigate({ to: "/post/$postId", params: { postId: p.id } }); }}>
             {p.username ? <Link to="/u/$username" params={{ username: p.username }}><Avatar src={p.avatar_url} /></Link> : <Avatar src={p.avatar_url} />}
-            <div className="min-w-0 flex-1">
+            <div className="min-w-0 flex-1 cursor-pointer">
               <header className="flex items-center gap-1 text-sm">
                 <span className="truncate font-bold">{p.display_name || "Sem nome"}</span>
                 {p.verified && <VerifiedBadge size={15} />}
@@ -222,12 +222,11 @@ export function PostFeed({ onlyUser, tag, canPost = true, followingOnly = false,
               <PostText body={p.body} />
               {p.url && (p.media_type === "video" ? <video src={p.url} controls className="mt-3 max-h-[28rem] w-full rounded-2xl border border-border" /> : <img src={p.url} alt="" loading="lazy" className="mt-3 max-h-[28rem] w-full rounded-2xl border border-border object-cover" />)}
               <footer className="mt-2 flex max-w-sm justify-between text-sm text-muted-foreground">
-                <button type="button" onClick={() => setOpen(o => ({ ...o, [p.id]: !o[p.id] }))} aria-label="Comentar" className="group flex items-center gap-1.5 hover:text-primary"><span className="rounded-full p-1.5 group-hover:bg-primary/10"><MessageCircle size={18} /></span>{counts[p.id] ?? ""}</button>
+                <Link to="/post/$postId" params={{ postId: p.id }} aria-label="Comentar" className="group flex items-center gap-1.5 hover:text-primary"><span className="rounded-full p-1.5 group-hover:bg-primary/10"><MessageCircle size={18} /></span></Link>
                 <button type="button" onClick={() => repost(p)} aria-label="Repostar" className={`group flex items-center gap-1.5 hover:text-primary ${p.i_reposted ? "text-primary" : ""}`}><span className="rounded-full p-1.5 group-hover:bg-primary/10"><Repeat2 size={18} /></span>{p.reposts || ""}</button>
                 <button type="button" onClick={() => like(p)} aria-label="Curtir" className={`group flex items-center gap-1.5 hover:text-primary ${p.i_liked ? "text-primary" : ""}`}><span className="rounded-full p-1.5 group-hover:bg-primary/10"><Heart size={18} className={p.i_liked ? "fill-primary" : ""} /></span>{p.likes || ""}</button>
                 <button type="button" onClick={() => share(p)} aria-label="Compartilhar" className="group flex items-center hover:text-primary"><span className="rounded-full p-1.5 group-hover:bg-primary/10"><Share2 size={18} /></span></button>
               </footer>
-              {open[p.id] && <PostComments postId={p.id} me={me} postOwner={p.user_id} onCount={n => setCount(p.id, n)} />}
             </div>
           </div>
         </article>
