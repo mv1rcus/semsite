@@ -112,7 +112,7 @@ function Perfil() {
         </div>
         <div className="px-4 pb-4 sm:px-6">
           <div className="flex items-end justify-between">
-            <div className="-mt-12 rounded-full border-4 border-card bg-card sm:-mt-16">
+            <div className="relative z-10 -mt-12 shrink-0 rounded-full border-4 border-card bg-card sm:-mt-16">
               {saved.avatar_url
                 ? <img src={saved.avatar_url} alt="" width={128} height={128} referrerPolicy="no-referrer" className="size-24 rounded-full object-cover sm:size-32" />
                 : <div className="flex size-24 items-center justify-center rounded-full bg-muted font-display text-4xl text-primary sm:size-32">{initials || <UserRound />}</div>}
