@@ -14,7 +14,8 @@
 - [x] Add persisted per-demonstration recent verification indicators and verify success/failure states end to end (published HTML checked anonymously; persistence and mobile verified).
 - [x] Verify saved demonstrations on the published domain without a session, including mobile refresh (new demonstration and three existing links opened successfully).
 - [ ] Reproduce and fix the recipient's failing demonstration link — blocked until Marcus supplies the exact link that fails.
-- [ ] Enable paid access only after payment confirmation and pricing details from Marcus.
+- [x] Paid Verificado subscription (monthly/annual), gates, search limit, profile + menu buttons; checkout form verified in preview.
+- [ ] Go live with real payments — waits on Marcus finishing the payments account steps.
 - [x] Add daily, monthly and yearly client activity charts with preserved contact and closing history.
 - [x] Test period totals, history persistence and the charts in the running app.
 - [x] Add browser-local client stages, dates and next-contact reminders with a management panel.

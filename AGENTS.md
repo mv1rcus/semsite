@@ -30,3 +30,5 @@
 - Demonstration image overrides live in a browser-safe category photo resolver, independent of catalog and draft rules, so more specific photos also apply to previously shared sites without changing stored records.
 - Client data lives only in this browser: the panel exports manual CSV/JSON downloads and restores backups by merge, keeping the newest stage date and never losing existing clients; exports are never auto-uploaded anywhere.
 - Each share-page view stamps the demonstration's last-opened time server-side; the browser list removes (but never deletes from the database) demos nobody opened in 24h, falling back to creation time, and tells the user which were removed.
+- Paid access = row in verified_profiles; source 'subscription' rows are synced only by the subscriptions trigger from the payments webhook, 'manual' rows are never touched. Why: one badge source for free and paid accounts.
+- Search limits and demo creation are enforced server-side (consume_search / am_i_verified); UI gates are UX only. Why: client checks can be bypassed.
