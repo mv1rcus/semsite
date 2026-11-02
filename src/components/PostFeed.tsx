@@ -1,11 +1,12 @@
 import { Link } from "@tanstack/react-router";
+import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { useCallback, useEffect, useState } from "react";
 import { Heart, ImagePlus, Send, Trash2, UserRound, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 
-type Post = { id: string; user_id: string; body: string; media_path: string | null; media_type: string | null; created_at: string; username: string | null; display_name: string | null; avatar_url: string | null; likes: number; i_liked: boolean; url?: string | undefined };
+type Post = { id: string; user_id: string; body: string; media_path: string | null; media_type: string | null; created_at: string; username: string | null; display_name: string | null; avatar_url: string | null; likes: number; i_liked: boolean; verified?: boolean; url?: string | undefined };
 
 export function PostFeed({ onlyUser, canPost = true }: { onlyUser?: string; canPost?: boolean }) {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -94,7 +95,7 @@ export function PostFeed({ onlyUser, canPost = true }: { onlyUser?: string; canP
           <header className="flex items-center gap-3">
             {p.avatar_url ? <img src={p.avatar_url} alt="" width={40} height={40} referrerPolicy="no-referrer" className="size-10 rounded-full object-cover" /> : <div className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary"><UserRound className="size-5" /></div>}
             <div className="min-w-0 flex-1">
-              <p className="truncate font-semibold">{p.display_name || "Sem nome"}</p>
+              <p className="flex items-center gap-1 truncate font-semibold">{p.display_name || "Sem nome"}{p.verified && <VerifiedBadge size={16} />}</p>
               {p.username ? <Link to="/u/$username" params={{ username: p.username }} className="text-sm text-primary">@{p.username}</Link> : null}
             </div>
             <time className="text-xs text-muted-foreground">{new Date(p.created_at).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</time>
