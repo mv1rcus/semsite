@@ -51,9 +51,7 @@ export const createVerifiedCheckout = createServerFn({ method: "POST" })
         locale: "pt-BR",
         return_url: data.returnUrl,
         customer,
-        // Brazil isn't eligible for full compliance handling: Stripe calculates and collects tax only.
-        automatic_tax: { enabled: true },
-        customer_update: { address: "auto" },
+        // Automatic tax isn't supported for this seller account country, so no tax automation is added.
         metadata: { userId, managed_payments: "false" },
         subscription_data: { metadata: { userId } },
       });
