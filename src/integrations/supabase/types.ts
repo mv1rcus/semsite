@@ -275,6 +275,24 @@ export type Database = {
         }
         Relationships: []
       }
+      search_usage: {
+        Row: {
+          count: number
+          day: string
+          user_id: string
+        }
+        Insert: {
+          count?: number
+          day: string
+          user_id: string
+        }
+        Update: {
+          count?: number
+          day?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       site_demonstrations: {
         Row: {
           address: string
@@ -311,18 +329,69 @@ export type Database = {
         }
         Relationships: []
       }
+      subscriptions: {
+        Row: {
+          cancel_at_period_end: boolean
+          created_at: string
+          current_period_end: string | null
+          current_period_start: string | null
+          environment: string
+          id: string
+          price_id: string
+          product_id: string
+          status: string
+          stripe_customer_id: string
+          stripe_subscription_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cancel_at_period_end?: boolean
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          environment?: string
+          id?: string
+          price_id: string
+          product_id: string
+          status?: string
+          stripe_customer_id: string
+          stripe_subscription_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cancel_at_period_end?: boolean
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          environment?: string
+          id?: string
+          price_id?: string
+          product_id?: string
+          status?: string
+          stripe_customer_id?: string
+          stripe_subscription_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       verified_profiles: {
         Row: {
           created_at: string
           profile_id: string
+          source: string
         }
         Insert: {
           created_at?: string
           profile_id: string
+          source?: string
         }
         Update: {
           created_at?: string
           profile_id?: string
+          source?: string
         }
         Relationships: [
           {
@@ -339,6 +408,8 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      am_i_verified: { Args: never; Returns: boolean }
+      consume_search: { Args: never; Returns: number }
       dm_threads: {
         Args: never
         Returns: {
@@ -480,6 +551,7 @@ export type Database = {
           verified: boolean
         }[]
       }
+      searches_left_today: { Args: never; Returns: number }
       trending_tags: {
         Args: never
         Returns: {

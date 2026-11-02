@@ -21,6 +21,7 @@ import { Route as AuthenticatedMensagemRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedNotificacoesRouteImport } from './routes/_authenticated/notificacoes'
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
 import { Route as AuthenticatedPessoasRouteImport } from './routes/_authenticated/pessoas'
+import { Route as AuthenticatedVerificadoRouteImport } from './routes/_authenticated/verificado'
 import { Route as DemoIdRouteImport } from './routes/demo.$id'
 import { Route as AuthenticatedMensagensIndexRouteImport } from './routes/_authenticated/mensagens.index'
 import { Route as AuthenticatedMensagensUsernameRouteImport } from './routes/_authenticated/mensagens.$username'
@@ -29,6 +30,7 @@ import { Route as AuthenticatedTagTagRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedUUsernameRouteImport } from './routes/_authenticated/u.$username'
 import { Route as SiteSlugCodeRouteImport } from './routes/site.$slug.$code'
 import { Route as ApiPublicJobsSemsiteDailyPostRouteImport } from './routes/api/public/jobs/semsite-daily-post'
+import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -91,6 +93,11 @@ const AuthenticatedPessoasRoute = AuthenticatedPessoasRouteImport.update({
   path: '/pessoas',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedVerificadoRoute = AuthenticatedVerificadoRouteImport.update({
+  id: '/verificado',
+  path: '/verificado',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const DemoIdRoute = DemoIdRouteImport.update({
   id: '/demo/$id',
   path: '/demo/$id',
@@ -134,6 +141,12 @@ const ApiPublicJobsSemsiteDailyPostRoute =
     path: '/api/public/jobs/semsite-daily-post',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicPaymentsWebhookRoute =
+  ApiPublicPaymentsWebhookRouteImport.update({
+    id: '/api/public/payments/webhook',
+    path: '/api/public/payments/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -147,6 +160,7 @@ export interface FileRoutesByFullPath {
   '/notificacoes': typeof AuthenticatedNotificacoesRoute
   '/perfil': typeof AuthenticatedPerfilRoute
   '/pessoas': typeof AuthenticatedPessoasRoute
+  '/verificado': typeof AuthenticatedVerificadoRoute
   '/demo/$id': typeof DemoIdRoute
   '/mensagens/$username': typeof AuthenticatedMensagensUsernameRoute
   '/post/$postId': typeof AuthenticatedPostPostIdRoute
@@ -155,6 +169,7 @@ export interface FileRoutesByFullPath {
   '/site/$slug/$code': typeof SiteSlugCodeRoute
   '/mensagens/': typeof AuthenticatedMensagensIndexRoute
   '/api/public/jobs/semsite-daily-post': typeof ApiPublicJobsSemsiteDailyPostRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -168,6 +183,7 @@ export interface FileRoutesByTo {
   '/notificacoes': typeof AuthenticatedNotificacoesRoute
   '/perfil': typeof AuthenticatedPerfilRoute
   '/pessoas': typeof AuthenticatedPessoasRoute
+  '/verificado': typeof AuthenticatedVerificadoRoute
   '/demo/$id': typeof DemoIdRoute
   '/mensagens/$username': typeof AuthenticatedMensagensUsernameRoute
   '/post/$postId': typeof AuthenticatedPostPostIdRoute
@@ -176,6 +192,7 @@ export interface FileRoutesByTo {
   '/site/$slug/$code': typeof SiteSlugCodeRoute
   '/mensagens': typeof AuthenticatedMensagensIndexRoute
   '/api/public/jobs/semsite-daily-post': typeof ApiPublicJobsSemsiteDailyPostRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -191,6 +208,7 @@ export interface FileRoutesById {
   '/_authenticated/notificacoes': typeof AuthenticatedNotificacoesRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
   '/_authenticated/pessoas': typeof AuthenticatedPessoasRoute
+  '/_authenticated/verificado': typeof AuthenticatedVerificadoRoute
   '/demo/$id': typeof DemoIdRoute
   '/_authenticated/mensagens/$username': typeof AuthenticatedMensagensUsernameRoute
   '/_authenticated/post/$postId': typeof AuthenticatedPostPostIdRoute
@@ -199,6 +217,7 @@ export interface FileRoutesById {
   '/site/$slug/$code': typeof SiteSlugCodeRoute
   '/_authenticated/mensagens/': typeof AuthenticatedMensagensIndexRoute
   '/api/public/jobs/semsite-daily-post': typeof ApiPublicJobsSemsiteDailyPostRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -214,6 +233,7 @@ export interface FileRouteTypes {
     | '/notificacoes'
     | '/perfil'
     | '/pessoas'
+    | '/verificado'
     | '/demo/$id'
     | '/mensagens/$username'
     | '/post/$postId'
@@ -222,6 +242,7 @@ export interface FileRouteTypes {
     | '/site/$slug/$code'
     | '/mensagens/'
     | '/api/public/jobs/semsite-daily-post'
+    | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -235,6 +256,7 @@ export interface FileRouteTypes {
     | '/notificacoes'
     | '/perfil'
     | '/pessoas'
+    | '/verificado'
     | '/demo/$id'
     | '/mensagens/$username'
     | '/post/$postId'
@@ -243,6 +265,7 @@ export interface FileRouteTypes {
     | '/site/$slug/$code'
     | '/mensagens'
     | '/api/public/jobs/semsite-daily-post'
+    | '/api/public/payments/webhook'
   id:
     | '__root__'
     | '/'
@@ -257,6 +280,7 @@ export interface FileRouteTypes {
     | '/_authenticated/notificacoes'
     | '/_authenticated/perfil'
     | '/_authenticated/pessoas'
+    | '/_authenticated/verificado'
     | '/demo/$id'
     | '/_authenticated/mensagens/$username'
     | '/_authenticated/post/$postId'
@@ -265,6 +289,7 @@ export interface FileRouteTypes {
     | '/site/$slug/$code'
     | '/_authenticated/mensagens/'
     | '/api/public/jobs/semsite-daily-post'
+    | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -273,6 +298,7 @@ export interface RootRouteChildren {
   DemoIdRoute: typeof DemoIdRoute
   SiteSlugCodeRoute: typeof SiteSlugCodeRoute
   ApiPublicJobsSemsiteDailyPostRoute: typeof ApiPublicJobsSemsiteDailyPostRoute
+  ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -361,6 +387,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPessoasRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/verificado': {
+      id: '/_authenticated/verificado'
+      path: '/verificado'
+      fullPath: '/verificado'
+      preLoaderRoute: typeof AuthenticatedVerificadoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/demo/$id': {
       id: '/demo/$id'
       path: '/demo/$id'
@@ -417,6 +450,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicJobsSemsiteDailyPostRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/payments/webhook': {
+      id: '/api/public/payments/webhook'
+      path: '/api/public/payments/webhook'
+      fullPath: '/api/public/payments/webhook'
+      preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -431,6 +471,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedNotificacoesRoute: typeof AuthenticatedNotificacoesRoute
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
   AuthenticatedPessoasRoute: typeof AuthenticatedPessoasRoute
+  AuthenticatedVerificadoRoute: typeof AuthenticatedVerificadoRoute
   AuthenticatedMensagensUsernameRoute: typeof AuthenticatedMensagensUsernameRoute
   AuthenticatedPostPostIdRoute: typeof AuthenticatedPostPostIdRoute
   AuthenticatedTagTagRoute: typeof AuthenticatedTagTagRoute
@@ -449,6 +490,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedNotificacoesRoute: AuthenticatedNotificacoesRoute,
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
   AuthenticatedPessoasRoute: AuthenticatedPessoasRoute,
+  AuthenticatedVerificadoRoute: AuthenticatedVerificadoRoute,
   AuthenticatedMensagensUsernameRoute: AuthenticatedMensagensUsernameRoute,
   AuthenticatedPostPostIdRoute: AuthenticatedPostPostIdRoute,
   AuthenticatedTagTagRoute: AuthenticatedTagTagRoute,
@@ -465,6 +507,7 @@ const rootRouteChildren: RootRouteChildren = {
   DemoIdRoute: DemoIdRoute,
   SiteSlugCodeRoute: SiteSlugCodeRoute,
   ApiPublicJobsSemsiteDailyPostRoute: ApiPublicJobsSemsiteDailyPostRoute,
+  ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

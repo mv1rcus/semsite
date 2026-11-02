@@ -4,6 +4,7 @@ import { notificationsSeenAt } from "@/lib/social-unread";
 import { supabase } from "@/integrations/supabase/client";
 import { Search, PanelsTopLeft, Users, ChartNoAxesCombined, MessageSquareText, Sparkles, LogOut, UserRound, Newspaper, Bell, Send, Menu, UserSearch } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { VerifiedBadge } from "@/components/VerifiedBadge";
 import mascot from "@/assets/semsite-mascote-acenando.png";
 
 const TABS = [
@@ -97,6 +98,7 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
               <SheetTitle className="mb-4 font-display text-3xl tracking-wide">Sem<span className="text-primary">Site</span></SheetTitle>
               <nav className="flex flex-col gap-1" aria-label="Menu">
                 <Link to="/perfil" onClick={() => setOpen(false)} className={item(active === "profile")}><UserRound className="size-6" />Meu perfil</Link>
+                <Link to="/verificado" onClick={() => setOpen(false)} className={item(false)}><VerifiedBadge size={24} />Obter verificado</Link>
                 {TABS.map(({ key, to, label, icon: Icon }) => (
                   <Link key={key} to={to} onClick={() => setOpen(false)} aria-current={active === key ? "page" : undefined} className={item(active === key)}><Icon className="size-6" />{label}</Link>
                 ))}

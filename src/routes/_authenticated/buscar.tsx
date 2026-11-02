@@ -1,4 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { supabase } from "@/integrations/supabase/client";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX, Store, X, History, Radar, SlidersHorizontal, HeartPulse, Utensils, Scissors, Car, House, PawPrint, Dumbbell, BriefcaseBusiness, ArrowUpRight, type LucideIcon } from "lucide-react";
@@ -63,6 +64,8 @@ function Buscar() {
   const [retryToken, setRetryToken] = useState<string | null>(null);
   const [contacted, setContacted] = useState<Set<string>>(new Set());
   const [searched, setSearched] = useState(false);
+  const [searchesLeft, setSearchesLeft] = useState<number | null>(null);
+  useEffect(() => { supabase.rpc("searches_left_today").then(({ data }) => { if (typeof data === "number") setSearchesLeft(data); }); }, []);
   const [activeQuery, setActiveQuery] = useState<Query | null>(null);
   const [recent, setRecent] = useState<Query[]>([]);
   const [filter, setFilter] = useState<ProspectFilter>("all");
@@ -122,6 +125,7 @@ function Buscar() {
       let pages = 0;
       do {
         const r = await search({ data: { ...query, pageToken: token } });
+        if (r.searchesLeft >= 0 || !token) setSearchesLeft(r.searchesLeft);
         acc = rankProspects([...acc, ...r.leads]);
         total += r.scanned;
         nextTok = r.nextPageToken;
@@ -228,6 +232,7 @@ function Buscar() {
             <span className="min-w-0 whitespace-normal break-words">{loading ? "Buscando clientes…" : "Encontrar clientes sem site"}</span>
             {!loading && <ArrowUpRight className="ml-auto" />}
           </Button>
+          {searchesLeft !== null && searchesLeft >= 0 && <p className="text-center text-sm text-muted-foreground sm:col-span-2">{searchesLeft} de 5 buscas grátis hoje · <Link to="/verificado" className="font-bold text-primary hover:underline">Buscar sem limite</Link></p>}
 
           {recent.length > 0 && (
             <div className="grid gap-2 border-t border-border pt-4 sm:col-span-2">

@@ -1,3 +1,4 @@
+import { VerifiedGate } from "@/components/VerifiedGate";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Check, RotateCcw, Save, Copy, MessageCircle, Building2, UserRound, Plus, Sparkles } from "lucide-react";
@@ -10,7 +11,7 @@ import { DEFAULT_SETTINGS, MESSAGE_SUGGESTIONS, fillTemplate, loadMessageSetting
 
 export const Route = createFileRoute("/_authenticated/mensagem")({
   head: () => ({ meta: [{ title: "Mensagem de boas-vindas — SemSite" }, { name: "description", content: "Personalize a primeira mensagem de WhatsApp enviada aos negócios sem site." }, { property: "og:title", content: "Mensagem de boas-vindas — SemSite" }, { property: "og:description", content: "Escolha uma sugestão ou escreva sua própria mensagem de WhatsApp." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
-  component: Mensagem,
+  component: () => <VerifiedGate feature="Mensagem personalizada"><Mensagem /></VerifiedGate>,
 });
 
 function Mensagem() {

@@ -136,6 +136,7 @@ function Perfil() {
             <button type="button" disabled={!savedUser} onClick={() => setList("followers")} className="hover:underline"><b className="text-foreground">{stats.followers}</b> <span className="text-muted-foreground">Seguidores</span></button>
             <span><b className="text-foreground">{stats.likes}</b> <span className="text-muted-foreground">Curtidas</span></span>
           </div>
+          {!loading && !stats.verified && <Link to="/verificado" className="mt-4 flex items-center justify-center gap-2 rounded-full border border-border bg-card py-2 font-bold hover:bg-muted"><VerifiedBadge size={20} />Obter verificado</Link>}
           <div className="mt-4 grid grid-cols-2 gap-3">
             <Button variant="outline" className="rounded-full font-bold" disabled={!savedUser} onClick={share}><Share2 />{copied ? "Link copiado!" : "Compartilhar perfil"}</Button>
             <Button variant="outline" className="rounded-full font-bold" onClick={() => { setForm(saved); setStatus(""); setEditing(true); }}>Editar perfil</Button>

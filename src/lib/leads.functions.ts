@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { searchInputSchema, rankProspects, type Lead } from "./leads";
 export type { Lead } from "./leads";
 import { mapsErrorMessage } from "./search-errors";
@@ -20,8 +21,16 @@ type Place = {
 };
 
 export const searchLeads = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((d) => searchInputSchema.parse(d))
-  .handler(async ({ data }) => {
+  .handler(async ({ data, context }) => {
+    // Non-verified users get 5 new searches per day; extra pages of the same search are free.
+    let searchesLeft = -1;
+    if (!data.pageToken) {
+      const { data: left, error } = await context.supabase.rpc("consume_search");
+      if (error) throw new Error(error.message.includes("search_limit_reached") ? "Você usou suas 5 buscas de hoje. Assine o Verificado para buscar sem limite." : "Não foi possível conferir seu limite de buscas.");
+      searchesLeft = Number(left);
+    }
     // Outside Lovable hosting (e.g. Vercel) the gateway credentials don't exist,
     // so a self-owned Google key (GOOGLE_PLACES_API_KEY) calls Google directly.
     const ownKey = process.env["GOOGLE_PLACES_API_KEY"];
@@ -77,5 +86,5 @@ export const searchLeads = createServerFn({ method: "POST" })
         category: p.primaryTypeDisplayName?.text ?? null,
         mapsUrl: p.googleMapsUri ?? null,
       }));
-    return { leads: rankProspects(leads), scanned: places.length, nextPageToken: json.nextPageToken ?? null };
+    return { leads: rankProspects(leads), scanned: places.length, nextPageToken: json.nextPageToken ?? null, searchesLeft };
   });
