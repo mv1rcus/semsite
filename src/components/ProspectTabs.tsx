@@ -35,6 +35,20 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
     window.addEventListener("semsite-unread", load);
     return () => { alive = false; supabase.removeChannel(ch); window.removeEventListener("semsite-unread", load); };
   }, []);
+  // A bolinha do topo mostra a foto do usuário; se ele não tem foto, mostra o bonequinho.
+  const [avatar, setAvatar] = useState("");
+  useEffect(() => {
+    let alive = true;
+    const load = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      const { data } = await supabase.from("profiles").select("avatar_url").eq("id", user.id).maybeSingle();
+      if (alive) setAvatar(data?.avatar_url ?? "");
+    };
+    load();
+    window.addEventListener("semsite-profile", load);
+    return () => { alive = false; window.removeEventListener("semsite-profile", load); };
+  }, []);
   const dot = (k: number) => k > 0 ? <span className="absolute -right-1 -top-1 min-w-4 rounded-full bg-primary px-1 text-center text-[10px] font-bold leading-4 text-primary-foreground">{k > 9 ? "9+" : k}</span> : null;
   async function signOut() {
     await supabase.auth.signOut();
@@ -92,7 +106,9 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
             </SheetContent>
           </Sheet>
           <span className="truncate font-display text-2xl tracking-wide">{toolActive ? toolActive.label : "SemSite"}</span>
-          <Link to="/perfil" aria-label="Meu perfil" className={`flex size-9 shrink-0 items-center justify-center rounded-full ${active === "profile" ? "bg-primary text-primary-foreground" : "bg-muted"}`}><UserRound className="size-5" /></Link>
+          <Link to="/perfil" aria-label="Meu perfil" className={`flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full ${active === "profile" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>
+            {avatar ? <img src={avatar} alt="" referrerPolicy="no-referrer" className="size-full object-cover" /> : <UserRound className="size-5" />}
+          </Link>
         </div>
         <nav aria-label="Navegação" className="flex items-center justify-around border-t border-border/50 py-1">
           {TOP.map(({ key, to, label, icon: Icon, badge }) => (
