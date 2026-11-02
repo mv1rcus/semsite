@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Camera, Check, Save, UserRound } from "lucide-react";
+import { PostFeed } from "@/components/PostFeed";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +22,7 @@ function Perfil() {
   const [form, setForm] = useState<Form>(EMPTY);
   const [email, setEmail] = useState("");
   const [userId, setUserId] = useState("");
+  const [savedUser, setSavedUser] = useState("");
   const [useInMessages, setUseInMessages] = useState(true);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
@@ -34,6 +36,7 @@ function Perfil() {
       const { data } = await supabase.from("profiles").select("username, display_name, phone, city, bio, avatar_url").eq("id", user.id).maybeSingle();
       const meta = user.user_metadata ?? {};
       setForm(data ? { ...data, username: data.username ?? "" } : { ...EMPTY, display_name: String(meta["full_name"] ?? meta["name"] ?? ""), avatar_url: String(meta["avatar_url"] ?? "") });
+      setSavedUser(data?.username ?? "");
       setLoading(false);
     })();
   }, []);
@@ -58,6 +61,7 @@ function Perfil() {
     const { error } = await supabase.from("profiles").upsert({ id: userId, ...clean, avatar_url: form.avatar_url, updated_at: new Date().toISOString() });
     if (error) { setStatus("error"); setErr(error.code === "23505" ? "Esse @ já está em uso. Escolha outro." : "Não foi possível salvar. Tente de novo."); return; }
     if (useInMessages && clean.display_name) saveMessageSettings({ ...loadMessageSettings(), senderName: clean.display_name });
+    setSavedUser(clean.username ?? "");
     setStatus("saved");
   }
 
@@ -104,6 +108,10 @@ function Perfil() {
           </Button>
           {status === "error" && <p role="alert" className="text-sm text-destructive">{err}</p>}
         </form>
+      </section>
+      <section className="mx-auto mt-8 max-w-2xl">
+        <h2 className="mb-3 text-3xl">Minhas publicações</h2>
+        {savedUser ? <PostFeed key={savedUser} onlyUser={savedUser} canPost={false} /> : !loading && <p className="text-sm text-muted-foreground">Escolha seu @ e salve o perfil pra ver suas publicações aqui.</p>}
       </section>
     </main>
   );
