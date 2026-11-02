@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { AtSign, MapPin, UserRound } from "lucide-react";
+import { Search, MapPin, UserRound } from "lucide-react";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
@@ -35,7 +35,7 @@ function Pessoas() {
         <h1 className="text-5xl">Encontrar <span className="text-primary">pessoas</span></h1>
         <p className="mt-1 text-muted-foreground">Digite o @ ou o nome de alguém.</p>
         <div className="relative mt-6">
-          <AtSign className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />
           <Input autoFocus autoCapitalize="none" value={q} onChange={e => setQ(e.target.value)} placeholder="usuario" className="h-12 pl-10 text-base" />
         </div>
         <div className="mt-5 space-y-3">
