@@ -35,6 +35,7 @@
   --color-chart-messages: var(--chart-messages);
   --color-chart-demos: var(--chart-demos);
   --color-chart-closed: var(--chart-closed);
+  --color-link: var(--link);
 }
 
 :root {
@@ -62,6 +63,7 @@
   --chart-messages: oklch(0.59 0.22 15);
   --chart-demos: oklch(0.8 0.15 90);
   --chart-closed: oklch(0.28 0.025 260);
+  --link: oklch(0.55 0.17 255);
   --gradient-text: linear-gradient(120deg, var(--foreground), var(--primary) 70%);
   --shadow-glow: 0 20px 50px -24px color-mix(in oklab, var(--primary) 50%, transparent);
   --space-background: #faf7f2;

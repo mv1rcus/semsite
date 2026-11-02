@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { FollowListDialog, type FollowKind } from "@/components/FollowListDialog";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { useCallback, useEffect, useState } from "react";
-import { ArrowLeft, Heart, MapPin, UserPlus, UserCheck, Send, UserRound } from "lucide-react";
+import { ArrowLeft, Heart, Link2, MapPin, UserPlus, UserCheck, Send, UserRound } from "lucide-react";
+import { profileLinkLabel } from "@/lib/profile-link";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { PostFeed } from "@/components/PostFeed";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,7 @@ export const Route = createFileRoute("/_authenticated/u/$username")({
   component: PublicProfile,
 });
 
-type Profile = { id: string; username: string; display_name: string; city: string; bio: string; avatar_url: string; banner_url: string; followers: number; following: number; likes: number; i_follow: boolean; i_liked: boolean; verified?: boolean };
+type Profile = { id: string; username: string; display_name: string; city: string; bio: string; avatar_url: string; banner_url: string; link_url: string; followers: number; following: number; likes: number; i_follow: boolean; i_liked: boolean; verified?: boolean };
 
 function PublicProfile() {
   const { username } = Route.useParams();
@@ -78,6 +79,7 @@ function PublicProfile() {
               <h1 className="mt-3 flex items-center gap-2 font-sans text-2xl font-extrabold">{p.display_name || "Sem nome"}{p.verified && <VerifiedBadge size={22} />}</h1>
               <p className="text-muted-foreground">@{p.username}</p>
               {p.bio && <p className="mt-3 whitespace-pre-wrap">{p.bio}</p>}
+              {p.link_url && <a href={p.link_url} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center gap-1.5 font-semibold text-link hover:underline"><Link2 className="size-4" />{profileLinkLabel(p.link_url)}</a>}
               {p.city && <p className="mt-3 flex items-center gap-1 text-sm text-muted-foreground"><MapPin className="size-4" />{p.city}</p>}
               <div className="mt-3 flex gap-4 text-sm">
                 <button type="button" onClick={() => setList("following")} className="hover:underline"><b className="text-foreground">{p.following}</b> <span className="text-muted-foreground">Seguindo</span></button>
