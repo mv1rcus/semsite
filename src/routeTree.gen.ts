@@ -24,6 +24,7 @@ import { Route as AuthenticatedPessoasRouteImport } from './routes/_authenticate
 import { Route as DemoIdRouteImport } from './routes/demo.$id'
 import { Route as AuthenticatedMensagensIndexRouteImport } from './routes/_authenticated/mensagens.index'
 import { Route as AuthenticatedMensagensUsernameRouteImport } from './routes/_authenticated/mensagens.$username'
+import { Route as AuthenticatedPostPostIdRouteImport } from './routes/_authenticated/post.$postId'
 import { Route as AuthenticatedTagTagRouteImport } from './routes/_authenticated/tag.$tag'
 import { Route as AuthenticatedUUsernameRouteImport } from './routes/_authenticated/u.$username'
 import { Route as SiteSlugCodeRouteImport } from './routes/site.$slug.$code'
@@ -107,6 +108,11 @@ const AuthenticatedMensagensUsernameRoute =
     path: '/mensagens/$username',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedPostPostIdRoute = AuthenticatedPostPostIdRouteImport.update({
+  id: '/post/$postId',
+  path: '/post/$postId',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedTagTagRoute = AuthenticatedTagTagRouteImport.update({
   id: '/tag/$tag',
   path: '/tag/$tag',
@@ -143,6 +149,7 @@ export interface FileRoutesByFullPath {
   '/pessoas': typeof AuthenticatedPessoasRoute
   '/demo/$id': typeof DemoIdRoute
   '/mensagens/$username': typeof AuthenticatedMensagensUsernameRoute
+  '/post/$postId': typeof AuthenticatedPostPostIdRoute
   '/tag/$tag': typeof AuthenticatedTagTagRoute
   '/u/$username': typeof AuthenticatedUUsernameRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
@@ -163,6 +170,7 @@ export interface FileRoutesByTo {
   '/pessoas': typeof AuthenticatedPessoasRoute
   '/demo/$id': typeof DemoIdRoute
   '/mensagens/$username': typeof AuthenticatedMensagensUsernameRoute
+  '/post/$postId': typeof AuthenticatedPostPostIdRoute
   '/tag/$tag': typeof AuthenticatedTagTagRoute
   '/u/$username': typeof AuthenticatedUUsernameRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
@@ -185,6 +193,7 @@ export interface FileRoutesById {
   '/_authenticated/pessoas': typeof AuthenticatedPessoasRoute
   '/demo/$id': typeof DemoIdRoute
   '/_authenticated/mensagens/$username': typeof AuthenticatedMensagensUsernameRoute
+  '/_authenticated/post/$postId': typeof AuthenticatedPostPostIdRoute
   '/_authenticated/tag/$tag': typeof AuthenticatedTagTagRoute
   '/_authenticated/u/$username': typeof AuthenticatedUUsernameRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
@@ -207,6 +216,7 @@ export interface FileRouteTypes {
     | '/pessoas'
     | '/demo/$id'
     | '/mensagens/$username'
+    | '/post/$postId'
     | '/tag/$tag'
     | '/u/$username'
     | '/site/$slug/$code'
@@ -227,6 +237,7 @@ export interface FileRouteTypes {
     | '/pessoas'
     | '/demo/$id'
     | '/mensagens/$username'
+    | '/post/$postId'
     | '/tag/$tag'
     | '/u/$username'
     | '/site/$slug/$code'
@@ -248,6 +259,7 @@ export interface FileRouteTypes {
     | '/_authenticated/pessoas'
     | '/demo/$id'
     | '/_authenticated/mensagens/$username'
+    | '/_authenticated/post/$postId'
     | '/_authenticated/tag/$tag'
     | '/_authenticated/u/$username'
     | '/site/$slug/$code'
@@ -370,6 +382,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMensagensUsernameRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/post/$postId': {
+      id: '/_authenticated/post/$postId'
+      path: '/post/$postId'
+      fullPath: '/post/$postId'
+      preLoaderRoute: typeof AuthenticatedPostPostIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/tag/$tag': {
       id: '/_authenticated/tag/$tag'
       path: '/tag/$tag'
@@ -413,6 +432,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
   AuthenticatedPessoasRoute: typeof AuthenticatedPessoasRoute
   AuthenticatedMensagensUsernameRoute: typeof AuthenticatedMensagensUsernameRoute
+  AuthenticatedPostPostIdRoute: typeof AuthenticatedPostPostIdRoute
   AuthenticatedTagTagRoute: typeof AuthenticatedTagTagRoute
   AuthenticatedUUsernameRoute: typeof AuthenticatedUUsernameRoute
   AuthenticatedMensagensIndexRoute: typeof AuthenticatedMensagensIndexRoute
@@ -430,6 +450,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
   AuthenticatedPessoasRoute: AuthenticatedPessoasRoute,
   AuthenticatedMensagensUsernameRoute: AuthenticatedMensagensUsernameRoute,
+  AuthenticatedPostPostIdRoute: AuthenticatedPostPostIdRoute,
   AuthenticatedTagTagRoute: AuthenticatedTagTagRoute,
   AuthenticatedUUsernameRoute: AuthenticatedUUsernameRoute,
   AuthenticatedMensagensIndexRoute: AuthenticatedMensagensIndexRoute,

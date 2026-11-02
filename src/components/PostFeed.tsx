@@ -1,7 +1,6 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { PostComments } from "@/components/PostComments";
 import { PostText } from "@/components/PostText";
 import { Heart, MessageCircle, Share2, ImagePlus, Send, Trash2, UserRound, X, Repeat2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -50,11 +49,14 @@ export function PostFeed({ onlyUser, tag, canPost = true, followingOnly = false,
   const [error, setError] = useState("");
   const [myAvatar, setMyAvatar] = useState("");
   const [followIds, setFollowIds] = useState<Set<string> | null>(null);
-  const [open, setOpen] = useState<Record<string, boolean>>({});
-  const [counts, setCounts] = useState<Record<string, number>>({});
   const [caret, setCaret] = useState(0);
   const [people, setPeople] = useState<Suggestion[]>([]);
-  const setCount = useCallback((id: string, n: number) => setCounts(c => c[id] === n ? c : { ...c, [id]: n }), []);
+  const navigate = useNavigate();
+
+  function openPost(e: React.MouseEvent, id: string) {
+    if ((e.target as HTMLElement).closest("a,button,video")) return;
+    navigate({ to: "/post/$postId", params: { postId: id } });
+  }
 
   const load = useCallback(async () => {
     setLoading(true);
