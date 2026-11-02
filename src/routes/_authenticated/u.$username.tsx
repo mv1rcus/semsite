@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { FollowListDialog, type FollowKind } from "@/components/FollowListDialog";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { useCallback, useEffect, useState } from "react";
-import { ArrowLeft, Heart, MapPin, UserPlus, UserCheck, UserRound } from "lucide-react";
+import { ArrowLeft, Heart, MapPin, UserPlus, UserCheck, Send, UserRound } from "lucide-react";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { PostFeed } from "@/components/PostFeed";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,7 @@ function PublicProfile() {
   const [me, setMe] = useState("");
   const [state, setState] = useState<"loading" | "ok" | "missing">("loading");
   const [busy, setBusy] = useState(false);
+  const [list, setList] = useState<FollowKind | null>(null);
 
   const load = useCallback(async () => {
     const [{ data: { user } }, { data }] = await Promise.all([supabase.auth.getUser(), supabase.rpc("get_public_profile", { uname: username })]);
@@ -59,9 +61,9 @@ function PublicProfile() {
             {p.city && <p className="mt-1 flex items-center justify-center gap-1 text-sm text-muted-foreground"><MapPin className="size-3.5" />{p.city}</p>}
             {p.bio && <p className="mx-auto mt-3 max-w-md">{p.bio}</p>}
             <div className="mt-5 grid grid-cols-3 gap-2">
-              {[["Seguidores", p.followers], ["Seguindo", p.following], ["Curtidas", p.likes]].map(([l, n]) => (
-                <div key={l} className="rounded-lg bg-muted/50 p-2"><p className="font-display text-2xl">{n}</p><p className="text-xs text-muted-foreground">{l}</p></div>
-              ))}
+              <button type="button" onClick={() => setList("followers")} className="rounded-lg bg-muted/50 p-2 hover:bg-muted"><p className="font-display text-2xl">{p.followers}</p><p className="text-xs text-muted-foreground">Seguidores</p></button>
+              <button type="button" onClick={() => setList("following")} className="rounded-lg bg-muted/50 p-2 hover:bg-muted"><p className="font-display text-2xl">{p.following}</p><p className="text-xs text-muted-foreground">Seguindo</p></button>
+              <div className="rounded-lg bg-muted/50 p-2"><p className="font-display text-2xl">{p.likes}</p><p className="text-xs text-muted-foreground">Curtidas</p></div>
             </div>
             {p.id === me ? (
               <Button asChild variant="outline" className="mt-5 w-full"><Link to="/perfil">Editar meu perfil</Link></Button>
@@ -73,10 +75,12 @@ function PublicProfile() {
                 <Button disabled={busy} variant="outline" onClick={() => toggle("like")} className="gap-2 font-bold">
                   <Heart className={p.i_liked ? "fill-primary text-primary" : ""} />{p.i_liked ? "Curtido" : "Curtir"}
                 </Button>
+                <Button asChild variant="outline" className="col-span-2 gap-2 font-bold"><Link to="/mensagens/$username" params={{ username: p.username }}><Send />Mensagem</Link></Button>
               </div>
             )}
           </div>
         )}
+        {p && <FollowListDialog username={p.username} kind={list} onClose={() => setList(null)} />}
         {p && <div className="mt-6"><h2 className="mb-3 text-3xl">Publicações</h2><PostFeed onlyUser={p.username} canPost={false} /></div>}
       </section>
     </main>
