@@ -29,7 +29,7 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
       </Link>
       <div className="flex items-center gap-2">
         <Link to="/feed" aria-label="Feed" title="Feed" className={active === "feed" ? "tab-pill tab-pill-active" : "tab-pill"}><Newspaper size={16} /></Link>
-        <Link to="/pessoas" aria-label="Pessoas" title="Pessoas" className={active === "people" ? "tab-pill tab-pill-active" : "tab-pill"}><AtSign size={16} /></Link>
+        <Link to="/pessoas" aria-label="Pesquisar pessoas" title="Pesquisar pessoas" className={active === "people" ? "tab-pill tab-pill-active" : "tab-pill"}><Search size={16} /></Link>
         <Link to="/perfil" aria-label="Meu perfil" title="Meu perfil" className={active === "profile" ? "tab-pill tab-pill-active" : "tab-pill"}><UserRound size={16} /></Link>
         <button type="button" onClick={signOut} aria-label="Sair" title="Sair" className="tab-pill"><LogOut size={16} /></button>
       </div>
