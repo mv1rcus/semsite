@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Check, Save, UserRound } from "lucide-react";
+import { Camera, Check, Save, UserRound } from "lucide-react";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -38,6 +38,15 @@ function Perfil() {
     })();
   }, []);
 
+  async function pickPhoto(file?: File) {
+    if (!file || !file.type.startsWith("image/")) return;
+    const img = new Image(); img.src = URL.createObjectURL(file); await img.decode();
+    const size = 256, c = document.createElement("canvas"); c.width = c.height = size;
+    const m = Math.min(img.width, img.height);
+    c.getContext("2d")!.drawImage(img, (img.width - m) / 2, (img.height - m) / 2, m, m, 0, 0, size, size);
+    update({ avatar_url: c.toDataURL("image/jpeg", 0.82) });
+  }
+
   function update(patch: Partial<Form>) { setForm(f => ({ ...f, ...patch })); setStatus(""); }
 
   async function save(e: React.FormEvent) {
@@ -63,9 +72,13 @@ function Perfil() {
 
         <form onSubmit={save} className="glass mt-6 space-y-5 rounded-xl p-5 sm:p-7">
           <div className="flex items-center gap-4">
+            <label className="relative cursor-pointer" title="Trocar foto">
+            <input type="file" accept="image/*" className="sr-only" onChange={e => pickPhoto(e.target.files?.[0])} />
+            <span className="absolute -bottom-1 -right-1 rounded-full bg-primary p-1.5 text-primary-foreground"><Camera className="size-3.5" /></span>
             {form.avatar_url
               ? <img src={form.avatar_url} alt="" width={64} height={64} referrerPolicy="no-referrer" className="size-16 rounded-full object-cover" />
               : <div className="flex size-16 items-center justify-center rounded-full bg-primary/10 font-display text-2xl text-primary">{initials || <UserRound />}</div>}
+            </label>
             <div className="min-w-0">
               <p className="truncate font-semibold">{form.display_name || "Sem nome"}</p>
               <p className="truncate text-sm text-muted-foreground">{email}</p>

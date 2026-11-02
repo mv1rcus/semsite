@@ -44,6 +44,42 @@ export type Database = {
         }
         Relationships: []
       }
+      follows: {
+        Row: {
+          created_at: string
+          follower_id: string
+          following_id: string
+        }
+        Insert: {
+          created_at?: string
+          follower_id?: string
+          following_id: string
+        }
+        Update: {
+          created_at?: string
+          follower_id?: string
+          following_id?: string
+        }
+        Relationships: []
+      }
+      profile_likes: {
+        Row: {
+          created_at: string
+          liker_id: string
+          profile_id: string
+        }
+        Insert: {
+          created_at?: string
+          liker_id?: string
+          profile_id: string
+        }
+        Update: {
+          created_at?: string
+          liker_id?: string
+          profile_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string
@@ -118,6 +154,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_public_profile: {
+        Args: { uname: string }
+        Returns: {
+          avatar_url: string
+          bio: string
+          city: string
+          display_name: string
+          followers: number
+          following: number
+          i_follow: boolean
+          i_liked: boolean
+          id: string
+          likes: number
+          username: string
+        }[]
+      }
       search_profiles: {
         Args: { q: string }
         Returns: {

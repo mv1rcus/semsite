@@ -20,6 +20,7 @@ import { Route as AuthenticatedMensagemRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
 import { Route as AuthenticatedPessoasRouteImport } from './routes/_authenticated/pessoas'
 import { Route as DemoIdRouteImport } from './routes/demo.$id'
+import { Route as AuthenticatedUUsernameRouteImport } from './routes/_authenticated/u.$username'
 import { Route as SiteSlugCodeRouteImport } from './routes/site.$slug.$code'
 
 const IndexRoute = IndexRouteImport.update({
@@ -77,6 +78,11 @@ const DemoIdRoute = DemoIdRouteImport.update({
   path: '/demo/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedUUsernameRoute = AuthenticatedUUsernameRouteImport.update({
+  id: '/u/$username',
+  path: '/u/$username',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const SiteSlugCodeRoute = SiteSlugCodeRouteImport.update({
   id: '/site/$slug/$code',
   path: '/site/$slug/$code',
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/perfil': typeof AuthenticatedPerfilRoute
   '/pessoas': typeof AuthenticatedPessoasRoute
   '/demo/$id': typeof DemoIdRoute
+  '/u/$username': typeof AuthenticatedUUsernameRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
 }
 export interface FileRoutesByTo {
@@ -107,6 +114,7 @@ export interface FileRoutesByTo {
   '/perfil': typeof AuthenticatedPerfilRoute
   '/pessoas': typeof AuthenticatedPessoasRoute
   '/demo/$id': typeof DemoIdRoute
+  '/u/$username': typeof AuthenticatedUUsernameRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
 }
 export interface FileRoutesById {
@@ -122,6 +130,7 @@ export interface FileRoutesById {
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
   '/_authenticated/pessoas': typeof AuthenticatedPessoasRoute
   '/demo/$id': typeof DemoIdRoute
+  '/_authenticated/u/$username': typeof AuthenticatedUUsernameRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
 }
 export interface FileRouteTypes {
@@ -137,6 +146,7 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/pessoas'
     | '/demo/$id'
+    | '/u/$username'
     | '/site/$slug/$code'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -150,6 +160,7 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/pessoas'
     | '/demo/$id'
+    | '/u/$username'
     | '/site/$slug/$code'
   id:
     | '__root__'
@@ -164,6 +175,7 @@ export interface FileRouteTypes {
     | '/_authenticated/perfil'
     | '/_authenticated/pessoas'
     | '/demo/$id'
+    | '/_authenticated/u/$username'
     | '/site/$slug/$code'
   fileRoutesById: FileRoutesById
 }
@@ -253,6 +265,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/u/$username': {
+      id: '/_authenticated/u/$username'
+      path: '/u/$username'
+      fullPath: '/u/$username'
+      preLoaderRoute: typeof AuthenticatedUUsernameRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/site/$slug/$code': {
       id: '/site/$slug/$code'
       path: '/site/$slug/$code'
@@ -272,6 +291,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedMensagemRoute: typeof AuthenticatedMensagemRoute
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
   AuthenticatedPessoasRoute: typeof AuthenticatedPessoasRoute
+  AuthenticatedUUsernameRoute: typeof AuthenticatedUUsernameRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -283,6 +303,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedMensagemRoute: AuthenticatedMensagemRoute,
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
   AuthenticatedPessoasRoute: AuthenticatedPessoasRoute,
+  AuthenticatedUUsernameRoute: AuthenticatedUUsernameRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

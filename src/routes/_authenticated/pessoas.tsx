@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AtSign, MapPin, UserRound } from "lucide-react";
 import { ProspectTabs } from "@/components/ProspectTabs";
@@ -42,7 +42,7 @@ function Pessoas() {
           {loading && <p className="text-sm text-muted-foreground">Buscando…</p>}
           {!loading && q.trim() && list.length === 0 && <p className="text-sm text-muted-foreground">Ninguém encontrado com esse @.</p>}
           {list.map(p => (
-            <article key={p.username} className="glass flex gap-4 rounded-xl p-4">
+            <Link key={p.username} to="/u/$username" params={{ username: p.username }} className="glass flex gap-4 rounded-xl p-4 transition hover:border-primary">
               {p.avatar_url
                 ? <img src={p.avatar_url} alt="" width={56} height={56} referrerPolicy="no-referrer" className="size-14 shrink-0 rounded-full object-cover" />
                 : <div className="flex size-14 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary"><UserRound /></div>}
@@ -52,7 +52,7 @@ function Pessoas() {
                 {p.city && <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground"><MapPin className="size-3.5" />{p.city}</p>}
                 {p.bio && <p className="mt-1 text-sm">{p.bio}</p>}
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </section>

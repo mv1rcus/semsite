@@ -10,11 +10,9 @@ const TABS = [
   { key: "charts", to: "/graficos", label: "Gráficos", icon: ChartNoAxesCombined },
   { key: "message", to: "/mensagem", label: "Mensagem", icon: MessageSquareText },
   { key: "analysis", to: "/analise", label: "Análise", icon: Sparkles },
-  { key: "people", to: "/pessoas", label: "Pessoas", icon: AtSign },
-  { key: "profile", to: "/perfil", label: "Meu perfil", icon: UserRound },
 ] as const;
 
-export type ProspectTabKey = (typeof TABS)[number]["key"];
+export type ProspectTabKey = (typeof TABS)[number]["key"] | "people" | "profile";
 
 export function ProspectTabs({ active }: { active: ProspectTabKey }) {
   const navigate = useNavigate();
@@ -29,7 +27,11 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
         <img src={logoMark} alt="" width={420} height={420} loading="lazy" className="h-9 w-auto" />
         <span className="font-display text-2xl tracking-wide">SemSite</span>
       </Link>
-      <button type="button" onClick={signOut} className="tab-pill"><LogOut size={16} />Sair</button>
+      <div className="flex items-center gap-2">
+        <Link to="/pessoas" aria-label="Pessoas" title="Pessoas" className={active === "people" ? "tab-pill tab-pill-active" : "tab-pill"}><AtSign size={16} /></Link>
+        <Link to="/perfil" aria-label="Meu perfil" title="Meu perfil" className={active === "profile" ? "tab-pill tab-pill-active" : "tab-pill"}><UserRound size={16} /></Link>
+        <button type="button" onClick={signOut} aria-label="Sair" title="Sair" className="tab-pill"><LogOut size={16} /></button>
+      </div>
       </div>
       <nav aria-label="Áreas" className="no-scrollbar -mx-1 mt-4 flex gap-2 overflow-x-auto px-1 pb-1">
         {TABS.map(({ key, to, label, icon: Icon }) => {
