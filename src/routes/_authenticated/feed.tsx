@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { Plus } from "lucide-react";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { PostFeed } from "@/components/PostFeed";
 
@@ -8,14 +10,25 @@ export const Route = createFileRoute("/_authenticated/feed")({
 });
 
 function Feed() {
+  const [tab, setTab] = useState<"all" | "following">("all");
   return (
-    <main className="relative min-h-screen px-4 pb-16">
+    <main className="relative min-h-screen px-4 pb-24">
       <ProspectTabs active="feed" />
-      <section className="mx-auto mt-8 max-w-2xl">
-        <h1 className="text-5xl">Feed</h1>
-        <p className="mb-5 mt-1 text-muted-foreground">Compartilhe fotos, vídeos e novidades com a comunidade.</p>
-        <PostFeed />
+      <section className="mx-auto mt-4 max-w-2xl">
+        <h1 className="sr-only">Feed</h1>
+        <div className="sticky top-0 z-10 mb-3 flex rounded-2xl border border-border bg-card/90 backdrop-blur">
+          {([["all", "Para você"], ["following", "Seguindo"]] as const).map(([k, l]) => (
+            <button key={k} type="button" onClick={() => setTab(k)} className={`flex-1 py-3 text-center ${tab === k ? "font-bold" : "text-muted-foreground hover:bg-muted"}`}>
+              <span className={`inline-block pb-2 ${tab === k ? "border-b-4 border-primary" : ""}`}>{l}</span>
+            </button>
+          ))}
+        </div>
+        <PostFeed key={tab} followingOnly={tab === "following"} />
       </section>
+      <button type="button" aria-label="Nova publicação" onClick={() => { const f = document.getElementById("compor"); f?.scrollIntoView({ behavior: "smooth", block: "center" }); f?.querySelector("textarea")?.focus(); }}
+        className="fixed bottom-6 right-6 flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg hover:scale-105">
+        <Plus className="size-7" />
+      </button>
     </main>
   );
 }

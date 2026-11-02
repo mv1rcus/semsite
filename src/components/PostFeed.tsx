@@ -2,14 +2,23 @@ import { Link } from "@tanstack/react-router";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { useCallback, useEffect, useState } from "react";
 import { PostComments } from "@/components/PostComments";
-import { Heart, MessageCircle, ImagePlus, Send, Trash2, UserRound, X } from "lucide-react";
+import { Heart, MessageCircle, Share2, ImagePlus, Send, Trash2, UserRound, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 
 type Post = { id: string; user_id: string; body: string; media_path: string | null; media_type: string | null; created_at: string; username: string | null; display_name: string | null; avatar_url: string | null; likes: number; i_liked: boolean; verified?: boolean; url?: string | undefined };
 
-export function PostFeed({ onlyUser, canPost = true }: { onlyUser?: string; canPost?: boolean }) {
+function ago(d: string) {
+  const s = (Date.now() - new Date(d).getTime()) / 1000;
+  if (s < 60) return "agora";
+  if (s < 3600) return `${Math.floor(s / 60)} min`;
+  if (s < 86400) return `${Math.floor(s / 3600)} h`;
+  if (s < 604800) return `${Math.floor(s / 86400)} d`;
+  return new Date(d).toLocaleDateString("pt-BR", { day: "numeric", month: "short" });
+}
+
+export function PostFeed({ onlyUser, canPost = true, followingOnly = false }: { onlyUser?: string; canPost?: boolean; followingOnly?: boolean }) {
   const [posts, setPosts] = useState<Post[]>([]);
   const [me, setMe] = useState("");
   const [loading, setLoading] = useState(true);
@@ -18,6 +27,8 @@ export function PostFeed({ onlyUser, canPost = true }: { onlyUser?: string; canP
   const [preview, setPreview] = useState("");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
+  const [myAvatar, setMyAvatar] = useState("");
+  const [followIds, setFollowIds] = useState<Set<string> | null>(null);
   const [open, setOpen] = useState<Record<string, boolean>>({});
   const [counts, setCounts] = useState<Record<string, number>>({});
   const setCount = useCallback((id: string, n: number) => setCounts(c => c[id] === n ? c : { ...c, [id]: n }), []);
@@ -25,6 +36,8 @@ export function PostFeed({ onlyUser, canPost = true }: { onlyUser?: string; canP
   const load = useCallback(async () => {
     const [{ data: { user } }, { data }] = await Promise.all([supabase.auth.getUser(), supabase.rpc("feed_posts", onlyUser ? { only_user: onlyUser } : {})]);
     setMe(user?.id ?? "");
+    if (user && canPost) supabase.from("profiles").select("avatar_url").eq("id", user.id).maybeSingle().then(({ data: pr }) => setMyAvatar(pr?.avatar_url ?? ""));
+    if (user && followingOnly) { const { data: fl } = await supabase.from("follows").select("following_id").eq("follower_id", user.id); setFollowIds(new Set([user.id, ...(fl ?? []).map(x => x.following_id)])); }
     const rows = (data as Post[] | null) ?? [];
     const paths = rows.map(r => r.media_path).filter((p): p is string => !!p);
     if (paths.length) {
@@ -33,7 +46,7 @@ export function PostFeed({ onlyUser, canPost = true }: { onlyUser?: string; canP
       rows.forEach(r => { if (r.media_path) r.url = map.get(r.media_path) ?? undefined; });
     }
     setPosts(rows); setLoading(false);
-  }, [onlyUser]);
+  }, [onlyUser, followingOnly, canPost]);
   useEffect(() => { load(); }, [load]);
 
   function pick(f?: File) {
@@ -73,11 +86,23 @@ export function PostFeed({ onlyUser, canPost = true }: { onlyUser?: string; canP
     setPosts(ps => ps.filter(x => x.id !== p.id));
   }
 
+  async function share(p: Post) {
+    const url = p.username ? `${window.location.origin}/u/${p.username}` : window.location.origin;
+    try { if (navigator.share) await navigator.share({ text: p.body.slice(0, 120), url }); else await navigator.clipboard.writeText(url); } catch { /* cancelado */ }
+  }
+
+  const shown = followingOnly && followIds ? posts.filter(p => followIds.has(p.user_id)) : posts;
+  const Avatar = ({ src, size = 40 }: { src: string | null; size?: number }) => src
+    ? <img src={src} alt="" width={size} height={size} referrerPolicy="no-referrer" className="shrink-0 rounded-full object-cover" style={{ width: size, height: size }} />
+    : <div className="flex shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary" style={{ width: size, height: size }}><UserRound className="size-5" /></div>;
+
   return (
-    <div className="space-y-4">
+    <div className="overflow-hidden rounded-2xl border border-border bg-card">
       {canPost && (
-        <form onSubmit={publish} className="glass space-y-3 rounded-xl p-4">
-          <Textarea value={body} maxLength={2000} rows={3} onChange={e => setBody(e.target.value)} placeholder="O que você quer compartilhar?" />
+        <form id="compor" onSubmit={publish} className="flex gap-3 border-b border-border p-4">
+          <Avatar src={myAvatar} />
+          <div className="min-w-0 flex-1 space-y-3">
+          <Textarea value={body} maxLength={2000} rows={2} onChange={e => setBody(e.target.value)} placeholder="O que está acontecendo?" className="resize-none border-0 bg-transparent px-0 text-lg shadow-none focus-visible:ring-0" />
           {preview && (
             <div className="relative">
               {file?.type.startsWith("video") ? <video src={preview} controls className="max-h-80 w-full rounded-lg" /> : <img src={preview} alt="" className="max-h-80 w-full rounded-lg object-cover" />}
@@ -85,33 +110,37 @@ export function PostFeed({ onlyUser, canPost = true }: { onlyUser?: string; canP
             </div>
           )}
           <div className="flex items-center justify-between gap-2">
-            <label className="tab-pill cursor-pointer"><ImagePlus size={16} />Foto ou vídeo
+            <label className="cursor-pointer rounded-full p-2 text-primary hover:bg-primary/10" title="Foto ou vídeo" aria-label="Foto ou vídeo"><ImagePlus size={20} />
               <input type="file" accept="image/*,video/*" className="sr-only" onChange={e => pick(e.target.files?.[0])} /></label>
-            <Button type="submit" disabled={sending || (!body.trim() && !file)} className="gap-2 font-bold"><Send />{sending ? "Publicando…" : "Publicar"}</Button>
+            <Button type="submit" disabled={sending || (!body.trim() && !file)} className="gap-2 rounded-full px-5 font-bold"><Send />{sending ? "Postando…" : "Postar"}</Button>
           </div>
           {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
+          </div>
         </form>
       )}
-      {loading && <p className="text-sm text-muted-foreground">Carregando publicações…</p>}
-      {!loading && posts.length === 0 && <p className="text-sm text-muted-foreground">Nenhuma publicação ainda.</p>}
-      {posts.map(p => (
-        <article key={p.id} className="glass rounded-xl p-4">
-          <header className="flex items-center gap-3">
-            {p.avatar_url ? <img src={p.avatar_url} alt="" width={40} height={40} referrerPolicy="no-referrer" className="size-10 rounded-full object-cover" /> : <div className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary"><UserRound className="size-5" /></div>}
-            <div className="min-w-0 flex-1">
-              <p className="flex items-center gap-1 truncate font-semibold">{p.display_name || "Sem nome"}{p.verified && <VerifiedBadge size={16} />}</p>
-              {p.username ? <Link to="/u/$username" params={{ username: p.username }} className="text-sm text-primary">@{p.username}</Link> : null}
-            </div>
-            <time className="text-xs text-muted-foreground">{new Date(p.created_at).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</time>
-          </header>
-          {p.body && <p className="mt-3 whitespace-pre-wrap">{p.body}</p>}
-          {p.url && (p.media_type === "video" ? <video src={p.url} controls className="mt-3 max-h-[28rem] w-full rounded-lg" /> : <img src={p.url} alt="" loading="lazy" className="mt-3 max-h-[28rem] w-full rounded-lg object-cover" />)}
-          <footer className="mt-3 flex items-center gap-2">
-            <button type="button" onClick={() => like(p)} className="tab-pill"><Heart size={16} className={p.i_liked ? "fill-primary text-primary" : ""} />{p.likes}</button>
-            <button type="button" onClick={() => setOpen(o => ({ ...o, [p.id]: !o[p.id] }))} className="tab-pill"><MessageCircle size={16} />{counts[p.id] ?? "Comentar"}</button>
-            {p.user_id === me && <button type="button" onClick={() => remove(p)} aria-label="Apagar publicação" className="tab-pill ml-auto"><Trash2 size={16} />Apagar</button>}
-          </footer>
-          {open[p.id] && <PostComments postId={p.id} me={me} postOwner={p.user_id} onCount={n => setCount(p.id, n)} />}
+      {loading && <p className="p-4 text-sm text-muted-foreground">Carregando publicações…</p>}
+      {!loading && shown.length === 0 && <p className="p-6 text-center text-sm text-muted-foreground">{followingOnly ? "Quem você segue ainda não postou nada." : "Nenhuma publicação ainda."}</p>}
+      {shown.map(p => (
+        <article key={p.id} className="flex gap-3 border-b border-border p-4 transition last:border-0 hover:bg-muted/40">
+          {p.username ? <Link to="/u/$username" params={{ username: p.username }}><Avatar src={p.avatar_url} /></Link> : <Avatar src={p.avatar_url} />}
+          <div className="min-w-0 flex-1">
+            <header className="flex items-center gap-1 text-sm">
+              <span className="truncate font-bold">{p.display_name || "Sem nome"}</span>
+              {p.verified && <VerifiedBadge size={15} />}
+              {p.username && <Link to="/u/$username" params={{ username: p.username }} className="truncate text-muted-foreground">@{p.username}</Link>}
+              <span className="text-muted-foreground">·</span>
+              <time title={new Date(p.created_at).toLocaleString("pt-BR")} className="shrink-0 text-muted-foreground">{ago(p.created_at)}</time>
+              {p.user_id === me && <button type="button" onClick={() => remove(p)} aria-label="Apagar publicação" title="Apagar" className="ml-auto rounded-full p-1.5 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"><Trash2 size={16} /></button>}
+            </header>
+            {p.body && <p className="mt-0.5 whitespace-pre-wrap break-words">{p.body}</p>}
+            {p.url && (p.media_type === "video" ? <video src={p.url} controls className="mt-3 max-h-[28rem] w-full rounded-2xl border border-border" /> : <img src={p.url} alt="" loading="lazy" className="mt-3 max-h-[28rem] w-full rounded-2xl border border-border object-cover" />)}
+            <footer className="mt-2 flex max-w-sm justify-between text-sm text-muted-foreground">
+              <button type="button" onClick={() => setOpen(o => ({ ...o, [p.id]: !o[p.id] }))} aria-label="Comentar" className="group flex items-center gap-1.5 hover:text-primary"><span className="rounded-full p-1.5 group-hover:bg-primary/10"><MessageCircle size={18} /></span>{counts[p.id] ?? ""}</button>
+              <button type="button" onClick={() => like(p)} aria-label="Curtir" className={`group flex items-center gap-1.5 hover:text-primary ${p.i_liked ? "text-primary" : ""}`}><span className="rounded-full p-1.5 group-hover:bg-primary/10"><Heart size={18} className={p.i_liked ? "fill-primary" : ""} /></span>{p.likes || ""}</button>
+              <button type="button" onClick={() => share(p)} aria-label="Compartilhar" className="group flex items-center hover:text-primary"><span className="rounded-full p-1.5 group-hover:bg-primary/10"><Share2 size={18} /></span></button>
+            </footer>
+            {open[p.id] && <PostComments postId={p.id} me={me} postOwner={p.user_id} onCount={n => setCount(p.id, n)} />}
+          </div>
         </article>
       ))}
     </div>
