@@ -45,9 +45,9 @@ function Perfil() {
       setUserId(user.id); setEmail(user.email ?? ""); setJoined(user.created_at);
       const { data } = await supabase.from("profiles").select("username, display_name, phone, city, bio, avatar_url, banner_url").eq("id", user.id).maybeSingle();
       const meta = user.user_metadata ?? {};
-      setForm(data ? { ...data, username: data.username ?? "" } : { ...EMPTY, display_name: String(meta["full_name"] ?? meta["name"] ?? ""), avatar_url: String(meta["avatar_url"] ?? "") });
+      setForm(data ? { ...data, username: data.username ?? "", banner_url: data.banner_url ?? "" } : { ...EMPTY, display_name: String(meta["full_name"] ?? meta["name"] ?? ""), avatar_url: String(meta["avatar_url"] ?? "") });
       setSavedUser(data?.username ?? "");
-      if (data) setSaved({ ...data, username: data.username ?? "" });
+      if (data) setSaved({ ...data, username: data.username ?? "", banner_url: data.banner_url ?? "" });
       setLoading(false);
     })();
   }, []);
