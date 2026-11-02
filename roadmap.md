@@ -24,3 +24,4 @@
 - [x] Replace heavy Earth rendering with a lightweight abstract background.
 - [x] Suggest cities on city selection and prioritize promising prospects.
 - [x] Hide the published Lovable badge through the publishing setting.- [ ] Rename GitHub repo to semsite (user does it in GitHub settings)
+- [x] Create SemSite mascot set, save all variants in Files and set the best one as the @semsite profile photo.
