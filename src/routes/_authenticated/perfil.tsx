@@ -103,7 +103,7 @@ function Perfil() {
             <div className="-mt-12 rounded-full border-4 border-card bg-card sm:-mt-16">
               {saved.avatar_url
                 ? <img src={saved.avatar_url} alt="" width={128} height={128} referrerPolicy="no-referrer" className="size-24 rounded-full object-cover sm:size-32" />
-                : <div className="flex size-24 items-center justify-center rounded-full bg-primary/10 font-display text-4xl text-primary sm:size-32">{initials || <UserRound />}</div>}
+                : <div className="flex size-24 items-center justify-center rounded-full bg-muted font-display text-4xl text-primary sm:size-32">{initials || <UserRound />}</div>}
             </div>
           </div>
           <h1 className="mt-3 flex items-center gap-2 font-sans text-2xl font-extrabold">{saved.display_name || "Sem nome"}{stats.verified && <VerifiedBadge size={22} />}</h1>

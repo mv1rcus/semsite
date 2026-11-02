@@ -47,41 +47,50 @@ function PublicProfile() {
   return (
     <main className="relative min-h-screen px-4 pb-16">
       <ProspectTabs active="people" />
-      <section className="mx-auto mt-6 max-w-2xl">
-        <Link to="/pessoas" className="inline-flex items-center gap-1 text-sm text-muted-foreground"><ArrowLeft className="size-4" />Voltar</Link>
+      <section className="mx-auto mt-4 max-w-2xl">
         {state === "loading" && <p className="mt-6 text-muted-foreground">Carregando…</p>}
         {state === "missing" && <p className="mt-6">Ninguém usa o @{username}.</p>}
         {p && (
-          <div className="glass mt-4 rounded-xl p-6 text-center">
-            {p.avatar_url
-              ? <img src={p.avatar_url} alt="" width={112} height={112} referrerPolicy="no-referrer" className="mx-auto size-28 rounded-full object-cover" />
-              : <div className="mx-auto flex size-28 items-center justify-center rounded-full bg-primary/10 text-primary"><UserRound className="size-10" /></div>}
-            <h1 className="mt-3 flex items-center justify-center gap-2 text-4xl">{p.display_name || "Sem nome"}{p.verified && <VerifiedBadge size={26} />}</h1>
-            <p className="text-primary">@{p.username}</p>
-            {p.city && <p className="mt-1 flex items-center justify-center gap-1 text-sm text-muted-foreground"><MapPin className="size-3.5" />{p.city}</p>}
-            {p.bio && <p className="mx-auto mt-3 max-w-md">{p.bio}</p>}
-            <div className="mt-5 grid grid-cols-3 gap-2">
-              <button type="button" onClick={() => setList("followers")} className="rounded-lg bg-muted/50 p-2 hover:bg-muted"><p className="font-display text-2xl">{p.followers}</p><p className="text-xs text-muted-foreground">Seguidores</p></button>
-              <button type="button" onClick={() => setList("following")} className="rounded-lg bg-muted/50 p-2 hover:bg-muted"><p className="font-display text-2xl">{p.following}</p><p className="text-xs text-muted-foreground">Seguindo</p></button>
-              <div className="rounded-lg bg-muted/50 p-2"><p className="font-display text-2xl">{p.likes}</p><p className="text-xs text-muted-foreground">Curtidas</p></div>
+          <div className="overflow-hidden rounded-2xl border border-border bg-card">
+            <div className="relative h-32 bg-gradient-to-br from-primary via-primary/80 to-accent sm:h-44">
+              <Link to="/pessoas" aria-label="Voltar" className="absolute left-3 top-3 flex size-9 items-center justify-center rounded-full bg-foreground/60 text-background backdrop-blur"><ArrowLeft className="size-5" /></Link>
             </div>
-            {p.id === me ? (
-              <Button asChild variant="outline" className="mt-5 w-full"><Link to="/perfil">Editar meu perfil</Link></Button>
-            ) : (
-              <div className="mt-5 grid grid-cols-2 gap-2">
-                <Button disabled={busy} variant={p.i_follow ? "outline" : "default"} onClick={() => toggle("follow")} className="gap-2 font-bold">
-                  {p.i_follow ? <><UserCheck />Seguindo</> : <><UserPlus />Seguir</>}
-                </Button>
-                <Button disabled={busy} variant="outline" onClick={() => toggle("like")} className="gap-2 font-bold">
-                  <Heart className={p.i_liked ? "fill-primary text-primary" : ""} />{p.i_liked ? "Curtido" : "Curtir"}
-                </Button>
-                <Button asChild variant="outline" className="col-span-2 gap-2 font-bold"><Link to="/mensagens/$username" params={{ username: p.username }}><Send />Mensagem</Link></Button>
+            <div className="px-4 pb-4 sm:px-6">
+              <div className="flex items-start justify-between gap-2">
+                <div className="-mt-12 rounded-full border-4 border-card bg-card sm:-mt-16">
+                  {p.avatar_url
+                    ? <img src={p.avatar_url} alt="" width={128} height={128} referrerPolicy="no-referrer" className="size-24 rounded-full object-cover sm:size-32" />
+                    : <div className="flex size-24 items-center justify-center rounded-full bg-muted text-primary sm:size-32"><UserRound className="size-10" /></div>}
+                </div>
+                {p.id === me ? (
+                  <Button asChild variant="outline" className="mt-3 rounded-full font-bold"><Link to="/perfil">Editar perfil</Link></Button>
+                ) : (
+                  <div className="mt-3 flex items-center gap-2">
+                    <Button asChild variant="outline" size="icon" className="rounded-full" aria-label="Mensagem"><Link to="/mensagens/$username" params={{ username: p.username }}><Send /></Link></Button>
+                    <Button disabled={busy} variant="outline" size="icon" onClick={() => toggle("like")} className="rounded-full" aria-label={p.i_liked ? "Descurtir perfil" : "Curtir perfil"}><Heart className={p.i_liked ? "fill-primary text-primary" : ""} /></Button>
+                    <Button disabled={busy} variant={p.i_follow ? "outline" : "default"} onClick={() => toggle("follow")} className="rounded-full px-5 font-bold">
+                      {p.i_follow ? <><UserCheck />Seguindo</> : <><UserPlus />Seguir</>}
+                    </Button>
+                  </div>
+                )}
               </div>
-            )}
+              <h1 className="mt-3 flex items-center gap-2 font-sans text-2xl font-extrabold">{p.display_name || "Sem nome"}{p.verified && <VerifiedBadge size={22} />}</h1>
+              <p className="text-muted-foreground">@{p.username}</p>
+              {p.bio && <p className="mt-3 whitespace-pre-wrap">{p.bio}</p>}
+              {p.city && <p className="mt-3 flex items-center gap-1 text-sm text-muted-foreground"><MapPin className="size-4" />{p.city}</p>}
+              <div className="mt-3 flex gap-4 text-sm">
+                <button type="button" onClick={() => setList("following")} className="hover:underline"><b className="text-foreground">{p.following}</b> <span className="text-muted-foreground">Seguindo</span></button>
+                <button type="button" onClick={() => setList("followers")} className="hover:underline"><b className="text-foreground">{p.followers}</b> <span className="text-muted-foreground">Seguidores</span></button>
+                <span><b className="text-foreground">{p.likes}</b> <span className="text-muted-foreground">Curtidas</span></span>
+              </div>
+            </div>
+            <div className="flex border-t border-border">
+              <span className="flex-1 py-3 text-center font-bold"><span className="inline-block border-b-4 border-primary pb-2">Posts</span></span>
+            </div>
           </div>
         )}
         {p && <FollowListDialog username={p.username} kind={list} onClose={() => setList(null)} />}
-        {p && <div className="mt-6"><h2 className="mb-3 text-3xl">Publicações</h2><PostFeed onlyUser={p.username} canPost={false} /></div>}
+        {p && <div className="mt-4"><PostFeed onlyUser={p.username} canPost={false} /></div>}
       </section>
     </main>
   );
