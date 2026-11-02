@@ -32,7 +32,7 @@ function Perfil() {
       setUserId(user.id); setEmail(user.email ?? "");
       const { data } = await supabase.from("profiles").select("display_name, phone, city, bio, avatar_url").eq("id", user.id).maybeSingle();
       const meta = user.user_metadata ?? {};
-      setForm(data ?? { ...EMPTY, display_name: String(meta.full_name ?? meta.name ?? ""), avatar_url: String(meta.avatar_url ?? "") });
+      setForm(data ?? { ...EMPTY, display_name: String(meta["full_name"] ?? meta["name"] ?? ""), avatar_url: String(meta["avatar_url"] ?? "") });
       setLoading(false);
     })();
   }, []);
