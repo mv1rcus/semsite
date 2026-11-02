@@ -203,6 +203,7 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string
+          banner_url: string | null
           bio: string
           city: string
           display_name: string
@@ -213,6 +214,7 @@ export type Database = {
         }
         Insert: {
           avatar_url?: string
+          banner_url?: string | null
           bio?: string
           city?: string
           display_name?: string
@@ -223,6 +225,7 @@ export type Database = {
         }
         Update: {
           avatar_url?: string
+          banner_url?: string | null
           bio?: string
           city?: string
           display_name?: string
@@ -342,6 +345,7 @@ export type Database = {
         Args: { uname: string }
         Returns: {
           avatar_url: string
+          banner_url: string
           bio: string
           city: string
           display_name: string

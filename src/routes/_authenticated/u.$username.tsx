@@ -13,7 +13,7 @@ export const Route = createFileRoute("/_authenticated/u/$username")({
   component: PublicProfile,
 });
 
-type Profile = { id: string; username: string; display_name: string; city: string; bio: string; avatar_url: string; followers: number; following: number; likes: number; i_follow: boolean; i_liked: boolean; verified?: boolean };
+type Profile = { id: string; username: string; display_name: string; city: string; bio: string; avatar_url: string; banner_url: string; followers: number; following: number; likes: number; i_follow: boolean; i_liked: boolean; verified?: boolean };
 
 function PublicProfile() {
   const { username } = Route.useParams();
@@ -53,6 +53,7 @@ function PublicProfile() {
         {p && (
           <div className="overflow-hidden rounded-2xl border border-border bg-card">
             <div className="relative h-32 bg-gradient-to-br from-primary via-primary/80 to-accent sm:h-44">
+              {p.banner_url && <img src={p.banner_url} alt="" referrerPolicy="no-referrer" className="size-full object-cover" />}
               <Link to="/pessoas" aria-label="Voltar" className="absolute left-3 top-3 flex size-9 items-center justify-center rounded-full bg-foreground/60 text-background backdrop-blur"><ArrowLeft className="size-5" /></Link>
             </div>
             <div className="px-4 pb-4 sm:px-6">
