@@ -29,6 +29,7 @@ import { Route as AuthenticatedTagTagRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedUUsernameRouteImport } from './routes/_authenticated/u.$username'
 import { Route as SiteSlugCodeRouteImport } from './routes/site.$slug.$code'
 import { Route as ApiPublicJobsSemsiteDailyPostRouteImport } from './routes/api/public/jobs/semsite-daily-post'
+import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -134,6 +135,12 @@ const ApiPublicJobsSemsiteDailyPostRoute =
     path: '/api/public/jobs/semsite-daily-post',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicPaymentsWebhookRoute =
+  ApiPublicPaymentsWebhookRouteImport.update({
+    id: '/api/public/payments/webhook',
+    path: '/api/public/payments/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -155,6 +162,7 @@ export interface FileRoutesByFullPath {
   '/site/$slug/$code': typeof SiteSlugCodeRoute
   '/mensagens/': typeof AuthenticatedMensagensIndexRoute
   '/api/public/jobs/semsite-daily-post': typeof ApiPublicJobsSemsiteDailyPostRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -176,6 +184,7 @@ export interface FileRoutesByTo {
   '/site/$slug/$code': typeof SiteSlugCodeRoute
   '/mensagens': typeof AuthenticatedMensagensIndexRoute
   '/api/public/jobs/semsite-daily-post': typeof ApiPublicJobsSemsiteDailyPostRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -199,6 +208,7 @@ export interface FileRoutesById {
   '/site/$slug/$code': typeof SiteSlugCodeRoute
   '/_authenticated/mensagens/': typeof AuthenticatedMensagensIndexRoute
   '/api/public/jobs/semsite-daily-post': typeof ApiPublicJobsSemsiteDailyPostRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -222,6 +232,7 @@ export interface FileRouteTypes {
     | '/site/$slug/$code'
     | '/mensagens/'
     | '/api/public/jobs/semsite-daily-post'
+    | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -243,6 +254,7 @@ export interface FileRouteTypes {
     | '/site/$slug/$code'
     | '/mensagens'
     | '/api/public/jobs/semsite-daily-post'
+    | '/api/public/payments/webhook'
   id:
     | '__root__'
     | '/'
@@ -265,6 +277,7 @@ export interface FileRouteTypes {
     | '/site/$slug/$code'
     | '/_authenticated/mensagens/'
     | '/api/public/jobs/semsite-daily-post'
+    | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -273,6 +286,7 @@ export interface RootRouteChildren {
   DemoIdRoute: typeof DemoIdRoute
   SiteSlugCodeRoute: typeof SiteSlugCodeRoute
   ApiPublicJobsSemsiteDailyPostRoute: typeof ApiPublicJobsSemsiteDailyPostRoute
+  ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -417,6 +431,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicJobsSemsiteDailyPostRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/payments/webhook': {
+      id: '/api/public/payments/webhook'
+      path: '/api/public/payments/webhook'
+      fullPath: '/api/public/payments/webhook'
+      preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -465,6 +486,7 @@ const rootRouteChildren: RootRouteChildren = {
   DemoIdRoute: DemoIdRoute,
   SiteSlugCodeRoute: SiteSlugCodeRoute,
   ApiPublicJobsSemsiteDailyPostRoute: ApiPublicJobsSemsiteDailyPostRoute,
+  ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
