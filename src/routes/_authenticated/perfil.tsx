@@ -132,7 +132,7 @@ function Perfil() {
       <Dialog open={editing} onOpenChange={setEditing}>
         <DialogContent className="max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>Editar perfil</DialogTitle></DialogHeader>
-          <p className="text-xs text-muted-foreground">{email} · O WhatsApp fica só pra você.</p>
+          <p className="text-xs text-muted-foreground">O WhatsApp fica só pra você.</p>
           <form onSubmit={save} className="space-y-5">
           <div className="flex items-center gap-4">
             <label className="relative cursor-pointer" title="Trocar foto">
