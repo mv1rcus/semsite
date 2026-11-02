@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, Heart, MapPin, UserPlus, UserCheck, UserRound } from "lucide-react";
 import { ProspectTabs } from "@/components/ProspectTabs";
+import { PostFeed } from "@/components/PostFeed";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -75,6 +76,7 @@ function PublicProfile() {
             )}
           </div>
         )}
+        {p && <div className="mt-6"><h2 className="mb-3 text-3xl">Publicações</h2><PostFeed onlyUser={p.username} canPost={false} /></div>}
       </section>
     </main>
   );
