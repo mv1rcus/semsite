@@ -18,7 +18,7 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
     <header className="mx-auto mt-6 max-w-6xl">
       <Link to="/" aria-label="Início" className="flex w-fit items-center gap-2">
         <img src={logoMark} alt="" width={420} height={420} loading="lazy" className="h-9 w-auto" />
-        <span className="font-display text-lg font-bold tracking-tight">SemSite</span>
+        <span className="font-display text-2xl tracking-wide">SemSite</span>
       </Link>
       <nav aria-label="Áreas" className="no-scrollbar -mx-1 mt-4 flex gap-2 overflow-x-auto px-1 pb-1">
         {TABS.map(({ key, to, label, icon: Icon }) => {
