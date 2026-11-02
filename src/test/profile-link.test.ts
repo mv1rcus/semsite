@@ -21,3 +21,13 @@ describe("link do perfil", () => {
     expect(profileLinkLabel("https://loja.com.br/promo")).toBe("loja.com.br/promo");
   });
 });
+
+import { normalizeProfileLinks, splitProfileLinks } from "@/lib/profile-link";
+describe("vários links", () => {
+  it("aceita um por linha e limita a 5", () => {
+    expect(normalizeProfileLinks("a.com\nb.com")).toEqual(["https://a.com/", "https://b.com/"]);
+    expect(normalizeProfileLinks("a.com\nb.com\nc.com\nd.com\ne.com\nf.com")).toHaveLength(5);
+  });
+  it("recusa linha inválida", () => { expect(normalizeProfileLinks("a.com\noi tudo")).toBeNull(); });
+  it("separa o salvo", () => { expect(splitProfileLinks("https://a.com/\nhttps://b.com/")).toHaveLength(2); });
+});

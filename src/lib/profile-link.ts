@@ -26,3 +26,21 @@ export function profileLinkLabel(url: string): string {
     return url;
   }
 }
+
+export const MAX_PROFILE_LINKS = 5;
+
+// Several links are stored in the same field, one per line.
+export function splitProfileLinks(stored: string): string[] {
+  return (stored || "").split(/\n+/).map(s => s.trim()).filter(Boolean);
+}
+
+// Returns the cleaned list, or null when any typed line is not a valid link.
+export function normalizeProfileLinks(raw: string): string[] | null {
+  const out: string[] = [];
+  for (const line of raw.split(/\n+/).map(s => s.trim()).filter(Boolean)) {
+    const n = normalizeProfileLink(line);
+    if (!n) return null;
+    if (!out.includes(n)) out.push(n);
+  }
+  return out.slice(0, MAX_PROFILE_LINKS);
+}
