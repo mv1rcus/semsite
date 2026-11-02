@@ -102,6 +102,7 @@ export type Database = {
           body: string
           created_at: string
           id: string
+          parent_id: string | null
           post_id: string
           user_id: string
         }
@@ -109,6 +110,7 @@ export type Database = {
           body: string
           created_at?: string
           id?: string
+          parent_id?: string | null
           post_id: string
           user_id?: string
         }
@@ -116,10 +118,18 @@ export type Database = {
           body?: string
           created_at?: string
           id?: string
+          parent_id?: string | null
           post_id?: string
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "post_comments_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "post_comments"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "post_comments_post_id_fkey"
             columns: ["post_id"]
@@ -374,6 +384,25 @@ export type Database = {
           verified: boolean
         }[]
       }
+      get_post: {
+        Args: { pid: string }
+        Returns: {
+          avatar_url: string
+          body: string
+          created_at: string
+          display_name: string
+          i_liked: boolean
+          i_reposted: boolean
+          id: string
+          likes: number
+          media_path: string
+          media_type: string
+          reposts: number
+          user_id: string
+          username: string
+          verified: boolean
+        }[]
+      }
       get_public_profile: {
         Args: { uname: string }
         Returns: {
@@ -414,6 +443,8 @@ export type Database = {
           created_at: string
           display_name: string
           id: string
+          parent_id: string
+          reply_to_username: string
           user_id: string
           username: string
           verified: boolean
