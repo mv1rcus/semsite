@@ -186,6 +186,6 @@
 .city-suggestions { background: var(--popover); border: 1px solid var(--border); box-shadow: var(--shadow-glow); }
 
 .search-page input { background: var(--card); }
-.search-page input:focus-visible { border-color: var(--accent); }
+.search-page input:focus-visible { border-color: var(--primary); }
 .search-page { letter-spacing: 0; }
-.search-page article { border-top: 2px solid var(--accent); }
+.search-page article { border-top: 2px solid var(--primary); }
