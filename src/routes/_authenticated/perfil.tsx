@@ -7,6 +7,7 @@ import { FollowListDialog, type FollowKind } from "@/components/FollowListDialog
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { DeveloperBadge, DEVELOPER_USERNAME } from "@/components/DeveloperBadge";
 import { PostFeed } from "@/components/PostFeed";
+import { PostText } from "@/components/PostText";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

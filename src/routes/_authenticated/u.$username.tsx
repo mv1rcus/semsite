@@ -7,6 +7,7 @@ import { ArrowLeft, Heart, Link2, MapPin, UserPlus, UserCheck, Send, UserRound }
 import { profileLinkLabel, splitProfileLinks } from "@/lib/profile-link";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { PostFeed } from "@/components/PostFeed";
+import { PostText } from "@/components/PostText";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
