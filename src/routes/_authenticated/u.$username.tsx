@@ -7,6 +7,7 @@ import { ArrowLeft, Heart, Link2, MapPin, UserPlus, UserCheck, Send, UserRound }
 import { profileLinkLabel, splitProfileLinks } from "@/lib/profile-link";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { PostFeed } from "@/components/PostFeed";
+import { PostText } from "@/components/PostText";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -79,7 +80,7 @@ function PublicProfile() {
               </div>
               <h1 className="mt-3 flex items-center gap-2 font-sans text-2xl font-extrabold">{p.display_name || "Sem nome"}{p.verified && <VerifiedBadge size={22} />}{p.username === DEVELOPER_USERNAME && <DeveloperBadge size={20} />}</h1>
               <p className="text-muted-foreground">@{p.username}</p>
-              {p.bio && <p className="mt-3 whitespace-pre-wrap">{p.bio}</p>}
+              {p.bio && <PostText body={p.bio} className="mt-3 whitespace-pre-wrap break-words" />}
               {splitProfileLinks(p.link_url).length > 0 && <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">{splitProfileLinks(p.link_url).map(l => <a key={l} href={l} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-semibold text-link hover:underline"><Link2 className="size-4" />{profileLinkLabel(l)}</a>)}</div>}
               {p.city && <p className="mt-3 flex items-center gap-1 text-sm text-muted-foreground"><MapPin className="size-4" />{p.city}</p>}
               <div className="mt-3 flex gap-4 text-sm">

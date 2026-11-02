@@ -1,29 +1,28 @@
 import { Link } from "@tanstack/react-router";
 
-const TOKEN = /(#[0-9a-zA-Z_]{2,30}|@[0-9a-zA-Z_]{2,30})/g;
+import { hashtagTag, mentionProfile, splitMentions } from "@/lib/mention-text";
 
-/** Post text with clickable #hashtags and @mentions. */
-export function PostText({ body }: { body: string }) {
+/** Text with clickable #hashtags and @mentions (posts and profile bios). */
+export function PostText({ body, className = "mt-0.5 whitespace-pre-wrap break-words" }: { body: string; className?: string }) {
   if (!body) return null;
   return (
-    <p className="mt-0.5 whitespace-pre-wrap break-words">
-      {body.split(TOKEN).map((part, i) => {
-        if (!part) return null;
-        if (part.startsWith("#")) {
+    <p className={className}>
+      {splitMentions(body).map((part, i) => {
+        if (part.kind === "hashtag") {
           return (
-            <Link key={i} to="/tag/$tag" params={{ tag: part.slice(1) }} className="font-medium text-primary hover:underline">
-              {part}
+            <Link key={i} {...hashtagTag(part.value)} className="font-medium text-primary hover:underline">
+              #{part.value}
             </Link>
           );
         }
-        if (part.startsWith("@")) {
+        if (part.kind === "mention") {
           return (
-            <Link key={i} to="/u/$username" params={{ username: part.slice(1) }} className="font-medium text-primary hover:underline">
-              {part}
+            <Link key={i} {...mentionProfile(part.value)} className="font-medium text-primary hover:underline">
+              @{part.value}
             </Link>
           );
         }
-        return <span key={i}>{part}</span>;
+        return <span key={i}>{part.value}</span>;
       })}
     </p>
   );
