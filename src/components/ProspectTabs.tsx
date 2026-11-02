@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
-import { Search, PanelsTopLeft, Users, ChartNoAxesCombined, MessageSquareText, Sparkles, LogOut } from "lucide-react";
+import { Search, PanelsTopLeft, Users, ChartNoAxesCombined, MessageSquareText, Sparkles, LogOut, UserRound } from "lucide-react";
 import logoMark from "@/assets/semsite-mark.png";
 
 const TABS = [
@@ -10,6 +10,7 @@ const TABS = [
   { key: "charts", to: "/graficos", label: "Gráficos", icon: ChartNoAxesCombined },
   { key: "message", to: "/mensagem", label: "Mensagem", icon: MessageSquareText },
   { key: "analysis", to: "/analise", label: "Análise", icon: Sparkles },
+  { key: "profile", to: "/perfil", label: "Meu perfil", icon: UserRound },
 ] as const;
 
 export type ProspectTabKey = (typeof TABS)[number]["key"];
