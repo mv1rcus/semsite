@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 
-type Post = { id: string; user_id: string; body: string; media_path: string | null; media_type: string | null; created_at: string; username: string | null; display_name: string | null; avatar_url: string | null; likes: number; i_liked: boolean; url?: string };
+type Post = { id: string; user_id: string; body: string; media_path: string | null; media_type: string | null; created_at: string; username: string | null; display_name: string | null; avatar_url: string | null; likes: number; i_liked: boolean; url?: string | undefined };
 
 export function PostFeed({ onlyUser, canPost = true }: { onlyUser?: string; canPost?: boolean }) {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -18,14 +18,14 @@ export function PostFeed({ onlyUser, canPost = true }: { onlyUser?: string; canP
   const [error, setError] = useState("");
 
   const load = useCallback(async () => {
-    const [{ data: { user } }, { data }] = await Promise.all([supabase.auth.getUser(), supabase.rpc("feed_posts", { only_user: onlyUser ?? undefined })]);
+    const [{ data: { user } }, { data }] = await Promise.all([supabase.auth.getUser(), supabase.rpc("feed_posts", onlyUser ? { only_user: onlyUser } : {})]);
     setMe(user?.id ?? "");
     const rows = (data as Post[] | null) ?? [];
     const paths = rows.map(r => r.media_path).filter((p): p is string => !!p);
     if (paths.length) {
       const { data: signed } = await supabase.storage.from("post-media").createSignedUrls(paths, 3600);
       const map = new Map(signed?.map(s => [s.path, s.signedUrl]));
-      rows.forEach(r => { if (r.media_path) r.url = map.get(r.media_path) ?? undefined; });
+      rows.forEach(r => { if (r.media_path) r.url = map.get(r.media_path); });
     }
     setPosts(rows); setLoading(false);
   }, [onlyUser]);
