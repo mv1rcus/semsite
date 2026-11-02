@@ -10,12 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AnaliseRouteImport } from './routes/analise'
-import { Route as BuscarRouteImport } from './routes/buscar'
-import { Route as ClientesRouteImport } from './routes/clientes'
-import { Route as DemonstracoesRouteImport } from './routes/demonstracoes'
-import { Route as GraficosRouteImport } from './routes/graficos'
-import { Route as MensagemRouteImport } from './routes/mensagem'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthenticatedAnaliseRouteImport } from './routes/_authenticated/analise'
+import { Route as AuthenticatedBuscarRouteImport } from './routes/_authenticated/buscar'
+import { Route as AuthenticatedClientesRouteImport } from './routes/_authenticated/clientes'
+import { Route as AuthenticatedDemonstracoesRouteImport } from './routes/_authenticated/demonstracoes'
+import { Route as AuthenticatedGraficosRouteImport } from './routes/_authenticated/graficos'
+import { Route as AuthenticatedMensagemRouteImport } from './routes/_authenticated/mensagem'
 import { Route as DemoIdRouteImport } from './routes/demo.$id'
 import { Route as SiteSlugCodeRouteImport } from './routes/site.$slug.$code'
 
@@ -24,35 +25,40 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AnaliseRoute = AnaliseRouteImport.update({
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAnaliseRoute = AuthenticatedAnaliseRouteImport.update({
   id: '/analise',
   path: '/analise',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const BuscarRoute = BuscarRouteImport.update({
+const AuthenticatedBuscarRoute = AuthenticatedBuscarRouteImport.update({
   id: '/buscar',
   path: '/buscar',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const ClientesRoute = ClientesRouteImport.update({
+const AuthenticatedClientesRoute = AuthenticatedClientesRouteImport.update({
   id: '/clientes',
   path: '/clientes',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const DemonstracoesRoute = DemonstracoesRouteImport.update({
-  id: '/demonstracoes',
-  path: '/demonstracoes',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GraficosRoute = GraficosRouteImport.update({
+const AuthenticatedDemonstracoesRoute =
+  AuthenticatedDemonstracoesRouteImport.update({
+    id: '/demonstracoes',
+    path: '/demonstracoes',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedGraficosRoute = AuthenticatedGraficosRouteImport.update({
   id: '/graficos',
   path: '/graficos',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const MensagemRoute = MensagemRouteImport.update({
+const AuthenticatedMensagemRoute = AuthenticatedMensagemRouteImport.update({
   id: '/mensagem',
   path: '/mensagem',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const DemoIdRoute = DemoIdRouteImport.update({
   id: '/demo/$id',
@@ -67,35 +73,36 @@ const SiteSlugCodeRoute = SiteSlugCodeRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/analise': typeof AnaliseRoute
-  '/buscar': typeof BuscarRoute
-  '/clientes': typeof ClientesRoute
-  '/demonstracoes': typeof DemonstracoesRoute
-  '/graficos': typeof GraficosRoute
-  '/mensagem': typeof MensagemRoute
+  '/analise': typeof AuthenticatedAnaliseRoute
+  '/buscar': typeof AuthenticatedBuscarRoute
+  '/clientes': typeof AuthenticatedClientesRoute
+  '/demonstracoes': typeof AuthenticatedDemonstracoesRoute
+  '/graficos': typeof AuthenticatedGraficosRoute
+  '/mensagem': typeof AuthenticatedMensagemRoute
   '/demo/$id': typeof DemoIdRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/analise': typeof AnaliseRoute
-  '/buscar': typeof BuscarRoute
-  '/clientes': typeof ClientesRoute
-  '/demonstracoes': typeof DemonstracoesRoute
-  '/graficos': typeof GraficosRoute
-  '/mensagem': typeof MensagemRoute
+  '/analise': typeof AuthenticatedAnaliseRoute
+  '/buscar': typeof AuthenticatedBuscarRoute
+  '/clientes': typeof AuthenticatedClientesRoute
+  '/demonstracoes': typeof AuthenticatedDemonstracoesRoute
+  '/graficos': typeof AuthenticatedGraficosRoute
+  '/mensagem': typeof AuthenticatedMensagemRoute
   '/demo/$id': typeof DemoIdRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/analise': typeof AnaliseRoute
-  '/buscar': typeof BuscarRoute
-  '/clientes': typeof ClientesRoute
-  '/demonstracoes': typeof DemonstracoesRoute
-  '/graficos': typeof GraficosRoute
-  '/mensagem': typeof MensagemRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_authenticated/analise': typeof AuthenticatedAnaliseRoute
+  '/_authenticated/buscar': typeof AuthenticatedBuscarRoute
+  '/_authenticated/clientes': typeof AuthenticatedClientesRoute
+  '/_authenticated/demonstracoes': typeof AuthenticatedDemonstracoesRoute
+  '/_authenticated/graficos': typeof AuthenticatedGraficosRoute
+  '/_authenticated/mensagem': typeof AuthenticatedMensagemRoute
   '/demo/$id': typeof DemoIdRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
 }
@@ -125,24 +132,20 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/analise'
-    | '/buscar'
-    | '/clientes'
-    | '/demonstracoes'
-    | '/graficos'
-    | '/mensagem'
+    | '/_authenticated'
+    | '/_authenticated/analise'
+    | '/_authenticated/buscar'
+    | '/_authenticated/clientes'
+    | '/_authenticated/demonstracoes'
+    | '/_authenticated/graficos'
+    | '/_authenticated/mensagem'
     | '/demo/$id'
     | '/site/$slug/$code'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AnaliseRoute: typeof AnaliseRoute
-  BuscarRoute: typeof BuscarRoute
-  ClientesRoute: typeof ClientesRoute
-  DemonstracoesRoute: typeof DemonstracoesRoute
-  GraficosRoute: typeof GraficosRoute
-  MensagemRoute: typeof MensagemRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   DemoIdRoute: typeof DemoIdRoute
   SiteSlugCodeRoute: typeof SiteSlugCodeRoute
 }
@@ -156,47 +159,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/analise': {
-      id: '/analise'
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/analise': {
+      id: '/_authenticated/analise'
       path: '/analise'
       fullPath: '/analise'
-      preLoaderRoute: typeof AnaliseRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedAnaliseRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/buscar': {
-      id: '/buscar'
+    '/_authenticated/buscar': {
+      id: '/_authenticated/buscar'
       path: '/buscar'
       fullPath: '/buscar'
-      preLoaderRoute: typeof BuscarRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedBuscarRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/clientes': {
-      id: '/clientes'
+    '/_authenticated/clientes': {
+      id: '/_authenticated/clientes'
       path: '/clientes'
       fullPath: '/clientes'
-      preLoaderRoute: typeof ClientesRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedClientesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/demonstracoes': {
-      id: '/demonstracoes'
+    '/_authenticated/demonstracoes': {
+      id: '/_authenticated/demonstracoes'
       path: '/demonstracoes'
       fullPath: '/demonstracoes'
-      preLoaderRoute: typeof DemonstracoesRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedDemonstracoesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/graficos': {
-      id: '/graficos'
+    '/_authenticated/graficos': {
+      id: '/_authenticated/graficos'
       path: '/graficos'
       fullPath: '/graficos'
-      preLoaderRoute: typeof GraficosRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedGraficosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/mensagem': {
-      id: '/mensagem'
+    '/_authenticated/mensagem': {
+      id: '/_authenticated/mensagem'
       path: '/mensagem'
       fullPath: '/mensagem'
-      preLoaderRoute: typeof MensagemRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedMensagemRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/demo/$id': {
       id: '/demo/$id'
@@ -215,14 +225,30 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAnaliseRoute: typeof AuthenticatedAnaliseRoute
+  AuthenticatedBuscarRoute: typeof AuthenticatedBuscarRoute
+  AuthenticatedClientesRoute: typeof AuthenticatedClientesRoute
+  AuthenticatedDemonstracoesRoute: typeof AuthenticatedDemonstracoesRoute
+  AuthenticatedGraficosRoute: typeof AuthenticatedGraficosRoute
+  AuthenticatedMensagemRoute: typeof AuthenticatedMensagemRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAnaliseRoute: AuthenticatedAnaliseRoute,
+  AuthenticatedBuscarRoute: AuthenticatedBuscarRoute,
+  AuthenticatedClientesRoute: AuthenticatedClientesRoute,
+  AuthenticatedDemonstracoesRoute: AuthenticatedDemonstracoesRoute,
+  AuthenticatedGraficosRoute: AuthenticatedGraficosRoute,
+  AuthenticatedMensagemRoute: AuthenticatedMensagemRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AnaliseRoute: AnaliseRoute,
-  BuscarRoute: BuscarRoute,
-  ClientesRoute: ClientesRoute,
-  DemonstracoesRoute: DemonstracoesRoute,
-  GraficosRoute: GraficosRoute,
-  MensagemRoute: MensagemRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   DemoIdRoute: DemoIdRoute,
   SiteSlugCodeRoute: SiteSlugCodeRoute,
 }
