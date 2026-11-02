@@ -70,7 +70,7 @@ export function PostFeed({ onlyUser, tag, canPost = true, followingOnly = false,
     if (paths.length) {
       const { data: signed } = await supabase.storage.from("post-media").createSignedUrls(paths, 3600);
       const map = new Map(signed?.map(s => [s.path, s.signedUrl]));
-      rows.forEach(r => { if (r.media_path) r.url = map.get(r.media_path) ?? undefined; });
+      rows.forEach(r => { const u = r.media_path ? map.get(r.media_path) : undefined; if (u) r.url = u; });
     }
     setPosts(rows); setLoading(false);
   }, [onlyUser, tag, followingOnly, canPost]);
@@ -78,7 +78,7 @@ export function PostFeed({ onlyUser, tag, canPost = true, followingOnly = false,
 
   const mention = useMemo(() => {
     const m = /(?:^|\s)@([0-9a-zA-Z_]{1,30})$/.exec(body.slice(0, caret));
-    return m ? m[1] : null;
+    return m && m[1] ? m[1] : null;
   }, [body, caret]);
 
   useEffect(() => {
