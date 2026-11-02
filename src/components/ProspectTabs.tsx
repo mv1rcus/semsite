@@ -1,5 +1,6 @@
-import { Link } from "@tanstack/react-router";
-import { Search, PanelsTopLeft, Users, ChartNoAxesCombined, MessageSquareText, Sparkles } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { supabase } from "@/integrations/supabase/client";
+import { Search, PanelsTopLeft, Users, ChartNoAxesCombined, MessageSquareText, Sparkles, LogOut } from "lucide-react";
 import logoMark from "@/assets/semsite-mark.png";
 
 const TABS = [
@@ -14,12 +15,20 @@ const TABS = [
 export type ProspectTabKey = (typeof TABS)[number]["key"];
 
 export function ProspectTabs({ active }: { active: ProspectTabKey }) {
+  const navigate = useNavigate();
+  async function signOut() {
+    await supabase.auth.signOut();
+    navigate({ to: "/", replace: true });
+  }
   return (
     <header className="mx-auto mt-6 max-w-6xl">
-      <Link to="/" aria-label="Início" className="flex w-fit items-center gap-2">
+      <div className="flex items-center justify-between gap-3">
+      <Link to="/buscar" aria-label="Início" className="flex w-fit items-center gap-2">
         <img src={logoMark} alt="" width={420} height={420} loading="lazy" className="h-9 w-auto" />
         <span className="font-display text-2xl tracking-wide">SemSite</span>
       </Link>
+      <button type="button" onClick={signOut} className="tab-pill"><LogOut size={16} />Sair</button>
+      </div>
       <nav aria-label="Áreas" className="no-scrollbar -mx-1 mt-4 flex gap-2 overflow-x-auto px-1 pb-1">
         {TABS.map(({ key, to, label, icon: Icon }) => {
           const isActive = active === key;

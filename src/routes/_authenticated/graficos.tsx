@@ -10,7 +10,7 @@ import { useFollowUp } from "@/lib/use-follow-up";
 import { reportRange, reportSeries, uniqueClientTotals, type ReportPeriod } from "@/lib/client-statistics";
 import { GOAL_KEY, goalProgress, parseGoal } from "@/lib/sales-goal";
 
-export const Route = createFileRoute("/graficos")({
+export const Route = createFileRoute("/_authenticated/graficos")({
   head: () => ({ meta: [{ title: "Gráficos de clientes — SemSite" }, { name: "description", content: "Veja mensagens registradas, demonstrações enviadas e clientes fechados por dia, mês e ano." }, { property: "og:title", content: "Gráficos de clientes — SemSite" }, { property: "og:description", content: "Acompanhe seus resultados de prospecção por período." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: Graficos,
 });
