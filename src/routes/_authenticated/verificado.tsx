@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe-js";
-import { Check, Loader2 } from "lucide-react";
+import { Check, Clock, Infinity as InfinityIcon, Loader2, MessageSquareText, PanelsTopLeft, ShieldCheck, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { supabase } from "@/integrations/supabase/client";
@@ -16,7 +16,29 @@ export const Route = createFileRoute("/_authenticated/verificado")({
   component: Verificado,
 });
 
-const PERKS = ["Selo verificado no perfil", "Buscas de clientes sem limite (grátis: 5 por dia)", "Criar sites de demonstração", "Personalizar a mensagem do WhatsApp", "Análise comercial"];
+/** O que a pessoa ganha e o que ela deixa de ter sem o selo. */
+const COMPARISON = [
+  { free: "5 buscas de clientes por dia", paid: "Buscas sem limite nenhum" },
+  { free: "Nenhum site de demonstração", paid: "Demonstração pronta em minutos" },
+  { free: "Mensagem travada no padrão", paid: "Mensagem escrita do seu jeito" },
+  { free: "Análise comercial bloqueada", paid: "Análise do negócio liberada" },
+  { free: "Perfil igual a todos", paid: "Selo verificado no seu nome" },
+];
+
+const VANTAGENS = [
+  { icon: InfinityIcon, title: "Buscar sem parar", text: "Cidade nova, categoria nova, quantas vezes você quiser. O teto de 5 buscas por dia vai embora." },
+  { icon: PanelsTopLeft, title: "Mostrar em vez de prometer", text: "Monte um site de demonstração do cliente e mande o link antes de falar de preço. É assim que se fecha." },
+  { icon: MessageSquareText, title: "Mensagem com a sua cara", text: "Escolha entre sugestões, escreva do seu jeito e mande sem parecer mensagem pronta." },
+  { icon: Sparkles, title: "Saber o que falar", text: "A análise mostra o que falta no negócio e sugere a abordagem certa pra cada segmento." },
+  { icon: ShieldCheck, title: "Confiança antes do sim", text: "O selo aparece do lado do seu nome no perfil, no feed e nas mensagens." },
+];
+
+const DUVIDAS = [
+  { q: "Quando o selo aparece?", a: "Alguns segundos depois do pagamento confirmado. Você não precisa fazer nada: o selo entra sozinho e tudo é liberado na hora." },
+  { q: "Posso cancelar quando quiser?", a: "Pode. Cancelando, o selo e os acessos continuam até o fim do período que você já pagou — depois saem sozinhos." },
+  { q: "Preciso de cartão?", a: "Não. Você pode pagar no cartão ou no Pix, o que for mais fácil pra você." },
+  { q: "E se o pagamento falhar?", a: "O selo sai na hora e volta assim que o pagamento for regularizado. Nada do que você salvou é apagado." },
+];
 
 function TestBanner() {
   const t = import.meta.env['VITE_PAYMENTS_CLIENT_TOKEN'] as string | undefined;
@@ -64,11 +86,12 @@ function Verificado() {
   };
 
   return (
-    <main className="mx-auto max-w-xl space-y-5 px-4 py-6">
+    <main className="mx-auto max-w-2xl space-y-5 px-4 py-6">
       <TestBanner />
       <div className="text-center">
         <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-primary/10"><VerifiedBadge size={36} /></div>
         <h1 className="mt-3 font-display text-5xl tracking-wide">SemSite Verificado</h1>
+        <p className="mx-auto mt-2 max-w-md text-lg">O seu próximo cliente não aparece sozinho.<br />O Verificado tira o limite da sua busca e libera tudo o que fecha venda.</p>
       </div>
       {loading || waiting ? (
         <div className="flex flex-col items-center gap-2 py-10 text-muted-foreground"><Loader2 className="size-6 animate-spin" />{waiting && "Confirmando seu pagamento…"}</div>
@@ -87,18 +110,67 @@ function Verificado() {
         </div>
       ) : (
         <>
-          <ul className="space-y-2 rounded-2xl border bg-card p-5">{PERKS.map(p => <li key={p} className="flex gap-2"><Check className="size-5 shrink-0 text-primary" />{p}</li>)}</ul>
-          {sub && !verified && <p className="text-center text-sm text-muted-foreground">Sua última assinatura não está ativa{sub.status === "past_due" || sub.status === "unpaid" ? " porque o pagamento falhou" : ""}. Assine de novo para voltar o selo.</p>}
-          <div className="grid gap-3 sm:grid-cols-2">
-            {VERIFIED_PLANS.map(p => (
-              <button key={p.id} type="button" onClick={() => setPlan(p.id)} className="rounded-2xl border-2 border-border bg-card p-5 text-left transition hover:border-primary">
-                <span className="flex items-center justify-between font-bold">{p.label}{p.note && <span className="rounded-full bg-accent px-2 py-0.5 text-xs">{p.note}</span>}</span>
-                <span className="mt-1 block text-3xl font-extrabold">{p.price}<span className="text-base font-normal text-muted-foreground">{p.period}</span></span>
-                <span className="mt-3 block rounded-full bg-primary py-2 text-center font-bold text-primary-foreground">Assinar</span>
-              </button>
-            ))}
-          </div>
-          <p className="text-center text-xs text-muted-foreground">Cancele quando quiser: o selo continua até o fim do período pago.</p>
+          <section className="rounded-2xl border bg-card p-5">
+            <h2 className="font-display text-3xl tracking-wide">O que muda no seu dia</h2>
+            <p className="mt-1 text-sm text-muted-foreground">É a mesma tela, com o limite fora e as portas abertas.</p>
+            <ul className="mt-4 space-y-2">
+              {COMPARISON.map(c => (
+                <li key={c.paid} className="grid gap-1 rounded-xl border border-border bg-muted/30 p-3 sm:grid-cols-2 sm:items-center">
+                  <span className="flex items-center gap-2 text-sm text-muted-foreground"><X className="size-4 shrink-0 text-destructive" />{c.free}</span>
+                  <span className="flex items-center gap-2 font-semibold"><Check className="size-4 shrink-0 text-primary" />{c.paid}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="rounded-2xl border bg-card p-5">
+            <h2 className="font-display text-3xl tracking-wide">Por que vale os R$ 7,99</h2>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {VANTAGENS.map(v => (
+                <div key={v.title} className="rounded-xl border border-border bg-background/60 p-4">
+                  <v.icon className="size-6 text-primary" />
+                  <p className="mt-2 font-bold">{v.title}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">{v.text}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 rounded-xl bg-accent p-4 text-center">
+              <p className="font-display text-3xl tracking-wide">Um site fechado paga o ano inteiro</p>
+              <p className="mt-1 text-sm">São menos de 27 centavos por dia pra buscar, demonstrar e falar certo com quem ainda não tem site.</p>
+            </div>
+          </section>
+
+          <section className="rounded-2xl border bg-card p-5">
+            <h2 className="font-display text-3xl tracking-wide">Escolha o seu plano</h2>
+            {sub && !verified && <p className="mt-1 text-sm text-muted-foreground">Sua última assinatura não está ativa{sub.status === "past_due" || sub.status === "unpaid" ? " porque o pagamento falhou" : ""}. Assine de novo para voltar o selo.</p>}
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {VERIFIED_PLANS.map(p => (
+                <button key={p.id} type="button" onClick={() => setPlan(p.id)} className="rounded-2xl border-2 border-border bg-card p-5 text-left transition hover:border-primary">
+                  <span className="flex items-center justify-between font-bold">{p.label}{p.note && <span className="rounded-full bg-accent px-2 py-0.5 text-xs">{p.note}</span>}</span>
+                  <span className="mt-1 block text-3xl font-extrabold">{p.price}<span className="text-base font-normal text-muted-foreground">{p.period}</span></span>
+                  <span className="mt-3 block rounded-full bg-primary py-2 text-center font-bold text-primary-foreground">Assinar agora</span>
+                </button>
+              ))}
+            </div>
+            <ul className="mt-4 space-y-1.5 text-sm text-muted-foreground">
+              <li className="flex items-center gap-2"><Check className="size-4 shrink-0 text-primary" />Cancele quando quiser: o selo continua até o fim do período pago.</li>
+              <li className="flex items-center gap-2"><Clock className="size-4 shrink-0 text-primary" />O selo entra sozinho, segundos depois do pagamento.</li>
+              <li className="flex items-center gap-2"><ShieldCheck className="size-4 shrink-0 text-primary" />Pagamento processado em ambiente seguro, no cartão ou Pix.</li>
+            </ul>
+          </section>
+
+          <section className="rounded-2xl border bg-card p-5">
+            <h2 className="font-display text-3xl tracking-wide">Perguntas rápidas</h2>
+            <div className="mt-3 space-y-2">
+              {DUVIDAS.map(d => (
+                <details key={d.q} className="rounded-xl border border-border p-3">
+                  <summary className="cursor-pointer font-semibold">{d.q}</summary>
+                  <p className="mt-2 text-sm text-muted-foreground">{d.a}</p>
+                </details>
+              ))}
+            </div>
+            <Button className="mt-4 w-full rounded-full py-6 font-display text-2xl tracking-wide" onClick={() => setPlan("verificado_mensal")}>Quero o Verificado</Button>
+          </section>
         </>
       )}
       {error && <p className="text-center text-sm text-destructive">{error}</p>}
