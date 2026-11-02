@@ -109,7 +109,7 @@ function Perfil() {
           {status === "error" && <p role="alert" className="text-sm text-destructive">{err}</p>}
         </form>
       </section>
-      <section className="mx-auto mt-8 max-w-xl">
+      <section className="mx-auto mt-8 max-w-2xl">
         <h2 className="mb-3 text-3xl">Minhas publicações</h2>
         {savedUser ? <PostFeed key={savedUser} onlyUser={savedUser} canPost={false} /> : !loading && <p className="text-sm text-muted-foreground">Escolha seu @ e salve o perfil pra ver suas publicações aqui.</p>}
       </section>
