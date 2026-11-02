@@ -13,6 +13,7 @@ export const Route = createFileRoute("/_authenticated/feed")({
 function Feed() {
   const [tab, setTab] = useState<"all" | "following">("all");
   const [compose, setCompose] = useState(false);
+  const [refresh, setRefresh] = useState(0);
   return (
     <main className="relative min-h-screen px-4 pb-24">
       <ProspectTabs active="feed" />
@@ -26,11 +27,11 @@ function Feed() {
               </button>
             ))}
           </div>
-          <PostFeed key={tab} followingOnly={tab === "following"} composerOpen={compose} onPosted={() => setCompose(false)} />
+          <PostFeed key={tab} followingOnly={tab === "following"} composerOpen={compose} onPosted={() => { setCompose(false); setRefresh(r => r + 1); }} />
         </section>
         <aside className="mx-auto w-full max-w-2xl space-y-4 lg:max-w-none">
-          <TrendingTags />
-          <WhoToFollow />
+          <TrendingTags key={refresh} />
+          <WhoToFollow key={refresh} />
         </aside>
       </div>
       <button type="button" aria-label="Nova publicação" onClick={() => { setCompose(c => !c); window.scrollTo({ top: 0, behavior: "smooth" }); }}
