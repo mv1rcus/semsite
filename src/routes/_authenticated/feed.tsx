@@ -30,8 +30,8 @@ function Feed() {
           <PostFeed key={tab} followingOnly={tab === "following"} composerOpen={compose} onPosted={() => { setCompose(false); setRefresh(r => r + 1); }} />
         </section>
         <aside className="mx-auto w-full max-w-2xl space-y-4 lg:max-w-none">
-          <TrendingTags key={refresh} />
-          <WhoToFollow key={refresh} />
+          <TrendingTags key={`trending-${refresh}`} />
+          <WhoToFollow key={`who-${refresh}`} />
         </aside>
       </div>
       <button type="button" aria-label="Nova publicação" onClick={() => { setCompose(c => !c); window.scrollTo({ top: 0, behavior: "smooth" }); }}
