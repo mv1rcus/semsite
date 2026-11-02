@@ -44,6 +44,36 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          avatar_url: string
+          bio: string
+          city: string
+          display_name: string
+          id: string
+          phone: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string
+          bio?: string
+          city?: string
+          display_name?: string
+          id: string
+          phone?: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string
+          bio?: string
+          city?: string
+          display_name?: string
+          id?: string
+          phone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       site_demonstrations: {
         Row: {
           address: string

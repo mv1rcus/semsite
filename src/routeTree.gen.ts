@@ -17,6 +17,7 @@ import { Route as AuthenticatedClientesRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedDemonstracoesRouteImport } from './routes/_authenticated/demonstracoes'
 import { Route as AuthenticatedGraficosRouteImport } from './routes/_authenticated/graficos'
 import { Route as AuthenticatedMensagemRouteImport } from './routes/_authenticated/mensagem'
+import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
 import { Route as DemoIdRouteImport } from './routes/demo.$id'
 import { Route as SiteSlugCodeRouteImport } from './routes/site.$slug.$code'
 
@@ -60,6 +61,11 @@ const AuthenticatedMensagemRoute = AuthenticatedMensagemRouteImport.update({
   path: '/mensagem',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const DemoIdRoute = DemoIdRouteImport.update({
   id: '/demo/$id',
   path: '/demo/$id',
@@ -79,6 +85,7 @@ export interface FileRoutesByFullPath {
   '/demonstracoes': typeof AuthenticatedDemonstracoesRoute
   '/graficos': typeof AuthenticatedGraficosRoute
   '/mensagem': typeof AuthenticatedMensagemRoute
+  '/perfil': typeof AuthenticatedPerfilRoute
   '/demo/$id': typeof DemoIdRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
 }
@@ -90,6 +97,7 @@ export interface FileRoutesByTo {
   '/demonstracoes': typeof AuthenticatedDemonstracoesRoute
   '/graficos': typeof AuthenticatedGraficosRoute
   '/mensagem': typeof AuthenticatedMensagemRoute
+  '/perfil': typeof AuthenticatedPerfilRoute
   '/demo/$id': typeof DemoIdRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
 }
@@ -103,6 +111,7 @@ export interface FileRoutesById {
   '/_authenticated/demonstracoes': typeof AuthenticatedDemonstracoesRoute
   '/_authenticated/graficos': typeof AuthenticatedGraficosRoute
   '/_authenticated/mensagem': typeof AuthenticatedMensagemRoute
+  '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
   '/demo/$id': typeof DemoIdRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
 }
@@ -116,6 +125,7 @@ export interface FileRouteTypes {
     | '/demonstracoes'
     | '/graficos'
     | '/mensagem'
+    | '/perfil'
     | '/demo/$id'
     | '/site/$slug/$code'
   fileRoutesByTo: FileRoutesByTo
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/demonstracoes'
     | '/graficos'
     | '/mensagem'
+    | '/perfil'
     | '/demo/$id'
     | '/site/$slug/$code'
   id:
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/_authenticated/demonstracoes'
     | '/_authenticated/graficos'
     | '/_authenticated/mensagem'
+    | '/_authenticated/perfil'
     | '/demo/$id'
     | '/site/$slug/$code'
   fileRoutesById: FileRoutesById
@@ -208,6 +220,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMensagemRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/perfil': {
+      id: '/_authenticated/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof AuthenticatedPerfilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/demo/$id': {
       id: '/demo/$id'
       path: '/demo/$id'
@@ -232,6 +251,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDemonstracoesRoute: typeof AuthenticatedDemonstracoesRoute
   AuthenticatedGraficosRoute: typeof AuthenticatedGraficosRoute
   AuthenticatedMensagemRoute: typeof AuthenticatedMensagemRoute
+  AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -241,6 +261,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDemonstracoesRoute: AuthenticatedDemonstracoesRoute,
   AuthenticatedGraficosRoute: AuthenticatedGraficosRoute,
   AuthenticatedMensagemRoute: AuthenticatedMensagemRoute,
+  AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

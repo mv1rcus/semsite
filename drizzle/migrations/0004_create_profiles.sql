@@ -1,0 +1,32 @@
+CREATE TABLE public.profiles (
+  id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  display_name text NOT NULL DEFAULT '',
+  phone text NOT NULL DEFAULT '',
+  city text NOT NULL DEFAULT '',
+  bio text NOT NULL DEFAULT '',
+  avatar_url text NOT NULL DEFAULT '',
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+GRANT SELECT, INSERT, UPDATE ON public.profiles TO authenticated;
+GRANT ALL ON public.profiles TO service_role;
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own profile select" ON public.profiles FOR SELECT TO authenticated USING (auth.uid() = id);
+CREATE POLICY "own profile insert" ON public.profiles FOR INSERT TO authenticated WITH CHECK (auth.uid() = id);
+CREATE POLICY "own profile update" ON public.profiles FOR UPDATE TO authenticated USING (auth.uid() = id) WITH CHECK (auth.uid() = id);
+
+CREATE OR REPLACE FUNCTION public.handle_new_user_profile()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+BEGIN
+  INSERT INTO public.profiles (id, display_name, avatar_url)
+  VALUES (NEW.id,
+    left(coalesce(NEW.raw_user_meta_data->>'full_name', NEW.raw_user_meta_data->>'name', ''), 60),
+    coalesce(NEW.raw_user_meta_data->>'avatar_url', ''))
+  ON CONFLICT (id) DO NOTHING;
+  RETURN NEW;
+END $$;
+CREATE TRIGGER on_auth_user_created_profile AFTER INSERT ON auth.users
+FOR EACH ROW EXECUTE FUNCTION public.handle_new_user_profile();
+
+INSERT INTO public.profiles (id, display_name, avatar_url)
+SELECT id, left(coalesce(raw_user_meta_data->>'full_name', raw_user_meta_data->>'name', ''), 60), coalesce(raw_user_meta_data->>'avatar_url', '')
+FROM auth.users ON CONFLICT (id) DO NOTHING;
