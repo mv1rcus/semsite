@@ -15,7 +15,7 @@ describe("Client website concepts", () => {
     const code = demonstrationCode(id);
     expect(code).toHaveLength(22);
     expect(demonstrationId(code)).toBe(id);
-    expect(demonstrationLink(id, "https://id-preview--example.lovable.app", "Pizzaria São João")).toBe(`https://cacacliente.lovable.app/site/pizzaria-sao-joao/${code}`);
+    expect(demonstrationLink(id, "https://id-preview--example.lovable.app", "Pizzaria São João")).toBe(`https://semsite.lovable.app/site/pizzaria-sao-joao/${code}`);
     expect(demonstrationLink(id, "http://localhost:8080", "Pizzaria São João")).toBe(`http://localhost:8080/site/pizzaria-sao-joao/${code}`);
   });
   it("rejects malformed short codes and sanitizes business names", () => {
@@ -25,8 +25,8 @@ describe("Client website concepts", () => {
     expect(demonstrationSlug("!!!")).toBe("meu-negocio");
   });
   it("shares demonstrations on the current published app, not the obsolete domain", () => {
-    expect(demonstrationLink("abc", "https://cacacliente.lovable.app")).toBe("https://cacacliente.lovable.app/demo/abc");
-    expect(demonstrationLink("abc", "https://id-preview--example.lovable.app")).toBe("https://cacacliente.lovable.app/demo/abc");
+    expect(demonstrationLink("abc", "https://cacacliente.lovable.app")).toBe("https://semsite.lovable.app/demo/abc");
+    expect(demonstrationLink("abc", "https://id-preview--example.lovable.app")).toBe("https://semsite.lovable.app/demo/abc");
   });
   it("keeps local demonstration verification on the same origin", () => {
     expect(demonstrationLink("abc", "http://localhost:8080")).toBe("http://localhost:8080/demo/abc");
