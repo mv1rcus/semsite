@@ -81,6 +81,7 @@ function Perfil() {
     const clean = { username: username || null, display_name: form.display_name.trim().slice(0, 60), phone: form.phone.trim().slice(0, 30), city: form.city.trim().slice(0, 80), bio: form.bio.trim().slice(0, 300) };
     const { error } = await supabase.from("profiles").upsert({ id: userId, ...clean, avatar_url: form.avatar_url, banner_url: form.banner_url, updated_at: new Date().toISOString() });
     if (error) { setStatus("error"); setErr(error.code === "23505" ? "Esse @ já está em uso. Escolha outro." : "Não foi possível salvar. Tente de novo."); return; }
+    window.dispatchEvent(new Event("semsite-profile"));
     if (useInMessages && clean.display_name) saveMessageSettings({ ...loadMessageSettings(), senderName: clean.display_name });
     setSavedUser(clean.username ?? "");
     setSaved({ ...form, ...clean, username: clean.username ?? "" });
