@@ -199,6 +199,29 @@ export type Database = {
         }
         Relationships: []
       }
+      verified_profiles: {
+        Row: {
+          created_at: string
+          profile_id: string
+        }
+        Insert: {
+          created_at?: string
+          profile_id: string
+        }
+        Update: {
+          created_at?: string
+          profile_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verified_profiles_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -218,6 +241,7 @@ export type Database = {
           media_type: string
           user_id: string
           username: string
+          verified: boolean
         }[]
       }
       get_public_profile: {
@@ -234,6 +258,7 @@ export type Database = {
           id: string
           likes: number
           username: string
+          verified: boolean
         }[]
       }
       search_profiles: {
@@ -244,6 +269,7 @@ export type Database = {
           city: string
           display_name: string
           username: string
+          verified: boolean
         }[]
       }
     }

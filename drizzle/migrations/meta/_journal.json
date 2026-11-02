@@ -57,6 +57,13 @@
       "when": 1793644137595,
       "tag": "0007_feed_posts",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1793644640475,
+      "tag": "0008_verified_profiles",
+      "breakpoints": true
     }
   ]
 }
