@@ -58,7 +58,7 @@ function PublicProfile() {
             </div>
             <div className="px-4 pb-4 sm:px-6">
               <div className="flex items-start justify-between gap-2">
-                <div className="-mt-12 rounded-full border-4 border-card bg-card sm:-mt-16">
+                <div className="relative z-10 -mt-12 shrink-0 rounded-full border-4 border-card bg-card sm:-mt-16">
                   {p.avatar_url
                     ? <img src={p.avatar_url} alt="" width={128} height={128} referrerPolicy="no-referrer" className="size-24 rounded-full object-cover sm:size-32" />
                     : <div className="flex size-24 items-center justify-center rounded-full bg-muted text-primary sm:size-32"><UserRound className="size-10" /></div>}
