@@ -15,6 +15,7 @@ import { Route as AuthenticatedAnaliseRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedBuscarRouteImport } from './routes/_authenticated/buscar'
 import { Route as AuthenticatedClientesRouteImport } from './routes/_authenticated/clientes'
 import { Route as AuthenticatedDemonstracoesRouteImport } from './routes/_authenticated/demonstracoes'
+import { Route as AuthenticatedFeedRouteImport } from './routes/_authenticated/feed'
 import { Route as AuthenticatedGraficosRouteImport } from './routes/_authenticated/graficos'
 import { Route as AuthenticatedMensagemRouteImport } from './routes/_authenticated/mensagem'
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
@@ -53,6 +54,11 @@ const AuthenticatedDemonstracoesRoute =
     path: '/demonstracoes',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedFeedRoute = AuthenticatedFeedRouteImport.update({
+  id: '/feed',
+  path: '/feed',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedGraficosRoute = AuthenticatedGraficosRouteImport.update({
   id: '/graficos',
   path: '/graficos',
@@ -95,6 +101,7 @@ export interface FileRoutesByFullPath {
   '/buscar': typeof AuthenticatedBuscarRoute
   '/clientes': typeof AuthenticatedClientesRoute
   '/demonstracoes': typeof AuthenticatedDemonstracoesRoute
+  '/feed': typeof AuthenticatedFeedRoute
   '/graficos': typeof AuthenticatedGraficosRoute
   '/mensagem': typeof AuthenticatedMensagemRoute
   '/perfil': typeof AuthenticatedPerfilRoute
@@ -109,6 +116,7 @@ export interface FileRoutesByTo {
   '/buscar': typeof AuthenticatedBuscarRoute
   '/clientes': typeof AuthenticatedClientesRoute
   '/demonstracoes': typeof AuthenticatedDemonstracoesRoute
+  '/feed': typeof AuthenticatedFeedRoute
   '/graficos': typeof AuthenticatedGraficosRoute
   '/mensagem': typeof AuthenticatedMensagemRoute
   '/perfil': typeof AuthenticatedPerfilRoute
@@ -125,6 +133,7 @@ export interface FileRoutesById {
   '/_authenticated/buscar': typeof AuthenticatedBuscarRoute
   '/_authenticated/clientes': typeof AuthenticatedClientesRoute
   '/_authenticated/demonstracoes': typeof AuthenticatedDemonstracoesRoute
+  '/_authenticated/feed': typeof AuthenticatedFeedRoute
   '/_authenticated/graficos': typeof AuthenticatedGraficosRoute
   '/_authenticated/mensagem': typeof AuthenticatedMensagemRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
@@ -141,6 +150,7 @@ export interface FileRouteTypes {
     | '/buscar'
     | '/clientes'
     | '/demonstracoes'
+    | '/feed'
     | '/graficos'
     | '/mensagem'
     | '/perfil'
@@ -155,6 +165,7 @@ export interface FileRouteTypes {
     | '/buscar'
     | '/clientes'
     | '/demonstracoes'
+    | '/feed'
     | '/graficos'
     | '/mensagem'
     | '/perfil'
@@ -170,6 +181,7 @@ export interface FileRouteTypes {
     | '/_authenticated/buscar'
     | '/_authenticated/clientes'
     | '/_authenticated/demonstracoes'
+    | '/_authenticated/feed'
     | '/_authenticated/graficos'
     | '/_authenticated/mensagem'
     | '/_authenticated/perfil'
@@ -230,6 +242,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDemonstracoesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/feed': {
+      id: '/_authenticated/feed'
+      path: '/feed'
+      fullPath: '/feed'
+      preLoaderRoute: typeof AuthenticatedFeedRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/graficos': {
       id: '/_authenticated/graficos'
       path: '/graficos'
@@ -287,6 +306,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedBuscarRoute: typeof AuthenticatedBuscarRoute
   AuthenticatedClientesRoute: typeof AuthenticatedClientesRoute
   AuthenticatedDemonstracoesRoute: typeof AuthenticatedDemonstracoesRoute
+  AuthenticatedFeedRoute: typeof AuthenticatedFeedRoute
   AuthenticatedGraficosRoute: typeof AuthenticatedGraficosRoute
   AuthenticatedMensagemRoute: typeof AuthenticatedMensagemRoute
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
@@ -299,6 +319,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBuscarRoute: AuthenticatedBuscarRoute,
   AuthenticatedClientesRoute: AuthenticatedClientesRoute,
   AuthenticatedDemonstracoesRoute: AuthenticatedDemonstracoesRoute,
+  AuthenticatedFeedRoute: AuthenticatedFeedRoute,
   AuthenticatedGraficosRoute: AuthenticatedGraficosRoute,
   AuthenticatedMensagemRoute: AuthenticatedMensagemRoute,
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
