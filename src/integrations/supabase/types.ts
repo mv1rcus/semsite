@@ -234,6 +234,7 @@ export type Database = {
           city: string
           display_name: string
           id: string
+          link_url: string
           phone: string
           updated_at: string
           username: string | null
@@ -245,6 +246,7 @@ export type Database = {
           city?: string
           display_name?: string
           id: string
+          link_url?: string
           phone?: string
           updated_at?: string
           username?: string | null
@@ -256,6 +258,7 @@ export type Database = {
           city?: string
           display_name?: string
           id?: string
+          link_url?: string
           phone?: string
           updated_at?: string
           username?: string | null
@@ -385,6 +388,7 @@ export type Database = {
           i_liked: boolean
           id: string
           likes: number
+          link_url: string
           username: string
           verified: boolean
         }[]
