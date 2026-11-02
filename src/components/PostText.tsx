@@ -2,11 +2,11 @@ import { Link } from "@tanstack/react-router";
 
 const TOKEN = /(#[0-9a-zA-Z_]{2,30}|@[0-9a-zA-Z_]{2,30})/g;
 
-/** Post text with clickable #hashtags and @mentions. */
-export function PostText({ body }: { body: string }) {
+/** Text with clickable #hashtags and @mentions (posts and profile bios). */
+export function PostText({ body, className = "mt-0.5 whitespace-pre-wrap break-words" }: { body: string; className?: string }) {
   if (!body) return null;
   return (
-    <p className="mt-0.5 whitespace-pre-wrap break-words">
+    <p className={className}>
       {body.split(TOKEN).map((part, i) => {
         if (!part) return null;
         if (part.startsWith("#")) {
