@@ -71,6 +71,13 @@
       "when": 1793644803254,
       "tag": "0009_post_comments",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1793645404650,
+      "tag": "0010_social_notifications_dm",
+      "breakpoints": true
     }
   ]
 }
