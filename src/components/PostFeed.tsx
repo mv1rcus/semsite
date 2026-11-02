@@ -25,7 +25,7 @@ export function PostFeed({ onlyUser, canPost = true }: { onlyUser?: string; canP
     if (paths.length) {
       const { data: signed } = await supabase.storage.from("post-media").createSignedUrls(paths, 3600);
       const map = new Map(signed?.map(s => [s.path, s.signedUrl]));
-      rows.forEach(r => { if (r.media_path) r.url = map.get(r.media_path); });
+      rows.forEach(r => { if (r.media_path) r.url = map.get(r.media_path) ?? undefined; });
     }
     setPosts(rows); setLoading(false);
   }, [onlyUser]);
