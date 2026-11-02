@@ -20,5 +20,5 @@ export const SEMSITE_TIPS: string[] = [
 
 export function tipForDate(d: Date): string {
   const day = Math.floor(d.getTime() / 86_400_000);
-  return SEMSITE_TIPS[day % SEMSITE_TIPS.length];
+  return SEMSITE_TIPS[day % SEMSITE_TIPS.length] ?? SEMSITE_TIPS[0]!;
 }
