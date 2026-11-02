@@ -78,6 +78,13 @@
       "when": 1793645404650,
       "tag": "0010_social_notifications_dm",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1793648448320,
+      "tag": "0011_add_reposts_trending_who_to_follow",
+      "breakpoints": true
     }
   ]
 }
