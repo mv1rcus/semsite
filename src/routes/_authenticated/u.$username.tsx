@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FollowListDialog, type FollowKind } from "@/components/FollowListDialog";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
+import { DeveloperBadge, DEVELOPER_USERNAME } from "@/components/DeveloperBadge";
 import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, Heart, Link2, MapPin, UserPlus, UserCheck, Send, UserRound } from "lucide-react";
 import { profileLinkLabel, splitProfileLinks } from "@/lib/profile-link";

@@ -5,6 +5,7 @@ import { Link } from "@tanstack/react-router";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { FollowListDialog, type FollowKind } from "@/components/FollowListDialog";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
+import { DeveloperBadge, DEVELOPER_USERNAME } from "@/components/DeveloperBadge";
 import { PostFeed } from "@/components/PostFeed";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { Button } from "@/components/ui/button";
