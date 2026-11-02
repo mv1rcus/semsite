@@ -13,7 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
 import { loadMessageSettings, saveMessageSettings } from "@/lib/message";
-import { normalizeProfileLink, profileLinkLabel } from "@/lib/profile-link";
+import { normalizeProfileLinks, splitProfileLinks, profileLinkLabel, MAX_PROFILE_LINKS } from "@/lib/profile-link";
 
 export const Route = createFileRoute("/_authenticated/perfil")({
   head: () => ({ meta: [{ title: "Meu perfil — SemSite" }, { name: "description", content: "Edite seu nome, telefone, cidade e apresentação." }, { property: "og:title", content: "Meu perfil — SemSite" }, { property: "og:description", content: "Seus dados de perfil no SemSite." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
@@ -79,8 +79,9 @@ function Perfil() {
     setStatus("saving");
     const username = form.username.trim().replace(/^@/, "").toLowerCase();
     if (username && !/^[a-z0-9_.]{3,30}$/.test(username)) { setStatus("error"); setErr("O @ precisa ter 3 a 30 letras, números, ponto ou _ (sem espaço)."); return; }
-    const link_url = normalizeProfileLink(form.link_url);
-    if (form.link_url.trim() && !link_url) { setStatus("error"); setErr("Link inválido. Ex: seusite.com.br"); return; }
+    const links = normalizeProfileLinks(form.link_url);
+    if (!links) { setStatus("error"); setErr("Um dos links é inválido. Ex: seusite.com.br"); return; }
+    const link_url = links.join("\n");
     const clean = { username: username || null, display_name: form.display_name.trim().slice(0, 60), phone: form.phone.trim().slice(0, 30), city: form.city.trim().slice(0, 80), bio: form.bio.trim().slice(0, 300), link_url };
     const { error } = await supabase.from("profiles").upsert({ id: userId, ...clean, avatar_url: form.avatar_url, banner_url: form.banner_url, updated_at: new Date().toISOString() });
     if (error) { setStatus("error"); setErr(error.code === "23505" ? "Esse @ já está em uso. Escolha outro." : "Não foi possível salvar. Tente de novo."); return; }
@@ -125,7 +126,7 @@ function Perfil() {
           <h1 className="mt-3 flex items-center gap-2 font-sans text-2xl font-extrabold">{saved.display_name || "Sem nome"}{stats.verified && <VerifiedBadge size={22} />}</h1>
           <p className="text-muted-foreground">{savedUser ? `@${savedUser}` : "Escolha seu @ em Editar perfil"}</p>
           {saved.bio && <p className="mt-3 whitespace-pre-wrap">{saved.bio}</p>}
-          {saved.link_url && <a href={saved.link_url} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center gap-1.5 font-semibold text-link hover:underline"><Link2 className="size-4" />{profileLinkLabel(saved.link_url)}</a>}
+          {splitProfileLinks(saved.link_url).length > 0 && <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">{splitProfileLinks(saved.link_url).map(l => <a key={l} href={l} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-semibold text-link hover:underline"><Link2 className="size-4" />{profileLinkLabel(l)}</a>)}</div>}
           <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
             {saved.city && <span className="flex items-center gap-1"><MapPin className="size-4" />{saved.city}</span>}
             {joinedLabel && <span className="flex items-center gap-1"><CalendarDays className="size-4" />Entrou em {joinedLabel}</span>}
@@ -191,9 +192,9 @@ function Perfil() {
           </div>
           <label className="block space-y-1.5"><span className="text-sm font-semibold">Sobre você</span>
             <Textarea disabled={loading} value={form.bio} maxLength={300} rows={3} onChange={e => update({ bio: e.target.value })} placeholder="Ex: Crio sites rápidos para negócios locais." /></label>
-          <label className="block space-y-1.5"><span className="text-sm font-semibold">Seu site ou link</span>
-            <Input disabled={loading} value={form.link_url} maxLength={300} autoCapitalize="none" spellCheck={false} onChange={e => update({ link_url: e.target.value })} placeholder="Ex: seusite.com.br" />
-            <span className="block text-xs text-muted-foreground">Aparece azul e clicável no seu perfil.</span></label>
+          <label className="block space-y-1.5"><span className="text-sm font-semibold">Seus sites ou links</span>
+            <Textarea disabled={loading} value={form.link_url} rows={3} autoCapitalize="none" spellCheck={false} onChange={e => update({ link_url: e.target.value })} placeholder={"Um por linha, ex:\nseusite.com.br\ninstagram.com/seuperfil"} />
+            <span className="block text-xs text-muted-foreground">Até {MAX_PROFILE_LINKS} links, um por linha. Aparecem azuis e clicáveis no seu perfil.</span></label>
           <label className="flex items-center gap-2 text-sm"><Checkbox checked={useInMessages} onCheckedChange={v => setUseInMessages(v === true)} />Usar meu nome nas mensagens do WhatsApp</label>
 
           <Button type="submit" size="lg" disabled={loading || status === "saving"} className="w-full gap-2 font-bold">
