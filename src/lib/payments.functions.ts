@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { type StripeEnv, createStripeClient, getStripeErrorMessage } from "@/lib/stripe.server";
-import { VERIFIED_PRICE_IDS, type VerifiedPriceId } from "@/lib/verified-plans";
+import { VERIFIED_PRICE_IDS, VERIFIED_PLANS, type VerifiedPriceId } from "@/lib/verified-plans";
 
 type Stripe = ReturnType<typeof createStripeClient>;
 
@@ -44,16 +44,27 @@ export const createVerifiedCheckout = createServerFn({ method: "POST" })
       const price = prices.data[0];
       if (!price) return { error: "Plano não encontrado." };
       const customer = await resolveOrCreateCustomer(stripe, { email: user?.email ?? undefined, userId });
+      const plan = VERIFIED_PLANS.find(p => p.id === data.priceId);
+      const isRecurring = price.type === "recurring";
+      // Pagamento à vista (plano anual no Pix): descreve a cobrança pra ela aparecer
+      // com nome no painel de pagamentos.
+      let description: string | undefined;
+      if (!isRecurring) {
+        const productId = typeof price.product === "string" ? price.product : price.product?.id;
+        if (productId) description = (await stripe.products.retrieve(productId)).name;
+      }
       const session = await stripe.checkout.sessions.create({
         line_items: [{ price: price.id, quantity: 1 }],
-        mode: "subscription",
+        mode: isRecurring ? "subscription" : "payment",
         ui_mode: "embedded_page",
         locale: "pt-BR",
         return_url: data.returnUrl,
         customer,
         // Automatic tax isn't supported for this seller account country, so no tax automation is added.
-        metadata: { userId, managed_payments: "false" },
-        subscription_data: { metadata: { userId } },
+        metadata: { userId, managed_payments: "false", ...(plan?.months ? { paid_months: String(plan.months) } : {}) },
+        ...(isRecurring
+          ? { subscription_data: { metadata: { userId } } }
+          : { payment_intent_data: { ...(description ? { description } : {}), metadata: { userId } } }),
       });
       return { clientSecret: session.client_secret ?? "" };
     } catch (error) {
