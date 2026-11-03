@@ -567,6 +567,7 @@ export type Database = {
           uses: number
         }[]
       }
+      verified_status: { Args: never; Returns: Json }
       who_to_follow: {
         Args: never
         Returns: {
