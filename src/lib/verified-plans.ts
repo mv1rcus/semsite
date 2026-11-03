@@ -18,7 +18,7 @@ export const VERIFIED_PLANS: VerifiedPlan[] = [
   {
     id: "verificado_mensal",
     label: "Mensal",
-    price: "R$ 7,99",
+    price: "R$ 8,99",
     period: "/mês",
     methods: "Cartão",
     detail: "Renova todo mês. Cancele quando quiser.",
@@ -26,7 +26,7 @@ export const VERIFIED_PLANS: VerifiedPlan[] = [
   {
     id: "verificado_mensal_avista",
     label: "À vista",
-    price: "R$ 7,99",
+    price: "R$ 6,70",
     period: "à vista",
     note: "1 mês de selo",
     months: 1,
@@ -36,7 +36,7 @@ export const VERIFIED_PLANS: VerifiedPlan[] = [
   {
     id: "verificado_anual_avista",
     label: "Anual à vista",
-    price: "R$ 79,90",
+    price: "R$ 59,99",
     period: "à vista",
     note: "12 meses de selo",
     months: 12,

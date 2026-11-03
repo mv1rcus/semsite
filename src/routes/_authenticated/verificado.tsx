@@ -134,7 +134,7 @@ function Verificado() {
           </section>
 
           <section className="rounded-2xl border bg-card p-5">
-            <h2 className="font-display text-3xl tracking-wide">Por que vale os R$ 7,99</h2>
+            <h2 className="font-display text-3xl tracking-wide">Por que vale os R$ 8,99</h2>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {VANTAGENS.map((v, i) => (
                 <div key={v.title} className={`rounded-xl border border-border bg-background/60 p-4 ${i === VANTAGENS.length - 1 ? "sm:col-span-2" : ""}`}>
