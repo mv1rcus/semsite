@@ -1,4 +1,4 @@
-export const VERIFIED_PRICE_IDS = ["verificado_mensal", "verificado_anual_avista"] as const;
+export const VERIFIED_PRICE_IDS = ["verificado_mensal", "verificado_mensal_avista", "verificado_anual_avista"] as const;
 export type VerifiedPriceId = (typeof VERIFIED_PRICE_IDS)[number];
 
 export type VerifiedPlan = {
