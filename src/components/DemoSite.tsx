@@ -8,6 +8,7 @@ import { demoPhoneLink, demoSector, type Demonstration } from "@/lib/demonstrati
 import { SECTOR_CATALOG } from "@/lib/demo-catalog";
 import { Button } from "./ui/button";
 import { DemoContact } from "./DemoContact";
+import { DemoPrompt } from "./DemoPrompt";
 import { ArrowRight, MessageCircle, Plus, Minus, MapPin } from "lucide-react";
 const photos = { pizza, burger, plate, dessert };
 type View = "home" | "catalog" | "contact";
@@ -44,6 +45,7 @@ export function DemoSite({ demo }: { demo: Demonstration }) {
     {view === "catalog" && <><section className="mx-auto max-w-6xl px-6 py-10"><p className="text-sm font-semibold text-primary">{demo.name}</p><h1 className="mt-3 text-4xl font-bold">{catalog.title}</h1><p className="mt-4 max-w-2xl text-muted-foreground">Explore as opções deste conceito e consulte a equipe sobre o que você procura. Itens ilustrativos, sujeitos à confirmação pelo negócio.</p>{catalogCards(false)}</section><section className="border-t bg-muted px-6 py-10 text-center"><h2 className="text-2xl font-bold">Não encontrou o que procura?</h2><Button className="mt-5" onClick={() => choose("")}>Converse com a equipe<ArrowRight /></Button></section></>}
     {view === "contact" && <DemoContact demo={demo} interest={interest} />}
     </div>
+    <DemoPrompt demo={demo} />
     <footer className="border-t"><div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-5 px-6 py-7"><div><p className="break-words font-bold">{demo.name}</p><p className="mt-1 text-xs text-muted-foreground">{demo.category} · Proposta visual de site</p></div>{contact && <Button asChild variant="whatsapp"><a href={contact} target="_blank" rel="noreferrer"><MessageCircle />WhatsApp</a></Button>}</div></footer>
   </div>;
 }
