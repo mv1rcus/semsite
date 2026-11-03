@@ -24,6 +24,16 @@ export const VERIFIED_PLANS: VerifiedPlan[] = [
     detail: "Renova todo mês. Cancele quando quiser.",
   },
   {
+    id: "verificado_mensal_avista",
+    label: "À vista",
+    price: "R$ 7,99",
+    period: "à vista",
+    note: "1 mês de selo",
+    months: 1,
+    methods: "Cartão ou Pix",
+    detail: "Um pagamento só, sem mensalidade.",
+  },
+  {
     id: "verificado_anual_avista",
     label: "Anual à vista",
     price: "R$ 79,90",
