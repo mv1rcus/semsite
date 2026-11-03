@@ -1,9 +1,38 @@
-export const VERIFIED_PRICE_IDS = ["verificado_mensal", "verificado_anual"] as const;
+export const VERIFIED_PRICE_IDS = ["verificado_mensal", "verificado_anual_avista"] as const;
 export type VerifiedPriceId = (typeof VERIFIED_PRICE_IDS)[number];
 
-export const VERIFIED_PLANS: { id: VerifiedPriceId; label: string; price: string; period: string; note?: string }[] = [
-  { id: "verificado_mensal", label: "Mensal", price: "R$ 7,99", period: "/mês" },
-  { id: "verificado_anual", label: "Anual", price: "R$ 79,90", period: "/ano", note: "2 meses grátis" },
+export type VerifiedPlan = {
+  id: VerifiedPriceId;
+  label: string;
+  price: string;
+  period: string;
+  note?: string;
+  /** Meses de selo que um pagamento à vista entrega; ausente = assinatura que renova sozinha. */
+  months?: number;
+  /** Formas de pagamento que a Stripe oferece nesse plano. */
+  methods: string;
+  detail: string;
+};
+
+export const VERIFIED_PLANS: VerifiedPlan[] = [
+  {
+    id: "verificado_mensal",
+    label: "Mensal",
+    price: "R$ 7,99",
+    period: "/mês",
+    methods: "Cartão",
+    detail: "Renova todo mês. Cancele quando quiser.",
+  },
+  {
+    id: "verificado_anual_avista",
+    label: "Anual à vista",
+    price: "R$ 79,90",
+    period: "à vista",
+    note: "12 meses de selo",
+    months: 12,
+    methods: "Cartão ou Pix",
+    detail: "Um pagamento só, sem renovação automática.",
+  },
 ];
 
 export const FREE_DAILY_SEARCHES = 5;
