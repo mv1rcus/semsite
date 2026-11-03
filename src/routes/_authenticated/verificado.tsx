@@ -102,7 +102,7 @@ function Verificado() {
       ) : verified ? (
         <div className="space-y-3 rounded-2xl border bg-card p-5 text-center">
           <p className="font-bold">Sua conta é verificada. Tudo liberado! 🎉</p>
-          {status?.source === "one_time" && <p className="text-sm text-muted-foreground">Selo válido até {status.expires_at ? new Date(status.expires_at).toLocaleDateString("pt-BR") : "—"} Depois, é só pagar de novo — sem mensalidade.</p>}
+          {status?.source === "one_time" && <p className="text-sm text-muted-foreground">Selo válido até {status.expires_at ? new Date(status.expires_at).toLocaleDateString("pt-BR") : "—"}. Depois, é só pagar de novo — sem mensalidade.</p>}
           {status?.source === "manual" && <p className="text-sm text-muted-foreground">Selo permanente, cortesia do SemSite.</p>}
           {(!status || status.source === "subscription") && sub && <p className="text-sm text-muted-foreground">{sub.cancel_at_period_end ? "Cancelada — o selo fica até " : "Próxima cobrança em "}{sub.current_period_end ? new Date(sub.current_period_end).toLocaleDateString("pt-BR") : "—"}</p>}
           {sub && ["active", "trialing", "past_due", "unpaid"].includes(sub.status) && <Button variant="outline" className="rounded-full" onClick={openPortal}>Gerenciar ou cancelar assinatura</Button>}
