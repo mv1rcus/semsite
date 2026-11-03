@@ -150,11 +150,11 @@ function Verificado() {
             <h2 className="font-display text-3xl tracking-wide">Escolha o seu plano</h2>
             <p className="mt-1 text-sm text-muted-foreground">Pague com cartão ou Pix — o que for mais fácil pra você.</p>
             {sub && !verified && <p className="mt-1 text-sm text-muted-foreground">Sua última assinatura não está ativa{sub.status === "past_due" || sub.status === "unpaid" ? " porque o pagamento falhou" : ""}. Assine de novo para voltar o selo.</p>}
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="mt-4 grid gap-3 sm:grid-cols-3">
               {VERIFIED_PLANS.map(p => (
-                <button key={p.id} type="button" onClick={() => setPlan(p.id)} className="rounded-2xl border-2 border-border bg-card p-5 text-left transition hover:border-primary">
-                  <span className="flex items-center justify-between font-bold">{p.label}{p.note && <span className="rounded-full bg-accent px-2 py-0.5 text-xs">{p.note}</span>}</span>
-                  <span className="mt-1 block text-3xl font-extrabold">{p.price}<span className="text-base font-normal text-muted-foreground"> {p.period}</span></span>
+                <button key={p.id} type="button" onClick={() => setPlan(p.id)} className="rounded-2xl border-2 border-border bg-card p-4 text-left transition hover:border-primary">
+                  <span className="flex items-center justify-between gap-1 font-bold">{p.label}{p.note && <span className="rounded-full bg-accent px-2 py-0.5 text-xs">{p.note}</span>}</span>
+                  <span className="mt-1 block text-2xl font-extrabold">{p.price}<span className="text-sm font-normal text-muted-foreground"> {p.period}</span></span>
                   <span className="mt-2 block text-sm text-muted-foreground">{p.detail}</span>
                   <span className="mt-1 block text-xs font-semibold text-primary">Aceita: {p.methods}</span>
                   <span className="mt-3 block rounded-full bg-primary py-2 text-center font-bold text-primary-foreground">{p.months ? "Pagar agora" : "Assinar agora"}</span>
