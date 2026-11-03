@@ -37,6 +37,7 @@ const DUVIDAS = [
   { q: "Quando o selo aparece?", a: "Alguns segundos depois do pagamento confirmado. Você não precisa fazer nada: o selo entra sozinho e tudo é liberado na hora." },
   { q: "Posso cancelar quando quiser?", a: "Pode. Cancelando, o selo e os acessos continuam até o fim do período que você já pagou — depois saem sozinhos." },
   { q: "Preciso de cartão?", a: "Não. Pague com cartão ou Pix, o que for mais fácil pra você." },
+  { q: "Consigo pagar no Pix?", a: "Sim, no plano anual à vista: você paga uma vez e o selo vale 12 meses, sem renovação automática." },
   { q: "E se o pagamento falhar?", a: "O selo sai na hora e volta assim que o pagamento for regularizado. Nada do que você salvou é apagado." },
 ];
 
@@ -51,6 +52,7 @@ function Verificado() {
   const { pago } = Route.useSearch();
   const { loading, verified } = useVerified();
   const [plan, setPlan] = useState<VerifiedPriceId | null>(null);
+  const chosen = VERIFIED_PLANS.find(p => p.id === plan);
   const [error, setError] = useState("");
   const [sub, setSub] = useState<{ status: string; current_period_end: string | null; cancel_at_period_end: boolean } | null>(null);
   const [waiting, setWaiting] = useState(!!pago);
@@ -105,9 +107,8 @@ function Verificado() {
         <div className="space-y-3">
           <Button variant="ghost" onClick={() => { setPlan(null); setError(""); }}>← Trocar plano</Button>
           <p className="flex flex-wrap items-center justify-center gap-2 rounded-xl bg-accent p-3 text-center text-sm font-semibold">
-            Pague com cartão ou Pix
-            <span className="rounded-full border border-border bg-background px-2 py-0.5 text-xs font-normal">Cartão de crédito</span>
-            <span className="rounded-full border border-border bg-background px-2 py-0.5 text-xs font-normal">Pix</span>
+            Pague com {chosen?.methods ?? "cartão"}
+            <span className="rounded-full border border-border bg-background px-2 py-0.5 text-xs font-normal">{chosen?.label} · {chosen?.price}</span>
           </p>
           <div className="overflow-hidden rounded-2xl border bg-card">
             <EmbeddedCheckoutProvider key={plan} stripe={getStripe()} options={{ fetchClientSecret }}><EmbeddedCheckout /></EmbeddedCheckoutProvider>
@@ -153,8 +154,10 @@ function Verificado() {
               {VERIFIED_PLANS.map(p => (
                 <button key={p.id} type="button" onClick={() => setPlan(p.id)} className="rounded-2xl border-2 border-border bg-card p-5 text-left transition hover:border-primary">
                   <span className="flex items-center justify-between font-bold">{p.label}{p.note && <span className="rounded-full bg-accent px-2 py-0.5 text-xs">{p.note}</span>}</span>
-                  <span className="mt-1 block text-3xl font-extrabold">{p.price}<span className="text-base font-normal text-muted-foreground">{p.period}</span></span>
-                  <span className="mt-3 block rounded-full bg-primary py-2 text-center font-bold text-primary-foreground">Assinar agora</span>
+                  <span className="mt-1 block text-3xl font-extrabold">{p.price}<span className="text-base font-normal text-muted-foreground"> {p.period}</span></span>
+                  <span className="mt-2 block text-sm text-muted-foreground">{p.detail}</span>
+                  <span className="mt-1 block text-xs font-semibold text-primary">Aceita: {p.methods}</span>
+                  <span className="mt-3 block rounded-full bg-primary py-2 text-center font-bold text-primary-foreground">{p.months ? "Pagar agora" : "Assinar agora"}</span>
                 </button>
               ))}
             </div>
