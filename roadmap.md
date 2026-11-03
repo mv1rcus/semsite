@@ -29,3 +29,4 @@
 - [x] Suggest cities on city selection and prioritize promising prospects.
 - [x] Hide the published Lovable badge through the publishing setting.- [ ] Rename GitHub repo to semsite (user does it in GitHub settings)
 - [x] Create SemSite mascot set, save all variants in Files and set the best one as the @semsite profile photo.
+- [ ] Add Pix as a payment method for the Verificado checkout (card + Pix), verify it renders and the badge is granted after payment.
