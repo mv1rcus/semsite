@@ -1,3 +1,4 @@
+import { signPostMedia } from "@/lib/post-media.functions";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -70,9 +71,8 @@ export function PostFeed({ onlyUser, tag, canPost = true, followingOnly = false,
     const rows = (((res.data as unknown) as Post[] | null) ?? []).map(r => ({ ...r, likes: Number(r.likes ?? 0), reposts: Number(r.reposts ?? 0) }));
     const paths = rows.map(r => r.media_path).filter((p): p is string => !!p);
     if (paths.length) {
-      const { data: signed } = await supabase.storage.from("post-media").createSignedUrls(paths, 3600);
-      const map = new Map(signed?.map(s => [s.path, s.signedUrl]));
-      rows.forEach(r => { const u = r.media_path ? map.get(r.media_path) : undefined; if (u) r.url = u; });
+      const map = await signPostMedia({ data: { paths } }).catch(() => ({} as Record<string, string>));
+      rows.forEach(r => { const u = r.media_path ? map[r.media_path] : undefined; if (u) r.url = u; });
     }
     setPosts(rows); setLoading(false);
   }, [onlyUser, tag, followingOnly, canPost]);
