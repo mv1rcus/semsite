@@ -32,3 +32,4 @@
 - [ ] Add Pix as a payment method for the Verificado checkout (card + Pix), verify it renders and the badge is granted after payment.
 
 - Confirmar que Pix, Google Pay e Boleto aparecem na tela de pagamento real (Stripe live)
+- [ ] Plano à vista de R$ 7,99 (pagamento único no Pix, 1 mês de selo, sem mensalidade)
