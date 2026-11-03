@@ -31,11 +31,11 @@ function Inbox() {
         <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-card">
           {items === null && <p className="p-4 text-sm text-muted-foreground">Carregando…</p>}
           {items?.length === 0 && <p className="p-4 text-sm text-muted-foreground">Nenhuma conversa ainda.</p>}
-          {items?.filter(t => t.username).map(t => (
-            <Link key={t.other_id} to="/mensagens/$username" params={{ username: t.username! }} className="flex items-center gap-3 border-b border-border p-4 last:border-0 hover:bg-muted">
+          {items?.map(t => (
+            <Link key={t.other_id} to="/mensagens/$username" params={{ username: t.username ?? t.other_id }} className="flex items-center gap-3 border-b border-border p-4 last:border-0 hover:bg-muted">
               {t.avatar_url ? <img src={t.avatar_url} alt="" width={48} height={48} referrerPolicy="no-referrer" className="size-12 rounded-full object-cover" /> : <div className="flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary"><UserRound className="size-5" /></div>}
               <div className="min-w-0 flex-1">
-                <p className="flex items-center gap-1 truncate"><b>{t.display_name || `@${t.username}`}</b>{t.verified && <VerifiedBadge size={14} />}<span className="truncate text-sm text-muted-foreground">@{t.username}</span></p>
+                <p className="flex items-center gap-1 truncate"><b>{t.display_name || (t.username ? `@${t.username}` : "Usuário")}</b>{t.verified && <VerifiedBadge size={14} />}{t.username && <span className="truncate text-sm text-muted-foreground">@{t.username}</span>}</p>
                 <p className={`truncate text-sm ${Number(t.unread) > 0 ? "font-bold" : "text-muted-foreground"}`}>{t.last_from_me ? "Você: " : ""}{t.last_body}</p>
               </div>
               {Number(t.unread) > 0 && <span className="rounded-full bg-primary px-2 py-0.5 text-xs font-bold text-primary-foreground">{t.unread}</span>}

@@ -11,11 +11,12 @@ export const Route = createFileRoute("/_authenticated/mensagens/$username")({
   component: Chat,
 });
 
-type Other = { id: string; username: string; display_name: string; avatar_url: string; verified?: boolean };
+type Other = { id: string; username: string | null; display_name: string; avatar_url: string; verified?: boolean };
 type M = { id: string; sender_id: string; recipient_id: string; body: string; created_at: string };
 
 function Chat() {
   const { username } = Route.useParams();
+  const isId = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(username);
   const [me, setMe] = useState("");
   const [other, setOther] = useState<Other | null | undefined>(undefined);
   const [msgs, setMsgs] = useState<M[]>([]);
@@ -34,8 +35,11 @@ function Chat() {
   useEffect(() => {
     let ch: ReturnType<typeof supabase.channel> | null = null;
     (async () => {
-      const [{ data: { user } }, { data }] = await Promise.all([supabase.auth.getUser(), supabase.rpc("get_public_profile", { uname: username })]);
-      const o = (data as Other[] | null)?.[0] ?? null;
+      const [{ data: { user } }, { data }] = await Promise.all([supabase.auth.getUser(), isId ? supabase.rpc("dm_threads") : supabase.rpc("get_public_profile", { uname: username })]);
+      const rows = (data ?? []) as Array<Record<string, unknown>>;
+      const o: Other | null = isId
+        ? (() => { const t = rows.find(r => r.other_id === username); return t ? { id: username, username: (t.username as string | null) ?? null, display_name: String(t.display_name ?? ""), avatar_url: String(t.avatar_url ?? ""), verified: Boolean(t.verified) } : { id: username, username: null, display_name: "", avatar_url: "" }; })()
+        : ((rows[0] as unknown as Other) ?? null);
       setMe(user?.id ?? ""); setOther(o);
       if (!user || !o) return;
       await load(user.id, o.id);
@@ -43,7 +47,7 @@ function Chat() {
         .on("postgres_changes", { event: "INSERT", schema: "public", table: "direct_messages" }, () => load(user.id, o.id)).subscribe();
     })();
     return () => { if (ch) supabase.removeChannel(ch); };
-  }, [username, load]);
+  }, [username, isId, load]);
 
   useEffect(() => { bottom.current?.scrollIntoView({ block: "end" }); }, [msgs.length]);
 
@@ -62,9 +66,9 @@ function Chat() {
       <header className="flex items-center gap-3 border-b border-border py-3">
         <Link to="/mensagens" aria-label="Voltar" className="tab-pill"><ArrowLeft size={16} /></Link>
         {other && (
-          <Link to="/u/$username" params={{ username: other.username }} className="flex min-w-0 items-center gap-2">
+          <Link to="/u/$username" params={{ username: other.username ?? "" }} disabled={!other.username} className="flex min-w-0 items-center gap-2">
             {other.avatar_url ? <img src={other.avatar_url} alt="" width={36} height={36} referrerPolicy="no-referrer" className="size-9 rounded-full object-cover" /> : <div className="flex size-9 items-center justify-center rounded-full bg-primary/10 text-primary"><UserRound className="size-4" /></div>}
-            <div className="min-w-0"><p className="flex items-center gap-1 truncate font-bold">{other.display_name || `@${other.username}`}{other.verified && <VerifiedBadge size={14} />}</p><p className="truncate text-xs text-muted-foreground">@{other.username}</p></div>
+            <div className="min-w-0"><p className="flex items-center gap-1 truncate font-bold">{other.display_name || (other.username ? `@${other.username}` : "Usuário")}{other.verified && <VerifiedBadge size={14} />}</p>{other.username && <p className="truncate text-xs text-muted-foreground">@{other.username}</p>}</div>
           </Link>
         )}
       </header>
@@ -72,7 +76,7 @@ function Chat() {
         {other === undefined && <p className="text-sm text-muted-foreground">Carregando…</p>}
         {other === null && <p>Ninguém usa o @{username}.</p>}
         {other && other.id === me && <p className="text-sm text-muted-foreground">Você não pode mandar mensagem pra você mesmo.</p>}
-        {other && msgs.length === 0 && other.id !== me && <p className="text-center text-sm text-muted-foreground">Diga oi pra @{other.username} 👋</p>}
+        {other && msgs.length === 0 && other.id !== me && <p className="text-center text-sm text-muted-foreground">Diga oi pra {other.username ? `@${other.username}` : other.display_name || "essa pessoa"} 👋</p>}
         {msgs.map(m => {
           const mine = m.sender_id === me;
           return (
