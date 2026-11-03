@@ -36,7 +36,7 @@ function Chat() {
     let ch: ReturnType<typeof supabase.channel> | null = null;
     (async () => {
       const [{ data: { user } }, { data }] = await Promise.all([supabase.auth.getUser(), isId ? supabase.rpc("dm_threads") : supabase.rpc("get_public_profile", { uname: username })]);
-      const rows = (data ?? []) as Array<Record<string, unknown>>;
+      const rows = (data ?? []) as Array<{ other_id?: string; username?: string | null; display_name?: string; avatar_url?: string; verified?: boolean }>;
       const o: Other | null = isId
         ? (() => { const t = rows.find(r => r.other_id === username); return t ? { id: username, username: (t.username as string | null) ?? null, display_name: String(t.display_name ?? ""), avatar_url: String(t.avatar_url ?? ""), verified: Boolean(t.verified) } : { id: username, username: null, display_name: "", avatar_url: "" }; })()
         : ((rows[0] as unknown as Other) ?? null);
