@@ -15,7 +15,8 @@
 - [x] Verify saved demonstrations on the published domain without a session, including mobile refresh (new demonstration and three existing links opened successfully).
 - [ ] Reproduce and fix the recipient's failing demonstration link — blocked until Marcus supplies the exact link that fails.
 - [x] Paid Verificado subscription (monthly/annual), gates, search limit, profile + menu buttons; checkout form verified in preview.
-- [ ] Go live with real payments — waits on Marcus finishing the payments account steps.
+- [x] Go live with real payments — Stripe aprovada, planos reais ativos, avisos de pagamento ligados, checkout real criado com sucesso.
+- [ ] Marcus testa a primeira compra com dinheiro real em https://semsite.lovable.app (selo da @mvthebest removido para o teste).
 - [x] Add daily, monthly and yearly client activity charts with preserved contact and closing history.
 - [x] Test period totals, history persistence and the charts in the running app.
 - [x] Add browser-local client stages, dates and next-contact reminders with a management panel.
