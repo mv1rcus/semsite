@@ -21,7 +21,7 @@ function Contas() {
   const novasHoje = rows?.filter((r) => new Date(r.created_at).toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" }) === today).length ?? 0;
   return (
     <>
-      <ProspectTabs />
+      <ProspectTabs active="profile" />
       <main className="mx-auto max-w-3xl px-4 py-6">
         <h1 className="font-display text-4xl tracking-wide">Contas do site</h1>
         {rows === null ? <p className="mt-4 text-muted-foreground">Carregando…</p> : rows.length === 0 ? <p className="mt-4 text-muted-foreground">Nada para mostrar aqui.</p> : (
