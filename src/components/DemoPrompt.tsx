@@ -4,6 +4,22 @@ import { Button } from "./ui/button";
 import { sitePrompt } from "@/lib/demo-prompt";
 import type { Demonstration } from "@/lib/demonstrations";
 
+/** Copia pelo caminho antigo: funciona quando a área de transferência moderna é bloqueada. */
+function legacyCopy(text: string) {
+  const area = document.createElement("textarea");
+  area.value = text;
+  area.setAttribute("readonly", "");
+  area.style.position = "fixed";
+  area.style.top = "-1000px";
+  area.style.opacity = "0";
+  document.body.appendChild(area);
+  area.select();
+  let ok = false;
+  try { ok = document.execCommand("copy"); } catch { ok = false; }
+  document.body.removeChild(area);
+  return ok;
+}
+
 export function DemoPrompt({ demo }: { demo: Demonstration }) {
   const [copied, setCopied] = useState(false);
   const [notice, setNotice] = useState("");
@@ -16,12 +32,16 @@ export function DemoPrompt({ demo }: { demo: Demonstration }) {
   }, [copied]);
 
   async function copy() {
+    const done = "Prompt copiado! Cole em uma IA que cria sites e peça para gerar o seu.";
+    const failed = "Não deu para copiar sozinho. Toque no texto abaixo, selecione tudo e copie.";
     try {
-      await navigator.clipboard.writeText(prompt);
-      setCopied(true);
-      setNotice("Prompt copiado! Cole em uma IA que cria sites e peça para gerar o seu.");
+      const write = navigator.clipboard?.writeText(prompt) ?? Promise.reject(new Error("sem área de transferência"));
+      const timeout = new Promise<never>((_, reject) => window.setTimeout(() => reject(new Error("demorado")), 1500));
+      await Promise.race([write, timeout]);
+      setCopied(true); setNotice(done);
     } catch {
-      setNotice("Não deu para copiar sozinho. Toque no texto acima, selecione tudo e copie.");
+      if (legacyCopy(prompt)) { setCopied(true); setNotice(done); }
+      else setNotice(failed);
     }
   }
 
