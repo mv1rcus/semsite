@@ -102,6 +102,7 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
                 <Link to="/perfil" onClick={() => setOpen(false)} className={item(active === "profile")}><UserRound className="size-6" />Meu perfil</Link>
                 <Link to="/verificado" onClick={() => setOpen(false)} className={item(false)}><VerifiedBadge size={24} />Obter verificado</Link>
                 {isOwner && <Link to="/contas" onClick={() => setOpen(false)} className={item(false)}><Users className="size-6" />Contas do site</Link>}
+                {isOwner && <Link to="/cobrancas" onClick={() => setOpen(false)} className={item(false)}><ChartNoAxesCombined className="size-6" />Cobranças</Link>}
                 {TABS.map(({ key, to, label, icon: Icon }) => (
                   <Link key={key} to={to} onClick={() => setOpen(false)} aria-current={active === key ? "page" : undefined} className={item(active === key)}><Icon className="size-6" />{label}</Link>
                 ))}

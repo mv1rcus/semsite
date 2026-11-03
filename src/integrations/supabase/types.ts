@@ -411,6 +411,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_accounts: {
+        Args: never
+        Returns: {
+          created_at: string
+          display_name: string
+          email: string
+          last_sign_in_at: string
+          username: string
+        }[]
+      }
       am_i_verified: { Args: never; Returns: boolean }
       consume_search: { Args: never; Returns: number }
       dm_threads: {
