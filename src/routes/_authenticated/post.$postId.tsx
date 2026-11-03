@@ -1,3 +1,4 @@
+import { signPostMedia } from "@/lib/post-media.functions";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, Heart, Repeat2, Share2, Trash2, UserRound } from "lucide-react";
@@ -54,8 +55,8 @@ function PostPage() {
     setMe(user?.id ?? "");
     const row = ((data as unknown as Post[] | null) ?? [])[0] ?? null;
     if (row?.media_path) {
-      const { data: signed } = await supabase.storage.from("post-media").createSignedUrl(row.media_path, 3600);
-      if (signed?.signedUrl) row.url = signed.signedUrl;
+      const map = await signPostMedia({ data: { paths: [row.media_path] } }).catch(() => ({} as Record<string, string>));
+      if (map[row.media_path]) row.url = map[row.media_path];
     }
     setPost(row);
     setLoading(false);
