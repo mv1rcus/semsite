@@ -38,11 +38,13 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
   }, []);
   // A bolinha do topo mostra a foto do usuário; se ele não tem foto, mostra o bonequinho.
   const [avatar, setAvatar] = useState("");
+  const [isOwner, setIsOwner] = useState(false);
   useEffect(() => {
     let alive = true;
     const load = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
+      if (alive) setIsOwner(user.id === "60254e77-1a4c-4be8-8b77-3d29a537785f");
       const { data } = await supabase.from("profiles").select("avatar_url").eq("id", user.id).maybeSingle();
       if (alive) setAvatar(data?.avatar_url ?? "");
     };
@@ -99,6 +101,7 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
               <nav className="flex flex-col gap-1" aria-label="Menu">
                 <Link to="/perfil" onClick={() => setOpen(false)} className={item(active === "profile")}><UserRound className="size-6" />Meu perfil</Link>
                 <Link to="/verificado" onClick={() => setOpen(false)} className={item(false)}><VerifiedBadge size={24} />Obter verificado</Link>
+                {isOwner && <Link to="/contas" onClick={() => setOpen(false)} className={item(false)}><Users className="size-6" />Contas do site</Link>}
                 {TABS.map(({ key, to, label, icon: Icon }) => (
                   <Link key={key} to={to} onClick={() => setOpen(false)} aria-current={active === key ? "page" : undefined} className={item(active === key)}><Icon className="size-6" />{label}</Link>
                 ))}
