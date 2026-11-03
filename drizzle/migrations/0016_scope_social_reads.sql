@@ -1,0 +1,17 @@
+DROP POLICY IF EXISTS "read follows" ON public.follows;
+CREATE POLICY "own follows read" ON public.follows FOR SELECT TO authenticated USING (auth.uid() = follower_id OR auth.uid() = following_id);
+DROP POLICY IF EXISTS "read post likes" ON public.post_likes;
+CREATE POLICY "own post likes read" ON public.post_likes FOR SELECT TO authenticated USING (auth.uid() = user_id);
+DROP POLICY IF EXISTS "read posts" ON public.posts;
+CREATE POLICY "own posts read" ON public.posts FOR SELECT TO authenticated USING (auth.uid() = user_id);
+DROP POLICY IF EXISTS "read likes" ON public.profile_likes;
+CREATE POLICY "own profile likes read" ON public.profile_likes FOR SELECT TO authenticated USING (auth.uid() = liker_id OR auth.uid() = profile_id);
+DROP POLICY IF EXISTS "read reposts" ON public.post_reposts;
+CREATE POLICY "own reposts read" ON public.post_reposts FOR SELECT TO authenticated USING (auth.uid() = user_id);
+DROP POLICY IF EXISTS "read verified" ON public.verified_profiles;
+CREATE POLICY "own verified read" ON public.verified_profiles FOR SELECT TO authenticated USING (auth.uid() = profile_id);
+DROP POLICY IF EXISTS "read comments" ON public.post_comments;
+CREATE POLICY "own comments read" ON public.post_comments FOR SELECT TO authenticated USING (auth.uid() = user_id OR EXISTS (SELECT 1 FROM public.posts p WHERE p.id = post_comments.post_id AND p.user_id = auth.uid()));
+DROP POLICY IF EXISTS "avatar read" ON storage.objects;
+DROP POLICY IF EXISTS "post media read" ON storage.objects;
+CREATE POLICY "post media own read" ON storage.objects FOR SELECT TO authenticated USING (bucket_id = 'post-media' AND (storage.foldername(name))[1] = (auth.uid())::text);
