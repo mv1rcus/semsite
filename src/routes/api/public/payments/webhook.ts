@@ -36,6 +36,30 @@ async function upsertSubscription(sub: any, env: StripeEnv, statusOverride?: str
   }
 }
 
+const isUuid = (v: unknown): v is string =>
+  typeof v === "string" && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v);
+
+/** Pagamento à vista confirmado: concede os meses de selo que foram comprados. */
+async function grantPurchasedMonths(session: any) {
+  const userId = session?.metadata?.userId;
+  const months = Number(session?.metadata?.paid_months || 0);
+  if (!isUuid(userId) || !Number.isInteger(months) || months < 1 || months > 60) return;
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { error } = await supabaseAdmin.rpc("grant_paid_months", { p_profile: userId, p_months: months });
+  if (error) console.error("grant_paid_months failed:", error.message);
+}
+
+/** Devolução do dinheiro: o selo comprado à vista sai do ar na hora. */
+async function revokePurchasedBadge(charge: any) {
+  const userId = charge?.metadata?.userId;
+  if (!isUuid(userId)) return;
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { error } = await supabaseAdmin.from("verified_profiles").delete().eq("profile_id", userId).eq("source", "one_time");
+  if (error) console.error("revoke purchased badge failed:", error.message);
+}
+
+
+
 export const Route = createFileRoute("/api/public/payments/webhook")({
   server: {
     handlers: {
@@ -53,6 +77,17 @@ export const Route = createFileRoute("/api/public/payments/webhook")({
               break;
             case "customer.subscription.deleted":
               await upsertSubscription(obj, env, "canceled");
+              break;
+            case "checkout.session.completed":
+              // Boleto e Pix avulso avisam antes de o dinheiro cair: só entrega o selo
+              // quando o pagamento não está mais pendente.
+              if (obj.mode === "payment" && obj.payment_status !== "unpaid") await grantPurchasedMonths(obj);
+              break;
+            case "checkout.session.async_payment_succeeded":
+              if (obj.mode === "payment") await grantPurchasedMonths(obj);
+              break;
+            case "charge.refunded":
+              await revokePurchasedBadge(obj);
               break;
             default:
               break;
