@@ -26,7 +26,7 @@ export const VERIFIED_PLANS: VerifiedPlan[] = [
   {
     id: "verificado_anual_avista",
     label: "Anual à vista",
-    price: "R$ 59,99",
+    price: "R$ 69,90",
     period: "à vista",
     note: "12 meses de selo",
     months: 12,
