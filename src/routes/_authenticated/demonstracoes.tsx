@@ -7,6 +7,7 @@ import { createDemonstration, getDemonstrationActivity, verifyDemonstrationLink 
 import { isInactiveDemo, removeSavedDemos, savedDemoSchema, verificationState, type DemoActivity, type SavedDemo } from "@/lib/demo-verification";
 import { demoSchema, draftForClient, demonstrationLink, demonstrationSlug, demonstrationCode, type Demonstration } from "@/lib/demonstrations";
 import { SECTOR_HEADLINE } from "@/lib/demo-catalog";
+import { sitePrompt } from "@/lib/demo-prompt";
 import { DemoSite } from "@/components/DemoSite";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { Button } from "@/components/ui/button";
@@ -92,6 +93,7 @@ function Demonstracoes() {
     finally { setLoading(false); }
   }
   async function copy() { try { await navigator.clipboard.writeText(link); setNotice("Link copiado!"); } catch { setNotice("Selecione o link abaixo e copie para enviar."); } }
+  async function copyPrompt() { try { await navigator.clipboard.writeText(sitePrompt(demo)); setNotice("Prompt do site copiado! Envie para o cliente criar o dele."); } catch { setNotice("Não foi possível copiar o prompt. Abra a prévia e copie por lá."); } }
   async function copySaved(item: SavedDemo) { try { await navigator.clipboard.writeText(demonstrationLink(item.id, origin, item.name)); setNotice(`Link de ${item.name} copiado.`); } catch { setNotice("Não foi possível copiar. Abra a demonstração e copie o endereço."); } }
   const history = saved.filter(item => item.name.toLocaleLowerCase("pt-BR").includes(historyQuery.toLocaleLowerCase("pt-BR")));
   const selectedIds = selected.filter(key => saved.some(item => item.id === key));
