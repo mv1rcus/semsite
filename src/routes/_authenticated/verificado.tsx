@@ -37,7 +37,7 @@ const DUVIDAS = [
   { q: "Quando o selo aparece?", a: "Alguns segundos depois do pagamento confirmado. Você não precisa fazer nada: o selo entra sozinho e tudo é liberado na hora." },
   { q: "Posso cancelar quando quiser?", a: "Pode. Cancelando, o selo e os acessos continuam até o fim do período que você já pagou — depois saem sozinhos." },
   { q: "Preciso de cartão?", a: "Não. Pague com cartão ou Pix, o que for mais fácil pra você." },
-  { q: "Consigo pagar no Pix?", a: "Sim, no plano anual à vista: você paga uma vez e o selo vale 12 meses, sem renovação automática." },
+  { q: "Consigo pagar no Pix?", a: "Sim, nos planos à vista: você paga uma vez e o selo vale o período escolhido — 1 mês ou 12 meses — sem renovação automática." },
   { q: "E se o pagamento falhar?", a: "O selo sai na hora e volta assim que o pagamento for regularizado. Nada do que você salvou é apagado." },
 ];
 
@@ -55,12 +55,14 @@ function Verificado() {
   const chosen = VERIFIED_PLANS.find(p => p.id === plan);
   const [error, setError] = useState("");
   const [sub, setSub] = useState<{ status: string; current_period_end: string | null; cancel_at_period_end: boolean } | null>(null);
+  const [status, setStatus] = useState<{ verified: boolean; source?: string; expires_at?: string | null } | null>(null);
   const [waiting, setWaiting] = useState(!!pago);
 
   useEffect(() => {
     let env: "sandbox" | "live";
     try { env = getStripeEnvironment(); } catch { return; }
     supabase.from("subscriptions").select("status,current_period_end,cancel_at_period_end").eq("environment", env).order("created_at", { ascending: false }).limit(1).maybeSingle().then(({ data }) => setSub(data));
+    supabase.rpc("verified_status").then(({ data }) => setStatus(data as { verified: boolean; source?: string; expires_at?: string | null } | null));
   }, [verified]);
 
   // After payment the confirmation arrives a few seconds later; poll until the badge is granted.
@@ -100,8 +102,10 @@ function Verificado() {
       ) : verified ? (
         <div className="space-y-3 rounded-2xl border bg-card p-5 text-center">
           <p className="font-bold">Sua conta é verificada. Tudo liberado! 🎉</p>
-          {sub && <p className="text-sm text-muted-foreground">{sub.cancel_at_period_end ? "Cancelada — o selo fica até " : "Próxima cobrança em "}{sub.current_period_end ? new Date(sub.current_period_end).toLocaleDateString("pt-BR") : "—"}</p>}
-          {sub && <Button variant="outline" className="rounded-full" onClick={openPortal}>Gerenciar ou cancelar assinatura</Button>}
+          {status?.source === "one_time" && <p className="text-sm text-muted-foreground">Selo válido até {status.expires_at ? new Date(status.expires_at).toLocaleDateString("pt-BR") : "—"}. Depois, é só pagar de novo — sem mensalidade.</p>}
+          {status?.source === "manual" && <p className="text-sm text-muted-foreground">Selo permanente, cortesia do SemSite.</p>}
+          {(!status || status.source === "subscription") && sub && <p className="text-sm text-muted-foreground">{sub.cancel_at_period_end ? "Cancelada — o selo fica até " : "Próxima cobrança em "}{sub.current_period_end ? new Date(sub.current_period_end).toLocaleDateString("pt-BR") : "—"}</p>}
+          {sub && ["active", "trialing", "past_due", "unpaid"].includes(sub.status) && <Button variant="outline" className="rounded-full" onClick={openPortal}>Gerenciar ou cancelar assinatura</Button>}
         </div>
       ) : plan ? (
         <div className="space-y-3">
@@ -150,11 +154,11 @@ function Verificado() {
             <h2 className="font-display text-3xl tracking-wide">Escolha o seu plano</h2>
             <p className="mt-1 text-sm text-muted-foreground">Pague com cartão ou Pix — o que for mais fácil pra você.</p>
             {sub && !verified && <p className="mt-1 text-sm text-muted-foreground">Sua última assinatura não está ativa{sub.status === "past_due" || sub.status === "unpaid" ? " porque o pagamento falhou" : ""}. Assine de novo para voltar o selo.</p>}
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="mt-4 grid gap-3 sm:grid-cols-3">
               {VERIFIED_PLANS.map(p => (
-                <button key={p.id} type="button" onClick={() => setPlan(p.id)} className="rounded-2xl border-2 border-border bg-card p-5 text-left transition hover:border-primary">
-                  <span className="flex items-center justify-between font-bold">{p.label}{p.note && <span className="rounded-full bg-accent px-2 py-0.5 text-xs">{p.note}</span>}</span>
-                  <span className="mt-1 block text-3xl font-extrabold">{p.price}<span className="text-base font-normal text-muted-foreground"> {p.period}</span></span>
+                <button key={p.id} type="button" onClick={() => setPlan(p.id)} className="rounded-2xl border-2 border-border bg-card p-4 text-left transition hover:border-primary">
+                  <span className="flex items-center justify-between gap-1 font-bold">{p.label}{p.note && <span className="rounded-full bg-accent px-2 py-0.5 text-xs">{p.note}</span>}</span>
+                  <span className="mt-1 block text-2xl font-extrabold">{p.price}<span className="text-sm font-normal text-muted-foreground"> {p.period}</span></span>
                   <span className="mt-2 block text-sm text-muted-foreground">{p.detail}</span>
                   <span className="mt-1 block text-xs font-semibold text-primary">Aceita: {p.methods}</span>
                   <span className="mt-3 block rounded-full bg-primary py-2 text-center font-bold text-primary-foreground">{p.months ? "Pagar agora" : "Assinar agora"}</span>
