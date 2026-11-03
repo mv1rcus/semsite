@@ -1,7 +1,7 @@
 import { VerifiedGate } from "@/components/VerifiedGate";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Copy, ExternalLink, Loader2, MessageCircle, PanelsTopLeft, CircleCheck, CircleAlert, Clock, RefreshCw, Eye, Search, ArrowRight, Plus, Trash2 } from "lucide-react";
+import { Copy, ExternalLink, Loader2, MessageCircle, PanelsTopLeft, CircleCheck, CircleAlert, Clock, RefreshCw, Eye, Search, ArrowRight, Plus, Trash2, ClipboardList } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { createDemonstration, getDemonstrationActivity, verifyDemonstrationLink } from "@/lib/demonstrations.functions";
 import { isInactiveDemo, removeSavedDemos, savedDemoSchema, verificationState, type DemoActivity, type SavedDemo } from "@/lib/demo-verification";
