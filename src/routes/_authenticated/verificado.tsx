@@ -36,7 +36,7 @@ const VANTAGENS = [
 const DUVIDAS = [
   { q: "Quando o selo aparece?", a: "Alguns segundos depois do pagamento confirmado. Você não precisa fazer nada: o selo entra sozinho e tudo é liberado na hora." },
   { q: "Posso cancelar quando quiser?", a: "Pode. Cancelando, o selo e os acessos continuam até o fim do período que você já pagou — depois saem sozinhos." },
-  { q: "Preciso de cartão?", a: "Não. Você pode pagar no cartão ou no Pix, o que for mais fácil pra você." },
+  { q: "Preciso de cartão?", a: "Não. Pague com cartão ou Pix, o que for mais fácil pra você." },
   { q: "E se o pagamento falhar?", a: "O selo sai na hora e volta assim que o pagamento for regularizado. Nada do que você salvou é apagado." },
 ];
 
@@ -104,6 +104,11 @@ function Verificado() {
       ) : plan ? (
         <div className="space-y-3">
           <Button variant="ghost" onClick={() => { setPlan(null); setError(""); }}>← Trocar plano</Button>
+          <p className="flex flex-wrap items-center justify-center gap-2 rounded-xl bg-accent p-3 text-center text-sm font-semibold">
+            Pague com cartão ou Pix
+            <span className="rounded-full border border-border bg-background px-2 py-0.5 text-xs font-normal">Cartão de crédito</span>
+            <span className="rounded-full border border-border bg-background px-2 py-0.5 text-xs font-normal">Pix</span>
+          </p>
           <div className="overflow-hidden rounded-2xl border bg-card">
             <EmbeddedCheckoutProvider key={plan} stripe={getStripe()} options={{ fetchClientSecret }}><EmbeddedCheckout /></EmbeddedCheckoutProvider>
           </div>
@@ -142,6 +147,7 @@ function Verificado() {
 
           <section className="rounded-2xl border bg-card p-5">
             <h2 className="font-display text-3xl tracking-wide">Escolha o seu plano</h2>
+            <p className="mt-1 text-sm text-muted-foreground">Pague com cartão ou Pix — o que for mais fácil pra você.</p>
             {sub && !verified && <p className="mt-1 text-sm text-muted-foreground">Sua última assinatura não está ativa{sub.status === "past_due" || sub.status === "unpaid" ? " porque o pagamento falhou" : ""}. Assine de novo para voltar o selo.</p>}
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {VERIFIED_PLANS.map(p => (
@@ -155,7 +161,7 @@ function Verificado() {
             <ul className="mt-4 space-y-1.5 text-sm text-muted-foreground">
               <li className="flex items-center gap-2"><Check className="size-4 shrink-0 text-primary" />Cancele quando quiser: o selo continua até o fim do período pago.</li>
               <li className="flex items-center gap-2"><Clock className="size-4 shrink-0 text-primary" />O selo entra sozinho, segundos depois do pagamento.</li>
-              <li className="flex items-center gap-2"><ShieldCheck className="size-4 shrink-0 text-primary" />Pagamento processado em ambiente seguro, no cartão ou Pix.</li>
+              <li className="flex items-center gap-2"><ShieldCheck className="size-4 shrink-0 text-primary" />Pague com cartão ou Pix, em ambiente seguro.</li>
             </ul>
           </section>
 
