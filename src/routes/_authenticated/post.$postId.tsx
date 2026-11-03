@@ -56,7 +56,7 @@ function PostPage() {
     const row = ((data as unknown as Post[] | null) ?? [])[0] ?? null;
     if (row?.media_path) {
       const map = await signPostMedia({ data: { paths: [row.media_path] } }).catch(() => ({} as Record<string, string>));
-      if (map[row.media_path]) row.url = map[row.media_path];
+      const u = map[row.media_path]; if (u) row.url = u;
     }
     setPost(row);
     setLoading(false);
