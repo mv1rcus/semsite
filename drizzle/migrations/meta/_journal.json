@@ -120,6 +120,13 @@
       "when": 1793671128880,
       "tag": "0016_scope_social_reads",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1793673201098,
+      "tag": "0017_paid_months_expiry",
+      "breakpoints": true
     }
   ]
 }

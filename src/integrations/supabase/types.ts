@@ -380,16 +380,19 @@ export type Database = {
       verified_profiles: {
         Row: {
           created_at: string
+          expires_at: string | null
           profile_id: string
           source: string
         }
         Insert: {
           created_at?: string
+          expires_at?: string | null
           profile_id: string
           source?: string
         }
         Update: {
           created_at?: string
+          expires_at?: string | null
           profile_id?: string
           source?: string
         }
@@ -493,6 +496,10 @@ export type Database = {
           verified: boolean
         }[]
       }
+      grant_paid_months: {
+        Args: { p_months?: number; p_profile: string }
+        Returns: undefined
+      }
       my_notifications: {
         Args: never
         Returns: {
@@ -552,6 +559,7 @@ export type Database = {
         }[]
       }
       searches_left_today: { Args: never; Returns: number }
+      sweep_verified_expiry: { Args: never; Returns: undefined }
       trending_tags: {
         Args: never
         Returns: {
