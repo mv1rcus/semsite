@@ -14,7 +14,6 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedAnaliseRouteImport } from './routes/_authenticated/analise'
 import { Route as AuthenticatedBuscarRouteImport } from './routes/_authenticated/buscar'
 import { Route as AuthenticatedClientesRouteImport } from './routes/_authenticated/clientes'
-import { Route as AuthenticatedCobrancasRouteImport } from './routes/_authenticated/cobrancas'
 import { Route as AuthenticatedContasRouteImport } from './routes/_authenticated/contas'
 import { Route as AuthenticatedDemonstracoesRouteImport } from './routes/_authenticated/demonstracoes'
 import { Route as AuthenticatedFeedRouteImport } from './routes/_authenticated/feed'
@@ -56,11 +55,6 @@ const AuthenticatedBuscarRoute = AuthenticatedBuscarRouteImport.update({
 const AuthenticatedClientesRoute = AuthenticatedClientesRouteImport.update({
   id: '/clientes',
   path: '/clientes',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedCobrancasRoute = AuthenticatedCobrancasRouteImport.update({
-  id: '/cobrancas',
-  path: '/cobrancas',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedContasRoute = AuthenticatedContasRouteImport.update({
@@ -165,7 +159,6 @@ export interface FileRoutesByFullPath {
   '/analise': typeof AuthenticatedAnaliseRoute
   '/buscar': typeof AuthenticatedBuscarRoute
   '/clientes': typeof AuthenticatedClientesRoute
-  '/cobrancas': typeof AuthenticatedCobrancasRoute
   '/contas': typeof AuthenticatedContasRoute
   '/demonstracoes': typeof AuthenticatedDemonstracoesRoute
   '/feed': typeof AuthenticatedFeedRoute
@@ -190,7 +183,6 @@ export interface FileRoutesByTo {
   '/analise': typeof AuthenticatedAnaliseRoute
   '/buscar': typeof AuthenticatedBuscarRoute
   '/clientes': typeof AuthenticatedClientesRoute
-  '/cobrancas': typeof AuthenticatedCobrancasRoute
   '/contas': typeof AuthenticatedContasRoute
   '/demonstracoes': typeof AuthenticatedDemonstracoesRoute
   '/feed': typeof AuthenticatedFeedRoute
@@ -217,7 +209,6 @@ export interface FileRoutesById {
   '/_authenticated/analise': typeof AuthenticatedAnaliseRoute
   '/_authenticated/buscar': typeof AuthenticatedBuscarRoute
   '/_authenticated/clientes': typeof AuthenticatedClientesRoute
-  '/_authenticated/cobrancas': typeof AuthenticatedCobrancasRoute
   '/_authenticated/contas': typeof AuthenticatedContasRoute
   '/_authenticated/demonstracoes': typeof AuthenticatedDemonstracoesRoute
   '/_authenticated/feed': typeof AuthenticatedFeedRoute
@@ -244,7 +235,6 @@ export interface FileRouteTypes {
     | '/analise'
     | '/buscar'
     | '/clientes'
-    | '/cobrancas'
     | '/contas'
     | '/demonstracoes'
     | '/feed'
@@ -269,7 +259,6 @@ export interface FileRouteTypes {
     | '/analise'
     | '/buscar'
     | '/clientes'
-    | '/cobrancas'
     | '/contas'
     | '/demonstracoes'
     | '/feed'
@@ -295,7 +284,6 @@ export interface FileRouteTypes {
     | '/_authenticated/analise'
     | '/_authenticated/buscar'
     | '/_authenticated/clientes'
-    | '/_authenticated/cobrancas'
     | '/_authenticated/contas'
     | '/_authenticated/demonstracoes'
     | '/_authenticated/feed'
@@ -360,13 +348,6 @@ declare module '@tanstack/react-router' {
       path: '/clientes'
       fullPath: '/clientes'
       preLoaderRoute: typeof AuthenticatedClientesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/cobrancas': {
-      id: '/_authenticated/cobrancas'
-      path: '/cobrancas'
-      fullPath: '/cobrancas'
-      preLoaderRoute: typeof AuthenticatedCobrancasRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/contas': {
@@ -502,7 +483,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAnaliseRoute: typeof AuthenticatedAnaliseRoute
   AuthenticatedBuscarRoute: typeof AuthenticatedBuscarRoute
   AuthenticatedClientesRoute: typeof AuthenticatedClientesRoute
-  AuthenticatedCobrancasRoute: typeof AuthenticatedCobrancasRoute
   AuthenticatedContasRoute: typeof AuthenticatedContasRoute
   AuthenticatedDemonstracoesRoute: typeof AuthenticatedDemonstracoesRoute
   AuthenticatedFeedRoute: typeof AuthenticatedFeedRoute
@@ -523,7 +503,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAnaliseRoute: AuthenticatedAnaliseRoute,
   AuthenticatedBuscarRoute: AuthenticatedBuscarRoute,
   AuthenticatedClientesRoute: AuthenticatedClientesRoute,
-  AuthenticatedCobrancasRoute: AuthenticatedCobrancasRoute,
   AuthenticatedContasRoute: AuthenticatedContasRoute,
   AuthenticatedDemonstracoesRoute: AuthenticatedDemonstracoesRoute,
   AuthenticatedFeedRoute: AuthenticatedFeedRoute,
