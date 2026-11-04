@@ -32,3 +32,4 @@
 - Each share-page view stamps the demonstration's last-opened time server-side; the browser list removes (but never deletes from the database) demos nobody opened in 24h, falling back to creation time, and tells the user which were removed.
 - Paid access = row in verified_profiles; source 'subscription' rows are synced only by the subscriptions trigger from the payments webhook, 'manual' rows are never touched. Why: one badge source for free and paid accounts.
 - Search limits and demo creation are enforced server-side (consume_search / am_i_verified); UI gates are UX only. Why: client checks can be bypassed.
+- Private account search filters only the rows returned by admin_accounts in the browser; preserve the existing server authorization so search never expands access to account emails.
