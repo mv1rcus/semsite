@@ -1,5 +1,5 @@
 # Tasks
-- [ ] Open account details privately with creation and last sign-in dates; individual page-visit history is unavailable because the supported visitor analytics do not link visits to accounts. Never expose passwords.
+- [x] Open private account details with creation and last sign-in dates; mobile open/close and search tests verified. Individual page history remains unavailable because supported analytics do not link visits to accounts; no passwords exposed.
 - [x] Remove the charges screen and add search only in Contas do site by username, email and name; four tests passed and owner account filters, empty state and menu removal verified in the browser.
 - [x] Add repost (retweet), clickable hashtags and @ mentions, "who to follow" suggestions and trending topics to the feed; repost count and label, tag page, trending refresh right after posting and side panel verified on desktop and mobile with no horizontal overflow.
 - [x] Add @-mention picker in the composer so typing @ suggests real profiles and inserts the tag into the post; verified on desktop and phone, and the suggestion menu no longer covers the Postar button.
