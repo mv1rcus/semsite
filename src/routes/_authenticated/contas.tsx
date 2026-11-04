@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, ChevronRight } from "lucide-react";
 import { matchesAccount } from "@/lib/account-search";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 type Account = { email: string | null; created_at: string; last_sign_in_at: string | null; username: string | null; display_name: string | null };
 
@@ -18,6 +20,7 @@ const fmt = (d: string | null) => (d ? new Date(d).toLocaleString("pt-BR", { tim
 function Contas() {
   const [rows, setRows] = useState<Account[] | null>(null);
   const [query, setQuery] = useState("");
+  const [selected, setSelected] = useState<Account | null>(null);
   useEffect(() => {
     (supabase.rpc as unknown as (n: string) => Promise<{ data: Account[] | null }>)("admin_accounts").then(({ data }) => setRows(data ?? []));
   }, []);
@@ -43,17 +46,39 @@ function Contas() {
             {filtered.length === 0 && <p className="mt-4 text-muted-foreground">Nenhuma conta encontrada.</p>}
             <ul className="mt-4 flex flex-col gap-2">
               {filtered.map((r) => (
-                <li key={(r.email ?? "") + r.created_at} className="rounded-xl border bg-card p-3">
+                <li key={(r.email ?? "") + r.created_at} className="rounded-xl border bg-card">
+                  <Button variant="ghost" aria-label={`Ver conta ${r.username ? `@${r.username}` : r.email ?? r.display_name ?? "sem nome"}`} onClick={() => setSelected(r)} className="h-auto w-full justify-between whitespace-normal p-3 text-left">
+                  <span className="min-w-0 flex-1">
                   {r.display_name && <p className="break-words font-bold">{r.display_name}</p>}
                   <p className="break-all font-bold">{r.email}</p>
                   {r.username && <p className="text-sm text-primary">@{r.username}</p>}
                   <p className="text-sm text-muted-foreground">Criada: {fmt(r.created_at)} · Último acesso: {fmt(r.last_sign_in_at)}</p>
+                  </span>
+                  <ChevronRight className="size-5 shrink-0 text-muted-foreground" />
+                  </Button>
                 </li>
               ))}
             </ul>
           </>
         )}
       </main>
+      <Dialog open={selected !== null} onOpenChange={open => { if (!open) setSelected(null); }}>
+        <DialogContent className="max-h-[85dvh] w-[calc(100%-2rem)] overflow-y-auto rounded-lg">
+          <DialogHeader>
+            <DialogTitle className="break-words pr-5">Detalhes da conta</DialogTitle>
+            <DialogDescription className="break-all">{selected?.username ? `@${selected.username}` : selected?.display_name ?? "Conta sem nome"}</DialogDescription>
+          </DialogHeader>
+          {selected && <>
+            <dl className="grid gap-4 text-sm">
+              <div><dt className="text-muted-foreground">Nome</dt><dd className="break-words font-medium">{selected.display_name || "Não informado"}</dd></div>
+              <div><dt className="text-muted-foreground">E-mail</dt><dd className="break-all font-medium">{selected.email || "Não informado"}</dd></div>
+              <div><dt className="text-muted-foreground">Conta criada</dt><dd className="font-medium">{fmt(selected.created_at)}</dd></div>
+              <div><dt className="text-muted-foreground">Último login registrado</dt><dd className="font-medium">{fmt(selected.last_sign_in_at)}</dd></div>
+            </dl>
+            <section className="border-t pt-4"><h2 className="font-semibold">Páginas visitadas</h2><p className="mt-2 text-sm text-muted-foreground">Não há histórico de páginas vinculado a esta conta. O último login não indica que a pessoa está online agora.</p></section>
+          </>}
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
