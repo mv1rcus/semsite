@@ -6,6 +6,7 @@ import plate from "@/assets/food-plate.jpg";
 import dessert from "@/assets/food-dessert.jpg";
 import { demoPhoneLink, demoSector, type Demonstration } from "@/lib/demonstrations";
 import { SECTOR_CATALOG } from "@/lib/demo-catalog";
+import { demoThemeStyle } from "@/lib/demo-theme";
 import { Button } from "./ui/button";
 import { DemoContact } from "./DemoContact";
 import { ArrowRight, MessageCircle, Plus, Minus, MapPin, Clock, ShieldCheck, Star, Sparkles, CreditCard, Navigation, HeartHandshake } from "lucide-react";
@@ -27,7 +28,7 @@ export function DemoSite({ demo }: { demo: Demonstration }) {
       {!compact && <><Button variant="ghost" className="mt-4 justify-between px-0" onClick={() => setDetail(detail === item.title ? null : item.title)} aria-expanded={detail === item.title}>Mais detalhes{detail === item.title ? <Minus /> : <Plus />}</Button>{detail === item.title && <p className="border-t pt-3 text-sm text-muted-foreground">Consulte a equipe para confirmar disponibilidade, condições e informações sobre {item.title.toLowerCase()}.</p>}</>}
       <Button variant="outline" className="mt-5 w-full" onClick={() => choose(item.title)}>{sector === "food" ? "Consultar pedido" : "Tenho interesse"}<ArrowRight /></Button>
     </div></article>)}</div>;
-  return <div className="demo-site">
+  return <div className="demo-site" style={demoThemeStyle(demo.category)}>
     <div className="border-b px-5 py-2 text-center text-xs text-muted-foreground">Conceito de site · não é o site oficial · fotos e catálogo ilustrativos</div>
     <header className="mx-auto max-w-6xl px-6 py-5"><div className="flex flex-wrap items-center justify-between gap-4"><span className="max-w-full break-words font-display text-xl font-bold">{demo.name}</span><span className="text-xs text-muted-foreground">{demo.category}</span></div>
       <nav role="tablist" aria-label={`Páginas de ${demo.name}`} className="mt-5 flex gap-2 overflow-x-auto border-t pt-4">{([{ id: "home", label: "Início" }, { id: "about", label: "Sobre" }, { id: "catalog", label: catalog.title }, { id: "contact", label: "Contato" }] as const).map(tab => <Button key={tab.id} role="tab" id={`demo-tab-${tab.id}`} aria-controls={`demo-panel-${tab.id}`} aria-selected={view === tab.id} variant={view === tab.id ? "default" : "ghost"} className="h-auto min-h-9 min-w-0 whitespace-normal px-3 text-xs sm:text-sm" onClick={() => go(tab.id)}>{tab.label}</Button>)}</nav>
