@@ -12,6 +12,6 @@ const THEMES: Record<string, [string, string]> = {
   services: ["oklch(0.5 0.1 190)", "oklch(0.99 0 0)"],
 };
 export function demoThemeStyle(category: string): CSSProperties {
-  const [p, f] = THEMES[demoSector(category)] ?? THEMES.services;
+  const [p, f] = THEMES[demoSector(category)] ?? (THEMES["services"] as [string, string]);
   return { "--primary": p, "--primary-foreground": f, "--ring": p } as CSSProperties;
 }
