@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SlugRouteImport } from './routes/$slug'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedAnaliseRouteImport } from './routes/_authenticated/analise'
 import { Route as AuthenticatedBuscarRouteImport } from './routes/_authenticated/buscar'
@@ -36,6 +37,11 @@ import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/publi
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SlugRoute = SlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -156,6 +162,7 @@ const ApiPublicPaymentsWebhookRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
   '/analise': typeof AuthenticatedAnaliseRoute
   '/buscar': typeof AuthenticatedBuscarRoute
   '/clientes': typeof AuthenticatedClientesRoute
@@ -180,6 +187,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
   '/analise': typeof AuthenticatedAnaliseRoute
   '/buscar': typeof AuthenticatedBuscarRoute
   '/clientes': typeof AuthenticatedClientesRoute
@@ -206,6 +214,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/$slug': typeof SlugRoute
   '/_authenticated/analise': typeof AuthenticatedAnaliseRoute
   '/_authenticated/buscar': typeof AuthenticatedBuscarRoute
   '/_authenticated/clientes': typeof AuthenticatedClientesRoute
@@ -232,6 +241,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/$slug'
     | '/analise'
     | '/buscar'
     | '/clientes'
@@ -256,6 +266,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/$slug'
     | '/analise'
     | '/buscar'
     | '/clientes'
@@ -281,6 +292,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/$slug'
     | '/_authenticated/analise'
     | '/_authenticated/buscar'
     | '/_authenticated/clientes'
@@ -307,6 +319,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  SlugRoute: typeof SlugRoute
   DemoIdRoute: typeof DemoIdRoute
   SiteSlugCodeRoute: typeof SiteSlugCodeRoute
   ApiPublicJobsSemsiteDailyPostRoute: typeof ApiPublicJobsSemsiteDailyPostRoute
@@ -320,6 +333,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$slug': {
+      id: '/$slug'
+      path: '/$slug'
+      fullPath: '/$slug'
+      preLoaderRoute: typeof SlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -525,6 +545,7 @@ const AuthenticatedRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  SlugRoute: SlugRoute,
   DemoIdRoute: DemoIdRoute,
   SiteSlugCodeRoute: SiteSlugCodeRoute,
   ApiPublicJobsSemsiteDailyPostRoute: ApiPublicJobsSemsiteDailyPostRoute,
