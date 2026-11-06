@@ -36,6 +36,24 @@ export const getDemonstration = createServerFn({ method: "GET" })
     return demo;
   });
 
+// Resolves a short public address (e.g. pizzariadomarcusdemo) to its demonstration id.
+export const getDemonstrationIdBySlug = createServerFn({ method: "GET" })
+  .inputValidator((input) => z.object({ slug: z.string().regex(/^[a-z0-9]{1,40}demo\d*$/) }).parse(input))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: row } = await supabaseAdmin.from("site_demonstrations").select("id").eq("slug", data.slug).maybeSingle();
+    return row?.id ?? null;
+  });
+
+export const getDemonstrationSlugs = createServerFn({ method: "POST" })
+  .inputValidator((input) => z.object({ ids: z.array(z.string().uuid()).max(30) }).parse(input))
+  .handler(async ({ data }) => {
+    if (data.ids.length === 0) return [];
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: rows } = await supabaseAdmin.from("site_demonstrations").select("id,slug").in("id", data.ids);
+    return (rows ?? []).map((r) => ({ id: r.id, slug: r.slug }));
+  });
+
 export const createDemonstration = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input) => demoSchema.parse(input))
@@ -43,7 +61,7 @@ export const createDemonstration = createServerFn({ method: "POST" })
     const { data: verified } = await context.supabase.rpc("am_i_verified");
     if (!verified) throw new Error("Demonstrações são exclusivas para contas verificadas.");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: row, error } = await supabaseAdmin.from("site_demonstrations").insert(data).select("id,name").single();
+    const { data: row, error } = await supabaseAdmin.from("site_demonstrations").insert(data).select("id,name,slug").single();
     if (error || !row) throw new Error("Não foi possível salvar a demonstração.");
     return row;
   });

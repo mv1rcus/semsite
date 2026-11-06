@@ -24,10 +24,11 @@ export function demonstrationId(code: string): string | null {
     return demonstrationCode(id) === code ? id : null;
   } catch { return null; }
 }
-export function demonstrationLink(id: string, origin: string, name?: string) {
+export const DEMO_SLUG_RE = /^[a-z0-9]{1,40}demo\d*$/;
+export function demonstrationLink(id: string, origin: string, name?: string, slug?: string | null) {
   const url = new URL(origin);
   const local = url.hostname === "localhost" || url.hostname === "127.0.0.1";
-  const path = name ? `/site/${demonstrationSlug(name)}/${demonstrationCode(id)}` : `/demo/${encodeURIComponent(id)}`;
+  const path = slug && DEMO_SLUG_RE.test(slug) ? `/${slug}` : name ? `/site/${demonstrationSlug(name)}/${demonstrationCode(id)}` : `/demo/${encodeURIComponent(id)}`;
   return `${local ? url.origin : "https://semsite.lovable.app"}${path}`;
 }
 export function demoSector(category: string): Sector {

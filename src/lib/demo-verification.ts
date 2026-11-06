@@ -6,7 +6,7 @@ export const verificationSchema = z.object({
 });
 export type DemoVerification = z.infer<typeof verificationSchema>;
 export const savedDemoSchema = z.object({
-  id: z.string(), name: z.string(), verification: verificationSchema.optional(),
+  id: z.string(), name: z.string(), slug: z.string().nullish(), verification: verificationSchema.optional(),
 });
 export type SavedDemo = z.infer<typeof savedDemoSchema>;
 /** Remove only selected entries from local history, preserving other links. */
