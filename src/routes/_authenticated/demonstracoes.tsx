@@ -61,6 +61,7 @@ function Demonstracoes() {
     loadActivity({ data: { ids: saved.map((s) => s.id) } }).then((rows) => {
       const map: Record<string, DemoActivity> = Object.fromEntries(rows.map((r) => [r.id, r]));
       setActivity(map);
+      setSaved((list) => list.map((s) => map[s.id]?.slug && map[s.id].slug !== s.slug ? { ...s, slug: map[s.id].slug } : s));
       const stamp = Date.now();
       const gone = saved.filter((s) => { const a = map[s.id]; return a ? isInactiveDemo(a, stamp) : false; });
       if (gone.length) { setRemoved(gone.map((g) => g.name)); setSaved((list) => list.filter((s) => !gone.some((g) => g.id === s.id))); }
@@ -76,7 +77,7 @@ function Demonstracoes() {
     } catch { setNotice("Não foi possível concluir a verificação. Tente novamente."); }
     finally { setChecking(null); }
   }
-  const link = id && origin ? demonstrationLink(id, origin, demo.name) : "";
+  const link = id && origin ? demonstrationLink(id, origin, demo.name, saved.find((s) => s.id === id)?.slug) : "";
   function edit(key: keyof Demonstration, value: string) { setDemo((old) => ({ ...old, [key]: value })); setId(null); setNotice(""); }
   async function save() {
     if (loading) return;
@@ -94,7 +95,7 @@ function Demonstracoes() {
   }
   async function copy() { try { await navigator.clipboard.writeText(link); setNotice("Link copiado!"); } catch { setNotice("Selecione o link abaixo e copie para enviar."); } }
   async function copyPrompt() { try { await navigator.clipboard.writeText(sitePrompt(demo)); setNotice("Prompt do site copiado! Envie para o cliente criar o dele."); } catch { setNotice("Não foi possível copiar o prompt. Abra a prévia e copie por lá."); } }
-  async function copySaved(item: SavedDemo) { try { await navigator.clipboard.writeText(demonstrationLink(item.id, origin, item.name)); setNotice(`Link de ${item.name} copiado.`); } catch { setNotice("Não foi possível copiar. Abra a demonstração e copie o endereço."); } }
+  async function copySaved(item: SavedDemo) { try { await navigator.clipboard.writeText(demonstrationLink(item.id, origin, item.name, item.slug)); setNotice(`Link de ${item.name} copiado.`); } catch { setNotice("Não foi possível copiar. Abra a demonstração e copie o endereço."); } }
   const history = saved.filter(item => item.name.toLocaleLowerCase("pt-BR").includes(historyQuery.toLocaleLowerCase("pt-BR")));
   const selectedIds = selected.filter(key => saved.some(item => item.id === key));
   const deleting = saved.filter(item => pendingDelete.includes(item.id));
@@ -129,7 +130,7 @@ function Demonstracoes() {
         return <li key={item.id} className="flex flex-col items-start justify-between gap-4 py-5 sm:flex-row sm:items-center">
           <Checkbox aria-label={`Selecionar ${item.name}`} checked={selectedIds.includes(item.id)} onCheckedChange={checked => setSelected(previous => checked === true ? [...new Set([...previous, item.id])] : previous.filter(key => key !== item.id))} />
           <div className="min-w-0 flex-1"><Button asChild variant="link" className="h-auto max-w-full justify-start whitespace-normal px-0 text-left"><Link to="/site/$slug/$code" params={{ slug: demonstrationSlug(item.name), code: demonstrationCode(item.id) }}><ExternalLink className="shrink-0" /><span className="break-words">{item.name}</span></Link></Button>
-            <p className="mt-1 break-all text-xs text-muted-foreground">{demonstrationLink(item.id, origin || "https://semsite.lovable.app", item.name).replace(/^https?:\/\//, "")}</p>
+            <p className="mt-1 break-all text-xs text-muted-foreground">{demonstrationLink(item.id, origin || "https://semsite.lovable.app", item.name, item.slug).replace(/^https?:\/\//, "")}</p>
             <p role="status" className={`mt-1 flex items-start gap-2 text-xs ${state === "recent" ? "text-primary" : state === "failed" ? "text-destructive" : "text-muted-foreground"}`}><Icon className="size-4 shrink-0" />{label}</p>
             {activity[item.id] && <p className="mt-1 flex items-center gap-1.5 text-xs text-foreground"><Eye className="size-3.5 shrink-0" />{activity[item.id]?.lastOpenedAt ? <>Último acesso: <time dateTime={activity[item.id]?.lastOpenedAt ?? ""}>{new Date(activity[item.id]?.lastOpenedAt ?? 0).toLocaleString("pt-BR")}</time></> : "Ninguém abriu ainda — sai da lista 24h após a criação"}</p>}
             {item.verification && <p className="mt-1 text-xs text-muted-foreground">Última tentativa: <time dateTime={item.verification.checkedAt}>{new Date(item.verification.checkedAt).toLocaleString("pt-BR")}</time></p>}

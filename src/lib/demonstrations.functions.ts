@@ -45,15 +45,6 @@ export const getDemonstrationIdBySlug = createServerFn({ method: "GET" })
     return row?.id ?? null;
   });
 
-export const getDemonstrationSlugs = createServerFn({ method: "POST" })
-  .inputValidator((input) => z.object({ ids: z.array(z.string().uuid()).max(30) }).parse(input))
-  .handler(async ({ data }) => {
-    if (data.ids.length === 0) return [];
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: rows } = await supabaseAdmin.from("site_demonstrations").select("id,slug").in("id", data.ids);
-    return (rows ?? []).map((r) => ({ id: r.id, slug: r.slug }));
-  });
-
 export const createDemonstration = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input) => demoSchema.parse(input))
@@ -71,7 +62,7 @@ export const getDemonstrationActivity = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     if (data.ids.length === 0) return [];
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: rows, error } = await supabaseAdmin.from("site_demonstrations").select("id,created_at,last_opened_at").in("id", data.ids);
+    const { data: rows, error } = await supabaseAdmin.from("site_demonstrations").select("id,slug,created_at,last_opened_at").in("id", data.ids);
     if (error) throw new Error("Não foi possível consultar os acessos.");
-    return (rows ?? []).map((r) => ({ id: r.id, createdAt: r.created_at, lastOpenedAt: r.last_opened_at }));
+    return (rows ?? []).map((r) => ({ id: r.id, slug: r.slug, createdAt: r.created_at, lastOpenedAt: r.last_opened_at }));
   });
