@@ -152,7 +152,7 @@ function Verificado() {
 
           <section className="rounded-2xl border bg-card p-5">
             <h2 className="font-display text-3xl tracking-wide">Escolha o seu plano</h2>
-            <p className="mt-1 text-sm text-muted-foreground">Pague com cartão ou Pix — o que for mais fácil pra você.</p>
+            <p className="mt-1 text-sm text-muted-foreground">Pague no Pix, débito, crédito, Apple Pay ou Google Pay.</p>
             {sub && !verified && <p className="mt-1 text-sm text-muted-foreground">Sua última assinatura não está ativa{sub.status === "past_due" || sub.status === "unpaid" ? " porque o pagamento falhou" : ""}. Assine de novo para voltar o selo.</p>}
             <div className="mt-4 grid gap-3 sm:grid-cols-3">
               {VERIFIED_PLANS.map(p => (
@@ -166,9 +166,9 @@ function Verificado() {
               ))}
             </div>
             <ul className="mt-4 space-y-1.5 text-sm text-muted-foreground">
-              <li className="flex items-center gap-2"><Check className="size-4 shrink-0 text-primary" />Cancele quando quiser: o selo continua até o fim do período pago.</li>
+              <li className="flex items-center gap-2"><Check className="size-4 shrink-0 text-primary" />Sem cobrança automática: você paga só o período que escolher.</li>
               <li className="flex items-center gap-2"><Clock className="size-4 shrink-0 text-primary" />O selo entra sozinho, segundos depois do pagamento.</li>
-              <li className="flex items-center gap-2"><ShieldCheck className="size-4 shrink-0 text-primary" />Pague com cartão ou Pix, em ambiente seguro.</li>
+              <li className="flex items-center gap-2"><ShieldCheck className="size-4 shrink-0 text-primary" />Pix, débito, crédito, Apple Pay ou Google Pay, em ambiente seguro.</li>
             </ul>
           </section>
 
@@ -182,7 +182,7 @@ function Verificado() {
                 </details>
               ))}
             </div>
-            <Button className="mt-4 w-full rounded-full py-6 font-display text-2xl tracking-wide" onClick={() => setPlan("verificado_mensal")}>Quero o Verificado</Button>
+            <Button className="mt-4 w-full rounded-full py-6 font-display text-2xl tracking-wide" onClick={() => setPlan("verificado_mensal_avista")}>Quero o Verificado</Button>
           </section>
         </>
       )}
