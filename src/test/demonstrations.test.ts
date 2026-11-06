@@ -37,3 +37,9 @@ describe("Client website concepts", () => {
   });
   it("selects imagery related to the client business", () => { expect(demoSector("Restaurante")).toBe("food"); expect(demoSector("Barbearia")).toBe("beauty"); expect(demoSector("Oficina mecânica")).toBe("auto"); expect(demoSector("Academia")).toBe("gym"); expect(demoSector("Advogado")).toBe("law"); expect(demoSector("Pet shop")).toBe("pet"); expect(demoSector("Contabilidade")).toBe("services"); });
 });
+import { demonstrationLink as shortLink } from "../lib/demonstrations";
+describe("link curto nomedaempresademo", () => {
+  it("usa o endereço curto quando existe", () => {
+    expect(shortLink("4821be4e-1251-4766-9d13-764d9c17b339", "https://id-preview--x.lovable.app", "Pizzaria", "pizzariadomarcusdemo")).toBe("https://semsite.lovable.app/pizzariadomarcusdemo");
+  });
+});

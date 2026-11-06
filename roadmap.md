@@ -1,36 +1,3 @@
-# Tasks
-- [x] Open private account details with creation and last sign-in dates; mobile open/close and search tests verified. Individual page history remains unavailable because supported analytics do not link visits to accounts; no passwords exposed.
-- [x] Remove the charges screen and add search only in Contas do site by username, email and name; four tests passed and owner account filters, empty state and menu removal verified in the browser.
-- [x] Add repost (retweet), clickable hashtags and @ mentions, "who to follow" suggestions and trending topics to the feed; repost count and label, tag page, trending refresh right after posting and side panel verified on desktop and mobile with no horizontal overflow.
-- [x] Add @-mention picker in the composer so typing @ suggests real profiles and inserts the tag into the post; verified on desktop and phone, and the suggestion menu no longer covers the Postar button.
-- [ ] Re-enable business analysis in the paid Pro version — tab hidden, /analise shows a paused notice, studio kept in src/components/AnalysisStudio.tsx. Blocked until Marcus sets Pro pricing and access rules.
-- [x] Add public business analysis with validated establishment data, AI website opportunities and an editable personalized sales approach; real pizzaria generation, personalized message, copy, WhatsApp and mobile verified; 12 tests passed.
-- [x] Add selectable bar, line and pie charts without changing metrics; improve welcome-message editing, seven suggestions and editable-business preview. 29 tests passed; real client creation/stages read back in all charts, chart preference persisted, message save/reload/discard/copy and mobile layouts verified without runtime errors.
-- [x] Add confirmed individual and selected removal from demonstration link history; 10 tests passed, real creation, cancellation, selected deletion, reload persistence and preserved shared page verified; mobile has no overflow.
-- [x] Renew demonstration sites with three functional tabs, fuller sector content and contact actions; reorganize editor/preview/history and add named, backwards-compatible share links. 17 tests passed; real creation/readback, old/new links, WhatsApp preparation, access history and mobile layouts verified; temporary record removed.
-- [x] Optimize /clientes with manual no-response markers, filters, selected deletion and confirmed cleanup; 34 tests passed and real manual creation, persistence, cancellation, deletion and mobile layout verified.
-- [x] Refresh /buscar visual presentation and social/search titles and descriptions; desktop/mobile controls and rendered metadata verified, 11 tests passed without Google requests.
-- [x] Improve search presentation, local result filters and editable message preview; 21 tests passed and desktop/mobile flows verified using loaded fixtures without extra Google requests.
-- [x] Test the CSV/backup export and restore plus the monthly goal in the running app (downloads verified, restore kept the client, goal persisted after reload).
-- [x] Add a prioritized contact agenda with editable stage-specific messages and quick reminder scheduling; verify persistence and no automatic sent-message claims (20 tests passed; desktop/mobile flow verified).
-- [x] Add persisted per-demonstration recent verification indicators and verify success/failure states end to end (published HTML checked anonymously; persistence and mobile verified).
-- [x] Verify saved demonstrations on the published domain without a session, including mobile refresh (new demonstration and three existing links opened successfully).
-- [ ] Reproduce and fix the recipient's failing demonstration link — blocked until Marcus supplies the exact link that fails.
-- [x] Paid Verificado subscription (monthly/annual), gates, search limit, profile + menu buttons; checkout form verified in preview.
-- [x] Go live with real payments — Stripe aprovada, planos reais ativos, avisos de pagamento ligados, checkout real criado com sucesso.
-- [ ] Marcus testa a primeira compra com dinheiro real em https://semsite.lovable.app (selo da @mvthebest removido para o teste).
-- [x] Add daily, monthly and yearly client activity charts with preserved contact and closing history.
-- [x] Test period totals, history persistence and the charts in the running app.
-- [x] Add browser-local client stages, dates and next-contact reminders with a management panel.
-- [x] Verify persistence, stage changes and reminders with tests and the running app.
-- [x] Make suggested cities reliably selectable and rotate the default city on every search entry.
-- [x] Add client-specific demonstration creation and a shareable preview page.
-- [x] Verify city selection and demonstration creation/sharing end to end (saved concept opened in a fresh browser; live Maps remains unverified).
-- [x] Fix search pagination rejecting Google page tokens (regression tested; live Maps validation requires deployed origin).
-- [x] Replace heavy Earth rendering with a lightweight abstract background.
-- [x] Suggest cities on city selection and prioritize promising prospects.
-- [x] Hide the published Lovable badge through the publishing setting.- [ ] Rename GitHub repo to semsite (user does it in GitHub settings)
-- [x] Create SemSite mascot set, save all variants in Files and set the best one as the @semsite profile photo.
-- [x] Add Pix as a payment method for the Verificado checkout (card + Pix), verify it renders and the badge is granted after payment. Pix/Boleto render on one-time (à vista) checkouts in BRL; recurring Pix needs Stripe's Pix Automático, so the monthly subscription keeps card + boleto.
-- [x] Confirmar que Pix, Google Pay e Boleto aparecem na tela de pagamento real (Stripe live): Pix e Boleto sim no pagamento à vista; Google Pay não apareceu nos testes.
-- [x] Plano à vista de R$ 7,99 (pagamento único, 1 mês de selo, sem mensalidade): preço criado, card na tela, compra de teste paga em BRL, selo concedido por exatamente 1 mês e tela mostra "Selo válido até <data>".
+# Roadmap
+- [x] Link de demonstração no formato semsite.lovable.app/nomedaempresademo
+- [ ] Pagamento: plano 1 mês R$ 8,99 vira pagamento único; Pix, débito, crédito, Apple Pay, Google Pay nos dois planos; sem boleto
