@@ -35,10 +35,10 @@ const VANTAGENS = [
 
 const DUVIDAS = [
   { q: "Quando o selo aparece?", a: "Alguns segundos depois do pagamento confirmado. Você não precisa fazer nada: o selo entra sozinho e tudo é liberado na hora." },
-  { q: "Posso cancelar quando quiser?", a: "Pode. Cancelando, o selo e os acessos continuam até o fim do período que você já pagou — depois saem sozinhos." },
-  { q: "Preciso de cartão?", a: "Não. Pague com cartão ou Pix, o que for mais fácil pra você." },
-  { q: "Consigo pagar no Pix?", a: "Sim, no plano anual à vista: você paga uma vez e o selo vale 12 meses, sem renovação automática." },
-  { q: "E se o pagamento falhar?", a: "O selo sai na hora e volta assim que o pagamento for regularizado. Nada do que você salvou é apagado." },
+  { q: "Tem cobrança automática?", a: "Não. Você paga uma vez pelo período escolhido (1 mês ou 1 ano) e o selo sai sozinho no fim, sem débito na sua conta." },
+  { q: "Preciso de cartão?", a: "Não. Pague no Pix, débito, crédito, Apple Pay ou Google Pay." },
+  { q: "Consigo pagar no Pix?", a: "Sim, nos dois planos: 1 mês por R$ 8,99 ou 1 ano por R$ 69,90." },
+  { q: "E se o pagamento falhar?", a: "Nada é cobrado e você pode tentar de novo com outra forma de pagamento, como o Pix." },
 ];
 
 function TestBanner() {
