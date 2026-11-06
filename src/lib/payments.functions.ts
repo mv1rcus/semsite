@@ -60,6 +60,8 @@ export const createVerifiedCheckout = createServerFn({ method: "POST" })
         locale: "pt-BR",
         return_url: data.returnUrl,
         customer,
+        // Cartão cobre crédito, débito, Apple Pay e Google Pay; Pix só em pagamento único. Boleto fica de fora.
+        ...(isRecurring ? {} : { payment_method_types: ["card", "pix"] as ("card" | "pix")[] }),
         // Automatic tax isn't supported for this seller account country, so no tax automation is added.
         metadata: { userId, managed_payments: "false", ...(plan?.months ? { paid_months: String(plan.months) } : {}) },
         ...(isRecurring

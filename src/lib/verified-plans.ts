@@ -1,4 +1,4 @@
-export const VERIFIED_PRICE_IDS = ["verificado_mensal", "verificado_anual_avista"] as const;
+export const VERIFIED_PRICE_IDS = ["verificado_mensal_avista", "verificado_anual_avista"] as const;
 export type VerifiedPriceId = (typeof VERIFIED_PRICE_IDS)[number];
 
 export type VerifiedPlan = {
@@ -16,21 +16,23 @@ export type VerifiedPlan = {
 
 export const VERIFIED_PLANS: VerifiedPlan[] = [
   {
-    id: "verificado_mensal",
-    label: "Mensal",
+    id: "verificado_mensal_avista",
+    label: "1 mês",
     price: "R$ 8,99",
-    period: "/mês",
-    methods: "Cartão",
-    detail: "Renova todo mês. Cancele quando quiser.",
+    period: "à vista",
+    note: "30 dias de selo",
+    months: 1,
+    methods: "Pix, débito, crédito, Apple Pay e Google Pay",
+    detail: "Um pagamento só, sem renovação automática.",
   },
   {
     id: "verificado_anual_avista",
-    label: "Anual à vista",
+    label: "1 ano",
     price: "R$ 69,90",
     period: "à vista",
     note: "12 meses de selo",
     months: 12,
-    methods: "Cartão ou Pix",
+    methods: "Pix, débito, crédito, Apple Pay e Google Pay",
     detail: "Um pagamento só, sem renovação automática.",
   },
 ];

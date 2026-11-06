@@ -61,7 +61,7 @@ function Demonstracoes() {
     loadActivity({ data: { ids: saved.map((s) => s.id) } }).then((rows) => {
       const map: Record<string, DemoActivity> = Object.fromEntries(rows.map((r) => [r.id, r]));
       setActivity(map);
-      setSaved((list) => list.map((s) => map[s.id]?.slug && map[s.id].slug !== s.slug ? { ...s, slug: map[s.id].slug } : s));
+      setSaved((list) => list.map((s) => { const slug = map[s.id]?.slug; return slug && slug !== s.slug ? { ...s, slug } : s; }));
       const stamp = Date.now();
       const gone = saved.filter((s) => { const a = map[s.id]; return a ? isInactiveDemo(a, stamp) : false; });
       if (gone.length) { setRemoved(gone.map((g) => g.name)); setSaved((list) => list.filter((s) => !gone.some((g) => g.id === s.id))); }
