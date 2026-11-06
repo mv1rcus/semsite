@@ -304,6 +304,7 @@ export type Database = {
           last_opened_at: string | null
           name: string
           phone: string
+          slug: string | null
         }
         Insert: {
           address?: string
@@ -315,6 +316,7 @@ export type Database = {
           last_opened_at?: string | null
           name: string
           phone?: string
+          slug?: string | null
         }
         Update: {
           address?: string
@@ -326,6 +328,7 @@ export type Database = {
           last_opened_at?: string | null
           name?: string
           phone?: string
+          slug?: string | null
         }
         Relationships: []
       }
