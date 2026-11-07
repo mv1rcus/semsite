@@ -33,7 +33,7 @@ export function DemoSite({ demo }: { demo: Demonstration }) {
     <header className="mx-auto max-w-6xl px-6 py-5"><div className="flex flex-wrap items-center justify-between gap-4"><span className="max-w-full break-words font-display text-xl font-bold">{demo.name}</span><span className="text-xs text-muted-foreground">{demo.category}</span></div>
       <nav role="tablist" aria-label={`Páginas de ${demo.name}`} className="mt-5 flex gap-2 overflow-x-auto border-t pt-4">{([{ id: "home", label: "Início" }, { id: "about", label: "Sobre" }, { id: "catalog", label: catalog.title }, { id: "contact", label: "Contato" }] as const).map(tab => <Button key={tab.id} role="tab" id={`demo-tab-${tab.id}`} aria-controls={`demo-panel-${tab.id}`} aria-selected={view === tab.id} variant={view === tab.id ? "default" : "ghost"} className="h-auto min-h-9 min-w-0 whitespace-normal px-3 text-xs sm:text-sm" onClick={() => go(tab.id)}>{tab.label}</Button>)}</nav>
     </header>
-    <div role="tabpanel" id={`demo-panel-${view}`} aria-labelledby={`demo-tab-${view}`}>
+    <div key={view} role="tabpanel" id={`demo-panel-${view}`} aria-labelledby={`demo-tab-${view}`}>
     {view === "home" && <>
       <section className="demo-cover relative isolate flex min-h-[400px] items-end overflow-hidden px-6 py-10 sm:min-h-[490px]">
         <img src={cover} width={1280} height={720} alt={`Imagem ilustrativa para ${demo.category}`} className="absolute inset-0 -z-20 h-full w-full object-cover" /><div className="demo-cover-shade absolute inset-0 -z-10" />
