@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Copy, ExternalLink, Loader2, MessageCircle, PanelsTopLeft, CircleCheck, CircleAlert, Clock, RefreshCw, Eye, Search, ArrowRight, Plus, Trash2, ClipboardList } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { createDemonstration, getDemonstrationActivity, verifyDemonstrationLink } from "@/lib/demonstrations.functions";
-import { isInactiveDemo, removeSavedDemos, savedDemoSchema, verificationState, type DemoActivity, type SavedDemo } from "@/lib/demo-verification";
+import { isInactiveDemo, removeSavedDemos, savedDemoSchema, verificationState, demoAccessBadge, type DemoActivity, type SavedDemo } from "@/lib/demo-verification";
 import { demoSchema, draftForClient, demonstrationLink, demonstrationSlug, demonstrationCode, type Demonstration } from "@/lib/demonstrations";
 import { SECTOR_HEADLINE } from "@/lib/demo-catalog";
 import { sitePrompt } from "@/lib/demo-prompt";
