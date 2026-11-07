@@ -1,4 +1,4 @@
-import { prospectPriority, rankProspects, type Lead } from "./leads";
+import { isMobilePhone, prospectPriority, rankProspects, type Lead } from "./leads";
 import type { FollowUpClient } from "./follow-up";
 
 export type ProspectFilter = "all" | "reachable" | "priority" | "new";
@@ -10,7 +10,7 @@ export function filterProspects(leads: Lead[], clients: FollowUpClient[], filter
   const query = normalize(term.trim());
   const results = rankProspects(leads).filter((lead) => {
     if (query && !normalize(`${lead.name} ${lead.address} ${lead.category ?? ""}`).includes(query)) return false;
-    if (filter === "reachable") return Boolean(lead.intlPhone || lead.phone);
+    if (filter === "reachable") return isMobilePhone(lead);
     if (filter === "priority") return prospectPriority(lead).score >= 65;
     if (filter === "new") return (stages.get(lead.id) ?? "new") === "new";
     return true;
