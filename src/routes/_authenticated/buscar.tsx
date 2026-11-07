@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { OceanScene } from "@/components/OceanScene";
-import { prospectPriority, rankProspects } from "@/lib/leads";
+import { isMobilePhone, phoneCallLink, prospectPriority, rankProspects } from "@/lib/leads";
 import { nextSuggestedCity } from "@/lib/cities";
 import { draftForClient } from "@/lib/demonstrations";
 import { ProspectTabs } from "@/components/ProspectTabs";
@@ -76,7 +76,7 @@ function Buscar() {
   const queryChanged = activeQuery && (activeQuery.category !== category.trim() || activeQuery.city !== city.trim());
   const ranked = useMemo(() => rankProspects(leads), [leads]);
   const visible = useMemo(() => filterProspects(leads, followUp.clients, filter, order, resultTerm), [leads, followUp.clients, filter, order, resultTerm]);
-  const reachableCount = ranked.filter((lead) => lead.phone || lead.intlPhone).length;
+  const reachableCount = ranked.filter((lead) => isMobilePhone(lead)).length;
   const priorityCount = ranked.filter((lead) => prospectPriority(lead).score >= 65).length;
 
   // Keeps the results when the phone reloads the page after returning from WhatsApp.
@@ -277,11 +277,11 @@ function Buscar() {
 
         {leads.length > 0 && <section aria-label="Filtrar resultados" className="mt-6 border-y py-5">
           <div className="mb-5 grid grid-cols-3 divide-x border-b pb-5">
-            {[{ label: "Sem site", value: ranked.length }, { label: "Com telefone", value: reachableCount }, { label: "Prioridade alta", value: priorityCount }].map((metric) => <div key={metric.label} className="px-2 first:pl-0 sm:px-5"><p className="font-display text-3xl font-bold text-primary">{metric.value}</p><p className="mt-1 text-xs text-muted-foreground">{metric.label}</p></div>)}
+            {[{ label: "Sem site", value: ranked.length }, { label: "Com WhatsApp", value: reachableCount }, { label: "Prioridade alta", value: priorityCount }].map((metric) => <div key={metric.label} className="px-2 first:pl-0 sm:px-5"><p className="font-display text-3xl font-bold text-primary">{metric.value}</p><p className="mt-1 text-xs text-muted-foreground">{metric.label}</p></div>)}
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <SlidersHorizontal className="mr-1 size-4 text-muted-foreground" />
-            {([{ value: "all", label: "Todos" }, { value: "reachable", label: "Com telefone" }, { value: "priority", label: "Prioridade alta" }, { value: "new", label: "Novos" }] as const).map((item) => <Button key={item.value} variant={filter === item.value ? "secondary" : "ghost"} size="sm" aria-pressed={filter === item.value} onClick={() => setFilter(item.value)}>{item.label}</Button>)}
+            {([{ value: "all", label: "Todos" }, { value: "reachable", label: "Só celular (WhatsApp)" }, { value: "priority", label: "Prioridade alta" }, { value: "new", label: "Novos" }] as const).map((item) => <Button key={item.value} variant={filter === item.value ? "secondary" : "ghost"} size="sm" aria-pressed={filter === item.value} onClick={() => setFilter(item.value)}>{item.label}</Button>)}
           </div>
           <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_220px]">
             <Input aria-label="Buscar nos resultados" placeholder="Nome, bairro ou categoria" value={resultTerm} onChange={(event) => setResultTerm(event.target.value)} />
@@ -309,16 +309,21 @@ function Buscar() {
                 {priority.score >= 65 && <p className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-primary"><Radar className="size-3.5" />Prioridade alta</p>}
                 {priority.reasons.length > 0 && <p className="mt-1 text-xs text-muted-foreground">{priority.reasons.join(" · ")}</p>}
                 <p className="mt-2 flex gap-1.5 break-words text-sm text-muted-foreground"><MapPin className="mt-0.5 size-4 shrink-0" />{l.address}</p>
-                {l.phone && <p className="mt-1 flex gap-1.5 text-sm text-muted-foreground"><Phone className="mt-0.5 size-4 shrink-0" />{l.phone}</p>}
+                {(l.phone || l.intlPhone) && <p className="mt-1 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground"><Phone className="size-4 shrink-0" />{l.phone || l.intlPhone}<span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${isMobilePhone(l) ? "bg-whatsapp/15 text-whatsapp" : "bg-muted text-muted-foreground"}`}>{isMobilePhone(l) ? "Celular (WhatsApp)" : "Fixo"}</span></p>}
                 {l.rating && <p className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground"><Star className="size-4 text-primary" /><span className="font-semibold text-foreground">{l.rating}</span> · {l.reviews ?? 0} avaliações</p>}
                 <div className="mt-4"><ClientStageSelect value={followUp.clients.find((client) => client.id === l.id)?.stage ?? "new"} onChange={(stage) => followUp.track(l, stage)} label={`Etapa de ${l.name}`} /></div>
                 <Button variant="ghost" size="sm" className="mt-2" onClick={() => { if (followUp.track(l)) navigate({ to: "/clientes" }); }}>Acompanhar e definir lembrete</Button>
                 <Button variant="outline" className="mt-4" onClick={() => demonstrate(l)}><PanelsTopLeft />Demonstração do site</Button>
                 <div className="mt-auto flex gap-2 pt-4">
-                  {(l.intlPhone || l.phone) ? (
+                  {isMobilePhone(l) ? (
                     <Button variant="whatsapp" className="min-w-0 flex-1" onClick={() => setMessageLead(l)}><MessageCircle className="size-4" />Preparar mensagem</Button>
                   ) : (
-                    <span className="flex-1 text-sm text-muted-foreground">Sem telefone cadastrado</span>
+                    <span className="flex-1 self-center text-sm text-muted-foreground">{(l.intlPhone || l.phone) ? "Fixo: ligue para oferecer" : "Sem telefone cadastrado"}</span>
+                  )}
+                  {phoneCallLink(l) && (
+                    <Button asChild variant="outline" size="icon" aria-label={`Ligar para ${l.name}`}>
+                      <a href={phoneCallLink(l)!}><Phone className="size-4" /></a>
+                    </Button>
                   )}
                   {l.mapsUrl && (
                     <Button asChild variant="outline" size="icon" aria-label="Abrir no Maps">
