@@ -164,7 +164,7 @@
 .demo-site .border-y, .demo-site .border-t { border-color: transparent; }
 .demo-site .bg-muted { background: var(--muted); }
 .demo-site button, .demo-site a[class*="inline-flex"] { border-radius: 999px; }
-.demo-site header { position: sticky; top: 0; z-index: 30; max-width: none; background: color-mix(in oklab, var(--background) 78%, transparent); backdrop-filter: saturate(180%) blur(18px); -webkit-backdrop-filter: saturate(180%) blur(18px); border-bottom: 1px solid color-mix(in oklab, var(--border) 70%, transparent); padding-top: .9rem; padding-bottom: .9rem; }
+.demo-site header { position: static; max-width: none; padding-top: .9rem; padding-bottom: .9rem; }
 .demo-site header > * { max-width: 72rem; margin-inline: auto; }
 .demo-site [role="tablist"] { border-top: 0; margin-top: .75rem; padding: .3rem; width: fit-content; max-width: 100%; border-radius: 999px; background: var(--muted); scrollbar-width: none; }
 .demo-site [role="tablist"]::-webkit-scrollbar { display: none; }
