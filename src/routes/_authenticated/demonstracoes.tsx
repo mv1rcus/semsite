@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Copy, ExternalLink, Loader2, MessageCircle, PanelsTopLeft, CircleCheck, CircleAlert, Clock, RefreshCw, Eye, Search, ArrowRight, Plus, Trash2, ClipboardList } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { createDemonstration, getDemonstrationActivity, verifyDemonstrationLink } from "@/lib/demonstrations.functions";
-import { isInactiveDemo, removeSavedDemos, savedDemoSchema, verificationState, type DemoActivity, type SavedDemo } from "@/lib/demo-verification";
+import { isInactiveDemo, removeSavedDemos, savedDemoSchema, verificationState, demoAccessBadge, type DemoActivity, type SavedDemo } from "@/lib/demo-verification";
 import { demoSchema, draftForClient, demonstrationLink, demonstrationSlug, demonstrationCode, type Demonstration } from "@/lib/demonstrations";
 import { SECTOR_HEADLINE } from "@/lib/demo-catalog";
 import { sitePrompt } from "@/lib/demo-prompt";
@@ -127,12 +127,18 @@ function Demonstracoes() {
         const state = verificationState(item.verification, now);
         const Icon = state === "recent" ? CircleCheck : state === "failed" ? CircleAlert : Clock;
         const label = state === "recent" ? "Verificado nas últimas 24h" : state === "failed" ? "Link indisponível na última tentativa" : state === "stale" ? "Verificação há mais de 24h" : "Ainda não verificado";
+        const access = demoAccessBadge(activity[item.id], now || Date.now());
         return <li key={item.id} className="flex flex-col items-start justify-between gap-4 py-5 sm:flex-row sm:items-center">
           <Checkbox aria-label={`Selecionar ${item.name}`} checked={selectedIds.includes(item.id)} onCheckedChange={checked => setSelected(previous => checked === true ? [...new Set([...previous, item.id])] : previous.filter(key => key !== item.id))} />
-          <div className="min-w-0 flex-1"><Button asChild variant="link" className="h-auto max-w-full justify-start whitespace-normal px-0 text-left"><Link to="/site/$slug/$code" params={{ slug: demonstrationSlug(item.name), code: demonstrationCode(item.id) }}><ExternalLink className="shrink-0" /><span className="break-words">{item.name}</span></Link></Button>
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+              <Button asChild variant="link" className="h-auto max-w-full justify-start whitespace-normal px-0 text-left"><Link to="/site/$slug/$code" params={{ slug: demonstrationSlug(item.name), code: demonstrationCode(item.id) }}><ExternalLink className="shrink-0" /><span className="break-words">{item.name}</span></Link></Button>
+              {access && <span className={`inline-flex shrink-0 items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold ${access.state === "opened" ? "border-whatsapp/40 bg-whatsapp/12 text-whatsapp" : "border-border bg-muted text-muted-foreground"}`}><span className={`size-2 shrink-0 rounded-full ${access.state === "opened" ? "bg-whatsapp" : "bg-muted-foreground/40"}`} />{access.label}</span>}
+            </div>
             <p className="mt-1 break-all text-xs text-muted-foreground">{demonstrationLink(item.id, origin || "https://semsite.lovable.app", item.name, item.slug).replace(/^https?:\/\//, "")}</p>
+            {access && <p className={`mt-2 flex items-center gap-2 text-sm font-semibold ${access.state === "opened" ? "text-whatsapp" : "text-muted-foreground"}`}>{access.state === "opened" ? <Eye className="size-4 shrink-0" /> : <Clock className="size-4 shrink-0" />}{access.state === "opened" ? <time dateTime={activity[item.id]?.lastOpenedAt ?? ""}>{access.detail}</time> : access.detail}</p>}
+            {access?.state === "waiting" && <p className="mt-1 text-xs text-muted-foreground">Sai da lista 24h depois de criado.</p>}
             <p role="status" className={`mt-1 flex items-start gap-2 text-xs ${state === "recent" ? "text-primary" : state === "failed" ? "text-destructive" : "text-muted-foreground"}`}><Icon className="size-4 shrink-0" />{label}</p>
-            {activity[item.id] && <p className="mt-1 flex items-center gap-1.5 text-xs text-foreground"><Eye className="size-3.5 shrink-0" />{activity[item.id]?.lastOpenedAt ? <>Último acesso: <time dateTime={activity[item.id]?.lastOpenedAt ?? ""}>{new Date(activity[item.id]?.lastOpenedAt ?? 0).toLocaleString("pt-BR")}</time></> : "Ninguém abriu ainda — sai da lista 24h após a criação"}</p>}
             {item.verification && <p className="mt-1 text-xs text-muted-foreground">Última tentativa: <time dateTime={item.verification.checkedAt}>{new Date(item.verification.checkedAt).toLocaleString("pt-BR")}</time></p>}
           </div><div className="flex flex-wrap gap-2"><Button type="button" variant="outline" size="sm" onClick={() => copySaved(item)} aria-label={`Copiar link de ${item.name}`}><Copy />Copiar</Button><Button type="button" variant="outline" size="sm" disabled={checking !== null} onClick={() => check(item)} aria-label={`Verificar link de ${item.name}`}>
             {checking === item.id ? <Loader2 className="animate-spin" /> : <RefreshCw />} {checking === item.id ? "Verificando…" : "Verificar link"}

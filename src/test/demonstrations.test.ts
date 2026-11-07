@@ -38,6 +38,32 @@ describe("Client website concepts", () => {
   it("selects imagery related to the client business", () => { expect(demoSector("Restaurante")).toBe("food"); expect(demoSector("Barbearia")).toBe("beauty"); expect(demoSector("Oficina mecânica")).toBe("auto"); expect(demoSector("Academia")).toBe("gym"); expect(demoSector("Advogado")).toBe("law"); expect(demoSector("Pet shop")).toBe("pet"); expect(demoSector("Contabilidade")).toBe("services"); });
 });
 import { demonstrationLink as shortLink } from "../lib/demonstrations";
+import { demoAccessBadge, type DemoActivity } from "@/lib/demo-verification";
+describe("Aviso de abertura na lista de links", () => {
+  const now = Date.parse("2026-11-07T12:00:00.000Z");
+  const clock = (iso: string) => new Date(iso).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  const demo = (lastOpenedAt: string | null): DemoActivity => ({ id: "1", createdAt: "2026-11-01T09:00:00.000Z", lastOpenedAt });
+  it("mostra a etiqueta verde com o horário quando o cliente abriu hoje", () => {
+    const badge = demoAccessBadge(demo("2026-11-07T09:30:00.000Z"), now);
+    expect(badge?.state).toBe("opened");
+    expect(badge?.label).toBe("Acessado pelo cliente");
+    expect(badge?.detail).toBe(`Aberto hoje às ${clock("2026-11-07T09:30:00.000Z")}`);
+  });
+  it("diz ontem quando a abertura foi no dia anterior", () => {
+    expect(demoAccessBadge(demo("2026-11-06T20:00:00.000Z"), now)?.detail).toBe(`Aberto ontem às ${clock("2026-11-06T20:00:00.000Z")}`);
+  });
+  it("mostra a data quando a abertura foi mais antiga", () => {
+    expect(demoAccessBadge(demo("2026-11-02T08:00:00.000Z"), now)?.detail).toBe(`Aberto em 02/11/2026 às ${clock("2026-11-02T08:00:00.000Z")}`);
+  });
+  it("avisa que ainda ninguém abriu quando não há acesso", () => {
+    const badge = demoAccessBadge(demo(null), now);
+    expect(badge?.state).toBe("waiting");
+    expect(badge?.label).toBe("Aguardando abertura");
+  });
+  it("não mostra nada enquanto o acesso ainda não chegou", () => {
+    expect(demoAccessBadge(undefined, now)).toBeNull();
+  });
+});
 describe("link curto nomedaempresademo", () => {
   it("usa o endereço curto quando existe", () => {
     expect(shortLink("4821be4e-1251-4766-9d13-764d9c17b339", "https://id-preview--x.lovable.app", "Pizzaria", "pizzariadomarcusdemo")).toBe("https://semsite.lovable.app/pizzariadomarcusdemo");
