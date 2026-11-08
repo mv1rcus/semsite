@@ -316,7 +316,7 @@ function Buscar() {
                 <div className="mt-4"><ClientStageSelect value={followUp.clients.find((client) => client.id === l.id)?.stage ?? "new"} onChange={(stage) => followUp.track(l, stage)} label={`Etapa de ${l.name}`} /></div>
                 <Button variant="ghost" size="sm" className="mt-2" onClick={() => { if (followUp.track(l)) navigate({ to: "/clientes" }); }}>Acompanhar e definir lembrete</Button>
                 <Button variant="outline" className="mt-4" onClick={() => demonstrate(l)}><PanelsTopLeft />Demonstração do site</Button>
-                <Button variant="outline" className="mt-2" onClick={() => setXrayLead(l)}><Radar />Gerar Raio-X</Button>
+                <Button variant="outline" className="mt-2" onClick={() => setXrayLead(l)}><Radar />Roteiro de vendas</Button>
                 <div className="mt-auto flex gap-2 pt-4">
                   {isMobilePhone(l) ? (
                     <Button variant="whatsapp" className="min-w-0 flex-1" onClick={() => setMessageLead(l)}><MessageCircle className="size-4" />Preparar mensagem</Button>
