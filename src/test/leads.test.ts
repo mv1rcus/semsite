@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { prospectPriority, rankProspects, searchInputSchema, type Lead } from "@/lib/leads";
+import { isMobilePhone, phoneCallLink, prospectPriority, rankProspects, searchInputSchema, type Lead } from "@/lib/leads";
 const base: Lead = { id: "a", name: "Local", address: "", phone: null, intlPhone: null, rating: null, reviews: null, category: null, mapsUrl: null };
 describe("Search pagination", () => {
   it("preserves an opaque Google token longer than 1000 characters", () => {
@@ -19,6 +19,13 @@ describe("Promising prospects", () => {
   });
   it("does not invent positive signals for missing information", () => {
     expect(prospectPriority(base)).toEqual({ score: 0, reasons: [] });
+  });
+  it("treats 9-digit numbers starting with 9 as WhatsApp mobiles and others as landlines", () => {
+    expect(isMobilePhone({ phone: null, intlPhone: "+55 34 99772-0121" })).toBe(true);
+    expect(isMobilePhone({ phone: "(34) 3822-6337", intlPhone: "+55 34 3822-6337" })).toBe(false);
+  });
+  it("builds a call link for landlines", () => {
+    expect(phoneCallLink({ phone: "(34) 3822-6337", intlPhone: null })).toBe("tel:+553438226337");
   });
   it("deduplicates repeated leads across pages", () => {
     expect(rankProspects([base, base])).toHaveLength(1);
