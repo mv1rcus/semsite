@@ -7,6 +7,7 @@ import { searchLeads, type Lead } from "@/lib/leads.functions";
 import { clientSearchError } from "@/lib/search-errors";
 import { filterProspects, type ProspectFilter, type ProspectOrder } from "@/lib/prospect-filters";
 import { ProspectMessage } from "@/components/ProspectMessage";
+import { XrayDialog } from "@/components/XrayDialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -72,6 +73,7 @@ function Buscar() {
   const [order, setOrder] = useState<ProspectOrder>("priority");
   const [resultTerm, setResultTerm] = useState("");
   const [messageLead, setMessageLead] = useState<Lead | null>(null);
+  const [xrayLead, setXrayLead] = useState<Lead | null>(null);
   const busy = useRef(false);
   const queryChanged = activeQuery && (activeQuery.category !== category.trim() || activeQuery.city !== city.trim());
   const ranked = useMemo(() => rankProspects(leads), [leads]);
@@ -314,6 +316,7 @@ function Buscar() {
                 <div className="mt-4"><ClientStageSelect value={followUp.clients.find((client) => client.id === l.id)?.stage ?? "new"} onChange={(stage) => followUp.track(l, stage)} label={`Etapa de ${l.name}`} /></div>
                 <Button variant="ghost" size="sm" className="mt-2" onClick={() => { if (followUp.track(l)) navigate({ to: "/clientes" }); }}>Acompanhar e definir lembrete</Button>
                 <Button variant="outline" className="mt-4" onClick={() => demonstrate(l)}><PanelsTopLeft />Demonstração do site</Button>
+                <Button variant="outline" className="mt-2" onClick={() => setXrayLead(l)}><Radar />Gerar Raio-X</Button>
                 <div className="mt-auto flex gap-2 pt-4">
                   {isMobilePhone(l) ? (
                     <Button variant="whatsapp" className="min-w-0 flex-1" onClick={() => setMessageLead(l)}><MessageCircle className="size-4" />Preparar mensagem</Button>
@@ -345,6 +348,7 @@ function Buscar() {
         )}
       </section>
       {messageLead && <ProspectMessage key={messageLead.id} lead={messageLead} close={() => setMessageLead(null)} markContacted={() => markContacted(messageLead)} />}
+      {xrayLead && <XrayDialog key={xrayLead.id} lead={xrayLead} others={ranked} city={activeQuery?.city ?? city} close={() => setXrayLead(null)} />}
     </main>
   );
 }
