@@ -5,11 +5,28 @@ export type ReceiptData = {
 
 export const brl = (n: number) => n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
+/** Nome que sai no recibo: o digitado pelo Marcus, senão o nome da empresa. */
+export const receiptClientName = (d: ReceiptData) => d.client.trim() || d.business.trim();
+
 /** Valores de pagamento: à vista = 100% agora; 50/50 = metade de entrada e metade na entrega. */
 export function paymentSplit(total: number, mode: ReceiptData["mode"]) {
   if (mode === "vista") return { now: total, later: 0 };
   const now = Math.round(total * 50) / 100;
   return { now, later: Math.round((total - now) * 100) / 100 };
+}
+
+/** Pré-preenche o recibo com o que já se sabe do cliente acompanhado. */
+export function receiptPrefill(client: { name: string; phone: string | null; address: string }): ReceiptData {
+  return {
+    client: "",
+    doc: "",
+    phone: client.phone ?? "",
+    business: client.name,
+    total: 0,
+    mode: "vista",
+    pix: "",
+    seller: "",
+  };
 }
 
 export async function downloadReceiptPdf(d: ReceiptData) {
@@ -19,6 +36,7 @@ export async function downloadReceiptPdf(d: ReceiptData) {
   let y = 0;
   const crimson: [number, number, number] = [225, 29, 72];
   const ink: [number, number, number] = [31, 41, 55];
+  const clientName = receiptClientName(d);
 
   pdf.setFillColor(...crimson); pdf.rect(0, 0, W, 30, "F");
   pdf.setTextColor(255, 255, 255); pdf.setFont("helvetica", "bold"); pdf.setFontSize(18);
@@ -39,7 +57,7 @@ export async function downloadReceiptPdf(d: ReceiptData) {
   };
 
   section("1. Dados do cliente");
-  line(`Cliente: ${d.client || "-"}`);
+  line(`Cliente: ${clientName || "-"}`);
   if (d.doc) line(`CPF/CNPJ: ${d.doc}`);
   if (d.phone) line(`Telefone: ${d.phone}`);
   line(`Empresa: ${d.business || "-"}`);
@@ -77,7 +95,7 @@ export async function downloadReceiptPdf(d: ReceiptData) {
   y = 262; pdf.setDrawColor(...ink); pdf.setTextColor(...ink); pdf.setFont("helvetica", "normal"); pdf.setFontSize(10);
   pdf.line(M, y, M + 75, y); pdf.line(W - M - 75, y, W - M, y);
   pdf.text(d.seller || "Desenvolvedor", M + 37.5, y + 5, { align: "center" });
-  pdf.text(d.client || "Cliente", W - M - 37.5, y + 5, { align: "center" });
+  pdf.text(clientName || "Cliente", W - M - 37.5, y + 5, { align: "center" });
   pdf.setFontSize(8); pdf.text("Desenvolvedor", M + 37.5, y + 9, { align: "center" }); pdf.text("Cliente", W - M - 37.5, y + 9, { align: "center" });
 
   const slug = (d.business || d.client || "cliente").normalize("NFD").replace(/[^\w]+/g, "-").toLowerCase();
