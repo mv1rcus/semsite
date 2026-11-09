@@ -23,6 +23,7 @@ import { Route as AuthenticatedMensagemRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedNotificacoesRouteImport } from './routes/_authenticated/notificacoes'
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
 import { Route as AuthenticatedPessoasRouteImport } from './routes/_authenticated/pessoas'
+import { Route as AuthenticatedReciboRouteImport } from './routes/_authenticated/recibo'
 import { Route as AuthenticatedVerificadoRouteImport } from './routes/_authenticated/verificado'
 import { Route as DemoIdRouteImport } from './routes/demo.$id'
 import { Route as AuthenticatedMensagensIndexRouteImport } from './routes/_authenticated/mensagens.index'
@@ -105,6 +106,11 @@ const AuthenticatedPessoasRoute = AuthenticatedPessoasRouteImport.update({
   path: '/pessoas',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedReciboRoute = AuthenticatedReciboRouteImport.update({
+  id: '/recibo',
+  path: '/recibo',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedVerificadoRoute = AuthenticatedVerificadoRouteImport.update({
   id: '/verificado',
   path: '/verificado',
@@ -174,6 +180,7 @@ export interface FileRoutesByFullPath {
   '/notificacoes': typeof AuthenticatedNotificacoesRoute
   '/perfil': typeof AuthenticatedPerfilRoute
   '/pessoas': typeof AuthenticatedPessoasRoute
+  '/recibo': typeof AuthenticatedReciboRoute
   '/verificado': typeof AuthenticatedVerificadoRoute
   '/demo/$id': typeof DemoIdRoute
   '/mensagens/$username': typeof AuthenticatedMensagensUsernameRoute
@@ -199,6 +206,7 @@ export interface FileRoutesByTo {
   '/notificacoes': typeof AuthenticatedNotificacoesRoute
   '/perfil': typeof AuthenticatedPerfilRoute
   '/pessoas': typeof AuthenticatedPessoasRoute
+  '/recibo': typeof AuthenticatedReciboRoute
   '/verificado': typeof AuthenticatedVerificadoRoute
   '/demo/$id': typeof DemoIdRoute
   '/mensagens/$username': typeof AuthenticatedMensagensUsernameRoute
@@ -226,6 +234,7 @@ export interface FileRoutesById {
   '/_authenticated/notificacoes': typeof AuthenticatedNotificacoesRoute
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
   '/_authenticated/pessoas': typeof AuthenticatedPessoasRoute
+  '/_authenticated/recibo': typeof AuthenticatedReciboRoute
   '/_authenticated/verificado': typeof AuthenticatedVerificadoRoute
   '/demo/$id': typeof DemoIdRoute
   '/_authenticated/mensagens/$username': typeof AuthenticatedMensagensUsernameRoute
@@ -253,6 +262,7 @@ export interface FileRouteTypes {
     | '/notificacoes'
     | '/perfil'
     | '/pessoas'
+    | '/recibo'
     | '/verificado'
     | '/demo/$id'
     | '/mensagens/$username'
@@ -278,6 +288,7 @@ export interface FileRouteTypes {
     | '/notificacoes'
     | '/perfil'
     | '/pessoas'
+    | '/recibo'
     | '/verificado'
     | '/demo/$id'
     | '/mensagens/$username'
@@ -304,6 +315,7 @@ export interface FileRouteTypes {
     | '/_authenticated/notificacoes'
     | '/_authenticated/perfil'
     | '/_authenticated/pessoas'
+    | '/_authenticated/recibo'
     | '/_authenticated/verificado'
     | '/demo/$id'
     | '/_authenticated/mensagens/$username'
@@ -426,6 +438,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPessoasRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/recibo': {
+      id: '/_authenticated/recibo'
+      path: '/recibo'
+      fullPath: '/recibo'
+      preLoaderRoute: typeof AuthenticatedReciboRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/verificado': {
       id: '/_authenticated/verificado'
       path: '/verificado'
@@ -511,6 +530,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedNotificacoesRoute: typeof AuthenticatedNotificacoesRoute
   AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
   AuthenticatedPessoasRoute: typeof AuthenticatedPessoasRoute
+  AuthenticatedReciboRoute: typeof AuthenticatedReciboRoute
   AuthenticatedVerificadoRoute: typeof AuthenticatedVerificadoRoute
   AuthenticatedMensagensUsernameRoute: typeof AuthenticatedMensagensUsernameRoute
   AuthenticatedPostPostIdRoute: typeof AuthenticatedPostPostIdRoute
@@ -531,6 +551,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedNotificacoesRoute: AuthenticatedNotificacoesRoute,
   AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
   AuthenticatedPessoasRoute: AuthenticatedPessoasRoute,
+  AuthenticatedReciboRoute: AuthenticatedReciboRoute,
   AuthenticatedVerificadoRoute: AuthenticatedVerificadoRoute,
   AuthenticatedMensagensUsernameRoute: AuthenticatedMensagensUsernameRoute,
   AuthenticatedPostPostIdRoute: AuthenticatedPostPostIdRoute,
