@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { draftForClient } from "@/lib/demonstrations";
 import { useEffect, useRef, useState } from "react";
-import { Bell, CalendarClock, Download, FileUp, MessageCircle, Plus, Search, Check, PanelsTopLeft, Trash2, MessageCircleOff, Users, Trophy } from "lucide-react";
+import { Bell, CalendarClock, Download, FileUp, MessageCircle, Plus, Search, Check, PanelsTopLeft, Trash2, MessageCircleOff, Users, Trophy, FileText } from "lucide-react";
 import { OceanScene } from "@/components/OceanScene";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { Button } from "@/components/ui/button";
@@ -93,6 +93,7 @@ function Clientes() {
           {client.nextContact && <p className="text-xs text-muted-foreground">Próximo contato: {new Date(client.nextContact).toLocaleString("pt-BR")}</p>}
           {(client.intlPhone || client.phone) && <Button asChild variant="whatsapp" className="w-full"><a href={whatsappLink(client.intlPhone || `+55${client.phone?.replace(/\D/g, "")}`, client.name)} target="_blank" rel="noreferrer"><MessageCircle />Abrir WhatsApp</a></Button>}
           <Button variant="outline" className="w-full" onClick={() => demonstrate(client)}><PanelsTopLeft />Demonstração do site</Button>
+          <Button variant="outline" className="w-full" onClick={() => navigate({ to: "/recibo", search: { c: client.id } })}><FileText />Recibo e contrato</Button>
         </div></article>)}</div>
       {visible.length > limit && <div className="mt-6 text-center"><Button variant="outline" onClick={() => setLimit(limit + 12)}>Mostrar mais clientes ({visible.length - limit})</Button></div>}
       <p className="mt-8 text-xs text-muted-foreground">Os lembretes aparecem aqui enquanto o painel está aberto; não são enviados fora do site.</p>
