@@ -2,7 +2,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { notificationsSeenAt } from "@/lib/social-unread";
 import { supabase } from "@/integrations/supabase/client";
-import { Search, PanelsTopLeft, Users, ChartNoAxesCombined, MessageSquareText, Sparkles, LogOut, UserRound, Newspaper, Bell, Send, Menu, UserSearch } from "lucide-react";
+import { Search, PanelsTopLeft, Users, ChartNoAxesCombined, MessageSquareText, Sparkles, LogOut, UserRound, Newspaper, Bell, Send, Menu, UserSearch, FileText } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import mascot from "@/assets/semsite-mascote-acenando.png";
@@ -14,6 +14,7 @@ const TABS = [
   { key: "charts", to: "/graficos", label: "Gráficos", icon: ChartNoAxesCombined },
   { key: "message", to: "/mensagem", label: "Mensagem", icon: MessageSquareText },
   { key: "analysis", to: "/analise", label: "Análise", icon: Sparkles },
+  { key: "receipt", to: "/recibo", label: "Recibo e Contrato", icon: FileText },
 ] as const;
 
 export type ProspectTabKey = (typeof TABS)[number]["key"] | "people" | "profile" | "feed" | "notifications" | "dm";
