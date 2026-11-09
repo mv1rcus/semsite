@@ -1,11 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { brl, downloadReceiptPdf, paymentSplit, type ReceiptData } from "@/lib/receipt-pdf";
+import { brl, downloadReceiptPdf, paymentSplit, receiptClientName, receiptPrefill, type ReceiptData } from "@/lib/receipt-pdf";
+import { useFollowUp } from "@/lib/use-follow-up";
 import { toast } from "sonner";
+
+const MEMO_KEY = "receipt-memo-v1";
+const EMPTY: ReceiptData = { client: "", doc: "", phone: "", business: "", total: 0, mode: "vista", pix: "", seller: "" };
 
 export const Route = createFileRoute("/_authenticated/recibo")({
   head: () => ({ meta: [
@@ -15,21 +19,53 @@ export const Route = createFileRoute("/_authenticated/recibo")({
     { property: "og:description", content: "Gere recibo e contrato em PDF para seus clientes de site." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
   ] }),
+  validateSearch: (s: Record<string, unknown>): { c?: string } => ({ c: typeof s.c === "string" ? s.c : undefined }),
   component: ReceiptPage,
 });
 
+function readMemo(): { pix: string; seller: string } {
+  try {
+    const m = JSON.parse(localStorage.getItem(MEMO_KEY) || "{}");
+    return { pix: typeof m.pix === "string" ? m.pix : "", seller: typeof m.seller === "string" ? m.seller : "" };
+  } catch { return { pix: "", seller: "" }; }
+}
+
 function ReceiptPage() {
-  const [d, setD] = useState<ReceiptData>({ client: "", doc: "", phone: "", business: "", total: 0, mode: "vista", pix: "", seller: "" });
+  const { c } = Route.useSearch();
+  const navigate = useNavigate();
+  const { clients } = useFollowUp();
+  const [d, setD] = useState<ReceiptData>(EMPTY);
   const [busy, setBusy] = useState(false);
+  const applied = useRef("");
   const set = (k: keyof ReceiptData) => (e: React.ChangeEvent<HTMLInputElement>) => setD({ ...d, [k]: k === "total" ? Number(e.target.value.replace(",", ".")) || 0 : e.target.value });
   const s = paymentSplit(d.total, d.mode);
+  const origin = c ? clients.find((client) => client.id === c) : undefined;
+
+  // Guarda a última chave Pix e o último nome digitados para não perguntar de novo.
+  useEffect(() => {
+    const memo = readMemo();
+    setD((prev) => ({ ...prev, pix: prev.pix || memo.pix, seller: prev.seller || memo.seller }));
+  }, []);
+
+  // Chegando pela lista de clientes, já abre com o que a gente sabe do cliente.
+  useEffect(() => {
+    if (!c || !origin || applied.current === c) return;
+    applied.current = c;
+    const memo = readMemo();
+    setD({ ...receiptPrefill(origin), pix: memo.pix, seller: memo.seller });
+  }, [c, origin]);
+
   const field = (k: keyof ReceiptData, label: string, ph = "") => (
-    <div className="space-y-1"><Label htmlFor={k}>{label}</Label><Input id={k} placeholder={ph} inputMode={k === "total" ? "decimal" : undefined} onChange={set(k)} /></div>
+    <div className="space-y-1"><Label htmlFor={k}>{label}</Label><Input id={k} placeholder={ph} value={d[k] as string | number} onChange={set(k)} /></div>
   );
   async function gen() {
-    if (!d.client.trim() || d.total <= 0) { toast.error("Preencha o nome do cliente e o valor."); return; }
+    if (!receiptClientName(d) || d.total <= 0) { toast.error("Preencha o nome do cliente e o valor."); return; }
     setBusy(true);
-    try { await downloadReceiptPdf(d); toast.success("PDF baixado!"); } catch { toast.error("Não deu para gerar o PDF."); } finally { setBusy(false); }
+    try {
+      await downloadReceiptPdf(d);
+      try { localStorage.setItem(MEMO_KEY, JSON.stringify({ pix: d.pix, seller: d.seller })); } catch { /* Storage blocked. */ }
+      toast.success("PDF baixado!");
+    } catch { toast.error("Não deu para gerar o PDF."); } finally { setBusy(false); }
   }
   return (
     <div className="min-h-screen bg-background">
@@ -37,6 +73,10 @@ function ReceiptPage() {
       <main className="mx-auto max-w-xl space-y-4 p-4">
         <h1 className="font-display text-4xl tracking-wide">Recibo e Contrato</h1>
         <p className="text-sm text-muted-foreground">Preencha e baixe o PDF pronto para mandar ao cliente. O 1º ano de domínio já sai como bônus incluso.</p>
+        {origin && <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-accent bg-accent/40 px-3 py-2 text-sm">
+          <span>Preenchido a partir de <strong className="break-words">{origin.name}</strong>.</span>
+          <Button variant="ghost" size="sm" onClick={() => { applied.current = ""; setD({ ...EMPTY, ...readMemo() }); navigate({ to: "/recibo", search: {} }); }}>Fazer em branco</Button>
+        </div>}
         <div className="space-y-3 rounded-2xl border border-border bg-card p-4">
           {field("client", "Nome do cliente *", "Ex: João da Silva")}
           {field("doc", "CPF ou CNPJ")}
