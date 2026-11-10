@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { paymentSplit, receiptClientName, receiptPrefill } from "@/lib/receipt-pdf";
+import { paymentSplit, receiptClientName, receiptCompanyLine, receiptPrefill } from "@/lib/receipt-pdf";
 
 describe("paymentSplit", () => {
   it("à vista cobra 100% agora", () => expect(paymentSplit(700, "vista")).toEqual({ now: 700, later: 0 }));
@@ -21,4 +21,10 @@ describe("receiptClientName", () => {
   it("usa o nome digitado quando existe", () => expect(receiptClientName({ ...base, client: "João", business: "Padaria" })).toBe("João"));
   it("cai para o nome da empresa quando o nome fica em branco", () => expect(receiptClientName({ ...base, business: "Padaria do João" })).toBe("Padaria do João"));
   it("fica vazio quando nada foi preenchido", () => expect(receiptClientName(base)).toBe(""));
+});
+
+describe("receiptCompanyLine", () => {
+  const base = { client: "", doc: "", phone: "", business: "", total: 0, mode: "vista" as const, pix: "", seller: "" };
+  it("some a linha Empresa quando é o mesmo nome do cliente", () => expect(receiptCompanyLine({ ...base, business: "ESPAÇO LAÍS PEZZATO" })).toBe(""));
+  it("aparece quando empresa e pessoa são diferentes", () => expect(receiptCompanyLine({ ...base, client: "João", business: "Padaria do João" })).toBe("Padaria do João"));
 });

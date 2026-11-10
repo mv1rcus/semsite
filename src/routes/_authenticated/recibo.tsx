@@ -19,7 +19,7 @@ export const Route = createFileRoute("/_authenticated/recibo")({
     { property: "og:description", content: "Gere recibo e contrato em PDF para seus clientes de site." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
   ] }),
-  validateSearch: (s: Record<string, unknown>): { c?: string } => ({ c: typeof s.c === "string" ? s.c : undefined }),
+  validateSearch: (s: Record<string, unknown>): { c?: string | undefined } => ({ c: typeof s['c'] === "string" ? s['c'] : undefined }),
   component: ReceiptPage,
 });
 
@@ -56,7 +56,7 @@ function ReceiptPage() {
   }, [c, origin]);
 
   const field = (k: keyof ReceiptData, label: string, ph = "") => (
-    <div className="space-y-1"><Label htmlFor={k}>{label}</Label><Input id={k} placeholder={ph} value={d[k] as string | number} onChange={set(k)} /></div>
+    <div className="space-y-1"><Label htmlFor={k}>{label}</Label><Input id={k} placeholder={ph} inputMode={k === "total" ? "decimal" : undefined} value={k === "total" ? (d.total ? String(d.total) : "") : (d[k] as string)} onChange={set(k)} /></div>
   );
   async function gen() {
     if (!receiptClientName(d) || d.total <= 0) { toast.error("Preencha o nome do cliente e o valor."); return; }
