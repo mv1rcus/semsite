@@ -5,7 +5,7 @@ import burger from "@/assets/food-burger.jpg";
 import plate from "@/assets/food-plate.jpg";
 import dessert from "@/assets/food-dessert.jpg";
 import { demoPhoneLink, demoSector, type Demonstration } from "@/lib/demonstrations";
-import { SECTOR_CATALOG } from "@/lib/demo-catalog";
+import { demoCatalog } from "@/lib/demo-catalog";
 import { demoThemeStyle } from "@/lib/demo-theme";
 import { Button } from "./ui/button";
 import { DemoContact } from "./DemoContact";
@@ -18,7 +18,7 @@ export function DemoSite({ demo }: { demo: Demonstration }) {
   const [detail, setDetail] = useState<string | null>(null);
   const sector = demoSector(demo.category);
   const cover = demonstrationPhoto(demo.category);
-  const catalog = SECTOR_CATALOG[sector];
+  const catalog = demoCatalog(demo.category, sector);
   const contact = demoPhoneLink(demo.phone);
   const go = (v: View) => { setView(v); if (typeof window !== "undefined") window.scrollTo({ top: 0 }); };
   const choose = (item: string) => { setInterest(item); go("contact"); };
