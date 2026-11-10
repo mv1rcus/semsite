@@ -19,7 +19,7 @@ export const Route = createFileRoute("/_authenticated/recibo")({
     { property: "og:description", content: "Gere recibo e contrato em PDF para seus clientes de site." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
   ] }),
-  validateSearch: (s: Record<string, unknown>): { c?: string } => ({ c: typeof s.c === "string" ? s.c : undefined }),
+  validateSearch: (s: Record<string, unknown>): { c?: string | undefined } => ({ c: typeof s['c'] === "string" ? s['c'] : undefined }),
   component: ReceiptPage,
 });
 
