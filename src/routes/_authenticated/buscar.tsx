@@ -39,14 +39,14 @@ type Query = { category: string; city: string };
 const RECENT_KEY = "recent-searches-v1";
 const GROUP_ICONS: Record<string, LucideIcon> = { Saúde: HeartPulse, Comida: Utensils, Beleza: Scissors, Automotivo: Car, Casa: House, Pets: PawPrint, Fitness: Dumbbell, Serviços: BriefcaseBusiness };
 const GROUPS: { label: string; items: string[] }[] = [
-  { label: "Saúde", items: ["Médico", "Dentista", "Clínica", "Fisioterapia", "Psicólogo", "Nutricionista", "Farmácia", "Laboratório"] },
-  { label: "Comida", items: ["Restaurante", "Pizzaria", "Lanchonete", "Hamburgueria", "Padaria", "Cafeteria", "Açaí", "Sorveteria"] },
-  { label: "Beleza", items: ["Barbearia", "Salão de beleza", "Manicure", "Estética", "Sobrancelha", "Tatuagem"] },
-  { label: "Automotivo", items: ["Oficina mecânica", "Auto elétrica", "Lava jato", "Borracharia", "Funilaria", "Autopeças"] },
-  { label: "Casa", items: ["Eletricista", "Encanador", "Marcenaria", "Vidraçaria", "Serralheria", "Material de construção"] },
+  { label: "Saúde", items: ["Médico", "Dentista", "Clínica", "Fisioterapia", "Psicólogo", "Nutricionista", "Farmácia", "Laboratório", "Ótica"] },
+  { label: "Comida", items: ["Restaurante", "Pizzaria", "Lanchonete", "Hamburgueria", "Padaria", "Cafeteria", "Açaí", "Sorveteria", "Confeitaria", "Marmitaria", "Espetinho"] },
+  { label: "Beleza", items: ["Barbearia", "Salão de beleza", "Manicure", "Estética", "Sobrancelha", "Tatuagem", "Cílios", "Depilação"] },
+  { label: "Automotivo", items: ["Oficina mecânica", "Auto elétrica", "Lava jato", "Borracharia", "Funilaria", "Autopeças", "Estética automotiva", "Moto peças"] },
+  { label: "Casa", items: ["Eletricista", "Encanador", "Marcenaria", "Vidraçaria", "Serralheria", "Material de construção", "Pintor", "Gesseiro", "Climatização"] },
   { label: "Pets", items: ["Pet shop", "Veterinário", "Banho e tosa", "Adestrador"] },
   { label: "Fitness", items: ["Academia", "Crossfit", "Pilates", "Personal trainer"] },
-  { label: "Serviços", items: ["Contabilidade", "Advogado", "Imobiliária", "Assistência técnica", "Costureira", "Gráfica"] },
+  { label: "Serviços", items: ["Contabilidade", "Advogado", "Imobiliária", "Assistência técnica", "Costureira", "Gráfica", "Fotógrafo", "Floricultura", "Escola de idiomas", "Auto escola", "Buffet"] },
 ];
 
 function Buscar() {

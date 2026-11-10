@@ -1,4 +1,4 @@
-import { SECTOR_CATALOG } from "./demo-catalog";
+import { demoCatalog } from "./demo-catalog";
 import { demoSector, type Demonstration } from "./demonstrations";
 
 /**
@@ -8,7 +8,7 @@ import { demoSector, type Demonstration } from "./demonstrations";
  */
 export function sitePrompt(demo: Demonstration): string {
   const sector = demoSector(demo.category);
-  const catalog = SECTOR_CATALOG[sector];
+  const catalog = demoCatalog(demo.category, sector);
   const items = catalog.items.map((item) => `- ${item.title}: ${item.text}`).join("\n");
   const lines: string[] = [
     "Crie um site completo em português do Brasil para o negócio abaixo.",
