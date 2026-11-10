@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { paymentSplit, receiptClientName, receiptPrefill } from "@/lib/receipt-pdf";
+import { paymentSplit, receiptClientName, receiptCompanyLine, receiptPrefill } from "@/lib/receipt-pdf";
 
 describe("paymentSplit", () => {
   it("à vista cobra 100% agora", () => expect(paymentSplit(700, "vista")).toEqual({ now: 700, later: 0 }));
