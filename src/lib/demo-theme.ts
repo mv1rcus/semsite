@@ -19,6 +19,6 @@ const DARK_WORDS = /barb|hamburg|burger|lava|jato|est[eé]tica auto|tatu|pub|bar
 export function demoThemeStyle(category: string): CSSProperties {
   const sector = demoSector(category);
   let l = LOOKS[sector] ?? (LOOKS["services"] as Look);
-  if (DARK_WORDS.test(category) && sector !== "auto") l = dark(l.p, "oklch(0.15 0 0)", l.glow);
+  if (DARK_WORDS.test(category) && sector !== "auto") l = dark(sector === "beauty" ? "oklch(0.78 0.14 75)" : l.p, "oklch(0.15 0 0)", sector === "beauty" ? "oklch(0.6 0.15 45)" : l.glow);
   return { "--primary": l.p, "--primary-foreground": l.f, "--ring": l.p, "--background": l.bg, "--foreground": l.fg, "--card": l.card, "--card-foreground": l.fg, "--muted": l.muted, "--muted-foreground": l.mfg, "--border": l.border, "--demo-glow": l.glow } as CSSProperties;
 }
