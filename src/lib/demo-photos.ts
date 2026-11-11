@@ -31,10 +31,18 @@ import metal from "@/assets/demo-metal.jpg";
 import construction from "@/assets/demo-construction.jpg";
 import print from "@/assets/demo-print.jpg";
 import dogtraining from "@/assets/demo-dogtraining.jpg";
+import barber from "@/assets/demo-barber.jpg";
+import pizzeria from "@/assets/demo-pizzeria.jpg";
+import burgerShop from "@/assets/demo-burger.jpg";
+import tires from "@/assets/demo-tires.jpg";
 import { demoSector } from "./demonstrations";
 
 const covers = { beauty, health, food, services, gym, law, pet, auto };
 const specificPhotos: [RegExp, string][] = [
+  [/barb/, barber],
+  [/pizz/, pizzeria],
+  [/hamb|burger|lanch/, burgerShop],
+  [/borrach|pneu/, tires],
   [/dent|odonto/, dentist],
   [/pilates/, pilates],
   [/manicure|unha|sobrancelha/, manicure],
@@ -61,7 +69,6 @@ const specificPhotos: [RegExp, string][] = [
   [/material.*constr|materiais.*constr/, construction],
   [/grafica|impress/, print],
   [/adestra/, dogtraining],
-  [/hamburg|lanch/, food],
 ];
 
 /** Visual overrides only: existing catalog, draft and saved records stay unchanged. */
