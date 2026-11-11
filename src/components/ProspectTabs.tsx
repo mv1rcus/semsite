@@ -2,7 +2,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { notificationsSeenAt } from "@/lib/social-unread";
 import { supabase } from "@/integrations/supabase/client";
-import { Search, PanelsTopLeft, Users, ChartNoAxesCombined, MessageSquareText, Sparkles, LogOut, UserRound, Newspaper, Bell, Send, Menu, UserSearch, FileText } from "lucide-react";
+import { Search, PanelsTopLeft, Users, ChartNoAxesCombined, MessageSquareText, Sparkles, LogOut, UserRound, Newspaper, Bell, Send, UserSearch, FileText } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import mascot from "@/assets/semsite-mascote-acenando.png";
@@ -77,52 +77,49 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
     return () => { ro.disconnect(); window.removeEventListener("resize", apply); document.body.style.paddingTop = ""; document.documentElement.style.removeProperty("--app-bar-h"); };
   }, []);
 
-  const toolActive = TABS.find(t => t.key === active);
-  const TOP = [
-    { key: "search", to: "/buscar", label: "Buscar clientes", icon: Search, badge: 0 },
-    { key: "feed", to: "/feed", label: "Feed", icon: Newspaper, badge: 0 },
-    { key: "people", to: "/pessoas", label: "Pesquisar pessoas", icon: UserSearch, badge: 0 },
-    { key: "notifications", to: "/notificacoes", label: "Notificações", icon: Bell, badge: unread.n },
-    { key: "dm", to: "/mensagens", label: "Mensagens", icon: Send, badge: unread.dm },
-  ] as const;
-  const item = (isActive: boolean) => `flex w-full items-center gap-4 rounded-full px-4 py-3 text-lg ${isActive ? "font-bold text-primary" : "text-foreground hover:bg-muted"}`;
+  const ALL: { key: string; label: string }[] = [...TABS, { key: "feed", label: "Feed" }, { key: "people", label: "Pesquisar pessoas" }, { key: "notifications", label: "Notificações" }, { key: "dm", label: "Bate-papo" }, { key: "profile", label: "Meu perfil" }];
+  const title = ALL.find(t => t.key === active)?.label ?? "SemSite";
+  const item = (isActive: boolean) => `flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-base ${isActive ? "bg-primary/10 font-bold text-primary" : "text-foreground hover:bg-muted"}`;
+  const close = () => setOpen(false);
+  const iconBtn = (isActive: boolean) => `relative flex size-9 items-center justify-center rounded-full transition-colors ${isActive ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted"}`;
   return (
     <header ref={barRef} className="fixed inset-x-0 top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
-      <div className="mx-auto max-w-6xl px-4">
-        <div className="flex items-center justify-between gap-3 py-2">
-          <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger asChild>
-              <button type="button" aria-label="Abrir menu" className="flex items-center gap-2.5">
-                <img src={mascot} alt="Mascote SemSite" width={1024} height={1024} className="h-9 w-9 shrink-0 rounded-full bg-accent object-cover ring-1 ring-border" />
-                <Menu className="size-5 text-muted-foreground" />
-              </button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-72 overflow-y-auto p-4">
-              <SheetTitle className="mb-4 font-display text-3xl tracking-wide">Sem<span className="text-primary">Site</span></SheetTitle>
-              <nav className="flex flex-col gap-1" aria-label="Menu">
-                <Link to="/perfil" onClick={() => setOpen(false)} className={item(active === "profile")}><UserRound className="size-6" />Meu perfil</Link>
-                <Link to="/verificado" onClick={() => setOpen(false)} className={item(false)}><VerifiedBadge size={24} />Obter verificado</Link>
-                {isOwner && <Link to="/contas" onClick={() => setOpen(false)} className={item(false)}><Users className="size-6" />Contas do site</Link>}
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-2">
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild>
+            <button type="button" aria-label="Abrir menu" className="shrink-0">
+              <img src={mascot} alt="Mascote SemSite" width={1024} height={1024} className="h-10 w-10 rounded-full bg-accent object-cover ring-2 ring-primary/30" />
+            </button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-72 overflow-y-auto p-4">
+            <SheetTitle className="mb-4 font-display text-3xl tracking-wide">Sem<span className="text-primary">Site</span></SheetTitle>
+            <nav className="flex flex-col gap-4" aria-label="Menu">
+              <div className="rounded-2xl border border-border bg-card p-2">
+                <p className="px-3 pb-1 pt-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Vendas</p>
                 {TABS.map(({ key, to, label, icon: Icon }) => (
-                  <Link key={key} to={to} onClick={() => setOpen(false)} aria-current={active === key ? "page" : undefined} className={item(active === key)}><Icon className="size-6" />{label}</Link>
+                  <Link key={key} to={to} onClick={close} aria-current={active === key ? "page" : undefined} className={item(active === key)}><Icon className="size-5" />{key === "message" ? "Mensagem WhatsApp" : label}</Link>
                 ))}
-                <div className="my-2 border-t border-border" />
-                <button type="button" onClick={signOut} className={item(false)}><LogOut className="size-6" />Sair</button>
-              </nav>
-            </SheetContent>
-          </Sheet>
-          <span className="truncate font-display text-2xl tracking-wide">{toolActive ? toolActive.label : "SemSite"}</span>
-          <Link to="/perfil" aria-label="Meu perfil" className={`flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full ${active === "profile" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>
+              </div>
+              <div className="rounded-2xl border border-border bg-card p-2">
+                <p className="px-3 pb-1 pt-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Minha conta</p>
+                <Link to="/perfil" onClick={close} className={item(active === "profile")}><UserRound className="size-5" />Meu perfil</Link>
+                <Link to="/feed" onClick={close} className={item(active === "feed")}><Newspaper className="size-5" />Feed</Link>
+                <Link to="/pessoas" onClick={close} className={item(active === "people")}><UserSearch className="size-5" />Pesquisar pessoas</Link>
+                <Link to="/verificado" onClick={close} className={item(false)}><VerifiedBadge size={20} />Obter verificado</Link>
+                {isOwner && <Link to="/contas" onClick={close} className={item(false)}><Users className="size-5" />Contas do site</Link>}
+                <button type="button" onClick={signOut} className={item(false)}><LogOut className="size-5" />Sair</button>
+              </div>
+            </nav>
+          </SheetContent>
+        </Sheet>
+        <span className="min-w-0 flex-1 truncate text-center font-display text-2xl tracking-wide">{title}</span>
+        <div className="flex shrink-0 items-center gap-1">
+          <Link to="/notificacoes" aria-label="Notificações" className={iconBtn(active === "notifications")}><Bell className="size-5" />{dot(unread.n)}</Link>
+          <Link to="/mensagens" aria-label="Bate-papo" className={iconBtn(active === "dm")}><Send className="size-5" />{dot(unread.dm)}</Link>
+          <Link to="/perfil" aria-label="Meu perfil" className={`ml-1 flex size-9 items-center justify-center overflow-hidden rounded-full ${active === "profile" ? "ring-2 ring-primary" : "bg-muted"}`}>
             {avatar ? <img src={avatar} alt="" referrerPolicy="no-referrer" className="size-full object-cover" /> : <UserRound className="size-5" />}
           </Link>
         </div>
-        <nav aria-label="Navegação" className="flex items-center justify-around border-t border-border/50 py-1">
-          {TOP.map(({ key, to, label, icon: Icon, badge }) => (
-            <Link key={key} to={to} aria-label={label} title={label} className={`relative flex size-11 items-center justify-center rounded-full transition-colors ${active === key ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted"}`}>
-              <Icon className="size-6" strokeWidth={active === key ? 2.6 : 2} />{dot(badge)}
-            </Link>
-          ))}
-        </nav>
       </div>
     </header>
   );
