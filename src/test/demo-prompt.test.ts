@@ -24,7 +24,7 @@ describe("site prompt for copying", () => {
   it("lists the sector catalog as the site content", () => {
     const prompt = sitePrompt(demo);
     expect(prompt).toContain("Cardápio do site:");
-    expect(prompt).toContain("- Pizzas:");
+    expect(prompt).toContain("- Pizzas tradicionais:");
     expect(prompt).toContain("- Sobremesas:");
   });
 
