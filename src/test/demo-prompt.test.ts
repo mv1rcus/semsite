@@ -25,7 +25,7 @@ describe("site prompt for copying", () => {
     const prompt = sitePrompt(demo);
     expect(prompt).toContain("Cardápio do site:");
     expect(prompt).toContain("- Pizzas tradicionais:");
-    expect(prompt).toContain("- Sobremesas:");
+    expect(prompt).toContain("- Pizzas doces:");
   });
 
   it("asks for three functional tabs", () => {
