@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { cleanBusinessName, detectNiche } from "@/lib/business-niche";
 import { demonstrationPhoto } from "@/lib/demo-photos";
 import pizza from "@/assets/food-pizza.jpg";
 import burger from "@/assets/food-burger.jpg";
@@ -12,7 +13,8 @@ import { DemoContact } from "./DemoContact";
 import { ArrowRight, MessageCircle, Plus, Minus, MapPin, Clock, ShieldCheck, Star, Sparkles, CreditCard, Navigation, HeartHandshake } from "lucide-react";
 const photos = { pizza, burger, plate, dessert };
 type View = "home" | "about" | "catalog" | "contact";
-export function DemoSite({ demo }: { demo: Demonstration }) {
+export function DemoSite({ demo: raw }: { demo: Demonstration }) {
+  const demo = { ...raw, name: cleanBusinessName(raw.name), category: detectNiche(raw.name, raw.category) };
   const [view, setView] = useState<View>("home");
   const [interest, setInterest] = useState("");
   const [detail, setDetail] = useState<string | null>(null);
@@ -21,12 +23,15 @@ export function DemoSite({ demo }: { demo: Demonstration }) {
   const catalog = demoCatalog(demo.category, sector);
   const contact = demoPhoneLink(demo.phone);
   const go = (v: View) => { setView(v); if (typeof window !== "undefined") window.scrollTo({ top: 0 }); };
-  const choose = (item: string) => { setInterest(item); go("contact"); };
+  const choose = (item: string) => {
+    if (contact && item && typeof window !== "undefined") { window.open(`${contact}?text=${encodeURIComponent(`Olá! Vi no site o serviço ${item} e gostaria de um orçamento.`)}`, "_blank", "noopener"); return; }
+    setInterest(item); go("contact");
+  };
   const catalogCards = (compact: boolean) => <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{catalog.items.map((item, index) => <article key={item.title} className="flex min-w-0 flex-col overflow-hidden rounded-lg border bg-card">
     <img src={item.photo ? photos[item.photo] : cover} alt={`${item.title} — imagem ilustrativa`} width={816} height={612} loading="lazy" className="aspect-[4/3] w-full object-cover" />
     <div className="flex flex-1 flex-col p-5"><p className="mb-2 text-xs font-semibold text-primary">0{index + 1} · {demo.category}</p><h3 className="break-words text-xl font-bold">{item.title}</h3><p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{item.text}</p>
       {!compact && <><Button variant="ghost" className="mt-4 justify-between px-0" onClick={() => setDetail(detail === item.title ? null : item.title)} aria-expanded={detail === item.title}>Mais detalhes{detail === item.title ? <Minus /> : <Plus />}</Button>{detail === item.title && <p className="border-t pt-3 text-sm text-muted-foreground">Consulte a equipe para confirmar disponibilidade, condições e informações sobre {item.title.toLowerCase()}.</p>}</>}
-      <Button variant="outline" className="mt-5 w-full" onClick={() => choose(item.title)}>{sector === "food" ? "Consultar pedido" : "Tenho interesse"}<ArrowRight /></Button>
+      <Button variant="outline" className="mt-5 w-full" onClick={() => choose(item.title)}><MessageCircle />{sector === "food" ? "Pedir no WhatsApp" : "Orçamento no WhatsApp"}</Button>
     </div></article>)}</div>;
   return <div className="demo-site" style={demoThemeStyle(demo.category)}>
     <div className="border-b px-5 py-2 text-center text-xs text-muted-foreground">Conceito de site · não é o site oficial · fotos e catálogo ilustrativos</div>
@@ -37,10 +42,10 @@ export function DemoSite({ demo }: { demo: Demonstration }) {
     {view === "home" && <>
       <section className="demo-cover relative isolate flex min-h-[400px] items-end overflow-hidden px-6 py-10 sm:min-h-[490px]">
         <img src={cover} width={1280} height={720} alt={`Imagem ilustrativa para ${demo.category}`} className="absolute inset-0 -z-20 h-full w-full object-cover" /><div className="demo-cover-shade absolute inset-0 -z-10" />
-        <div className="mx-auto w-full max-w-6xl"><p className="mb-4 text-sm font-semibold">{demo.headline}</p><h1 className="max-w-3xl break-words text-3xl font-extrabold leading-tight sm:text-5xl">{demo.name}</h1><p className="mt-5 max-w-xl text-base leading-relaxed">{demo.description}</p><div className="mt-7 flex flex-wrap gap-3"><Button onClick={() => setView("catalog")}>Conhecer {catalog.title.toLowerCase()}<ArrowRight /></Button><Button variant="whatsapp" onClick={() => setView("contact")}><MessageCircle />Fale com a equipe</Button></div></div>
+        <div className="mx-auto w-full max-w-6xl"><p className="mb-4 text-sm font-semibold">{demo.headline}</p><span className="demo-niche-badge">{demo.category}</span><h1 className="demo-brand max-w-3xl break-words text-3xl font-extrabold leading-tight sm:text-5xl">{demo.name}</h1><p className="mt-5 max-w-xl text-base leading-relaxed">{demo.description}</p><div className="mt-7 flex flex-wrap gap-3"><Button onClick={() => setView("catalog")}>Conhecer {catalog.title.toLowerCase()}<ArrowRight /></Button><Button variant="whatsapp" onClick={() => setView("contact")}><MessageCircle />Fale com a equipe</Button></div></div>
       </section>
       <section className="mx-auto grid max-w-6xl gap-4 px-6 py-10 sm:grid-cols-3">{[{ i: Clock, t: "Atendimento ágil", d: "Fale pelo WhatsApp e receba retorno rápido." }, { i: ShieldCheck, t: "Confiança", d: "Informações claras antes de você decidir." }, { i: MapPin, t: "Fácil de chegar", d: demo.address || "Endereço com rota pelo mapa." }].map(f => <div key={f.t} className="rounded-lg border bg-card p-5"><f.i className="size-6 text-primary" /><h3 className="mt-3 font-bold">{f.t}</h3><p className="mt-1 text-sm text-muted-foreground">{f.d}</p></div>)}</section>
-      <section className="border-y bg-muted"><div className="mx-auto max-w-6xl px-6 py-10"><p className="text-sm font-semibold text-primary">Destaques</p><h2 className="mt-2 text-3xl font-bold">Os mais procurados</h2><div className="mt-6 grid gap-4 sm:grid-cols-3">{catalog.items.slice(0, 3).map(item => <button key={item.title} onClick={() => choose(item.title)} className="overflow-hidden rounded-lg border bg-card text-left"><img src={item.photo ? photos[item.photo] : cover} alt={`${item.title} — ilustrativo`} loading="lazy" className="aspect-[4/3] w-full object-cover" /><div className="p-4"><h3 className="font-bold">{item.title}</h3><p className="mt-1 text-sm text-primary">Tenho interesse →</p></div></button>)}</div><Button variant="outline" className="mt-6" onClick={() => go("catalog")}>Ver {catalog.title.toLowerCase()} completo<ArrowRight /></Button></div></section>
+      <section className="border-y bg-muted"><div className="mx-auto max-w-6xl px-6 py-10"><p className="text-sm font-semibold text-primary">Destaques</p><h2 className="mt-2 text-3xl font-bold">Os mais procurados</h2><div className="mt-6 grid gap-4 sm:grid-cols-3">{catalog.items.slice(0, 3).map(item => <button key={item.title} onClick={() => choose(item.title)} className="overflow-hidden rounded-lg border bg-card text-left"><img src={item.photo ? photos[item.photo] : cover} alt={`${item.title} — ilustrativo`} loading="lazy" className="aspect-[4/3] w-full object-cover" /><div className="p-4"><h3 className="font-bold">{item.title}</h3><p className="mt-1 text-sm text-primary">Pedir orçamento no WhatsApp →</p></div></button>)}</div><Button variant="outline" className="mt-6" onClick={() => go("catalog")}>Ver {catalog.title.toLowerCase()} completo<ArrowRight /></Button></div></section>
       <section className="mx-auto max-w-6xl px-6 py-10"><h2 className="text-3xl font-bold">O que os clientes dizem</h2><p className="mt-1 text-xs text-muted-foreground">Exemplo ilustrativo de como as avaliações reais apareceriam aqui.</p><div className="mt-6 grid gap-4 sm:grid-cols-3">{["Atendimento excelente, super recomendo!", "Voltei várias vezes, sempre muito bom.", "Rápido, atencioso e de confiança."].map((t, i) => <figure key={i} className="rounded-lg border bg-card p-5"><div className="flex gap-0.5 text-primary">{Array.from({ length: 5 }).map((_, k) => <Star key={k} className="size-4 fill-current" />)}</div><blockquote className="mt-3 text-sm">“{t}”</blockquote><figcaption className="mt-3 text-xs text-muted-foreground">Cliente (exemplo)</figcaption></figure>)}</div></section>
       <section className="bg-primary px-6 py-10 text-center text-primary-foreground"><h2 className="text-2xl font-bold">Pronto para ser atendido?</h2><p className="mt-2 text-sm opacity-90">Chame agora e tire suas dúvidas em minutos.</p><Button variant="secondary" className="mt-5" onClick={() => go("contact")}><MessageCircle />Chamar no WhatsApp</Button></section>
     </>}
