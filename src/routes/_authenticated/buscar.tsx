@@ -1,3 +1,4 @@
+import { detectNiche } from "@/lib/business-niche";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useServerFn } from "@tanstack/react-start";
@@ -165,7 +166,7 @@ function Buscar() {
   }
   function demonstrate(lead: Lead) {
     followUp.track(lead);
-    try { sessionStorage.setItem("site-demo-draft", JSON.stringify(draftForClient(lead))); navigate({ to: "/demonstracoes" }); }
+    try { sessionStorage.setItem("site-demo-draft", JSON.stringify(draftForClient(lead, activeQuery?.category))); navigate({ to: "/demonstracoes" }); }
     catch { setError("Permita o armazenamento deste navegador para preparar a demonstração do cliente."); }
   }
 
@@ -307,7 +308,7 @@ function Buscar() {
                   <h3 className="min-w-0 break-words text-lg font-bold">{l.name}</h3>
                   {done && <span className="flex shrink-0 items-center gap-1 rounded-sm bg-secondary px-2 py-0.5 text-xs text-primary"><Check className="size-3" />Contatado</span>}
                 </div>
-                {l.category && <p className="text-xs uppercase tracking-wide text-primary">{l.category}</p>}
+                <p className="text-xs uppercase tracking-wide text-primary">{detectNiche(l.name, l.category, activeQuery?.category)}</p>
                 {priority.score >= 65 && <p className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-primary"><Radar className="size-3.5" />Prioridade alta</p>}
                 {priority.reasons.length > 0 && <p className="mt-1 text-xs text-muted-foreground">{priority.reasons.join(" · ")}</p>}
                 <p className="mt-2 flex gap-1.5 break-words text-sm text-muted-foreground"><MapPin className="mt-0.5 size-4 shrink-0" />{l.address}</p>
