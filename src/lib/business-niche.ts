@@ -32,7 +32,7 @@ export function detectNiche(name: string, category: string | null | undefined, q
 const SMALL = /^(de|da|do|das|dos|e|em|a|o)$/;
 /** Limpa nomes do Google: tira slogans após | – - : e normaliza MAIÚSCULAS. */
 export function cleanBusinessName(name: string): string {
-  let n = name.split(/\s[|–—\-:]\s|\s?\|\s?/)[0].replace(/[!]+$/, "").trim() || name.trim();
+  let n = (name.split(/\s[|–—\-:]\s|\s?\|\s?/)[0]?.replace(/[!]+$/, "").trim() ?? "") || name.trim();
   if (n.length > 48) n = n.slice(0, 48).replace(/\s\S*$/, "");
   const letters = n.replace(/[^A-Za-zÀ-ú]/g, "");
   if (letters && letters === letters.toUpperCase()) n = n.toLocaleLowerCase("pt-BR").split(" ").map((w, i) => i && SMALL.test(w) ? w : w.charAt(0).toLocaleUpperCase("pt-BR") + w.slice(1)).join(" ");
