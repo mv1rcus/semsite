@@ -3,6 +3,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { searchInputSchema, rankProspects, type Lead } from "./leads";
 export type { Lead } from "./leads";
 import { mapsErrorMessage } from "./search-errors";
+import { matchesSearch } from "./business-niche";
 
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/google_maps";
 
@@ -75,6 +76,7 @@ export const searchLeads = createServerFn({ method: "POST" })
     const places = json.places ?? [];
     const leads: Lead[] = places
       .filter((p) => !p.websiteUri && p.businessStatus !== "CLOSED_PERMANENTLY")
+      .filter((p) => matchesSearch(p.displayName?.text ?? "", p.primaryTypeDisplayName?.text, data.category))
       .map((p) => ({
         id: p.id,
         name: p.displayName?.text ?? "Sem nome",
