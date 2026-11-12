@@ -67,7 +67,15 @@ const specificPhotos: [RegExp, string][] = [
   [/vidrac|vidro/, glass],
   [/serralh/, metal],
   [/material.*constr|materiais.*constr/, construction],
-  [/grafica|impress/, print],
+  [/grafica|impress|copiador|xerox/, print],
+  [/advoca|juridic/, law],
+  [/academ|crossfit/, gym],
+  [/pet|veterin/, pet],
+  [/marmit|espetinh|restaur|buffet/, food],
+  [/oficina|mecanic|funilar|moto/, auto],
+  [/confeit|doce|bolo/, bakery],
+  [/climatiz|gesso|pintor/, construction],
+  [/otica/, health],
   [/adestra/, dogtraining],
 ];
 
