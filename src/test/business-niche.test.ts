@@ -8,3 +8,9 @@ describe("detector de ramo", () => {
   it("usa a busca como desempate", () => expect(detectNiche("Silva & Souza", "Consultoria", "advogado")).toBe("Advocacia"));
   it("limpa nome do Google", () => expect(cleanBusinessName("PAPAGAIO COLORIDO GRÁFICA - QUALIDADE EM IMPRESSÃO!")).toBe("Papagaio Colorido Gráfica"));
 });
+import { matchesSearch } from "@/lib/business-niche";
+describe("busca fiel ao ramo", () => {
+  it("busca advogado descarta costureira", () => expect(matchesSearch("Ateliê da Maria Costureira", "Serviços", "Advogado")).toBe(false));
+  it("busca advogado mantém escritório", () => expect(matchesSearch("Silva Advocacia", "Serviços", "Advogado")).toBe(true));
+  it("mantém nome genérico", () => expect(matchesSearch("Silva & Souza", "Consultoria", "Advogado")).toBe(true));
+});

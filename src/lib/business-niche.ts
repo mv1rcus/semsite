@@ -38,3 +38,15 @@ export function cleanBusinessName(name: string): string {
   if (letters && letters === letters.toUpperCase()) n = n.toLocaleLowerCase("pt-BR").split(" ").map((w, i) => i && SMALL.test(w) ? w : w.charAt(0).toLocaleUpperCase("pt-BR") + w.slice(1)).join(" ");
   return n;
 }
+/** Ramo reconhecido pelo nome ou pela categoria (ignora categorias genéricas). */
+export function knownNiche(name: string, category?: string | null): string | undefined {
+  const cat = (category ?? "").trim();
+  return find(name) ?? (GENERIC.test(cat) ? undefined : find(cat));
+}
+/** Busca X traz só X: descarta resultados de um ramo reconhecido diferente do pesquisado. */
+export function matchesSearch(name: string, category: string | null | undefined, query: string): boolean {
+  const wanted = find(query);
+  if (!wanted) return true;
+  const got = knownNiche(name, category);
+  return !got || got === wanted;
+}
