@@ -299,11 +299,15 @@ export type Database = {
           category: string
           created_at: string
           description: string
+          google_rating: number | null
+          google_rating_count: number | null
+          google_reviews: Json
           headline: string
           id: string
           last_opened_at: string | null
           name: string
           phone: string
+          place_id: string | null
           slug: string | null
         }
         Insert: {
@@ -311,11 +315,15 @@ export type Database = {
           category: string
           created_at?: string
           description: string
+          google_rating?: number | null
+          google_rating_count?: number | null
+          google_reviews?: Json
           headline: string
           id?: string
           last_opened_at?: string | null
           name: string
           phone?: string
+          place_id?: string | null
           slug?: string | null
         }
         Update: {
@@ -323,11 +331,15 @@ export type Database = {
           category?: string
           created_at?: string
           description?: string
+          google_rating?: number | null
+          google_rating_count?: number | null
+          google_reviews?: Json
           headline?: string
           id?: string
           last_opened_at?: string | null
           name?: string
           phone?: string
+          place_id?: string | null
           slug?: string | null
         }
         Relationships: []

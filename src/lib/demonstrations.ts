@@ -6,7 +6,10 @@ export const demoSchema = z.object({
   name: z.string().trim().min(2).max(160), category: z.string().trim().min(2).max(120),
   address: z.string().trim().max(400), phone: z.string().trim().max(40),
   headline: z.string().trim().min(2).max(200), description: z.string().trim().min(2).max(1000),
+  placeId: z.string().regex(/^[A-Za-z0-9_-]{5,300}$/).optional(),
 });
+export type GoogleReview = { author: string; rating: number; text: string; when: string };
+export type DemoGoogle = { google_rating?: number | null; google_rating_count?: number | null; google_reviews?: unknown };
 export type Demonstration = z.infer<typeof demoSchema>;
 export function demonstrationSlug(name: string) {
   return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 70).replace(/-$/g, "") || "meu-negocio";
@@ -48,7 +51,7 @@ export function draftForClient(lead: Lead, query?: string): Demonstration {
   const category = detectNiche(lead.name, lead.category, query);
   const sector = demoSector(category);
   return { name: lead.name, category, address: lead.address, phone: lead.intlPhone || lead.phone || "",
-    headline: SECTOR_HEADLINE[sector],
+    headline: SECTOR_HEADLINE[sector], ...(/^[A-Za-z0-9_-]{5,300}$/.test(lead.id) ? { placeId: lead.id } : {}),
     description: `Conheça ${lead.name}. Informações sobre ${category.toLocaleLowerCase("pt-BR")}, localização e contato em um só lugar. Fale com a equipe para saber mais.` };
 }
 export function demoPhoneLink(phone: string) {
