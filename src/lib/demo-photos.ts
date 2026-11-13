@@ -35,10 +35,24 @@ import barber from "@/assets/demo-barber.jpg";
 import pizzeria from "@/assets/demo-pizzeria.jpg";
 import burgerShop from "@/assets/demo-burger.jpg";
 import tires from "@/assets/demo-tires.jpg";
+import driving from "@/assets/demo-driving.jpg";
+import photographer from "@/assets/demo-photographer.jpg";
+import florist from "@/assets/demo-florist.jpg";
+import waxing from "@/assets/demo-waxing.jpg";
+import drywall from "@/assets/demo-drywall.jpg";
+import languageSchool from "@/assets/demo-language-school.jpg";
+import courses from "@/assets/demo-courses.jpg";
 import { demoSector } from "./demonstrations";
 
 const covers = { beauty, health, food, services, gym, law, pet, auto };
 const specificPhotos: [RegExp, string][] = [
+  [/auto ?escola|cfc\b/, driving],
+  [/fot[oó]graf|foto ?studio/, photographer],
+  [/floric|flores/, florist],
+  [/depila/, waxing],
+  [/gesseir|gesso|drywall/, drywall],
+  [/idioma|ingles|english/, languageSchool],
+  [/escola|curso|reforco/, courses],
   [/barb/, barber],
   [/pizz/, pizzeria],
   [/hamb|burger|lanch/, burgerShop],
