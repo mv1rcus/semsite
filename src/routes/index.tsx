@@ -2,7 +2,6 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowRight, Lock, Play, Search, MessageCircle, MonitorSmartphone, X } from "lucide-react";
 import logo from "@/assets/semsite-mark.png";
-import mascot from "@/assets/semsite-mascote-acenando.png";
 import { lovable } from "@/integrations/lovable";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -89,7 +88,6 @@ function Login() {
             <span className="login-play grid size-16 place-items-center rounded-full"><Play className="ml-1 size-6 fill-current" /></span>
             <span className="text-[0.7rem] font-bold tracking-[0.25em]">ASSISTA À APRESENTAÇÃO</span>
           </button>
-          <img src={mascot} alt="" className="pointer-events-none absolute -bottom-4 -right-4 hidden w-36 opacity-90 sm:block" />
         </section>
       </div>
 
