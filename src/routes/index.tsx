@@ -55,7 +55,7 @@ function Login() {
     navigate({ to: "/buscar" });
   }
 
-  const Current = STEPS[step];
+  const Current = STEPS[step] ?? STEPS[0]!;
 
   return (
     <main className="login-page min-h-screen px-4 py-6 sm:px-6">
