@@ -1,7 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, Lock, Play, Search, MessageCircle, MonitorSmartphone, X } from "lucide-react";
+import { ArrowRight, Lock, Play, X } from "lucide-react";
 import logo from "@/assets/semsite-mark.png";
+import presentation from "@/assets/semsite-apresentacao.mp4.asset.json";
+import { Button } from "@/components/ui/button";
 import { lovable } from "@/integrations/lovable";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -19,18 +21,11 @@ export const Route = createFileRoute("/")({
   component: Login,
 });
 
-const STEPS = [
-  { icon: Search, title: "Encontre", text: "Busque comércios sem site em qualquer cidade do interior." },
-  { icon: MonitorSmartphone, title: "Mostre", text: "Gere um site de demonstração com o nome e o ramo do cliente." },
-  { icon: MessageCircle, title: "Venda", text: "Envie a mensagem pronta no WhatsApp e acompanhe cada cliente." },
-];
-
 function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [video, setVideo] = useState(false);
-  const [step, setStep] = useState(0);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => { if (data.session) navigate({ to: "/buscar" }); });
@@ -42,9 +37,11 @@ function Login() {
 
   useEffect(() => {
     if (!video) return;
-    setStep(0);
-    const t = setInterval(() => setStep((s) => (s + 1) % STEPS.length), 3000);
-    return () => clearInterval(t);
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setVideo(false);
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
   }, [video]);
 
   async function signIn() {
@@ -54,8 +51,6 @@ function Login() {
     if (result.redirected) return;
     navigate({ to: "/buscar" });
   }
-
-  const Current = STEPS[step] ?? STEPS[0]!;
 
   return (
     <main className="login-page min-h-screen px-4 py-6 sm:px-6">
@@ -94,16 +89,8 @@ function Login() {
       {video && (
         <div role="dialog" aria-modal="true" aria-label="Apresentação do SemSite" className="login-page fixed inset-0 z-50 grid place-items-center bg-background/90 p-4 backdrop-blur" onClick={() => setVideo(false)}>
           <div className="login-card relative aspect-video w-full max-w-3xl overflow-hidden rounded-3xl" onClick={(e) => e.stopPropagation()}>
-            <button type="button" aria-label="Fechar" onClick={() => setVideo(false)} className="absolute right-3 top-3 z-10 grid size-9 place-items-center rounded-full bg-background/60"><X className="size-4" /></button>
-            <div key={step} className="flex h-full animate-in fade-in zoom-in-95 flex-col items-center justify-center p-6 text-center duration-700">
-              <Current.icon className="size-12 text-primary" />
-              <p className="mt-3 text-[0.7rem] font-bold tracking-[0.25em] text-muted-foreground">PASSO {step + 1} DE 3</p>
-              <h3 className="mt-1 font-display text-6xl">{Current.title}</h3>
-              <p className="mt-2 max-w-md text-muted-foreground">{Current.text}</p>
-            </div>
-            <div className="absolute inset-x-6 bottom-4 flex gap-2">
-              {STEPS.map((_, i) => <span key={i} className={`h-1 flex-1 rounded-full ${i <= step ? "bg-primary" : "bg-border"}`} />)}
-            </div>
+            <Button type="button" variant="secondary" size="icon" aria-label="Fechar" onClick={() => setVideo(false)} className="absolute right-3 top-3 z-10 size-9 rounded-full"><X className="size-4" /></Button>
+            <video src={presentation.url} controls autoPlay playsInline preload="metadata" aria-label="Vídeo de apresentação do SemSite" className="h-full w-full object-contain" />
           </div>
         </div>
       )}
