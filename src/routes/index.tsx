@@ -1,9 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, Lock, Play, X } from "lucide-react";
+import { ArrowRight, Lock } from "lucide-react";
 import logo from "@/assets/semsite-mark.png";
 import presentation from "@/assets/semsite-apresentacao.mp4.asset.json";
-import { Button } from "@/components/ui/button";
 import { lovable } from "@/integrations/lovable";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -25,7 +24,6 @@ function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [video, setVideo] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => { if (data.session) navigate({ to: "/buscar" }); });
@@ -34,15 +32,6 @@ function Login() {
     });
     return () => data.subscription.unsubscribe();
   }, [navigate]);
-
-  useEffect(() => {
-    if (!video) return;
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setVideo(false);
-    };
-    document.addEventListener("keydown", closeOnEscape);
-    return () => document.removeEventListener("keydown", closeOnEscape);
-  }, [video]);
 
   async function signIn() {
     setLoading(true); setError("");
@@ -75,25 +64,11 @@ function Login() {
           <p className="mt-6 flex items-center gap-2 text-[0.7rem] font-bold tracking-[0.2em] text-muted-foreground"><Lock className="size-3.5 text-primary" /> AMBIENTE PROTEGIDO</p>
         </section>
 
-        <section className="login-wave relative flex min-h-[26rem] flex-col items-center justify-center overflow-hidden rounded-3xl border border-border p-8 text-center">
+        <section className="login-wave relative flex flex-col items-center justify-center gap-6 overflow-hidden rounded-3xl border border-border p-4 text-center sm:p-8">
           <p className="text-[0.7rem] font-bold tracking-[0.25em] text-muted-foreground">SEMSITE / PROSPECÇÃO</p>
-          <h2 className="mt-3 font-display text-6xl leading-none sm:text-7xl">Bem-vindo<br /><span className="font-serif italic normal-case">de volta.</span></h2>
-          <p className="mt-3 max-w-xs text-sm text-muted-foreground">Sua lista de clientes continua de onde você parou.</p>
-          <button type="button" onClick={() => setVideo(true)} className="mt-8 flex flex-col items-center gap-3">
-            <span className="login-play grid size-16 place-items-center rounded-full"><Play className="ml-1 size-6 fill-current" /></span>
-            <span className="text-[0.7rem] font-bold tracking-[0.25em]">ASSISTA À APRESENTAÇÃO</span>
-          </button>
+          <video src={presentation.url} controls playsInline preload="metadata" aria-label="Vídeo de apresentação do SemSite" className="aspect-video w-full rounded-lg object-contain" />
         </section>
       </div>
-
-      {video && (
-        <div role="dialog" aria-modal="true" aria-label="Apresentação do SemSite" className="login-page fixed inset-0 z-50 grid place-items-center bg-background/90 p-4 backdrop-blur" onClick={() => setVideo(false)}>
-          <div className="login-card relative aspect-video w-full max-w-3xl overflow-hidden rounded-3xl" onClick={(e) => e.stopPropagation()}>
-            <Button type="button" variant="secondary" size="icon" aria-label="Fechar" onClick={() => setVideo(false)} className="absolute right-3 top-3 z-10 size-9 rounded-full"><X className="size-4" /></Button>
-            <video src={presentation.url} controls autoPlay playsInline preload="metadata" aria-label="Vídeo de apresentação do SemSite" className="h-full w-full object-contain" />
-          </div>
-        </div>
-      )}
     </main>
   );
 }
