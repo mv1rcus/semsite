@@ -65,7 +65,10 @@ function Login() {
         </section>
 
         <section className="login-wave relative flex flex-col items-center justify-center gap-6 overflow-hidden rounded-3xl border border-border p-4 text-center sm:p-8">
-          <p className="text-[0.7rem] font-bold tracking-[0.25em] text-muted-foreground">SEMSITE / PROSPECÇÃO</p>
+          <div className="space-y-2">
+            <p className="text-sm font-bold">Conheça o SemSite</p>
+            <p className="text-xs text-muted-foreground">Dê o play e descubra como encontrar seus próximos clientes.</p>
+          </div>
           <video src={presentation.url} controls playsInline preload="metadata" aria-label="Vídeo de apresentação do SemSite" className="aspect-video w-full rounded-lg object-contain" />
         </section>
       </div>
