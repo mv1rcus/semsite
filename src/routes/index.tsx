@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, Lock } from "lucide-react";
+import { ArrowRight, Lock, Search, MonitorSmartphone, MessageCircle, Eye, Star, FileText } from "lucide-react";
 import logo from "@/assets/semsite-mark.png";
 import presentation from "@/assets/semsite-apresentacao.mp4.asset.json";
 import { lovable } from "@/integrations/lovable";
@@ -72,6 +72,65 @@ function Login() {
           <video src={presentation.url} controls playsInline preload="metadata" aria-label="Vídeo de apresentação do SemSite" className="aspect-video w-full rounded-lg object-contain" />
         </section>
       </div>
+
+      <section className="mx-auto mt-10 grid max-w-6xl grid-cols-3 gap-3 text-center">
+        {[["+60", "ramos de negócio"], ["1 clique", "site de demonstração"], ["100%", "WhatsApp de celular"]].map(([n, l]) => (
+          <div key={l} className="login-card rounded-2xl p-4">
+            <p className="font-display text-3xl text-primary sm:text-5xl">{n}</p>
+            <p className="text-[0.7rem] text-muted-foreground sm:text-sm">{l}</p>
+          </div>
+        ))}
+      </section>
+
+      <section className="mx-auto mt-14 max-w-6xl">
+        <p className="text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ COMO FUNCIONA</p>
+        <h2 className="mt-2 font-display text-5xl leading-none">3 passos pro <span className="text-primary">próximo cliente.</span></h2>
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          {[
+            [Search, "1. Busque", "Escolha a cidade e o ramo. O SemSite mostra só quem ainda não tem site."],
+            [MonitorSmartphone, "2. Demonstre", "Envie um site pronto com a cara do cliente antes mesmo dele pedir."],
+            [MessageCircle, "3. Feche", "Mensagem pronta e roteiro de vendas pra responder qualquer dúvida."],
+          ].map(([Icon, t, d]) => {
+            const I = Icon as typeof Search;
+            return (
+              <div key={t as string} className="login-card rounded-2xl p-6">
+                <span className="grid size-11 place-items-center rounded-xl bg-primary/15 text-primary"><I className="size-5" /></span>
+                <h3 className="mt-4 font-display text-3xl">{t as string}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">{d as string}</p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="mx-auto mt-14 max-w-6xl">
+        <p className="text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ DIFERENCIAIS</p>
+        <h2 className="mt-2 font-display text-5xl leading-none">Tudo pra você <span className="text-primary">vender mais.</span></h2>
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+          {[
+            [Star, "Demonstrações de impacto", "Visual próprio por ramo, fotos do segmento e avaliações reais do Google."],
+            [Eye, "Saiba quem abriu", "Veja na hora se o cliente entrou no link que você enviou."],
+            [FileText, "Roteiro de vendas", "Dor do cliente, respostas pras objeções e mensagem pronta."],
+            [MessageCircle, "Painel de clientes", "Etapas, lembretes de retorno e gráficos dos seus resultados."],
+          ].map(([Icon, t, d]) => {
+            const I = Icon as typeof Search;
+            return (
+              <div key={t as string} className="login-card flex gap-4 rounded-2xl p-5">
+                <I className="mt-1 size-5 shrink-0 text-primary" />
+                <div><h3 className="font-bold">{t as string}</h3><p className="text-sm text-muted-foreground">{d as string}</p></div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="login-wave mx-auto mt-14 mb-6 max-w-6xl rounded-3xl border border-border p-8 text-center">
+        <h2 className="font-display text-5xl leading-none">Seu próximo cliente <span className="text-primary">já está esperando.</span></h2>
+        <p className="mt-3 text-sm text-muted-foreground">Entre com o Google e comece a prospectar agora.</p>
+        <button type="button" disabled={loading} onClick={signIn} className="login-cta mx-auto mt-6 flex items-center gap-3 rounded-2xl px-6 py-3 font-bold disabled:opacity-60">
+          {loading ? "Entrando…" : "Começar agora com Google"} <ArrowRight className="size-5" />
+        </button>
+      </section>
     </main>
   );
 }
