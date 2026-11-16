@@ -1,8 +1,13 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Lock, Search, MonitorSmartphone, MessageCircle, Eye, Star, FileText } from "lucide-react";
 import logo from "@/assets/semsite-mark.png";
 import presentation from "@/assets/semsite-apresentacao.mp4.asset.json";
+import barber from "@/assets/demo-barber.jpg";
+import dentist from "@/assets/demo-dentist.jpg";
+import pizza from "@/assets/demo-pizzeria.jpg";
+import beauty from "@/assets/demo-beauty.jpg";
+import services from "@/assets/demo-services.jpg";
 import { lovable } from "@/integrations/lovable";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -82,6 +87,8 @@ function Login() {
         ))}
       </section>
 
+      <FanShowcase />
+
       <section className="mx-auto mt-14 max-w-6xl">
         <p className="text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ COMO FUNCIONA</p>
         <h2 className="mt-2 font-display text-5xl leading-none">3 passos pro <span className="text-primary">próximo cliente.</span></h2>
@@ -132,5 +139,52 @@ function Login() {
         </button>
       </section>
     </main>
+  );
+}
+
+const FAN = [
+  { name: "Barbearia", img: barber, slug: "bigodonbarbeariaebardemo" },
+  { name: "Dentista", img: dentist, slug: "draadeliaaraujoodontologiaespecializadademo" },
+  { name: "Pizzaria", img: pizza, slug: "serranapizzariaerestaurantedemo" },
+  { name: "Clínica de Estética", img: beauty, slug: "silstudiosfashiondemo" },
+  { name: "Serviços", img: services, slug: "mastervidrosvidracariaemuberlandiademo" },
+];
+
+function FanShowcase() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => { if (e?.isIntersecting) { setOpen(true); io.disconnect(); } }, { threshold: 0.35 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <section className="mx-auto mt-14 max-w-6xl overflow-hidden">
+      <p className="text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ PLANO LEQUE</p>
+      <h2 className="mt-2 font-display text-5xl leading-none">Sites prontos dos ramos <span className="text-primary">que mais vendem.</span></h2>
+      <div ref={ref} className="relative mx-auto mt-6 h-[300px] w-full sm:h-[420px]">
+        {FAN.map((d, i) => {
+          const off = i - 2;
+          const style = {
+            transform: open
+              ? `translateX(calc(-50% + ${off} * min(17vw, 190px))) translateY(${Math.abs(off) * 18}px) rotate(${off * 9}deg)`
+              : "translateX(-50%) rotate(0deg)",
+            transitionDelay: `${Math.abs(off) * 80}ms`,
+            zIndex: 10 - Math.abs(off),
+          };
+          return (
+            <div key={d.slug} style={style} className="absolute left-1/2 top-4 w-[34vw] max-w-[220px] origin-bottom overflow-hidden rounded-2xl border border-border bg-card shadow-2xl transition-transform duration-700 ease-out">
+              <img src={d.img} alt={`Demonstração de ${d.name}`} loading="lazy" className="aspect-[3/4] w-full object-cover" />
+              <div className="absolute inset-x-0 top-0 flex flex-col items-center gap-1 bg-gradient-to-b from-background/90 to-transparent p-2 pb-8">
+                <a href={`/${d.slug}`} target="_blank" rel="noreferrer" className="login-cta rounded-full px-3 py-1 text-[0.65rem] font-bold sm:text-xs">Acessar prévia</a>
+              </div>
+              <p className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/95 to-transparent p-2 pt-6 text-center text-xs font-bold sm:text-sm">{d.name}</p>
+            </div>
+          );
+        })}
+      </div>
+    </section>
   );
 }
