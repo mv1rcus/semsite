@@ -169,13 +169,13 @@ function FanShowcase() {
           const off = i - 2;
           const style = {
             transform: open
-              ? `translateX(calc(-50% + ${off} * min(17vw, 190px))) translateY(${Math.abs(off) * 18}px) rotate(${off * 9}deg)`
+              ? `translateX(calc(-50% + ${off} * min(12vw, 190px))) translateY(${Math.abs(off) * 18}px) rotate(${off * 9}deg)`
               : "translateX(-50%) rotate(0deg)",
             transitionDelay: `${Math.abs(off) * 80}ms`,
             zIndex: 10 - Math.abs(off),
           };
           return (
-            <div key={d.slug} style={style} className="absolute left-1/2 top-4 w-[34vw] max-w-[220px] origin-bottom overflow-hidden rounded-2xl border border-border bg-card shadow-2xl transition-transform duration-700 ease-out">
+            <div key={d.slug} style={style} className="absolute left-1/2 top-4 w-[30vw] max-w-[220px] origin-bottom overflow-hidden rounded-2xl border border-border bg-card shadow-2xl transition-transform duration-700 ease-out">
               <img src={d.img} alt={`Demonstração de ${d.name}`} loading="lazy" className="aspect-[3/4] w-full object-cover" />
               <div className="absolute inset-x-0 top-0 flex flex-col items-center gap-1 bg-gradient-to-b from-background/90 to-transparent p-2 pb-8">
                 <a href={`/${d.slug}`} target="_blank" rel="noreferrer" className="login-cta rounded-full px-3 py-1 text-[0.65rem] font-bold sm:text-xs">Acessar prévia</a>
