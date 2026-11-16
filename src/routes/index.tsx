@@ -169,7 +169,7 @@ function FanShowcase() {
           const off = i - 2;
           const style = {
             transform: open
-              ? `translateX(calc(-50% + ${off} * min(12vw, 190px))) translateY(${Math.abs(off) * 18}px) rotate(${off * 9}deg)`
+              ? `translateX(calc(-50% + ${off} * min(11vw, 190px))) translateY(${Math.abs(off) * 18}px) rotate(${off * 7}deg)`
               : "translateX(-50%) rotate(0deg)",
             transitionDelay: `${Math.abs(off) * 80}ms`,
             zIndex: 10 - Math.abs(off),
