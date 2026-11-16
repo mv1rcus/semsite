@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Lock, Search, MonitorSmartphone, MessageCircle, Eye, Star, FileText } from "lucide-react";
+import { ArrowRight, Lock, Search, MonitorSmartphone, MessageCircle, Eye, Star, FileText, X } from "lucide-react";
 import logo from "@/assets/semsite-mark.png";
 import presentation from "@/assets/semsite-apresentacao.mp4.asset.json";
 import barber from "@/assets/demo-barber.jpg";
@@ -153,38 +153,61 @@ const FAN = [
 function FanShowcase() {
   const ref = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(2);
+  const [preview, setPreview] = useState<(typeof FAN)[number] | null>(null);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const io = new IntersectionObserver(([e]) => { if (e?.isIntersecting) { setOpen(true); io.disconnect(); } }, { threshold: 0.35 });
+    const io = new IntersectionObserver(([e]) => { if (e?.isIntersecting) { setOpen(true); io.disconnect(); } }, { threshold: 0.3 });
     io.observe(el);
     return () => io.disconnect();
   }, []);
+  useEffect(() => {
+    if (!preview) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = prev; };
+  }, [preview]);
   return (
     <section className="mx-auto mt-14 max-w-6xl overflow-hidden">
       <p className="text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ PLANO LEQUE</p>
       <h2 className="mt-2 font-display text-5xl leading-none">Sites prontos dos ramos <span className="text-primary">que mais vendem.</span></h2>
-      <div ref={ref} className="relative mx-auto mt-6 h-[300px] w-full sm:h-[420px]">
+      <p className="mt-2 text-sm text-muted-foreground">Toque em um modelo para destacar e veja a prévia.</p>
+      <div ref={ref} className="relative mx-auto mt-6 h-[340px] w-full sm:h-[440px]">
         {FAN.map((d, i) => {
-          const off = i - 2;
+          const off = i - active;
+          const sel = off === 0;
           const style = {
             transform: open
-              ? `translateX(calc(-50% + ${off} * min(11vw, 190px))) translateY(${Math.abs(off) * 18}px) rotate(${off * 7}deg)`
-              : "translateX(-50%) rotate(0deg)",
-            transitionDelay: `${Math.abs(off) * 80}ms`,
-            zIndex: 10 - Math.abs(off),
+              ? `translateX(calc(-50% + ${off} * min(17vw, 170px))) translateY(${sel ? -14 : Math.abs(off) * 22}px) rotate(${off * 9}deg) scale(${sel ? 1.08 : 0.86})`
+              : "translateX(-50%) translateY(40px) rotate(0deg) scale(0.86)",
+            transitionDelay: open ? "0ms" : `${Math.abs(i - 2) * 80}ms`,
+            zIndex: 20 - Math.abs(off),
+            opacity: open ? (Math.abs(off) > 2 ? 0 : 1) : 0.6,
           };
           return (
-            <div key={d.slug} style={style} className="absolute left-1/2 top-4 w-[30vw] max-w-[220px] origin-bottom overflow-hidden rounded-2xl border border-border bg-card shadow-2xl transition-transform duration-700 ease-out">
+            <div key={d.slug} style={style} onClick={() => setActive(i)} role="button" tabIndex={0} aria-label={`Destacar ${d.name}`}
+              className={`absolute left-1/2 top-6 w-[42vw] max-w-[230px] cursor-pointer origin-bottom overflow-hidden rounded-2xl border bg-card shadow-2xl transition-all duration-500 ease-out ${sel ? "border-primary" : "border-border"}`}>
               <img src={d.img} alt={`Demonstração de ${d.name}`} loading="lazy" className="aspect-[3/4] w-full object-cover" />
-              <div className="absolute inset-x-0 top-0 flex flex-col items-center gap-1 bg-gradient-to-b from-background/90 to-transparent p-2 pb-8">
-                <a href={`/${d.slug}`} target="_blank" rel="noreferrer" className="login-cta rounded-full px-3 py-1 text-[0.65rem] font-bold sm:text-xs">Acessar prévia</a>
-              </div>
+              {sel && (
+                <div className="absolute inset-x-0 top-0 flex justify-center bg-gradient-to-b from-background/90 to-transparent p-2 pb-8">
+                  <button type="button" onClick={(e) => { e.stopPropagation(); setPreview(d); }} className="login-cta rounded-full px-4 py-1.5 text-xs font-bold">Acessar prévia</button>
+                </div>
+              )}
               <p className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/95 to-transparent p-2 pt-6 text-center text-xs font-bold sm:text-sm">{d.name}</p>
             </div>
           );
         })}
       </div>
+      {preview && (
+        <div className="fixed inset-0 z-50 flex flex-col bg-background/95 backdrop-blur" role="dialog" aria-label={`Prévia ${preview.name}`}>
+          <div className="flex items-center justify-between border-b border-border px-4 py-3">
+            <p className="font-display text-2xl">{preview.name}</p>
+            <button type="button" onClick={() => setPreview(null)} aria-label="Fechar prévia" className="rounded-full border border-border p-2"><X className="size-5" /></button>
+          </div>
+          <iframe title={`Prévia ${preview.name}`} src={`/${preview.slug}`} className="w-full flex-1 bg-card" />
+        </div>
+      )}
     </section>
   );
 }
