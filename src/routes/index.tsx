@@ -150,6 +150,13 @@ const FAN = [
   { name: "Serviços", img: services, slug: "mastervidrosvidracariaemuberlandiademo" },
 ];
 
+/** Ramos que também têm demonstração pronta, além dos 5 em destaque. */
+const MORE_SECTORS = [
+  "Ótica", "Pet Shop", "Advogado", "Academia", "Confeitaria", "Marmitaria",
+  "Espetinho", "Cílios", "Depilação", "Climatização", "Pintor", "Gesseiro",
+  "Auto Escola", "Moto Peças", "Açaí", "Eletricista",
+];
+
 function FanShowcase() {
   const ref = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
