@@ -212,6 +212,7 @@ function FanShowcase() {
         ))}
         <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[0.7rem] font-bold text-primary">+40 outros ramos</span>
       </div>
+      <p className="mt-3 text-center text-xs text-muted-foreground">Não viu o seu? Qualquer outro ramo também sai pronto em 1 clique.</p>
       {preview && (
         <div className="fixed inset-0 z-50 flex flex-col bg-background/95 backdrop-blur" role="dialog" aria-label={`Prévia ${preview.name}`}>
           <div className="flex items-center justify-between border-b border-border px-4 py-3">
