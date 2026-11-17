@@ -177,9 +177,9 @@ function FanShowcase() {
   }, [preview]);
   return (
     <section className="mx-auto mt-14 max-w-6xl overflow-hidden">
-      <p className="text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ PLANO LEQUE</p>
+      <p className="text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ CATÁLOGO DE DEMONSTRAÇÕES</p>
       <h2 className="mt-2 font-display text-5xl leading-none">Sites prontos dos ramos <span className="text-primary">que mais vendem.</span></h2>
-      <p className="mt-2 text-sm text-muted-foreground">Toque em um modelo para destacar e veja a prévia.</p>
+      <p className="mt-2 text-sm text-muted-foreground">Estes 5 são só uma amostra — o catálogo tem mais de 60 ramos prontos. Toque em um modelo para destacar e veja a prévia.</p>
       <div ref={ref} className="relative mx-auto mt-6 h-[340px] w-full sm:h-[440px]">
         {FAN.map((d, i) => {
           const off = i - active;
