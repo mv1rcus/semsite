@@ -14,7 +14,7 @@ import { DemoContact } from "./DemoContact";
 import { ArrowRight, MessageCircle, Plus, Minus, MapPin, Clock, ShieldCheck, Star, Sparkles, CreditCard, Navigation, HeartHandshake } from "lucide-react";
 const photos = { pizza, burger, plate, dessert };
 type View = "home" | "about" | "catalog" | "contact";
-export function DemoSite({ demo: raw, layout: forced }: { demo: Demonstration & DemoGoogle; layout?: LayoutId }) {
+export function DemoSite({ demo: raw, layout: forced }: { demo: Demonstration & DemoGoogle; layout?: LayoutId | undefined }) {
   const reviews = (Array.isArray(raw.google_reviews) ? raw.google_reviews : []) as GoogleReview[];
   const demo = { ...raw, name: cleanBusinessName(raw.name), category: detectNiche(raw.name, raw.category) };
   const [view, setView] = useState<View>("home");
