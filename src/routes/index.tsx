@@ -150,6 +150,13 @@ const FAN = [
   { name: "Serviços", img: services, slug: "mastervidrosvidracariaemuberlandiademo" },
 ];
 
+/** Ramos que também têm demonstração pronta, além dos 5 em destaque. */
+const MORE_SECTORS = [
+  "Ótica", "Pet Shop", "Advogado", "Academia", "Confeitaria", "Marmitaria",
+  "Espetinho", "Cílios", "Depilação", "Climatização", "Pintor", "Gesseiro",
+  "Auto Escola", "Moto Peças", "Açaí", "Eletricista",
+];
+
 function FanShowcase() {
   const ref = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
@@ -170,9 +177,9 @@ function FanShowcase() {
   }, [preview]);
   return (
     <section className="mx-auto mt-14 max-w-6xl overflow-hidden">
-      <p className="text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ PLANO LEQUE</p>
+      <p className="text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ CATÁLOGO DE DEMONSTRAÇÕES</p>
       <h2 className="mt-2 font-display text-5xl leading-none">Sites prontos dos ramos <span className="text-primary">que mais vendem.</span></h2>
-      <p className="mt-2 text-sm text-muted-foreground">Toque em um modelo para destacar e veja a prévia.</p>
+      <p className="mt-2 text-sm text-muted-foreground">Estes 5 são só uma amostra — o catálogo tem mais de 60 ramos prontos. Toque em um modelo para destacar e veja a prévia.</p>
       <div ref={ref} className="relative mx-auto mt-6 h-[340px] w-full sm:h-[440px]">
         {FAN.map((d, i) => {
           const off = i - active;
@@ -199,6 +206,13 @@ function FanShowcase() {
           );
         })}
       </div>
+      <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+        {MORE_SECTORS.map((s) => (
+          <span key={s} className="rounded-full border border-border bg-card px-3 py-1 text-[0.7rem] font-semibold text-muted-foreground">{s}</span>
+        ))}
+        <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[0.7rem] font-bold text-primary">+40 outros ramos</span>
+      </div>
+      <p className="mt-3 text-center text-xs text-muted-foreground">Não viu o seu? Qualquer outro ramo também sai pronto em 1 clique.</p>
       {preview && (
         <div className="fixed inset-0 z-50 flex flex-col bg-background/95 backdrop-blur" role="dialog" aria-label={`Prévia ${preview.name}`}>
           <div className="flex items-center justify-between border-b border-border px-4 py-3">
