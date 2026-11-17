@@ -206,6 +206,12 @@ function FanShowcase() {
           );
         })}
       </div>
+      <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+        {MORE_SECTORS.map((s) => (
+          <span key={s} className="rounded-full border border-border bg-card px-3 py-1 text-[0.7rem] font-semibold text-muted-foreground">{s}</span>
+        ))}
+        <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[0.7rem] font-bold text-primary">+40 outros ramos</span>
+      </div>
       {preview && (
         <div className="fixed inset-0 z-50 flex flex-col bg-background/95 backdrop-blur" role="dialog" aria-label={`Prévia ${preview.name}`}>
           <div className="flex items-center justify-between border-b border-border px-4 py-3">
