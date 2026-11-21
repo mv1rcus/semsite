@@ -80,3 +80,27 @@ export function demoPhoneLink(phone: string) {
   const digits = phone.replace(/\D/g, "");
   return digits ? `https://wa.me/${digits.startsWith("55") ? digits : `55${digits}`}` : null;
 }
+
+/** User-Agents que não representam um cliente abrindo a página (rastreadores e prévias de link). */
+const NON_CLIENT_UA_RE = /bot|crawler|spider|slurp|facebookexternalhit|telegrambot|discordbot|twitterbot|linkedinbot|slackbot|preview|headless|curl|wget|python|postman/i;
+
+/** Resumo curto do aparelho que abriu a demo ("iPhone · Safari"); null para bots e agentes desconhecidos. */
+export function demoDeviceFromUserAgent(ua: string | null | undefined): string | null {
+  const agent = (ua ?? "").trim();
+  // Rastreadores de prévia (WhatsApp/2.x, facebookexternalhit etc.) não enviam UA de navegador.
+  if (!agent.toLowerCase().startsWith("mozilla/") || NON_CLIENT_UA_RE.test(agent)) return null;
+  const has = (re: RegExp) => re.test(agent);
+  const device = has(/iphone/i) ? "iPhone"
+    : has(/ipad/i) ? "iPad"
+    : has(/android/i) ? (has(/mobile/i) ? "Celular Android" : "Tablet Android")
+    : has(/mobile/i) ? "Celular"
+    : "Computador";
+  const browser = has(/edg(e|a|ios)?\//i) ? "Edge"
+    : has(/samsungbrowser/i) ? "Samsung Internet"
+    : has(/opr\/|opera/i) ? "Opera"
+    : has(/crios|chrome|chromium/i) ? "Chrome"
+    : has(/fxios|firefox/i) ? "Firefox"
+    : has(/safari/i) ? "Safari"
+    : "";
+  return browser ? `${device} · ${browser}` : device;
+}
