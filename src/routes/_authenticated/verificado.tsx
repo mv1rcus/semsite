@@ -12,7 +12,7 @@ import { useVerified } from "@/lib/use-verified";
 
 export const Route = createFileRoute("/_authenticated/verificado")({
   validateSearch: (s: Record<string, unknown>): { pago?: string | undefined } => ({ pago: typeof s['pago'] === "string" ? s['pago'] : undefined }),
-  head: () => ({ meta: [{ title: "Obter verificado — SemSite" }, { name: "description", content: "Assine o Verificado do SemSite: selo no perfil, buscas sem limite, demonstrações, mensagem personalizada e análise." }, { property: "og:title", content: "Obter verificado — SemSite" }, { property: "og:description", content: "Selo verificado e acesso completo ao SemSite a partir de R$ 7,99 por mês." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Obter verificado — SemSite" }, { name: "description", content: "Assine o Verificado do SemSite: selo no perfil, buscas sem limite, demonstrações, mensagem personalizada e análise." }, { property: "og:title", content: "Obter verificado — SemSite" }, { property: "og:description", content: "Selo verificado e acesso completo ao SemSite a partir de R$ 8,99 por mês." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
   component: Verificado,
 });
 
@@ -189,4 +189,4 @@ function Verificado() {
       {error && <p className="text-center text-sm text-destructive">{error}</p>}
     </main>
   );
-}
+              }

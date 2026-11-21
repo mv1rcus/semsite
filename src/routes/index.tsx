@@ -10,11 +10,12 @@ import beauty from "@/assets/demo-beauty.jpg";
 import services from "@/assets/demo-services.jpg";
 import { lovable } from "@/integrations/lovable";
 import { supabase } from "@/integrations/supabase/client";
+import { FREE_DAILY_SEARCHES, VERIFIED_PLANS } from "@/lib/verified-plans";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "SemSite — Entrar" },
+      { title: "SemSite | Encontre seus próximos clientes" },
       { name: "description", content: "Encontre negócios sem site e ofereça seu trabalho pelo WhatsApp." },
       { property: "og:title", content: "SemSite — Encontre negócios sem site e ofereça seu trabalho pelo WhatsApp" },
       { property: "og:description", content: "Encontre negócios sem site e ofereça seu trabalho pelo WhatsApp." },
@@ -24,6 +25,8 @@ export const Route = createFileRoute("/")({
   }),
   component: Login,
 });
+
+const videoPoster = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720"><defs><radialGradient id="g"><stop stop-color="#49131e"/><stop offset="1" stop-color="#111014"/></radialGradient></defs><rect width="1280" height="720" fill="url(#g)"/><rect x="48" y="48" width="1184" height="624" rx="32" fill="none" stroke="#ffffff" stroke-opacity=".12"/><text x="640" y="265" fill="white" font-family="Arial,sans-serif" font-size="80" font-weight="700" text-anchor="middle">SEM<tspan fill="#f43f5e">SITE</tspan></text><circle cx="640" cy="390" r="56" fill="#f43f5e"/><path d="M627 363 L627 417 L669 390 Z" fill="white"/><text x="640" y="515" fill="#dedbe1" font-family="Arial,sans-serif" font-size="28" text-anchor="middle">Conheça a plataforma. Dê o play.</text></svg>')}`;
 
 function Login() {
   const navigate = useNavigate();
@@ -48,25 +51,33 @@ function Login() {
 
   return (
     <main className="login-page min-h-screen px-4 py-6 sm:px-6">
-      <div className="mx-auto grid max-w-6xl gap-4 lg:min-h-[calc(100vh-3rem)] lg:grid-cols-2">
+      <header className="mx-auto mb-6 flex max-w-6xl flex-wrap items-center justify-between gap-4">
+        <a href="#inicio" aria-label="SemSite, início" className="font-display text-3xl tracking-wide">SEM<span className="text-primary">SITE</span></a>
+        <nav aria-label="Navegação principal" className="flex flex-wrap items-center gap-4 text-sm font-semibold">
+          <a href="#catalogo" className="text-muted-foreground hover:text-foreground">Demonstrações</a>
+          <a href="#planos" className="text-muted-foreground hover:text-foreground">Planos</a>
+          <button type="button" disabled={loading} onClick={signIn} className="rounded-xl border border-border px-4 py-2 disabled:opacity-60">Entrar</button>
+        </nav>
+      </header>
+      <div id="inicio" className="mx-auto grid max-w-6xl gap-4 lg:grid-cols-2">
         <section className="login-card flex flex-col justify-center rounded-3xl p-7 sm:p-10">
           <div className="flex items-center gap-2">
             <img src={logo} alt="" width={416} height={410} className="h-9 w-auto" />
             <span className="font-display text-3xl tracking-wide">SEM<span className="text-primary">SITE</span></span>
           </div>
-          <p className="mt-10 text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ ACESSE SUA CONTA</p>
-          <h1 className="mt-2 font-display text-6xl leading-[0.9] sm:text-7xl">Entre na<br /><span className="text-primary">plataforma.</span></h1>
-          <p className="mt-4 max-w-sm text-sm text-muted-foreground">Encontre comércios sem site e feche novos clientes pelo WhatsApp.</p>
+          <p className="mt-10 text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ DO PRIMEIRO CONTATO À DEMONSTRAÇÃO</p>
+          <h1 className="mt-2 font-display text-6xl leading-[0.9] sm:text-7xl">Encontre quem<br /><span className="text-primary">precisa de site.</span></h1>
+          <p className="mt-4 max-w-sm text-sm text-muted-foreground">Busque negócios por cidade e ramo, mostre uma demonstração e inicie a conversa pelo WhatsApp.</p>
 
           <button type="button" disabled={loading} onClick={signIn} className="login-cta mt-8 flex w-full max-w-md items-center justify-between rounded-2xl py-1 pl-5 pr-1 font-bold disabled:opacity-60">
             <span className="flex items-center gap-3">
               <svg viewBox="0 0 48 48" className="size-5 rounded-full bg-foreground p-0.5" aria-hidden><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
-              {loading ? "Entrando…" : "Entrar com Google"}
+              {loading ? "Entrando…" : "Começar com Google"}
             </span>
             <span className="grid size-11 place-items-center rounded-xl bg-background/30"><ArrowRight className="size-5" /></span>
           </button>
           {error && <p role="alert" className="mt-3 text-sm text-primary">{error}</p>}
-          <p className="mt-6 flex items-center gap-2 text-[0.7rem] font-bold tracking-[0.2em] text-muted-foreground"><Lock className="size-3.5 text-primary" /> AMBIENTE PROTEGIDO</p>
+          <p className="mt-6 flex items-center gap-2 text-[0.7rem] font-bold tracking-[0.2em] text-muted-foreground"><Lock className="size-3.5 text-primary" /> ACESSO SEGURO COM SUA CONTA GOOGLE</p>
         </section>
 
         <section className="login-wave relative flex flex-col items-center justify-center gap-6 overflow-hidden rounded-3xl border border-border p-4 text-center sm:p-8">
@@ -74,12 +85,12 @@ function Login() {
             <p className="text-sm font-bold">Conheça o SemSite</p>
             <p className="text-xs text-muted-foreground">Dê o play e descubra como encontrar seus próximos clientes.</p>
           </div>
-          <video src={presentation.url} controls playsInline preload="metadata" aria-label="Vídeo de apresentação do SemSite" className="aspect-video w-full rounded-lg object-contain" />
+          <video src={presentation.url} poster={videoPoster} controls playsInline preload="metadata" aria-label="Vídeo de apresentação do SemSite" className="aspect-video w-full rounded-lg object-contain" />
         </section>
       </div>
 
       <section className="mx-auto mt-10 grid max-w-6xl grid-cols-3 gap-3 text-center">
-        {[["+60", "ramos de negócio"], ["1 clique", "site de demonstração"], ["100%", "WhatsApp de celular"]].map(([n, l]) => (
+        {[["+60", "ramos de negócio"], ["1 clique", "site de demonstração"], ["WhatsApp", "converse com o cliente"]].map(([n, l]) => (
           <div key={l} className="login-card rounded-2xl p-4">
             <p className="font-display text-3xl text-primary sm:text-5xl">{n}</p>
             <p className="text-[0.7rem] text-muted-foreground sm:text-sm">{l}</p>
@@ -89,7 +100,7 @@ function Login() {
 
       <FanShowcase />
 
-      <section className="mx-auto mt-14 max-w-6xl">
+      <section id="como-funciona" className="mx-auto mt-14 max-w-6xl">
         <p className="text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ COMO FUNCIONA</p>
         <h2 className="mt-2 font-display text-5xl leading-none">3 passos pro <span className="text-primary">próximo cliente.</span></h2>
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
@@ -131,6 +142,53 @@ function Login() {
         </div>
       </section>
 
+      <section id="planos" className="mx-auto mt-14 max-w-6xl scroll-mt-6">
+        <p className="text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ PLANOS</p>
+        <h2 className="mt-2 font-display text-5xl leading-none">Comece a buscar. <span className="text-primary">Cresça no seu ritmo.</span></h2>
+        <p className="mt-3 max-w-2xl text-sm text-muted-foreground">Teste a busca gratuita. Para criar demonstrações e liberar os recursos do Verificado, escolha um período depois de entrar.</p>
+        <div className="mt-6 grid gap-4 md:grid-cols-3">
+          <article className="login-card flex flex-col rounded-2xl border border-border p-6">
+            <h3 className="font-bold">Gratuito</h3>
+            <p className="mt-3 font-display text-5xl">R$ 0</p>
+            <p className="mt-4 flex-1 text-sm text-muted-foreground">{FREE_DAILY_SEARCHES} buscas de clientes por dia. Não inclui sites de demonstração nem os recursos do Verificado.</p>
+            <button type="button" disabled={loading} onClick={signIn} className="mt-6 rounded-xl border border-border px-4 py-3 font-bold disabled:opacity-60">Começar com Google</button>
+          </article>
+          {VERIFIED_PLANS.map((plan) => (
+            <article key={plan.id} className="login-card flex flex-col rounded-2xl border border-primary/40 p-6">
+              <h3 className="font-bold">Verificado · {plan.label}</h3>
+              <p className="mt-3 font-display text-5xl text-primary">{plan.price}</p>
+              <p className="mt-1 text-xs text-muted-foreground">{plan.period} · {plan.detail}</p>
+              <ul className="mt-4 flex-1 space-y-2 text-sm text-muted-foreground">
+                <li>Buscas sem o limite diário do plano gratuito</li>
+                <li>Sites de demonstração e mensagem personalizada</li>
+                <li>Análise de negócios e selo no perfil</li>
+              </ul>
+              <button type="button" disabled={loading} onClick={signIn} className="login-cta mt-6 rounded-xl px-4 py-3 font-bold disabled:opacity-60">Entrar para escolher</button>
+            </article>
+          ))}
+        </div>
+        <p className="mt-3 text-xs text-muted-foreground">Consulte os valores e as formas de pagamento no checkout antes de pagar.</p>
+      </section>
+
+      <section id="duvidas" className="mx-auto mt-14 max-w-6xl">
+        <p className="text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ DÚVIDAS</p>
+        <h2 className="mt-2 font-display text-5xl leading-none">Antes de <span className="text-primary">começar.</span></h2>
+        <div className="mt-6 space-y-3">
+          {[
+            ["Posso testar sem pagar?", `Sim. A conta gratuita permite ${FREE_DAILY_SEARCHES} buscas de clientes por dia. Sites de demonstração e os demais recursos do Verificado exigem um plano pago.`],
+            ["Por que preciso entrar com Google?", "É a forma de acesso disponível no momento. Sua conta permite guardar seus clientes e acessar a plataforma."],
+            ["O plano renova automaticamente?", "Os planos à vista mostrados aqui são pagos por período, sem renovação automática. Confira as condições no checkout antes de pagar."],
+            ["O SemSite envia mensagens sozinho?", "Você inicia a conversa com o cliente pelo WhatsApp. A plataforma ajuda com a demonstração e a mensagem de abordagem."],
+            ["O SemSite garante que vou fechar clientes?", "Não. A plataforma ajuda na prospecção e na apresentação do seu trabalho. A negociação e os resultados dependem de cada caso."],
+          ].map(([question, answer]) => (
+            <details key={question} className="login-card rounded-2xl border border-border p-5">
+              <summary className="cursor-pointer font-bold">{question}</summary>
+              <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">{answer}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
       <section className="login-wave mx-auto mt-14 mb-6 max-w-6xl rounded-3xl border border-border p-8 text-center">
         <h2 className="font-display text-5xl leading-none">Seu próximo cliente <span className="text-primary">já está esperando.</span></h2>
         <p className="mt-3 text-sm text-muted-foreground">Entre com o Google e comece a prospectar agora.</p>
@@ -138,6 +196,14 @@ function Login() {
           {loading ? "Entrando…" : "Começar agora com Google"} <ArrowRight className="size-5" />
         </button>
       </section>
+      <footer className="mx-auto flex max-w-6xl flex-col justify-between gap-4 border-t border-border py-8 text-sm text-muted-foreground sm:flex-row">
+        <p><span className="font-display text-xl text-foreground">SEMSITE</span><br />Ferramentas para apresentar seu trabalho e encontrar clientes.</p>
+        <nav aria-label="Navegação do rodapé" className="flex flex-wrap gap-4">
+          <a href="#como-funciona" className="hover:text-foreground">Como funciona</a>
+          <a href="#planos" className="hover:text-foreground">Planos</a>
+          <a href="#duvidas" className="hover:text-foreground">Dúvidas</a>
+        </nav>
+      </footer>
     </main>
   );
 }
@@ -173,10 +239,12 @@ function FanShowcase() {
     if (!preview) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = prev; };
+    const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Escape") setPreview(null); };
+    document.addEventListener("keydown", onKeyDown);
+    return () => { document.body.style.overflow = prev; document.removeEventListener("keydown", onKeyDown); };
   }, [preview]);
   return (
-    <section className="mx-auto mt-14 max-w-6xl overflow-hidden">
+    <section id="catalogo" className="mx-auto mt-14 max-w-6xl overflow-hidden">
       <p className="text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ CATÁLOGO DE DEMONSTRAÇÕES</p>
       <h2 className="mt-2 font-display text-5xl leading-none">Sites prontos dos ramos <span className="text-primary">que mais vendem.</span></h2>
       <p className="mt-2 text-sm text-muted-foreground">Estes 5 são só uma amostra — o catálogo tem mais de 60 ramos prontos. Toque em um modelo para destacar e veja a prévia.</p>
@@ -193,7 +261,7 @@ function FanShowcase() {
             opacity: open ? (Math.abs(off) > 2 ? 0 : 1) : 0.6,
           };
           return (
-            <div key={d.slug} style={style} onClick={() => setActive(i)} role="button" tabIndex={0} aria-label={`Destacar ${d.name}`}
+            <div key={d.slug} style={style} onClick={() => setActive(i)} role="button" tabIndex={0} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setActive(i); } }} aria-label={`Destacar ${d.name}`}
               className={`absolute left-1/2 top-6 w-[42vw] max-w-[230px] cursor-pointer origin-bottom overflow-hidden rounded-2xl border bg-card shadow-2xl transition-all duration-500 ease-out ${sel ? "border-primary" : "border-border"}`}>
               <img src={d.img} alt={`Demonstração de ${d.name}`} loading="lazy" className="aspect-[3/4] w-full object-cover" />
               {sel && (
@@ -224,4 +292,4 @@ function FanShowcase() {
       )}
     </section>
   );
-}
+        }
