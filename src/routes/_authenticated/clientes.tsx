@@ -48,7 +48,7 @@ function Clientes() {
   const deleting = clients.filter((client) => pendingDelete.includes(client.id));
   function changeFilter(value: string) { setFilter(value); setSelected([]); setLimit(12); }
   return <main className="min-h-screen px-4 py-8 sm:px-8"><OceanScene /><ProspectTabs active="clients" />
-    <section className="mx-auto mt-8 max-w-6xl"><div className="flex flex-wrap items-center justify-between gap-4"><div><h1 className="text-3xl font-bold">Seus clientes.</h1><p className="mt-2 text-sm text-muted-foreground">Contatos, próximos passos e negócios fechados.</p></div><Button onClick={() => setAdding(!adding)} variant="outline"><Plus />Adicionar cliente</Button></div>
+    <section className="mx-auto mt-8 max-w-6xl"><div className="flex flex-wrap items-center justify-between gap-4"><div><h1 className="font-display text-4xl tracking-wide sm:text-5xl">Seus <span className="text-gradient-primary">clientes.</span></h1><p className="mt-2 text-sm text-muted-foreground">Contatos, próximos passos e negócios fechados.</p></div><Button onClick={() => setAdding(!adding)} variant="outline"><Plus />Adicionar cliente</Button></div>
       <div className="mt-7 grid grid-cols-2 gap-x-5 gap-y-6 border-y py-5 sm:grid-cols-4">
         {[{ label: "Total de clientes", count: clients.length, icon: Users }, { label: "Contato pendente", count: due.length, icon: Bell }, { label: "Sem resposta", count: unanswered.length, icon: MessageCircleOff }, { label: "Fechados", count: clients.filter(c => c.stage === "closed").length, icon: Trophy }].map(item => <div key={item.label}><item.icon className="mb-2 size-4 text-primary" /><p className="text-2xl font-bold">{item.count}</p><p className="mt-1 text-xs text-muted-foreground">{item.label}</p></div>)}
       </div>
