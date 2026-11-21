@@ -134,6 +134,13 @@
       "when": 1794530102165,
       "tag": "0018_migration",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1795294717787,
+      "tag": "0019_demo_last_opened_device",
+      "breakpoints": true
     }
   ]
 }
