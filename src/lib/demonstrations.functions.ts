@@ -36,7 +36,12 @@ export const getDemonstration = createServerFn({ method: "GET" })
       const { getRequest } = await import("@tanstack/react-start/server");
       const device = demoDeviceFromUserAgent(getRequest().headers.get("user-agent"));
       // Só grava o aparelho quando o acesso veio de um navegador de verdade (ignora bots de prévia).
-      await supabaseAdmin.from("site_demonstrations").update({ last_opened_at: new Date().toISOString(), ...(device ? { last_opened_device: device } : {}) }).eq("id", demo.id);
+      const openedAt = new Date().toISOString();
+      const tracked = await supabaseAdmin.from("site_demonstrations").update({ last_opened_at: openedAt, ...(device ? { last_opened_device: device } : {}) }).eq("id", demo.id);
+      if (tracked.error && device) {
+        // Coluna ainda não aplicada (migração 0019 pendente): registra só o horário até lá.
+        await supabaseAdmin.from("site_demonstrations").update({ last_opened_at: openedAt }).eq("id", demo.id);
+      }
     }
     return demo;
   });
@@ -69,8 +74,14 @@ export const getDemonstrationActivity = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     if (data.ids.length === 0) return [];
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: rows, error } = await supabaseAdmin.from("site_demonstrations").select("id,slug,created_at,last_opened_at,last_opened_device").in("id", data.ids);
-    if (error) throw new Error("Não foi possível consultar os acessos.");
+    type ActivityRow = { id: string; slug: string | null; created_at: string; last_opened_at: string | null; last_opened_device: string | null };
+    let rows: ActivityRow[] | null = (await supabaseAdmin.from("site_demonstrations").select("id,slug,created_at,last_opened_at,last_opened_device").in("id", data.ids)).data;
+    if (rows === null) {
+      // Coluna ainda não aplicada (migração 0019 pendente): responde sem o aparelho até lá.
+      const fallback = await supabaseAdmin.from("site_demonstrations").select("id,slug,created_at,last_opened_at").in("id", data.ids);
+      if (fallback.error) throw new Error("Não foi possível consultar os acessos.");
+      rows = (fallback.data ?? []).map((r) => ({ ...r, last_opened_device: null }));
+    }
     return (rows ?? []).map((r) => ({ id: r.id, slug: r.slug, createdAt: r.created_at, lastOpenedAt: r.last_opened_at, lastOpenedDevice: r.last_opened_device }));
   });
 
