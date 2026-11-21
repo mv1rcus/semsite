@@ -1,7 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Lock, Search, MonitorSmartphone, MessageCircle, Eye, Star, FileText, X } from "lucide-react";
-import logo from "@/assets/semsite-mark.png";
 import presentation from "@/assets/semsite-apresentacao.mp4.asset.json";
 import barber from "@/assets/demo-barber.jpg";
 import dentist from "@/assets/demo-dentist.jpg";
@@ -56,17 +55,13 @@ function Login() {
         <nav aria-label="Navegação principal" className="flex flex-wrap items-center gap-4 text-sm font-semibold">
           <a href="#catalogo" className="text-muted-foreground hover:text-foreground">Demonstrações</a>
           <a href="#planos" className="text-muted-foreground hover:text-foreground">Planos</a>
-          <button type="button" disabled={loading} onClick={signIn} className="rounded-xl border border-border px-4 py-2 disabled:opacity-60">Entrar</button>
+          <button type="button" disabled={loading} onClick={signIn} className="rounded-full border border-border px-5 py-2 transition-colors hover:border-primary/60 hover:text-primary disabled:opacity-60">Entrar</button>
         </nav>
       </header>
       <div id="inicio" className="mx-auto grid max-w-6xl gap-4 lg:grid-cols-2">
         <section className="login-card flex flex-col justify-center rounded-3xl p-7 sm:p-10">
-          <div className="flex items-center gap-2">
-            <img src={logo} alt="" width={416} height={410} className="h-9 w-auto" />
-            <span className="font-display text-3xl tracking-wide">SEM<span className="text-primary">SITE</span></span>
-          </div>
-          <p className="mt-10 text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ DO PRIMEIRO CONTATO À DEMONSTRAÇÃO</p>
-          <h1 className="mt-2 font-display text-6xl leading-[0.9] sm:text-7xl">Encontre quem<br /><span className="text-primary">precisa de site.</span></h1>
+          <p className="kicker-pill">/ DO PRIMEIRO CONTATO À DEMONSTRAÇÃO</p>
+          <h1 className="mt-2 font-display text-6xl leading-[0.9] sm:text-7xl">Encontre quem<br /><span className="text-gradient-primary">precisa de site.</span></h1>
           <p className="mt-4 max-w-sm text-sm text-muted-foreground">Busque negócios por cidade e ramo, mostre uma demonstração e inicie a conversa pelo WhatsApp.</p>
 
           <button type="button" disabled={loading} onClick={signIn} className="login-cta mt-8 flex w-full max-w-md items-center justify-between rounded-2xl py-1 pl-5 pr-1 font-bold disabled:opacity-60">
@@ -85,7 +80,10 @@ function Login() {
             <p className="text-sm font-bold">Conheça o SemSite</p>
             <p className="text-xs text-muted-foreground">Dê o play e descubra como encontrar seus próximos clientes.</p>
           </div>
-          <video src={presentation.url} poster={videoPoster} controls playsInline preload="metadata" aria-label="Vídeo de apresentação do SemSite" className="aspect-video w-full rounded-lg object-contain" />
+          <div className="devframe">
+            <div className="devbar" aria-hidden="true"><i /><i /><i /><em>semsite.lovable.app</em></div>
+            <video src={presentation.url} poster={videoPoster} controls playsInline preload="metadata" aria-label="Vídeo de apresentação do SemSite" className="aspect-video w-full object-contain" />
+          </div>
         </section>
       </div>
 
@@ -101,8 +99,8 @@ function Login() {
       <FanShowcase />
 
       <section id="como-funciona" className="mx-auto mt-14 max-w-6xl">
-        <p className="text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ COMO FUNCIONA</p>
-        <h2 className="mt-2 font-display text-5xl leading-none">3 passos pro <span className="text-primary">próximo cliente.</span></h2>
+        <p className="kicker-pill">/ COMO FUNCIONA</p>
+        <h2 className="mt-2 font-display text-5xl leading-none">3 passos pro <span className="text-gradient-primary">próximo cliente.</span></h2>
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
           {[
             [Search, "1. Busque", "Escolha a cidade e o ramo. O SemSite mostra só quem ainda não tem site."],
@@ -122,8 +120,8 @@ function Login() {
       </section>
 
       <section className="mx-auto mt-14 max-w-6xl">
-        <p className="text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ DIFERENCIAIS</p>
-        <h2 className="mt-2 font-display text-5xl leading-none">Tudo pra você <span className="text-primary">vender mais.</span></h2>
+        <p className="kicker-pill">/ DIFERENCIAIS</p>
+        <h2 className="mt-2 font-display text-5xl leading-none">Tudo pra você <span className="text-gradient-primary">vender mais.</span></h2>
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
           {[
             [Star, "Demonstrações de impacto", "Visual próprio por ramo, fotos do segmento e avaliações reais do Google."],
@@ -143,8 +141,8 @@ function Login() {
       </section>
 
       <section id="planos" className="mx-auto mt-14 max-w-6xl scroll-mt-6">
-        <p className="text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ PLANOS</p>
-        <h2 className="mt-2 font-display text-5xl leading-none">Comece a buscar. <span className="text-primary">Cresça no seu ritmo.</span></h2>
+        <p className="kicker-pill">/ PLANOS</p>
+        <h2 className="mt-2 font-display text-5xl leading-none">Comece a buscar. <span className="text-gradient-primary">Cresça no seu ritmo.</span></h2>
         <p className="mt-3 max-w-2xl text-sm text-muted-foreground">Teste a busca gratuita. Para criar demonstrações e liberar os recursos do Verificado, escolha um período depois de entrar.</p>
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           <article className="login-card flex flex-col rounded-2xl border border-border p-6">
@@ -171,8 +169,8 @@ function Login() {
       </section>
 
       <section id="duvidas" className="mx-auto mt-14 max-w-6xl">
-        <p className="text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ DÚVIDAS</p>
-        <h2 className="mt-2 font-display text-5xl leading-none">Antes de <span className="text-primary">começar.</span></h2>
+        <p className="kicker-pill">/ DÚVIDAS</p>
+        <h2 className="mt-2 font-display text-5xl leading-none">Antes de <span className="text-gradient-primary">começar.</span></h2>
         <div className="mt-6 space-y-3">
           {[
             ["Posso testar sem pagar?", `Sim. A conta gratuita permite ${FREE_DAILY_SEARCHES} buscas de clientes por dia. Sites de demonstração e os demais recursos do Verificado exigem um plano pago.`],
@@ -190,7 +188,7 @@ function Login() {
       </section>
 
       <section className="login-wave mx-auto mt-14 mb-6 max-w-6xl rounded-3xl border border-border p-8 text-center">
-        <h2 className="font-display text-5xl leading-none">Seu próximo cliente <span className="text-primary">já está esperando.</span></h2>
+        <h2 className="font-display text-5xl leading-none">Seu próximo cliente <span className="text-gradient-primary">já está esperando.</span></h2>
         <p className="mt-3 text-sm text-muted-foreground">Entre com o Google e comece a prospectar agora.</p>
         <button type="button" disabled={loading} onClick={signIn} className="login-cta mx-auto mt-6 flex items-center gap-3 rounded-2xl px-6 py-3 font-bold disabled:opacity-60">
           {loading ? "Entrando…" : "Começar agora com Google"} <ArrowRight className="size-5" />
@@ -245,8 +243,8 @@ function FanShowcase() {
   }, [preview]);
   return (
     <section id="catalogo" className="mx-auto mt-14 max-w-6xl overflow-hidden">
-      <p className="text-[0.7rem] font-bold tracking-[0.25em] text-primary">/ CATÁLOGO DE DEMONSTRAÇÕES</p>
-      <h2 className="mt-2 font-display text-5xl leading-none">Sites prontos dos ramos <span className="text-primary">que mais vendem.</span></h2>
+      <p className="kicker-pill">/ CATÁLOGO DE DEMONSTRAÇÕES</p>
+      <h2 className="mt-2 font-display text-5xl leading-none">Sites prontos dos ramos <span className="text-gradient-primary">que mais vendem.</span></h2>
       <p className="mt-2 text-sm text-muted-foreground">Estes 5 são só uma amostra — o catálogo tem mais de 60 ramos prontos. Toque em um modelo para destacar e veja a prévia.</p>
       <div ref={ref} className="relative mx-auto mt-6 h-[340px] w-full sm:h-[440px]">
         {FAN.map((d, i) => {
