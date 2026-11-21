@@ -44,7 +44,7 @@ function Mensagem() {
     <OceanScene />
     <ProspectTabs active="message" />
     <section className="mx-auto mt-8 max-w-6xl">
-      <div className="flex flex-wrap items-start justify-between gap-3"><div><h1 className="text-3xl font-bold">Sua primeira conversa.</h1><p className="mt-2 text-sm text-muted-foreground">Mensagem de boas-vindas · WhatsApp</p></div><span className={`text-sm ${dirty ? "text-chart-demos" : "text-muted-foreground"}`}>{dirty ? "Alterações não salvas" : "Mensagem atual"}</span></div>
+      <div className="flex flex-wrap items-start justify-between gap-3"><div><h1 className="font-display text-4xl tracking-wide sm:text-5xl">Sua primeira <span className="text-gradient-primary">conversa.</span></h1><p className="mt-2 text-sm text-muted-foreground">Mensagem de boas-vindas · WhatsApp</p></div><span className={`text-sm ${dirty ? "text-chart-demos" : "text-muted-foreground"}`}>{dirty ? "Alterações não salvas" : "Mensagem atual"}</span></div>
       <div className="mt-8 grid items-start gap-8 lg:grid-cols-2">
         <div className="min-w-0 space-y-5">
           <label className="block space-y-2"><span className="flex items-center gap-2 text-sm font-semibold"><UserRound className="size-4 text-primary" />Seu nome</span><Input aria-label="Seu nome" value={settings.senderName} placeholder="Ex: Ana, João…" onChange={e => update({ senderName: e.target.value })} /></label>
