@@ -1,19 +1,19 @@
 import { useState } from "react";
-import { MessageCircle, MapPin, ArrowUpRight, Phone } from "lucide-react";
+import { MessageCircle, MapPin, ArrowUpRight, Phone, Clock } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { demoPhoneLink, type Demonstration } from "@/lib/demonstrations";
 
-export function DemoContact({ demo, interest }: { demo: Demonstration; interest: string }) {
+export function DemoContact({ demo, interest, address, hours }: { demo: Demonstration; interest: string; address?: string; hours?: string }) {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [notice, setNotice] = useState("");
   const contact = demoPhoneLink(demo.phone);
   return <section className="mx-auto grid max-w-6xl gap-10 px-6 py-12 md:grid-cols-2">
     <div><p className="text-sm font-semibold text-primary">Contato</p><h1 className="mt-3 break-words text-3xl font-bold">Converse com {demo.name}</h1><p className="mt-4 leading-relaxed text-muted-foreground">Consulte informações, disponibilidade e condições diretamente com a equipe.</p>
-      {demo.address && <div className="mt-7"><p className="flex items-start gap-3"><MapPin className="size-5 shrink-0 text-primary" />{demo.address}</p><Button asChild variant="outline" className="mt-4"><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${demo.name} ${demo.address}`)}`} target="_blank" rel="noreferrer">Abrir localização<ArrowUpRight /></a></Button></div>}
-      {demo.phone && <p className="mt-6 flex items-center gap-3"><Phone className="size-5 text-primary" />{demo.phone}</p>}
+      {(address ?? demo.address) && <div className="mt-7"><p className="flex items-start gap-3"><MapPin className="size-5 shrink-0 text-primary" />{address ?? demo.address}</p><Button asChild variant="outline" className="mt-4"><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${demo.name} ${address ?? demo.address}`)}`} target="_blank" rel="noreferrer">Abrir localização<ArrowUpRight /></a></Button></div>}
+      {hours && <p className="mt-6 flex items-center gap-3"><Clock className="size-5 text-primary" />{hours}</p>}{demo.phone && <p className="mt-6 flex items-center gap-3"><Phone className="size-5 text-primary" />{demo.phone}</p>}
       {contact && <Button asChild variant="whatsapp" className="mt-6"><a href={contact} target="_blank" rel="noreferrer"><MessageCircle />Abrir WhatsApp</a></Button>}
     </div>
     <form className="space-y-5 border-t pt-6 md:border-l md:border-t-0 md:pl-10 md:pt-0" onSubmit={event => {

@@ -31,7 +31,7 @@ import metal from "@/assets/demo-metal.jpg";
 import construction from "@/assets/demo-construction.jpg";
 import print from "@/assets/demo-print.jpg";
 import dogtraining from "@/assets/demo-dogtraining.jpg";
-import barber from "@/assets/demo-barber.jpg";
+const barber = "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=1600&auto=format&fit=crop";
 import pizzeria from "@/assets/demo-pizzeria.jpg";
 import burgerShop from "@/assets/demo-burger.jpg";
 import tires from "@/assets/demo-tires.jpg";
