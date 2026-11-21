@@ -71,7 +71,7 @@ function ReceiptPage() {
     <div className="min-h-screen bg-background">
       <ProspectTabs active="receipt" />
       <main className="mx-auto max-w-xl space-y-4 p-4">
-        <h1 className="font-display text-4xl tracking-wide">Recibo e Contrato</h1>
+        <h1 className="font-display text-4xl tracking-wide">Recibo e <span className="text-gradient-primary">Contrato</span></h1>
         <p className="text-sm text-muted-foreground">Preencha e baixe o PDF pronto para mandar ao cliente. O 1º ano de domínio já sai como bônus incluso.</p>
         {origin && <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-accent bg-accent/40 px-3 py-2 text-sm">
           <span>Preenchido a partir de <strong className="break-words">{origin.name}</strong>.</span>
