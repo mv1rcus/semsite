@@ -28,7 +28,7 @@ function Notificacoes() {
     <main className="relative min-h-screen px-4 pb-16">
       <ProspectTabs active="notifications" />
       <section className="mx-auto mt-6 max-w-2xl">
-        <h1 className="text-5xl">Notifica<span className="text-primary">ções</span></h1>
+        <h1 className="font-display text-5xl tracking-wide">Notifica<span className="text-gradient-primary">ções.</span></h1>
         <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-card">
           {items === null && <p className="p-4 text-sm text-muted-foreground">Carregando…</p>}
           {items?.length === 0 && <p className="p-4 text-sm text-muted-foreground">Nada por aqui ainda. Quando alguém te seguir, curtir ou comentar, aparece aqui.</p>}
