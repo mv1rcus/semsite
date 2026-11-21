@@ -3,7 +3,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX, Store, X, History, Radar, SlidersHorizontal, HeartPulse, Utensils, Scissors, Car, House, PawPrint, Dumbbell, BriefcaseBusiness, ArrowUpRight, type LucideIcon } from "lucide-react";
+import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX, Store, X, History, Radar, RotateCw, SlidersHorizontal, HeartPulse, Utensils, Scissors, Car, House, PawPrint, Dumbbell, BriefcaseBusiness, ArrowUpRight, type LucideIcon } from "lucide-react";
 import { searchLeads, type Lead } from "@/lib/leads.functions";
 import { clientSearchError } from "@/lib/search-errors";
 import { filterProspects, type ProspectFilter, type ProspectOrder } from "@/lib/prospect-filters";
@@ -177,14 +177,13 @@ function Buscar() {
 
       <section className="mx-auto mt-7 max-w-6xl sm:mt-10">
         <div className="flex items-start justify-between gap-4">
-          <div><p className="mb-3 flex items-center gap-2 text-xs font-bold uppercase text-primary"><Radar className="size-4" />Radar de oportunidades</p>
-            <h1 className="text-3xl font-extrabold leading-tight sm:text-5xl">Buscar <span className="text-primary">clientes.</span></h1>
+          <div><p className="kicker-pill mb-3"><span className="pulse-dot" />Radar de oportunidades</p>
+            <h1 className="font-display text-5xl leading-[0.92] tracking-wide sm:text-6xl">Buscar <span className="text-gradient-primary">clientes.</span></h1>
             <p className="mt-3 text-sm text-muted-foreground sm:text-base">Seu próximo projeto começa com uma boa conversa.</p>
           </div>
-          <Radar aria-hidden="true" className="mt-2 hidden size-20 shrink-0 text-primary/40 sm:block" />
         </div>
 
-        <form onSubmit={(e) => { e.preventDefault(); run(); }} className="mt-6 grid gap-5 border-y py-6 sm:grid-cols-2 sm:gap-6">
+        <form onSubmit={(e) => { e.preventDefault(); run(); }} className="form-card mt-6 grid gap-5 sm:grid-cols-2 sm:gap-6">
           <div className="grid gap-2 sm:col-span-2">
             <label htmlFor="busca-negocio" className="text-sm font-semibold">Qual tipo de negócio?</label>
             <div className="relative">
@@ -197,14 +196,14 @@ function Buscar() {
             <div className="mt-2 grid grid-cols-4 gap-2 sm:grid-cols-8">
               {GROUPS.map((g) => { const Icon = GROUP_ICONS[g.label] ?? Store; return (
                 <Button key={g.label} type="button" disabled={loading} variant="outline" aria-pressed={group === g.label} onClick={() => setGroup(g.label)}
-                  className={`h-16 min-w-0 flex-col gap-2 px-1 text-[11px] sm:h-20 sm:text-xs ${group === g.label ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground"}`}><Icon className="size-5" />{g.label}</Button>
+                  className={`h-16 min-w-0 flex-col gap-2 rounded-2xl px-1 text-[11px] sm:h-20 sm:text-xs ${group === g.label ? "cat-tile-on" : "border-border text-muted-foreground"}`}><Icon className="size-5" />{g.label}</Button>
               ); })}
             </div>
             <div className="city-scroller -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap">
               {(GROUPS.find((g) => g.label === group)?.items ?? []).map((s) => {
                 const on = category.trim().toLowerCase() === s.toLowerCase();
                 return (
-                  <Button key={s} type="button" disabled={loading} variant={on ? "default" : "outline"} size="sm" aria-pressed={on} className="shrink-0 rounded-full" onClick={() => setCategory(s)}>
+                  <Button key={s} type="button" disabled={loading} variant={on ? "default" : "outline"} size="sm" aria-pressed={on} className={`shrink-0 rounded-full ${on ? "chip-on" : ""}`} onClick={() => setCategory(s)}>
                     {on && <Check className="size-3.5" />}{s}
                   </Button>
                 );
@@ -222,18 +221,18 @@ function Buscar() {
 
           <div className="grid gap-2">
             <span className="text-sm font-semibold">Quantidade de clientes</span>
-            <div className="flex flex-wrap gap-2">
+            <div className="seg-control" role="group" aria-label="Quantidade de clientes">
               {[10, 20, 40, 60].map((n) => (
-                <Button key={n} type="button" disabled={loading} variant={target === n ? "secondary" : "outline"} aria-pressed={target === n} className={`h-12 min-w-14 flex-1 ${target === n ? "border border-primary text-primary" : ""}`} onClick={() => setTarget(n)}>{n}</Button>
+                <Button key={n} type="button" disabled={loading} variant="ghost" aria-pressed={target === n} className={`h-12 rounded-xl text-base font-bold ${target === n ? "seg-on" : "text-muted-foreground"}`} onClick={() => setTarget(n)}>{n}</Button>
               ))}
             </div>
             <p className="text-xs text-muted-foreground">O Google mostra no máximo 60 locais por busca; cada página extra conta no seu limite do Google Maps.</p>
           </div>
 
-          <Button type="submit" size="lg" disabled={loading} className="h-14 min-w-0 px-4 text-base font-bold shadow-[var(--shadow-glow)] sm:col-span-2">
+          <Button type="submit" size="lg" disabled={loading} className="cta-primary h-14 min-w-0 rounded-2xl pl-5 pr-2 text-base font-extrabold sm:col-span-2">
             {loading ? <Loader2 className="size-5 animate-spin" /> : <Search className="size-5" />}
             <span className="min-w-0 whitespace-normal break-words">{loading ? "Buscando clientes…" : "Encontrar clientes sem site"}</span>
-            {!loading && <ArrowUpRight className="ml-auto" />}
+            {!loading && <span className="cta-arrow"><ArrowUpRight className="size-5" /></span>}
           </Button>
           {searchesLeft !== null && searchesLeft >= 0 && <p className="text-center text-sm text-muted-foreground sm:col-span-2">{searchesLeft} de 5 buscas grátis hoje · <Link to="/verificado" className="font-bold text-primary hover:underline">Buscar sem limite</Link></p>}
 
@@ -243,7 +242,7 @@ function Buscar() {
               <div className="city-scroller -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap">
                 {recent.map((r) => (
                   <Button key={`${r.category}|${r.city}`} type="button" variant="secondary" size="sm" disabled={loading} className="shrink-0 rounded-full" onClick={() => { setCategory(r.category); setCity(r.city); run(undefined, r); }}>
-                    {r.category} · {r.city.split(",")[0]}
+                    <RotateCw className="size-3.5 text-primary" />{r.category} · {r.city.split(",")[0]}
                   </Button>
                 ))}
               </div>
