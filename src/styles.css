@@ -103,8 +103,9 @@
 }
 
 @utility glass {
-  background: var(--card);
+  background: linear-gradient(165deg, color-mix(in oklab, var(--primary) 7%, var(--card)), var(--card) 45%);
   border: 1px solid var(--border);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, white 4%, transparent);
 }
 
 @utility letter-3d {
@@ -269,3 +270,56 @@
 .login-cta { background: linear-gradient(90deg, var(--primary), color-mix(in oklab, var(--primary) 70%, black)); color: var(--primary-foreground); box-shadow: 0 12px 30px -12px var(--primary); }
 .login-play { background: radial-gradient(circle, var(--primary), color-mix(in oklab, var(--primary) 60%, black)); box-shadow: 0 0 0 10px color-mix(in oklab, var(--primary) 18%, transparent), 0 0 40px var(--primary); }
 @media (prefers-reduced-motion: reduce) { .login-wave { animation: none; } }
+
+
+
+/* ===== Redesign visual aprovado: pilulas, gradientes, cartoes elevados ===== */
+
+/* Kicker em pilula (com dot pulsante opcional) */
+.kicker-pill { display: inline-flex; align-items: center; gap: 0.5rem; width: fit-content; padding: 0.32rem 0.85rem; border-radius: 999px; border: 1px solid color-mix(in oklab, var(--primary) 40%, transparent); background: color-mix(in oklab, var(--primary) 10%, transparent); color: var(--primary); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
+.kicker-pill .pulse-dot { width: 7px; height: 7px; border-radius: 999px; background: var(--primary); box-shadow: 0 0 0 0 color-mix(in oklab, var(--primary) 60%, transparent); animation: pulse-dot 2s infinite; }
+@keyframes pulse-dot { 70% { box-shadow: 0 0 0 8px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+@media (prefers-reduced-motion: reduce) { .kicker-pill .pulse-dot { animation: none; } }
+
+/* Trecho rosa dos titulos com gradiente */
+@utility text-gradient-primary {
+  background: linear-gradient(100deg, var(--primary) 15%, oklch(0.78 0.15 14) 55%, var(--primary) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Cartao elevado com filete rosa no topo (formulario da busca) */
+.form-card { position: relative; border-radius: 1.5rem; overflow: hidden; background: linear-gradient(165deg, color-mix(in oklab, var(--primary) 14%, var(--card)), var(--card) 40%); border: 1px solid var(--border); box-shadow: inset 0 1px 0 color-mix(in oklab, white 5%, transparent), 0 30px 60px -34px rgb(0 0 0 / 0.8); padding: 1.25rem 1rem 1rem; }
+@media (min-width: 640px) { .form-card { padding: 1.5rem 1.5rem 1.25rem; } }
+.form-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--primary) 30%, oklch(0.8 0.15 14) 50%, var(--primary) 70%, transparent); }
+
+/* Ramo selecionado: gradiente + glow */
+.cat-tile-on { background: linear-gradient(150deg, var(--primary), oklch(0.5 0.21 15)) !important; border-color: transparent !important; color: var(--primary-foreground) !important; box-shadow: 0 14px 40px -12px color-mix(in oklab, var(--primary) 55%, transparent); transform: translateY(-1px); }
+
+/* Chip de subnicho ativo com glow */
+.chip-on { box-shadow: 0 8px 22px -8px color-mix(in oklab, var(--primary) 70%, transparent); }
+
+/* Quantidade em controle segmentado */
+.seg-control { display: flex; gap: 4px; padding: 4px; border-radius: 1rem; border: 1px solid var(--border); background: oklch(0.15 0.012 20); }
+.seg-control > * { flex: 1 1 0%; min-width: 0; }
+.seg-on { background: linear-gradient(150deg, var(--primary), oklch(0.5 0.21 15)) !important; border-color: transparent !important; color: var(--primary-foreground) !important; box-shadow: 0 8px 20px -8px color-mix(in oklab, var(--primary) 70%, transparent); }
+
+/* CTA principal: gradiente, glow e seta em chip escuro */
+.cta-primary { background: linear-gradient(100deg, var(--primary) 10%, oklch(0.5 0.21 15) 90%) !important; color: var(--primary-foreground) !important; box-shadow: 0 16px 36px -12px color-mix(in oklab, var(--primary) 65%, transparent); }
+.cta-primary:hover { filter: brightness(1.06); }
+.cta-arrow { margin-left: auto; width: 2.5rem; height: 2.5rem; border-radius: 0.75rem; background: rgb(0 0 0 / 0.22); display: grid; place-items: center; flex-shrink: 0; }
+
+/* Marca compacta do topo autenticado */
+.brand-mark { width: 32px; height: 32px; border-radius: 10px; background: linear-gradient(135deg, var(--primary), oklch(0.5 0.21 15)); display: grid; place-items: center; box-shadow: 0 6px 18px -6px color-mix(in oklab, var(--primary) 60%, transparent); color: var(--primary-foreground); }
+
+/* Video da entrada emoldurado como navegador */
+.devframe { border-radius: 18px; overflow: hidden; border: 1px solid color-mix(in oklab, white 12%, transparent); background: #0d0a0b; box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.9); width: 100%; }
+.devbar { display: flex; align-items: center; gap: 6px; padding: 9px 12px; background: #1c1518; border-bottom: 1px solid color-mix(in oklab, white 8%, transparent); }
+.devbar i { width: 9px; height: 9px; border-radius: 99px; background: #4a3a3e; }
+.devbar i:first-child { background: color-mix(in oklab, var(--primary) 55%, transparent); }
+.devbar em { margin-left: 8px; font-style: normal; font-size: 10px; color: var(--muted-foreground); background: color-mix(in oklab, white 5%, transparent); padding: 2px 12px; border-radius: 99px; }
+.devframe video { border-radius: 0 !important; }
+
+/* Cartoes da entrada com raio unificado */
+.login-card { border-radius: 20px; }
