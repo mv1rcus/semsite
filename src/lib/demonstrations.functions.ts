@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { demonstrationLink, demoSchema } from "./demonstrations";
+import { demonstrationLink, demoSchema, demoDeviceFromUserAgent } from "./demonstrations";
 import { demonstrationPageIsAvailable, type DemoVerification } from "./demo-verification";
 
 export const verifyDemonstrationLink = createServerFn({ method: "POST" })
@@ -32,7 +32,12 @@ export const getDemonstration = createServerFn({ method: "GET" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: demo, error } = await supabaseAdmin.from("site_demonstrations").select("id,name,category,address,phone,headline,description,google_rating,google_rating_count,google_reviews").eq("id", data.id).maybeSingle();
     if (error) throw new Error("Não foi possível abrir esta demonstração.");
-    if (demo) await supabaseAdmin.from("site_demonstrations").update({ last_opened_at: new Date().toISOString() }).eq("id", demo.id);
+    if (demo) {
+      const { getRequest } = await import("@tanstack/react-start/server");
+      const device = demoDeviceFromUserAgent(getRequest().headers.get("user-agent"));
+      // Só grava o aparelho quando o acesso veio de um navegador de verdade (ignora bots de prévia).
+      await supabaseAdmin.from("site_demonstrations").update({ last_opened_at: new Date().toISOString(), ...(device ? { last_opened_device: device } : {}) }).eq("id", demo.id);
+    }
     return demo;
   });
 
@@ -64,9 +69,9 @@ export const getDemonstrationActivity = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     if (data.ids.length === 0) return [];
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: rows, error } = await supabaseAdmin.from("site_demonstrations").select("id,slug,created_at,last_opened_at").in("id", data.ids);
+    const { data: rows, error } = await supabaseAdmin.from("site_demonstrations").select("id,slug,created_at,last_opened_at,last_opened_device").in("id", data.ids);
     if (error) throw new Error("Não foi possível consultar os acessos.");
-    return (rows ?? []).map((r) => ({ id: r.id, slug: r.slug, createdAt: r.created_at, lastOpenedAt: r.last_opened_at }));
+    return (rows ?? []).map((r) => ({ id: r.id, slug: r.slug, createdAt: r.created_at, lastOpenedAt: r.last_opened_at, lastOpenedDevice: r.last_opened_device }));
   });
 
 // Real Google reviews (max 5, Google's choice) fetched once at creation; failures just leave the section hidden.
