@@ -47,12 +47,34 @@ export function demoSector(category: string): Sector {
   if (/restaur|padar|caf[eé]|lanch|pizz|hamb|açaí|acai|doce|confeit|comida|bar\b/.test(c)) return "food";
   return "services";
 }
+
+/** Frase de benefício por setor para o subtítulo da demo (substitui o texto genérico antigo). */
+export const SECTOR_TAGLINE: Record<Sector, (name: string) => string> = {
+  food: (n) => `${n}: cardápio completo com preços, pedido pelo WhatsApp e entrega quentinha ou retirada no balcão.`,
+  health: (n) => `${n}: agende sua avaliação pelo WhatsApp. Tratamentos, horários e resposta rápida em um só lugar.`,
+  beauty: (n) => `${n}: reserve seu horário pelo WhatsApp. Procedimentos, preços e disponibilidade em um só lugar.`,
+  gym: (n) => `${n}: planos, modalidades e aulas com acompanhamento. Comece pelo WhatsApp.`,
+  law: (n) => `${n}: orientação clara e atendimento pelo WhatsApp. Primeira conversa sem compromisso.`,
+  pet: (n) => `${n}: banho, tosa e cuidados com agendamento fácil pelo WhatsApp.`,
+  auto: (n) => `${n}: diagnóstico honesto e preço combinado antes do serviço. Agende pelo WhatsApp.`,
+  services: (n) => `${n}: orçamento grátis e resposta no mesmo dia. Serviços e preços em um só lugar.`,
+};
+
+/** Reconhece o subtítulo genérico gerado antes desta melhoria (demos antigas salvas com ele). */
+export const GENERIC_DESCRIPTION_RE = /^Conheça .{2,160}?\. Informações sobre .+ em um só lugar\./;
+
+/** Descrição exibida na demo: usa a salva quando é específica; senão gera a frase de benefício do setor. */
+export function demoDescription(name: string, sector: Sector, stored?: string | null): string {
+  const s = (stored ?? "").trim();
+  return s && !GENERIC_DESCRIPTION_RE.test(s) ? s : SECTOR_TAGLINE[sector](name);
+}
+
 export function draftForClient(lead: Lead, query?: string): Demonstration {
   const category = detectNiche(lead.name, lead.category, query);
   const sector = demoSector(category);
   return { name: lead.name, category, address: lead.address, phone: lead.intlPhone || lead.phone || "",
     headline: SECTOR_HEADLINE[sector], ...(/^[A-Za-z0-9_-]{5,300}$/.test(lead.id) ? { placeId: lead.id } : {}),
-    description: `Conheça ${lead.name}. Informações sobre ${category.toLocaleLowerCase("pt-BR")}, localização e contato em um só lugar. Fale com a equipe para saber mais.` };
+    description: SECTOR_TAGLINE[sector](lead.name) };
 }
 export function demoPhoneLink(phone: string) {
   const digits = phone.replace(/\D/g, "");
