@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Lock, Search, MonitorSmartphone, MessageCircle, Eye, Star, FileText, X } from "lucide-react";
 import presentation from "@/assets/semsite-apresentacao.mp4.asset.json";
-import barber from "@/assets/demo-barber.jpg";
+const barber = "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=1600&auto=format&fit=crop";
 import dentist from "@/assets/demo-dentist.jpg";
 import pizza from "@/assets/demo-pizzeria.jpg";
 import beauty from "@/assets/demo-beauty.jpg";
