@@ -2,10 +2,9 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { notificationsSeenAt } from "@/lib/social-unread";
 import { supabase } from "@/integrations/supabase/client";
-import { Search, PanelsTopLeft, Users, ChartNoAxesCombined, MessageSquareText, Sparkles, LogOut, UserRound, Newspaper, Bell, Send, UserSearch, FileText } from "lucide-react";
+import { Search, PanelsTopLeft, Users, ChartNoAxesCombined, MessageSquareText, Sparkles, LogOut, UserRound, Newspaper, Bell, Send, UserSearch, FileText, Zap } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
-import mascot from "@/assets/semsite-mascote-acenando.png";
 
 const TABS = [
   { key: "search", to: "/buscar", label: "Buscar clientes", icon: Search },
@@ -53,7 +52,7 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
     window.addEventListener("semsite-profile", load);
     return () => { alive = false; window.removeEventListener("semsite-profile", load); };
   }, []);
-  const dot = (k: number) => k > 0 ? <span className="absolute -right-1 -top-1 min-w-4 rounded-full bg-primary px-1 text-center text-[10px] font-bold leading-4 text-primary-foreground">{k > 9 ? "9+" : k}</span> : null;
+  const dot = (k: number) => k > 0 ? <span className="absolute -right-1 -top-1 min-w-4 rounded-full bg-primary px-1 text-center text-[10px] font-bold leading-4 text-primary-foreground ring-2 ring-background">{k > 9 ? "9+" : k}</span> : null;
   async function signOut() {
     await supabase.auth.signOut();
     navigate({ to: "/", replace: true });
@@ -77,18 +76,17 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
     return () => { ro.disconnect(); window.removeEventListener("resize", apply); document.body.style.paddingTop = ""; document.documentElement.style.removeProperty("--app-bar-h"); };
   }, []);
 
-  const ALL: { key: string; label: string }[] = [...TABS, { key: "feed", label: "Feed" }, { key: "people", label: "Pesquisar pessoas" }, { key: "notifications", label: "Notificações" }, { key: "dm", label: "Bate-papo" }, { key: "profile", label: "Meu perfil" }];
-  const title = ALL.find(t => t.key === active)?.label ?? "SemSite";
   const item = (isActive: boolean) => `flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-base ${isActive ? "bg-primary/10 font-bold text-primary" : "text-foreground hover:bg-muted"}`;
   const close = () => setOpen(false);
   const iconBtn = (isActive: boolean) => `relative flex size-9 items-center justify-center rounded-full transition-colors ${isActive ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted"}`;
   return (
-    <header ref={barRef} className="fixed inset-x-0 top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
+    <header ref={barRef} className="fixed inset-x-0 top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-2">
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
-            <button type="button" aria-label="Abrir menu" className="shrink-0">
-              <img src={mascot} alt="Mascote SemSite" width={1024} height={1024} className="h-10 w-10 rounded-full bg-accent object-cover ring-2 ring-primary/30" />
+            <button type="button" aria-label="Abrir menu" className="flex shrink-0 items-center gap-2">
+              <span className="brand-mark"><Zap className="size-4" /></span>
+              <span className="font-display text-xl tracking-wide">SEM<span className="text-primary">SITE</span></span>
             </button>
           </SheetTrigger>
           <SheetContent side="left" className="w-72 overflow-y-auto p-4">
@@ -112,11 +110,10 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
             </nav>
           </SheetContent>
         </Sheet>
-        <span className="min-w-0 flex-1 truncate text-center font-display text-2xl tracking-wide">{title}</span>
         <div className="flex shrink-0 items-center gap-1">
           <Link to="/notificacoes" aria-label="Notificações" className={iconBtn(active === "notifications")}><Bell className="size-5" />{dot(unread.n)}</Link>
           <Link to="/mensagens" aria-label="Bate-papo" className={iconBtn(active === "dm")}><Send className="size-5" />{dot(unread.dm)}</Link>
-          <Link to="/perfil" aria-label="Meu perfil" className={`ml-1 flex size-9 items-center justify-center overflow-hidden rounded-full ${active === "profile" ? "ring-2 ring-primary" : "bg-muted"}`}>
+          <Link to="/perfil" aria-label="Meu perfil" className={`ml-1 flex size-9 items-center justify-center overflow-hidden rounded-full bg-muted ring-2 transition-shadow ${active === "profile" ? "ring-primary" : "ring-primary/60"}`}>
             {avatar ? <img src={avatar} alt="" referrerPolicy="no-referrer" className="size-full object-cover" /> : <UserRound className="size-5" />}
           </Link>
         </div>

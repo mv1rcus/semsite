@@ -33,7 +33,7 @@ function Pessoas() {
     <main className="relative min-h-screen px-4 pb-16">
       <ProspectTabs active="people" />
       <section className="mx-auto mt-8 max-w-2xl">
-        <h1 className="text-5xl">Encontrar <span className="text-primary">pessoas</span></h1>
+        <h1 className="font-display text-5xl tracking-wide">Encontrar <span className="text-gradient-primary">pessoas.</span></h1>
         <p className="mt-1 text-muted-foreground">Digite o @ ou o nome de alguém.</p>
         <div className="relative mt-6">
           <Search className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />

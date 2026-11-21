@@ -45,8 +45,8 @@ export function AnalysisStudio() {
   return <main className="relative min-h-screen px-4 py-8 sm:px-8">
     <OceanScene /><ProspectTabs active="analysis" />
     <section className="mx-auto mt-8 max-w-6xl">
-      <p className="mb-3 flex items-center gap-2 text-sm font-semibold text-primary"><Sparkles className="size-4" />Inteligência comercial</p>
-      <h1 className="text-3xl font-bold">Um negócio. Uma boa proposta.</h1>
+      <p className="kicker-pill mb-3"><Sparkles className="size-3.5" />Inteligência comercial</p>
+      <h1 className="font-display text-4xl tracking-wide sm:text-5xl">Um negócio. Uma boa <span className="text-gradient-primary">proposta.</span></h1>
       <p className="mt-3 text-sm text-muted-foreground">Oportunidades e hipóteses calculadas a partir dos dados informados — sem garantia de vendas e sem uso de IA.</p>
       <div className="mt-8 grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
         <form onSubmit={submit} className="min-w-0 space-y-5">

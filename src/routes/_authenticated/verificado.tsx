@@ -94,7 +94,7 @@ function Verificado() {
       <TestBanner />
       <div className="text-center">
         <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-primary/10"><VerifiedBadge size={36} /></div>
-        <h1 className="mt-3 font-display text-5xl tracking-wide">SemSite Verificado</h1>
+        <h1 className="mt-3 font-display text-5xl tracking-wide">SemSite <span className="text-gradient-primary">Verificado</span></h1>
         <p className="mx-auto mt-2 max-w-md text-lg">O seu próximo cliente não aparece sozinho.<br />O Verificado tira o limite da sua busca e libera tudo o que fecha venda.</p>
       </div>
       {loading || waiting ? (
