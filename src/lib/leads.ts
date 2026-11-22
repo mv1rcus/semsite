@@ -16,7 +16,7 @@ export type Lead = {
   category: string | null; mapsUrl: string | null;
   // Contatos extras que o OpenStreetMap às vezes tem (o Google não retorna).
   email?: string | null; instagram?: string | null; facebook?: string | null;
-  source?: "google" | "osm";
+  source?: "google" | "osm" | "overture";
 };
 
 // Brazilian mobiles have 9 digits starting with 9 after the DDD; landlines rarely use WhatsApp.

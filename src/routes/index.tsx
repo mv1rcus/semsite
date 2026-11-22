@@ -228,7 +228,7 @@ function Login() {
           {[
             ["Posso testar sem pagar?", `Sim. A conta gratuita permite ${FREE_DAILY_SEARCHES} buscas de clientes por dia. Sites de demonstração e os demais recursos do Verificado exigem um plano pago.`],
             ["Por que preciso entrar com Google?", "É a forma de acesso disponível no momento. Sua conta permite guardar seus clientes e acessar a plataforma."],
-            ["De onde vêm os negócios listados?", "De mapas abertos (OpenStreetMap). O SemSite cruza os dados públicos e mostra os negócios que não têm site registrado."],
+            ["De onde vêm os negócios listados?", "De mapas abertos (OpenStreetMap e Overture Maps). O SemSite cruza os dados públicos e mostra os negócios que não têm site próprio registrado."],
             ["Preciso instalar alguma coisa?", "Não. O SemSite funciona no navegador, no celular e no computador. É só entrar com a sua conta Google."],
             ["O plano renova automaticamente?", "Não. O Verificado custa R$ 8,99 por mês, pago manualmente: quando o período acaba, nada é cobrado e o selo sai sozinho. Para continuar, você paga de novo quando quiser. O plano anual segue a mesma regra, sem débito automático."],
             ["O SemSite envia mensagens sozinho?", "Você inicia a conversa com o cliente pelo WhatsApp. A plataforma ajuda com a demonstração e a mensagem de abordagem."],

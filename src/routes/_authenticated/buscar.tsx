@@ -228,7 +228,7 @@ function Buscar() {
                 <Button key={n} type="button" disabled={loading} variant="ghost" aria-pressed={target === n} className={`h-12 rounded-xl text-base font-bold ${target === n ? "seg-on" : "text-muted-foreground"}`} onClick={() => setTarget(n)}>{n}</Button>
               ))}
             </div>
-            <p className="text-xs text-muted-foreground">{provider === "osm" ? "O OpenStreetMap devolve todos os locais de uma vez, sem páginas extras." : "O Google mostra no máximo 60 locais por busca; cada página extra conta no seu limite do Google Maps."}</p>
+            <p className="text-xs text-muted-foreground">{provider === "osm" ? "Os mapas abertos devolvem todos os locais de uma vez, sem páginas extras." : "O Google mostra no máximo 60 locais por busca; cada página extra conta no seu limite do Google Maps."}</p>
           </div>
 
 
@@ -252,7 +252,7 @@ function Buscar() {
             </div>
           )}
         </form>
-        <p className="mt-4 text-sm text-muted-foreground">{provider === "osm" ? "Mostramos só negócios sem site no OpenStreetMap, priorizando quem tem telefone. Dados © OpenStreetMap contributors (ODbL). Fechamento não é garantido." : "Mostramos só negócios sem site no Google, priorizando quem tem telefone e boa reputação. Fechamento não é garantido."}</p>
+        <p className="mt-4 text-sm text-muted-foreground">{provider === "osm" ? "Mostramos só negócios sem site próprio em mapas abertos, priorizando quem tem telefone. Dados © OpenStreetMap contributors (ODbL) e Overture Maps Foundation (CDL-Permissive). Fechamento não é garantido." : "Mostramos só negócios sem site no Google, priorizando quem tem telefone e boa reputação. Fechamento não é garantido."}</p>
 
         {error && (
           <div role="alert" className="mt-6 flex flex-col gap-3 rounded-lg border border-destructive/50 bg-destructive/10 p-4 sm:flex-row sm:items-center sm:justify-between">
@@ -263,7 +263,7 @@ function Buscar() {
         {followUp.storageError && <p role="alert" className="mt-4 text-destructive">{followUp.storageError}</p>}
         {loading && (
           <div aria-live="polite" className="mt-8">
-            <p className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" />Procurando negócios sem site no {provider === "osm" ? "OpenStreetMap" : "Google Maps"}…</p>
+            <p className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" />Procurando negócios sem site no {provider === "osm" ? "mapas abertos" : "Google Maps"}…</p>
             {leads.length === 0 && <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{[0, 1, 2].map((i) => <div key={i} className="glass h-56 animate-pulse rounded-lg" />)}</div>}
           </div>
         )}
@@ -277,7 +277,7 @@ function Buscar() {
         {scanned > 0 && (
           <p className="mt-8 text-sm text-muted-foreground">
             <span className="font-bold text-primary">{leads.length}</span> sem site, de {scanned} locais analisados
-            {provider === "osm" && <> · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer" className="underline">© OpenStreetMap contributors</a></>}
+            {provider === "osm" && <> · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer" className="underline">© OpenStreetMap</a> · <a href="https://overturemaps.org" target="_blank" rel="noreferrer" className="underline">© Overture Maps Foundation</a></>}
           </p>
         )}
 

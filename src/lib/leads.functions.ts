@@ -37,6 +37,13 @@ export const searchLeads = createServerFn({ method: "POST" })
     // O caminho do Google abaixo continua intacto e é o padrão.
     if (data.provider === "osm") {
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      // Fonte principal: base local da Overture Maps (instantânea, cobertura ampla).
+      // Cidade sem pacote importado cai no Overpass (caminho antigo, mais lento).
+      const { searchOvertureLeads } = await import("./overture-leads");
+      const overture = await searchOvertureLeads(data.category, data.city, supabaseAdmin);
+      if (overture) {
+        return { leads: rankProspects(overture.leads), scanned: overture.scanned, nextPageToken: null, searchesLeft };
+      }
       let result;
       try {
         result = await searchOsmLeads(data.category, data.city, supabaseAdmin);
