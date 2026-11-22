@@ -76,11 +76,11 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
     return () => { ro.disconnect(); window.removeEventListener("resize", apply); document.body.style.paddingTop = ""; document.documentElement.style.removeProperty("--app-bar-h"); };
   }, []);
 
-  const item = (isActive: boolean) => `flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-base ${isActive ? "bg-primary/10 font-bold text-primary" : "text-foreground hover:bg-muted"}`;
+  const item = (isActive: boolean) => `flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-base transition-colors ${isActive ? "menu-item-active" : "text-foreground hover:bg-muted"}`;
   const close = () => setOpen(false);
-  const iconBtn = (isActive: boolean) => `relative flex size-9 items-center justify-center rounded-full transition-colors ${isActive ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted"}`;
+  const iconBtn = (isActive: boolean) => `relative flex size-9 items-center justify-center rounded-full transition-colors ${isActive ? "bg-primary/15 text-primary" : "text-muted-foreground hover:bg-muted hover:text-foreground"}`;
   return (
-    <header ref={barRef} className="fixed inset-x-0 top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
+    <header ref={barRef} className="app-bar fixed inset-x-0 top-0 z-40">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-2">
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
@@ -92,13 +92,13 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
           <SheetContent side="left" className="w-72 overflow-y-auto p-4">
             <SheetTitle className="mb-4 font-display text-3xl tracking-wide">Sem<span className="text-primary">Site</span></SheetTitle>
             <nav className="flex flex-col gap-4" aria-label="Menu">
-              <div className="rounded-2xl border border-border bg-card p-2">
+              <div className="app-card p-2">
                 <p className="px-3 pb-1 pt-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Vendas</p>
                 {TABS.map(({ key, to, label, icon: Icon }) => (
                   <Link key={key} to={to} onClick={close} aria-current={active === key ? "page" : undefined} className={item(active === key)}><Icon className="size-5" />{key === "message" ? "Mensagem WhatsApp" : label}</Link>
                 ))}
               </div>
-              <div className="rounded-2xl border border-border bg-card p-2">
+              <div className="app-card p-2">
                 <p className="px-3 pb-1 pt-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Minha conta</p>
                 <Link to="/perfil" onClick={close} className={item(active === "profile")}><UserRound className="size-5" />Meu perfil</Link>
                 <Link to="/feed" onClick={close} className={item(active === "feed")}><Newspaper className="size-5" />Feed</Link>

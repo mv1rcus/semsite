@@ -113,7 +113,7 @@ function Perfil() {
   return (
     <main className="relative min-h-screen px-4 pb-16">
       <ProspectTabs active="profile" />
-      <section className="mx-auto mt-6 max-w-2xl overflow-hidden rounded-2xl border border-border bg-card">
+      <section className="app-card mx-auto mt-6 max-w-2xl overflow-hidden">
         <div className="h-32 bg-gradient-to-br from-primary via-primary/80 to-accent sm:h-44">
           {saved.banner_url && <img src={saved.banner_url} alt="" referrerPolicy="no-referrer" className="size-full object-cover" />}
         </div>
