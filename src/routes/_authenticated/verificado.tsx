@@ -12,7 +12,7 @@ import { useVerified } from "@/lib/use-verified";
 
 export const Route = createFileRoute("/_authenticated/verificado")({
   validateSearch: (s: Record<string, unknown>): { pago?: string | undefined } => ({ pago: typeof s['pago'] === "string" ? s['pago'] : undefined }),
-  head: () => ({ meta: [{ title: "Obter verificado — SemSite" }, { name: "description", content: "Assine o Verificado do SemSite: selo no perfil, buscas sem limite, demonstrações, mensagem personalizada e análise." }, { property: "og:title", content: "Obter verificado — SemSite" }, { property: "og:description", content: "Selo verificado e acesso completo ao SemSite a partir de R$ 8,99 por mês." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Obter verificado — SemSite" }, { name: "description", content: "Ative o Verificado do SemSite: selo no perfil, buscas sem limite, demonstrações, mensagem personalizada e análise." }, { property: "og:title", content: "Obter verificado — SemSite" }, { property: "og:description", content: "Selo verificado e acesso completo ao SemSite a partir de R$ 8,99 por mês." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
   component: Verificado,
 });
 
@@ -35,7 +35,7 @@ const VANTAGENS = [
 
 const DUVIDAS = [
   { q: "Quando o selo aparece?", a: "Alguns segundos depois do pagamento confirmado. Você não precisa fazer nada: o selo entra sozinho e tudo é liberado na hora." },
-  { q: "Tem cobrança automática?", a: "Não. Você paga uma vez pelo período escolhido (1 mês ou 1 ano) e o selo sai sozinho no fim, sem débito na sua conta." },
+  { q: "Tem cobrança automática?", a: "Não. Você paga R$ 8,99 por mês de forma manual (ou R$ 69,90 no plano anual). Quando o período termina, o selo sai sozinho e nada é debitado. Para continuar, é só pagar de novo." },
   { q: "Preciso de cartão?", a: "Não. Pague no Pix, débito, crédito, Apple Pay ou Google Pay." },
   { q: "Consigo pagar no Pix?", a: "Sim, nos dois planos: 1 mês por R$ 8,99 ou 1 ano por R$ 69,90." },
   { q: "E se o pagamento falhar?", a: "Nada é cobrado e você pode tentar de novo com outra forma de pagamento, como o Pix." },
@@ -102,7 +102,7 @@ function Verificado() {
       ) : verified ? (
         <div className="space-y-3 rounded-2xl border bg-card p-5 text-center">
           <p className="font-bold">Sua conta é verificada. Tudo liberado! 🎉</p>
-          {status?.source === "one_time" && <p className="text-sm text-muted-foreground">Selo válido até {status.expires_at ? new Date(status.expires_at).toLocaleDateString("pt-BR") : "—"}. Depois, é só pagar de novo — sem mensalidade.</p>}
+          {status?.source === "one_time" && <p className="text-sm text-muted-foreground">Selo válido até {status.expires_at ? new Date(status.expires_at).toLocaleDateString("pt-BR") : "—"}. Depois, é só pagar de novo, sem cobrança automática.</p>}
           {status?.source === "manual" && <p className="text-sm text-muted-foreground">Selo permanente, cortesia do SemSite.</p>}
           {(!status || status.source === "subscription") && sub && <p className="text-sm text-muted-foreground">{sub.cancel_at_period_end ? "Cancelada — o selo fica até " : "Próxima cobrança em "}{sub.current_period_end ? new Date(sub.current_period_end).toLocaleDateString("pt-BR") : "—"}</p>}
           {sub && ["active", "trialing", "past_due", "unpaid"].includes(sub.status) && <Button variant="outline" className="rounded-full" onClick={openPortal}>Gerenciar ou cancelar assinatura</Button>}
@@ -153,7 +153,7 @@ function Verificado() {
           <section className="rounded-2xl border bg-card p-5">
             <h2 className="font-display text-3xl tracking-wide">Escolha o seu plano</h2>
             <p className="mt-1 text-sm text-muted-foreground">Pague no Pix, débito, crédito, Apple Pay ou Google Pay.</p>
-            {sub && !verified && <p className="mt-1 text-sm text-muted-foreground">Sua última assinatura não está ativa{sub.status === "past_due" || sub.status === "unpaid" ? " porque o pagamento falhou" : ""}. Assine de novo para voltar o selo.</p>}
+            {sub && !verified && <p className="mt-1 text-sm text-muted-foreground">Sua última assinatura não está ativa{sub.status === "past_due" || sub.status === "unpaid" ? " porque o pagamento falhou" : ""}. Pague de novo para voltar o selo.</p>}
             <div className="mt-4 grid gap-3 sm:grid-cols-3">
               {VERIFIED_PLANS.map(p => (
                 <button key={p.id} type="button" onClick={() => setPlan(p.id)} className="rounded-2xl border-2 border-border bg-card p-4 text-left transition hover:border-primary">
@@ -166,7 +166,7 @@ function Verificado() {
               ))}
             </div>
             <ul className="mt-4 space-y-1.5 text-sm text-muted-foreground">
-              <li className="flex items-center gap-2"><Check className="size-4 shrink-0 text-primary" />Sem cobrança automática: você paga só o período que escolher.</li>
+              <li className="flex items-center gap-2"><Check className="size-4 shrink-0 text-primary" />Você paga mês a mês, de forma manual: sem débito automático e sem renovação surpresa.</li>
               <li className="flex items-center gap-2"><Clock className="size-4 shrink-0 text-primary" />O selo entra sozinho, segundos depois do pagamento.</li>
               <li className="flex items-center gap-2"><ShieldCheck className="size-4 shrink-0 text-primary" />Pix, débito, crédito, Apple Pay ou Google Pay, em ambiente seguro.</li>
             </ul>
