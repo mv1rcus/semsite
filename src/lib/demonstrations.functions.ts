@@ -55,6 +55,23 @@ export const getDemonstrationIdBySlug = createServerFn({ method: "GET" })
     return row?.id ?? null;
   });
 
+// Endereço curto público da demo: nome do negócio sem acentos e espaços + "demo" (ex.: pizzariadomarcusdemo).
+function demoSlugBase(name: string) {
+  const base = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 40);
+  return `${base || "meunegocio"}demo`;
+}
+
+// Primeiro slug livre para o negócio; se já existir, tenta sufixo numérico (pizzariadomarcusdemo2, demo3...).
+async function uniqueDemoSlug(supabaseAdmin: any, name: string): Promise<string> {
+  const base = demoSlugBase(name);
+  for (let attempt = 0; attempt < 10; attempt++) {
+    const slug = attempt === 0 ? base : `${base}${attempt + 1}`;
+    const { data } = await supabaseAdmin.from("site_demonstrations").select("id").eq("slug", slug).maybeSingle();
+    if (!data) return slug;
+  }
+  return `${base}${Date.now() % 100000}`;
+}
+
 export const createDemonstration = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input) => demoSchema.parse(input))
@@ -64,7 +81,15 @@ export const createDemonstration = createServerFn({ method: "POST" })
     const { placeId, ...fields } = data;
     const google = placeId ? await fetchGoogleReviews(placeId) : null;
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: row, error } = await supabaseAdmin.from("site_demonstrations").insert({ ...fields, place_id: placeId ?? null, google_rating: google?.rating ?? null, google_rating_count: google?.count ?? null, google_reviews: google?.reviews ?? [] }).select("id,name,slug").single();
+    const slug = await uniqueDemoSlug(supabaseAdmin, fields.name);
+    const base = { ...fields, place_id: placeId ?? null, google_rating: google?.rating ?? null, google_rating_count: google?.count ?? null, google_reviews: google?.reviews ?? [] };
+    let { data: row, error } = await supabaseAdmin.from("site_demonstrations").insert({ ...base, slug }).select("id,name,slug").single();
+    if (error && /slug/i.test(error.message ?? "")) {
+      // Coluna slug ainda não aplicada (migração 0022 pendente): salva sem o endereço curto até lá.
+      const fallback = await supabaseAdmin.from("site_demonstrations").insert(base).select("id,name").single();
+      row = fallback.data ? { ...fallback.data, slug: null } : null;
+      error = fallback.error;
+    }
     if (error || !row) throw new Error("Não foi possível salvar a demonstração.");
     return row;
   });
