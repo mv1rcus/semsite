@@ -81,6 +81,13 @@ export function demoPhoneLink(phone: string) {
   return digits ? `https://wa.me/${digits.startsWith("55") ? digits : `55${digits}`}` : null;
 }
 
+/** Link para mandar a demonstração no WhatsApp: direto na conversa do negócio quando o telefone existe; senão abre o seletor de contatos. */
+export function demoWhatsAppShare(phone: string, name: string, link: string) {
+  const text = encodeURIComponent(`Olá! Preparei uma ideia de site para ${name}, sem compromisso: ${link}`);
+  const contact = demoPhoneLink(phone);
+  return contact ? `${contact}?text=${text}` : `https://wa.me/?text=${text}`;
+}
+
 /** User-Agents que não representam um cliente abrindo a página (rastreadores e prévias de link). */
 const NON_CLIENT_UA_RE = /bot|crawler|spider|slurp|facebookexternalhit|telegrambot|discordbot|twitterbot|linkedinbot|slackbot|preview|headless|curl|wget|python|postman/i;
 
