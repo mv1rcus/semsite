@@ -141,6 +141,13 @@
       "when": 1795294717787,
       "tag": "0019_demo_last_opened_device",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1795306204755,
+      "tag": "0020_add_last_opened_device_to_site_demonstrations",
+      "breakpoints": true
     }
   ]
 }
