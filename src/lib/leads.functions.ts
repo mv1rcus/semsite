@@ -4,6 +4,7 @@ import { searchInputSchema, rankProspects, type Lead } from "./leads";
 export type { Lead } from "./leads";
 import { mapsErrorMessage } from "./search-errors";
 import { matchesSearch } from "./business-niche";
+import { searchOsmLeads } from "./osm-leads";
 
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/google_maps";
 
@@ -31,6 +32,21 @@ export const searchLeads = createServerFn({ method: "POST" })
       const { data: left, error } = await context.supabase.rpc("consume_search");
       if (error) throw new Error(error.message.includes("search_limit_reached") ? "Você usou suas 5 buscas de hoje. Assine o Verificado para buscar sem limite." : "Não foi possível conferir seu limite de buscas.");
       searchesLeft = Number(left);
+    }
+    // Fonte alternativa gratuita: OpenStreetMap (Overpass). Sem Google e sem Lovable.
+    // O caminho do Google abaixo continua intacto e é o padrão.
+    if (data.provider === "osm") {
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      let result;
+      try {
+        result = await searchOsmLeads(data.category, data.city, supabaseAdmin);
+      } catch (e) {
+        const message = e instanceof Error ? e.message : "";
+        if (message.startsWith("Não encontrei essa cidade")) throw new Error(message);
+        console.error(`Overpass failed: ${message}`);
+        throw new Error("O OpenStreetMap está instável agora. Tente novamente em instantes ou use a busca do Google.");
+      }
+      return { leads: rankProspects(result.leads), scanned: result.scanned, nextPageToken: null, searchesLeft };
     }
     // Outside Lovable hosting (e.g. Vercel) the gateway credentials don't exist,
     // so a self-owned Google key (GOOGLE_PLACES_API_KEY) calls Google directly.

@@ -3,7 +3,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX, Store, X, History, Radar, RotateCw, SlidersHorizontal, HeartPulse, Utensils, Scissors, Car, House, PawPrint, Dumbbell, BriefcaseBusiness, ArrowUpRight, type LucideIcon } from "lucide-react";
+import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX, Store, X, History, Radar, RotateCw, SlidersHorizontal, HeartPulse, Utensils, Scissors, Car, House, PawPrint, Dumbbell, BriefcaseBusiness, ArrowUpRight, Mail, Instagram, Facebook, type LucideIcon } from "lucide-react";
 import { searchLeads, type Lead } from "@/lib/leads.functions";
 import { clientSearchError } from "@/lib/search-errors";
 import { filterProspects, type ProspectFilter, type ProspectOrder } from "@/lib/prospect-filters";
@@ -55,6 +55,8 @@ function Buscar() {
   const navigate = useNavigate();
   const search = useServerFn(searchLeads);
   const [category, setCategory] = useState("");
+  // OpenStreetMap é a fonte padrão (grátis, sem Google); Google fica como alternativa manual.
+  const [provider, setProvider] = useState<"google" | "osm">("osm");
   const [group, setGroup] = useState("Saúde");
   const [target, setTarget] = useState(20);
   const [city, setCity] = useState("");
@@ -85,8 +87,8 @@ function Buscar() {
   // Keeps the results when the phone reloads the page after returning from WhatsApp.
   useEffect(() => {
     if (!searched || !activeQuery) return;
-    try { sessionStorage.setItem("last-search-v1", JSON.stringify({ leads, scanned, next, activeQuery })); } catch { /* Optional. */ }
-  }, [leads, scanned, next, activeQuery, searched]);
+    try { sessionStorage.setItem("last-search-v1", JSON.stringify({ leads, scanned, next, activeQuery, provider })); } catch { /* Optional. */ }
+  }, [leads, scanned, next, activeQuery, searched, provider]);
 
   useEffect(() => {
     try {
@@ -94,6 +96,7 @@ function Buscar() {
       if (saved && Array.isArray(saved.leads) && saved.activeQuery?.city) {
         setLeads(saved.leads); setScanned(Number(saved.scanned) || 0); setNext(typeof saved.next === "string" ? saved.next : null);
         setActiveQuery(saved.activeQuery); setCategory(saved.activeQuery.category); setCity(saved.activeQuery.city); setSearched(true);
+        if (saved.provider === "google" || saved.provider === "osm") setProvider(saved.provider);
       }
     } catch { /* Optional. */ }
     try { if (sessionStorage.getItem("last-search-v1")) throw 0; const suggested = nextSuggestedCity(localStorage.getItem("last-suggested-city")); setCity(suggested); localStorage.setItem("last-suggested-city", suggested); }
@@ -127,7 +130,7 @@ function Buscar() {
       let nextTok: string | null = null;
       let pages = 0;
       do {
-        const r = await search({ data: { ...query, pageToken: token } });
+        const r = await search({ data: { ...query, pageToken: token, provider } });
         if (r.searchesLeft >= 0 || !token) setSearchesLeft(r.searchesLeft);
         acc = rankProspects([...acc, ...r.leads]);
         total += r.scanned;
@@ -226,7 +229,17 @@ function Buscar() {
                 <Button key={n} type="button" disabled={loading} variant="ghost" aria-pressed={target === n} className={`h-12 rounded-xl text-base font-bold ${target === n ? "seg-on" : "text-muted-foreground"}`} onClick={() => setTarget(n)}>{n}</Button>
               ))}
             </div>
-            <p className="text-xs text-muted-foreground">O Google mostra no máximo 60 locais por busca; cada página extra conta no seu limite do Google Maps.</p>
+            <p className="text-xs text-muted-foreground">{provider === "osm" ? "O OpenStreetMap devolve todos os locais de uma vez, sem páginas extras." : "O Google mostra no máximo 60 locais por busca; cada página extra conta no seu limite do Google Maps."}</p>
+          </div>
+
+          <div className="grid gap-2 sm:col-span-2">
+            <span className="text-sm font-semibold">Fonte da busca</span>
+            <div className="seg-control" role="group" aria-label="Fonte da busca">
+              {([{ value: "osm", label: "OpenStreetMap (grátis)" }, { value: "google", label: "Google Maps" }] as const).map((option) => (
+                <Button key={option.value} type="button" disabled={loading} variant="ghost" aria-pressed={provider === option.value} className={`h-12 rounded-xl text-sm font-bold sm:text-base ${provider === option.value ? "seg-on" : "text-muted-foreground"}`} onClick={() => setProvider(option.value)}>{option.label}</Button>
+              ))}
+            </div>
+            <p className="text-xs text-muted-foreground">{provider === "osm" ? "Padrão: grátis, sem Google. Pode encontrar menos telefones." : "Alternativa com mais telefones e avaliações, sujeita a custo e cota do Google."}</p>
           </div>
 
           <Button type="submit" size="lg" disabled={loading} className="cta-primary h-14 min-w-0 rounded-2xl pl-5 pr-2 text-base font-extrabold sm:col-span-2">
@@ -249,7 +262,7 @@ function Buscar() {
             </div>
           )}
         </form>
-        <p className="mt-4 text-sm text-muted-foreground">Mostramos só negócios sem site no Google, priorizando quem tem telefone e boa reputação. Fechamento não é garantido.</p>
+        <p className="mt-4 text-sm text-muted-foreground">{provider === "osm" ? "Mostramos só negócios sem site no OpenStreetMap, priorizando quem tem telefone. Dados © OpenStreetMap contributors (ODbL). Fechamento não é garantido." : "Mostramos só negócios sem site no Google, priorizando quem tem telefone e boa reputação. Fechamento não é garantido."}</p>
 
         {error && (
           <div role="alert" className="mt-6 flex flex-col gap-3 rounded-lg border border-destructive/50 bg-destructive/10 p-4 sm:flex-row sm:items-center sm:justify-between">
@@ -260,7 +273,7 @@ function Buscar() {
         {followUp.storageError && <p role="alert" className="mt-4 text-destructive">{followUp.storageError}</p>}
         {loading && (
           <div aria-live="polite" className="mt-8">
-            <p className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" />Procurando negócios sem site no Google Maps…</p>
+            <p className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" />Procurando negócios sem site no {provider === "osm" ? "OpenStreetMap" : "Google Maps"}…</p>
             {leads.length === 0 && <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{[0, 1, 2].map((i) => <div key={i} className="glass h-56 animate-pulse rounded-lg" />)}</div>}
           </div>
         )}
@@ -274,6 +287,7 @@ function Buscar() {
         {scanned > 0 && (
           <p className="mt-8 text-sm text-muted-foreground">
             <span className="font-bold text-primary">{leads.length}</span> sem site, de {scanned} locais analisados
+            {provider === "osm" && <> · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer" className="underline">© OpenStreetMap contributors</a></>}
           </p>
         )}
 
@@ -312,6 +326,13 @@ function Buscar() {
                 {priority.reasons.length > 0 && <p className="mt-1 text-xs text-muted-foreground">{priority.reasons.join(" · ")}</p>}
                 <p className="mt-2 flex gap-1.5 break-words text-sm text-muted-foreground"><MapPin className="mt-0.5 size-4 shrink-0" />{l.address}</p>
                 {(l.phone || l.intlPhone) && <p className="mt-1 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground"><Phone className="size-4 shrink-0" />{l.phone || l.intlPhone}<span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${isMobilePhone(l) ? "bg-whatsapp/15 text-whatsapp" : "bg-muted text-muted-foreground"}`}>{isMobilePhone(l) ? "Celular (WhatsApp)" : "Fixo"}</span></p>}
+                {l.email && <p className="mt-1 flex items-center gap-1.5 break-all text-sm text-muted-foreground"><Mail className="size-4 shrink-0" />{l.email}</p>}
+                {(l.instagram || l.facebook) && (
+                  <p className="mt-1 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                    {l.instagram && <span className="flex items-center gap-1"><Instagram className="size-4 shrink-0" />@{l.instagram}</span>}
+                    {l.facebook && <span className="flex items-center gap-1 break-all"><Facebook className="size-4 shrink-0" />{l.facebook}</span>}
+                  </p>
+                )}
                 {l.rating && <p className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground"><Star className="size-4 text-primary" /><span className="font-semibold text-foreground">{l.rating}</span> · {l.reviews ?? 0} avaliações</p>}
                 <div className="mt-4"><ClientStageSelect value={followUp.clients.find((client) => client.id === l.id)?.stage ?? "new"} onChange={(stage) => followUp.track(l, stage)} label={`Etapa de ${l.name}`} /></div>
                 <Button variant="ghost" size="sm" className="mt-2" onClick={() => { if (followUp.track(l)) navigate({ to: "/clientes" }); }}>Acompanhar e definir lembrete</Button>

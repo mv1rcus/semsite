@@ -5,6 +5,8 @@ export const searchInputSchema = z.object({
   category: z.string().trim().min(2).max(80),
   city: z.string().trim().min(2).max(80),
   pageToken: z.string().optional(),
+  // Fonte da busca: "google" (padrão, atual) ou "osm" (OpenStreetMap, grátis, em teste).
+  provider: z.enum(["google", "osm"]).optional(),
 });
 
 export type Lead = {
@@ -12,6 +14,9 @@ export type Lead = {
   phone: string | null; intlPhone: string | null;
   rating: number | null; reviews: number | null;
   category: string | null; mapsUrl: string | null;
+  // Contatos extras que o OpenStreetMap às vezes tem (o Google não retorna).
+  email?: string | null; instagram?: string | null; facebook?: string | null;
+  source?: "google" | "osm";
 };
 
 // Brazilian mobiles have 9 digits starting with 9 after the DDD; landlines rarely use WhatsApp.
