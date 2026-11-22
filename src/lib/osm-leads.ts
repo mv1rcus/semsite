@@ -7,10 +7,15 @@ import type { Lead } from "./leads";
  *
  * Estrutura:
  * - geocodeCity: cidade (texto livre, ex "Juiz de Fora, MG") -> bounding box via Nominatim
- * - buildOverpassQuery: categoria em pt-BR -> seletores de tags OSM + fallback por nome
+ * - buildOverpassQueries: categoria em pt-BR -> consulta principal por tags +
+ *   fallback por nome (só roda quando a principal volta quase vazia; regex de nome
+ *   é a parte mais lenta no Overpass, então não vai junto na consulta principal)
+ * - queryOverpass: dispara nos 3 espelhos públicos escalonado (~3s) e usa o
+ *   primeiro que responder; antes era sequencial e somava timeouts de 30s cada
  * - searchOsmLeads: executa a busca, filtra "sem site" e devolve Lead[]
- * - cache em tabela pública `osm_search_cache` (cidade+categoria, TTL 30 dias).
- *   Se a tabela ainda não existir no Supabase, a busca funciona sem cache.
+ * - cache em tabela pública `osm_search_cache` (cidade+categoria, TTL 30 dias;
+ *   geocode da cidade, TTL 90 dias). Se a tabela ainda não existir no Supabase,
+ *   a busca funciona sem cache.
  */
 
 const NOMINATIM_URL = "https://nominatim.openstreetmap.org/search";
@@ -134,26 +139,25 @@ function bboxClause(b: BBox): string {
   return `(${b.south},${b.west},${b.north},${b.east})`;
 }
 
-export function buildOverpassQuery(category: string, b: BBox): string {
+export function buildOverpassQueries(category: string, b: BBox): { primary: string; fallback: string | null } {
   const n = norm(category);
   const mapped = CATEGORY_TAGS.find(([re]) => re.test(n));
-  const clauses: string[] = [];
   const bb = bboxClause(b);
-  if (mapped) {
-    for (const filter of mapped[1]) {
-      const cond = filter.map(([k, v]) => (v.includes("(") || v.includes("|") || v.includes("^") ? `["${k}"~"${v}"]` : `["${k}"="${v}"]`)).join("");
-      clauses.push(`node${cond}${bb};`, `way${cond}${bb};`);
-    }
-  }
+  const wrap = (clauses: string[]) => `[out:json][timeout:25];\n(\n${clauses.join("\n")}\n);\nout tags center ${MAX_RESULTS};`;
   // Fallback por nome: pega negócios sem a tag esperada (ex: "Barbearia do Zé" sem shop=*).
   // Usa o texto original (com acentos) para casar com os nomes no OSM.
-  // Para categoria mapeada, restringe às chaves mais comuns para manter a consulta leve.
+  // Regex de nome sem tag destrava o índice e é o que deixava a consulta lenta,
+  // então roda separado e só quando a consulta principal vem quase vazia.
   const nameRe = escapeQlRegex(category.trim());
   const nameKeys = mapped ? ["shop", "amenity"] : ["shop", "amenity", "craft", "office", "leisure", "healthcare"];
-  for (const key of nameKeys) {
-    clauses.push(`node["name"~"${nameRe}",i]["${key}"]${bb};`, `way["name"~"${nameRe}",i]["${key}"]${bb};`);
+  const nameClauses = nameKeys.map((key) => `nw["name"~"${nameRe}",i]["${key}"]${bb};`);
+  if (!mapped) return { primary: wrap(nameClauses), fallback: null };
+  const tagClauses: string[] = [];
+  for (const filter of mapped[1]) {
+    const cond = filter.map(([k, v]) => (v.includes("(") || v.includes("|") || v.includes("^") ? `["${k}"~"${v}"]` : `["${k}"="${v}"]`)).join("");
+    tagClauses.push(`nw${cond}${bb};`);
   }
-  return `[out:json][timeout:25];\n(\n${clauses.join("\n")}\n);\nout tags center ${MAX_RESULTS};`;
+  return { primary: wrap(tagClauses), fallback: wrap(nameClauses) };
 }
 
 async function fetchJson(url: string, init: RequestInit, timeoutMs: number): Promise<unknown> {
@@ -172,21 +176,27 @@ export async function geocodeCity(city: string): Promise<BBox | null> {
   return { south: Number(bb[0]), north: Number(bb[1]), west: Number(bb[2]), east: Number(bb[3]) };
 }
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/** Dispara nos espelhos escalonado (3s entre um e outro) e fica com o primeiro que
+ * responde. Escalonar evita martelar todos os servidores públicos ao mesmo tempo;
+ * na prática o primeiro costuma responder sozinho quando está saudável. */
 async function queryOverpass(query: string): Promise<OsmElement[]> {
-  let lastError: unknown = null;
-  for (const instance of OVERPASS_INSTANCES) {
-    try {
-      const json = (await fetchJson(
-        instance,
-        { method: "POST", headers: { "User-Agent": USER_AGENT, "Content-Type": "application/x-www-form-urlencoded" }, body: `data=${encodeURIComponent(query)}` },
-        30000,
-      )) as { elements?: OsmElement[] };
-      if (Array.isArray(json?.elements)) return json.elements;
-    } catch (e) {
-      lastError = e;
-    }
+  const attempts = OVERPASS_INSTANCES.map(async (instance, i) => {
+    if (i > 0) await sleep(i * 3000);
+    const json = (await fetchJson(
+      instance,
+      { method: "POST", headers: { "User-Agent": USER_AGENT, "Content-Type": "application/x-www-form-urlencoded" }, body: `data=${encodeURIComponent(query)}` },
+      25000,
+    )) as { elements?: OsmElement[] };
+    if (!Array.isArray(json?.elements)) throw new Error("resposta inválida");
+    return json.elements;
+  });
+  try {
+    return await Promise.any(attempts);
+  } catch {
+    throw new Error("Overpass indisponível");
   }
-  throw lastError instanceof Error ? lastError : new Error("Overpass indisponível");
 }
 
 function firstTag(tags: Record<string, string>, keys: string[]): string | null {
@@ -277,6 +287,30 @@ async function writeCache(client: CacheClient, key: string, payload: { leads: Le
   }
 }
 
+/** Geocode com cache próprio (TTL 90 dias): a cidade muda pouco e isso tira
+ * 1-2s de toda busca nova. Mesma tabela do cache de resultados. */
+async function geocodeCityCached(city: string, cache: CacheClient | null): Promise<BBox | null> {
+  const key = `geo|${norm(city)}`;
+  if (cache) {
+    try {
+      const { data, error } = await cache.from("osm_search_cache").select("payload, created_at").eq("cache_key", key).maybeSingle();
+      const row = (!error && data) as { payload?: { bbox?: BBox }; created_at?: string } | null;
+      if (row?.created_at && isFresh(row.created_at, GEOCODE_TTL_DAYS) && row.payload?.bbox) return row.payload.bbox;
+    } catch {
+      // Sem cache: segue para o Nominatim.
+    }
+  }
+  const bbox = await geocodeCity(city);
+  if (bbox && cache) {
+    try {
+      await cache.from("osm_search_cache").upsert({ cache_key: key, payload: { bbox } });
+    } catch {
+      // Cache é otimização; a busca nunca falha por causa dele.
+    }
+  }
+  return bbox;
+}
+
 /** Busca completa: cache -> (geocode + Overpass) -> filtra "sem site" -> Lead[]. */
 export async function searchOsmLeads(
   category: string,
@@ -289,10 +323,20 @@ export async function searchOsmLeads(
     if (hit) return { ...hit, cached: true };
   }
 
-  const bbox = await geocodeCity(city);
+  const bbox = await geocodeCityCached(city, cache);
   if (!bbox) throw new Error("Não encontrei essa cidade no mapa. Confira o nome (ex: Juiz de Fora, MG).");
 
-  const elements = await queryOverpass(buildOverpassQuery(category, bbox));
+  const { primary, fallback } = buildOverpassQueries(category, bbox);
+  let elements = await queryOverpass(primary);
+  // Com a categoria mapeada e quase nada de resultado, tenta o fallback por nome.
+  // Se o fallback falhar, a busca principal continua valendo.
+  if (fallback && elements.length < 8) {
+    try {
+      elements = elements.concat(await queryOverpass(fallback));
+    } catch {
+      // Fallback é bônus.
+    }
+  }
   const seen = new Set<string>();
   const leads: Lead[] = [];
   for (const el of elements) {
