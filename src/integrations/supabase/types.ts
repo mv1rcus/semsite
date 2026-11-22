@@ -97,6 +97,24 @@ export type Database = {
         }
         Relationships: []
       }
+      osm_search_cache: {
+        Row: {
+          cache_key: string
+          created_at: string
+          payload: Json
+        }
+        Insert: {
+          cache_key: string
+          created_at?: string
+          payload: Json
+        }
+        Update: {
+          cache_key?: string
+          created_at?: string
+          payload?: Json
+        }
+        Relationships: []
+      }
       post_comments: {
         Row: {
           body: string

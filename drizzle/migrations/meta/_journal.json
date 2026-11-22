@@ -148,6 +148,13 @@
       "when": 1795306204755,
       "tag": "0020_add_last_opened_device_to_site_demonstrations",
       "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1795323107038,
+      "tag": "0021_apply_osm_search_cache",
+      "breakpoints": true
     }
   ]
 }
