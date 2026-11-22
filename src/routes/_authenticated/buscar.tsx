@@ -24,7 +24,7 @@ export const Route = createFileRoute("/_authenticated/buscar")({
   head: () => ({
     meta: [
       { title: "SemSite | Encontre empresas sem site na sua cidade" },
-      { name: "description", content: "Encontre empresas sem site no Google Maps por cidade e segmento. Organize seus contatos, personalize mensagens e prepare demonstrações para suas propostas." },
+      { name: "description", content: "Encontre registros de empresas sem site cadastrado na Overture Maps por cidade e segmento. Organize seus contatos, personalize mensagens e prepare demonstrações para suas propostas." },
       { property: "og:title", content: "SemSite — Seu próximo projeto começa aqui" },
       { property: "og:description", content: "Negócios sem site, novas oportunidades. Busque por cidade e segmento, prepare sua mensagem e mostre uma ideia de site ao cliente." },
       { name: "twitter:title", content: "SemSite — Seu próximo projeto começa aqui" },
@@ -55,8 +55,8 @@ function Buscar() {
   const navigate = useNavigate();
   const search = useServerFn(searchLeads);
   const [category, setCategory] = useState("");
-  // Busca exclusivamente via OpenStreetMap (grátis, sem Google e sem gateway do Lovable).
-  const provider = "osm" as const;
+  // Overture only. City files are retrieved on the server, with no map API charge.
+  const provider = "overture" as const;
   const [group, setGroup] = useState("Saúde");
   const [target, setTarget] = useState(20);
   const [city, setCity] = useState("");
@@ -87,18 +87,18 @@ function Buscar() {
   // Keeps the results when the phone reloads the page after returning from WhatsApp.
   useEffect(() => {
     if (!searched || !activeQuery) return;
-    try { sessionStorage.setItem("last-search-v1", JSON.stringify({ leads, scanned, next, activeQuery, provider })); } catch { /* Optional. */ }
+    try { sessionStorage.setItem("last-search-overture-v1", JSON.stringify({ leads, scanned, next, activeQuery, provider })); } catch { /* Optional. */ }
   }, [leads, scanned, next, activeQuery, searched, provider]);
 
   useEffect(() => {
     try {
-      const saved = JSON.parse(sessionStorage.getItem("last-search-v1") ?? "null");
+      const saved = JSON.parse(sessionStorage.getItem("last-search-overture-v1") ?? "null");
       if (saved && Array.isArray(saved.leads) && saved.activeQuery?.city) {
         setLeads(saved.leads); setScanned(Number(saved.scanned) || 0); setNext(typeof saved.next === "string" ? saved.next : null);
         setActiveQuery(saved.activeQuery); setCategory(saved.activeQuery.category); setCity(saved.activeQuery.city); setSearched(true);
       }
     } catch { /* Optional. */ }
-    try { if (sessionStorage.getItem("last-search-v1")) throw 0; const suggested = nextSuggestedCity(localStorage.getItem("last-suggested-city")); setCity(suggested); localStorage.setItem("last-suggested-city", suggested); }
+    try { if (sessionStorage.getItem("last-search-overture-v1")) throw 0; const suggested = nextSuggestedCity(localStorage.getItem("last-suggested-city")); setCity(suggested); localStorage.setItem("last-suggested-city", suggested); }
     catch (e) { if (e !== 0) setCity(nextSuggestedCity(null)); }
     try {
       const stored: unknown = JSON.parse(localStorage.getItem("contacted-leads") ?? "[]");
@@ -228,7 +228,7 @@ function Buscar() {
                 <Button key={n} type="button" disabled={loading} variant="ghost" aria-pressed={target === n} className={`h-12 rounded-xl text-base font-bold ${target === n ? "seg-on" : "text-muted-foreground"}`} onClick={() => setTarget(n)}>{n}</Button>
               ))}
             </div>
-            <p className="text-xs text-muted-foreground">{provider === "osm" ? "Os mapas abertos devolvem todos os locais de uma vez, sem páginas extras." : "O Google mostra no máximo 60 locais por busca; cada página extra conta no seu limite do Google Maps."}</p>
+            <p className="text-xs text-muted-foreground">Resultados em páginas de 20. Você pode carregar mais sem gastar outra busca.</p>
           </div>
 
 
@@ -252,7 +252,7 @@ function Buscar() {
             </div>
           )}
         </form>
-        <p className="mt-4 text-sm text-muted-foreground">{provider === "osm" ? "Mostramos só negócios sem site próprio em mapas abertos, priorizando quem tem telefone. Dados © OpenStreetMap contributors (ODbL) e Overture Maps Foundation (CDL-Permissive). Fechamento não é garantido." : "Mostramos só negócios sem site no Google, priorizando quem tem telefone e boa reputação. Fechamento não é garantido."}</p>
+        <p className="mt-4 text-sm text-muted-foreground">Dados abertos da Overture Maps, com telefone e sem site próprio cadastrado na base. As informações podem estar incompletas ou desatualizadas. Confirme antes de abordar.</p>
 
         {error && (
           <div role="alert" className="mt-6 flex flex-col gap-3 rounded-lg border border-destructive/50 bg-destructive/10 p-4 sm:flex-row sm:items-center sm:justify-between">
@@ -263,21 +263,21 @@ function Buscar() {
         {followUp.storageError && <p role="alert" className="mt-4 text-destructive">{followUp.storageError}</p>}
         {loading && (
           <div aria-live="polite" className="mt-8">
-            <p className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" />Procurando negócios sem site no {provider === "osm" ? "mapas abertos" : "Google Maps"}…</p>
+            <p className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" />Procurando negócios na Overture Maps…</p>
             {leads.length === 0 && <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{[0, 1, 2].map((i) => <div key={i} className="glass h-56 animate-pulse rounded-lg" />)}</div>}
           </div>
         )}
         {searched && !loading && !error && leads.length === 0 && (
           <div className="glass mt-8 rounded-lg p-6 text-center">
             <SearchX className="mx-auto size-8 text-muted-foreground" />
-            <p className="mt-3 font-semibold">{scanned === 0 ? "Nenhum local encontrado para essa pesquisa." : `Todos os ${scanned} locais encontrados já têm site.`}</p>
-            <p className="mt-1 text-sm text-muted-foreground">{next ? "Busque mais resultados ou tente outra categoria ou cidade." : "Tente outra categoria, um termo mais comum ou uma cidade vizinha."}</p>
+            <p className="mt-3 font-semibold">{scanned === 0 ? "Nenhum registro encontrado nesse recorte da base." : `Os ${scanned} registros encontrados têm site cadastrado na base.`}</p>
+            <p className="mt-1 text-sm text-muted-foreground">{next ? "Busque mais resultados ou tente outra categoria ou cidade." : "A cobertura varia por município. Tente outra categoria ou cidade; isso não significa que não existam negócios na região."}</p>
           </div>
         )}
         {scanned > 0 && (
           <p className="mt-8 text-sm text-muted-foreground">
-            <span className="font-bold text-primary">{leads.length}</span> sem site, de {scanned} locais analisados
-            {provider === "osm" && <> · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer" className="underline">© OpenStreetMap</a> · <a href="https://overturemaps.org" target="_blank" rel="noreferrer" className="underline">© Overture Maps Foundation</a></>}
+            <span className="font-bold text-primary">{leads.length}</span> sem site cadastrado, de {scanned} locais analisados
+             · <a href="https://docs.overturemaps.org/attribution/" target="_blank" rel="noreferrer" className="underline">Overture Maps, fontes e licenças</a>
           </p>
         )}
 

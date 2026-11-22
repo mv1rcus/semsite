@@ -1,12 +1,12 @@
 import { z } from "zod";
 
-// Google pagination tokens are opaque: preserve the whole string verbatim.
+// Pagination cursors are signed and query-bound by the server.
 export const searchInputSchema = z.object({
   category: z.string().trim().min(2).max(80),
   city: z.string().trim().min(2).max(80),
   pageToken: z.string().optional(),
-  // Fonte da busca: "google" (padrão, atual) ou "osm" (OpenStreetMap, grátis, em teste).
-  provider: z.enum(["google", "osm"]).optional(),
+  // Overture is the only search source. Historical saved leads keep their source.
+  provider: z.enum(["overture"]).optional(),
 });
 
 export type Lead = {
