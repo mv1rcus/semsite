@@ -305,7 +305,6 @@ export type Database = {
           headline: string
           id: string
           last_opened_at: string | null
-          last_opened_device: string | null
           name: string
           phone: string
           place_id: string | null
@@ -322,7 +321,6 @@ export type Database = {
           headline: string
           id?: string
           last_opened_at?: string | null
-          last_opened_device?: string | null
           name: string
           phone?: string
           place_id?: string | null
@@ -339,7 +337,6 @@ export type Database = {
           headline?: string
           id?: string
           last_opened_at?: string | null
-          last_opened_device?: string | null
           name?: string
           phone?: string
           place_id?: string | null
