@@ -55,8 +55,8 @@ function Buscar() {
   const navigate = useNavigate();
   const search = useServerFn(searchLeads);
   const [category, setCategory] = useState("");
-  // OpenStreetMap é a fonte padrão (grátis, sem Google); Google fica como alternativa manual.
-  const [provider, setProvider] = useState<"google" | "osm">("osm");
+  // Busca exclusivamente via OpenStreetMap (grátis, sem Google e sem gateway do Lovable).
+  const provider = "osm" as const;
   const [group, setGroup] = useState("Saúde");
   const [target, setTarget] = useState(20);
   const [city, setCity] = useState("");
@@ -96,7 +96,6 @@ function Buscar() {
       if (saved && Array.isArray(saved.leads) && saved.activeQuery?.city) {
         setLeads(saved.leads); setScanned(Number(saved.scanned) || 0); setNext(typeof saved.next === "string" ? saved.next : null);
         setActiveQuery(saved.activeQuery); setCategory(saved.activeQuery.category); setCity(saved.activeQuery.city); setSearched(true);
-        if (saved.provider === "google" || saved.provider === "osm") setProvider(saved.provider);
       }
     } catch { /* Optional. */ }
     try { if (sessionStorage.getItem("last-search-v1")) throw 0; const suggested = nextSuggestedCity(localStorage.getItem("last-suggested-city")); setCity(suggested); localStorage.setItem("last-suggested-city", suggested); }
@@ -232,15 +231,6 @@ function Buscar() {
             <p className="text-xs text-muted-foreground">{provider === "osm" ? "O OpenStreetMap devolve todos os locais de uma vez, sem páginas extras." : "O Google mostra no máximo 60 locais por busca; cada página extra conta no seu limite do Google Maps."}</p>
           </div>
 
-          <div className="grid gap-2 sm:col-span-2">
-            <span className="text-sm font-semibold">Fonte da busca</span>
-            <div className="seg-control" role="group" aria-label="Fonte da busca">
-              {([{ value: "osm", label: "OpenStreetMap (grátis)" }, { value: "google", label: "Google Maps" }] as const).map((option) => (
-                <Button key={option.value} type="button" disabled={loading} variant="ghost" aria-pressed={provider === option.value} className={`h-12 rounded-xl text-sm font-bold sm:text-base ${provider === option.value ? "seg-on" : "text-muted-foreground"}`} onClick={() => setProvider(option.value)}>{option.label}</Button>
-              ))}
-            </div>
-            <p className="text-xs text-muted-foreground">{provider === "osm" ? "Padrão: grátis, sem Google. Pode encontrar menos telefones." : "Alternativa com mais telefones e avaliações, sujeita a custo e cota do Google."}</p>
-          </div>
 
           <Button type="submit" size="lg" disabled={loading} className="cta-primary h-14 min-w-0 rounded-2xl pl-5 pr-2 text-base font-extrabold sm:col-span-2">
             {loading ? <Loader2 className="size-5 animate-spin" /> : <Search className="size-5" />}
