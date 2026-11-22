@@ -100,7 +100,7 @@ function Verificado() {
       {loading || waiting ? (
         <div className="flex flex-col items-center gap-2 py-10 text-muted-foreground"><Loader2 className="size-6 animate-spin" />{waiting && "Confirmando seu pagamento…"}</div>
       ) : verified ? (
-        <div className="space-y-3 rounded-2xl border bg-card p-5 text-center">
+        <div className="space-y-3 app-card p-5 text-center">
           <p className="font-bold">Sua conta é verificada. Tudo liberado! 🎉</p>
           {status?.source === "one_time" && <p className="text-sm text-muted-foreground">Selo válido até {status.expires_at ? new Date(status.expires_at).toLocaleDateString("pt-BR") : "—"}. Depois, é só pagar de novo, sem cobrança automática.</p>}
           {status?.source === "manual" && <p className="text-sm text-muted-foreground">Selo permanente, cortesia do SemSite.</p>}
@@ -114,13 +114,13 @@ function Verificado() {
             Pague com {chosen?.methods ?? "cartão"}
             <span className="rounded-full border border-border bg-background px-2 py-0.5 text-xs font-normal">{chosen?.label} · {chosen?.price}</span>
           </p>
-          <div className="overflow-hidden rounded-2xl border bg-card">
+          <div className="overflow-hidden app-card">
             <EmbeddedCheckoutProvider key={plan} stripe={getStripe()} options={{ fetchClientSecret }}><EmbeddedCheckout /></EmbeddedCheckoutProvider>
           </div>
         </div>
       ) : (
         <>
-          <section className="rounded-2xl border bg-card p-5">
+          <section className="app-card p-5">
             <h2 className="font-display text-3xl tracking-wide">O que muda no seu dia</h2>
             <p className="mt-1 text-sm text-muted-foreground">É a mesma tela, com o limite fora e as portas abertas.</p>
             <ul className="mt-4 space-y-2">
@@ -133,7 +133,7 @@ function Verificado() {
             </ul>
           </section>
 
-          <section className="rounded-2xl border bg-card p-5">
+          <section className="app-card p-5">
             <h2 className="font-display text-3xl tracking-wide">Por que vale os R$ 8,99</h2>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {VANTAGENS.map((v, i) => (
@@ -150,13 +150,13 @@ function Verificado() {
             </div>
           </section>
 
-          <section className="rounded-2xl border bg-card p-5">
+          <section className="app-card p-5">
             <h2 className="font-display text-3xl tracking-wide">Escolha o seu plano</h2>
             <p className="mt-1 text-sm text-muted-foreground">Pague no Pix, débito, crédito, Apple Pay ou Google Pay.</p>
             {sub && !verified && <p className="mt-1 text-sm text-muted-foreground">Sua última assinatura não está ativa{sub.status === "past_due" || sub.status === "unpaid" ? " porque o pagamento falhou" : ""}. Pague de novo para voltar o selo.</p>}
             <div className="mt-4 grid gap-3 sm:grid-cols-3">
               {VERIFIED_PLANS.map(p => (
-                <button key={p.id} type="button" onClick={() => setPlan(p.id)} className="rounded-2xl border-2 border-border bg-card p-4 text-left transition hover:border-primary">
+                <button key={p.id} type="button" onClick={() => setPlan(p.id)} className="app-card app-card-hover p-4 text-left">
                   <span className="flex items-center justify-between gap-1 font-bold">{p.label}{p.note && <span className="rounded-full bg-accent px-2 py-0.5 text-xs">{p.note}</span>}</span>
                   <span className="mt-1 block text-2xl font-extrabold">{p.price}<span className="text-sm font-normal text-muted-foreground"> {p.period}</span></span>
                   <span className="mt-2 block text-sm text-muted-foreground">{p.detail}</span>
@@ -172,7 +172,7 @@ function Verificado() {
             </ul>
           </section>
 
-          <section className="rounded-2xl border bg-card p-5">
+          <section className="app-card p-5">
             <h2 className="font-display text-3xl tracking-wide">Perguntas rápidas</h2>
             <div className="mt-3 space-y-2">
               {DUVIDAS.map(d => (

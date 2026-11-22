@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Lock, Search, MonitorSmartphone, MessageCircle, Eye, Star, FileText, X } from "lucide-react";
+import { ArrowRight, Lock, Search, MonitorSmartphone, MessageCircle, Eye, Star, FileText, X, Check, UserRound, Store, ReceiptText, ScanSearch, ChartNoAxesCombined } from "lucide-react";
 import presentation from "@/assets/semsite-apresentacao.mp4.asset.json";
 const barber = "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=1600&auto=format&fit=crop";
 import dentist from "@/assets/demo-dentist.jpg";
@@ -48,68 +48,78 @@ function Login() {
     navigate({ to: "/buscar" });
   }
 
+  const googleButton = (label: string, className = "") => (
+    <button type="button" disabled={loading} onClick={signIn} className={`login-cta flex items-center justify-between rounded-2xl py-1 pl-5 pr-1 font-bold disabled:opacity-60 ${className}`}>
+      <span className="flex items-center gap-3">
+        <svg viewBox="0 0 48 48" className="size-5 rounded-full bg-foreground p-0.5" aria-hidden><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
+        {loading ? "Entrando…" : label}
+      </span>
+      <span className="grid size-11 place-items-center rounded-xl bg-background/30"><ArrowRight className="size-5" /></span>
+    </button>
+  );
+
   return (
-    <main className="login-page min-h-screen px-4 py-6 sm:px-6">
-      <header className="mx-auto mb-6 flex max-w-6xl flex-wrap items-center justify-between gap-4">
-        <a href="#inicio" aria-label="SemSite, início" className="font-display text-3xl tracking-wide">SEM<span className="text-primary">SITE</span></a>
-        <nav aria-label="Navegação principal" className="flex flex-wrap items-center gap-4 text-sm font-semibold">
-          <a href="#catalogo" className="text-muted-foreground hover:text-foreground">Demonstrações</a>
-          <a href="#planos" className="text-muted-foreground hover:text-foreground">Planos</a>
-          <button type="button" disabled={loading} onClick={signIn} className="rounded-full border border-border px-5 py-2 transition-colors hover:border-primary/60 hover:text-primary disabled:opacity-60">Entrar</button>
-        </nav>
+    <main className="login-page min-h-screen">
+      <header className="site-header px-4 sm:px-6">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 py-4">
+          <a href="#inicio" aria-label="SemSite, início" className="font-display text-3xl tracking-wide">SEM<span className="text-primary">SITE</span></a>
+          <nav aria-label="Navegação principal" className="flex flex-wrap items-center gap-4 text-sm font-semibold">
+            <a href="#catalogo" className="hidden text-muted-foreground transition-colors hover:text-foreground sm:inline">Demonstrações</a>
+            <a href="#como-funciona" className="hidden text-muted-foreground transition-colors hover:text-foreground sm:inline">Como funciona</a>
+            <a href="#planos" className="text-muted-foreground transition-colors hover:text-foreground">Planos</a>
+            <button type="button" disabled={loading} onClick={signIn} className="rounded-full border border-border px-5 py-2 transition-colors hover:border-primary/60 hover:text-primary disabled:opacity-60">Entrar</button>
+          </nav>
+        </div>
       </header>
-      <div id="inicio" className="mx-auto grid max-w-6xl gap-4 lg:grid-cols-2">
-        <section className="login-card flex flex-col justify-center rounded-3xl p-7 sm:p-10">
-          <p className="kicker-pill">/ DO PRIMEIRO CONTATO À DEMONSTRAÇÃO</p>
-          <h1 className="mt-2 font-display text-6xl leading-[0.9] sm:text-7xl">Encontre quem<br /><span className="text-gradient-primary">precisa de site.</span></h1>
-          <p className="mt-4 max-w-sm text-sm text-muted-foreground">Busque negócios por cidade e ramo, mostre uma demonstração e inicie a conversa pelo WhatsApp.</p>
 
-          <button type="button" disabled={loading} onClick={signIn} className="login-cta mt-8 flex w-full max-w-md items-center justify-between rounded-2xl py-1 pl-5 pr-1 font-bold disabled:opacity-60">
-            <span className="flex items-center gap-3">
-              <svg viewBox="0 0 48 48" className="size-5 rounded-full bg-foreground p-0.5" aria-hidden><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
-              {loading ? "Entrando…" : "Começar com Google"}
-            </span>
-            <span className="grid size-11 place-items-center rounded-xl bg-background/30"><ArrowRight className="size-5" /></span>
-          </button>
-          {error && <p role="alert" className="mt-3 text-sm text-primary">{error}</p>}
-          <p className="mt-6 flex items-center gap-2 text-[0.7rem] font-bold tracking-[0.2em] text-muted-foreground"><Lock className="size-3.5 text-primary" /> ACESSO SEGURO COM SUA CONTA GOOGLE</p>
-        </section>
+      <div id="inicio" className="relative px-4 pt-8 sm:px-6">
+        <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden="true" />
+        <div className="relative mx-auto grid max-w-6xl gap-4 lg:grid-cols-2">
+          <section className="login-card flex flex-col justify-center rounded-3xl p-7 sm:p-10">
+            <p className="kicker-pill"><span className="pulse-dot" />/ DO PRIMEIRO CONTATO À DEMONSTRAÇÃO</p>
+            <h1 className="mt-3 font-display text-6xl leading-[0.9] sm:text-7xl">Encontre quem<br /><span className="text-gradient-primary">precisa de site.</span></h1>
+            <p className="mt-4 max-w-sm text-sm text-muted-foreground">Busque negócios por cidade e ramo, mostre uma demonstração pronta e inicie a conversa pelo WhatsApp.</p>
+            {googleButton("Começar com Google", "mt-8 w-full max-w-md")}
+            {error && <p role="alert" className="mt-3 text-sm text-primary">{error}</p>}
+            <p className="mt-6 flex items-center gap-2 text-[0.7rem] font-bold tracking-[0.2em] text-muted-foreground"><Lock className="size-3.5 text-primary" /> ACESSO SEGURO COM SUA CONTA GOOGLE</p>
+          </section>
 
-        <section className="login-wave relative flex flex-col items-center justify-center gap-6 overflow-hidden rounded-3xl border border-border p-4 text-center sm:p-8">
-          <div className="space-y-2">
-            <p className="text-sm font-bold">Conheça o SemSite</p>
-            <p className="text-xs text-muted-foreground">Dê o play e descubra como encontrar seus próximos clientes.</p>
-          </div>
-          <div className="devframe">
-            <div className="devbar" aria-hidden="true"><i /><i /><i /><em>semsite.lovable.app</em></div>
-            <video src={presentation.url} poster={videoPoster} controls playsInline preload="metadata" aria-label="Vídeo de apresentação do SemSite" className="aspect-video w-full object-contain" />
-          </div>
-        </section>
+          <section className="login-wave relative flex flex-col items-center justify-center gap-6 overflow-hidden rounded-3xl border border-border p-4 text-center sm:p-8">
+            <div className="space-y-2">
+              <p className="text-sm font-bold">Conheça o SemSite</p>
+              <p className="text-xs text-muted-foreground">Dê o play e descubra como encontrar seus próximos clientes.</p>
+            </div>
+            <div className="devframe">
+              <div className="devbar" aria-hidden="true"><i /><i /><i /><em>semsite.lovable.app</em></div>
+              <video src={presentation.url} poster={videoPoster} controls playsInline preload="metadata" aria-label="Vídeo de apresentação do SemSite" className="aspect-video w-full object-contain" />
+            </div>
+          </section>
+        </div>
       </div>
 
-      <section className="mx-auto mt-10 grid max-w-6xl grid-cols-3 gap-3 text-center">
-        {[["+60", "ramos de negócio"], ["1 clique", "site de demonstração"], ["WhatsApp", "converse com o cliente"]].map(([n, l]) => (
-          <div key={l} className="login-card rounded-2xl p-4">
-            <p className="font-display text-3xl text-primary sm:text-5xl">{n}</p>
-            <p className="text-[0.7rem] text-muted-foreground sm:text-sm">{l}</p>
+      <section className="reveal mx-auto mt-12 grid max-w-6xl grid-cols-3 gap-3 px-4 text-center sm:px-6">
+        {[["+60", "ramos de negócio com demonstração pronta"], ["1 clique", "para gerar o site do cliente"], ["WhatsApp", "conversa direta, sem intermediário"]].map(([n, l]) => (
+          <div key={l} className="app-card p-4 sm:p-5">
+            <p className="stat-big text-3xl text-primary sm:text-5xl">{n}</p>
+            <p className="mt-1 text-[0.7rem] text-muted-foreground sm:text-sm">{l}</p>
           </div>
         ))}
       </section>
 
-      <FanShowcase />
+      <div className="reveal"><FanShowcase /></div>
 
-      <section id="como-funciona" className="mx-auto mt-14 max-w-6xl">
+      <section id="como-funciona" className="reveal mx-auto mt-16 max-w-6xl scroll-mt-20 px-4 sm:px-6">
         <p className="kicker-pill">/ COMO FUNCIONA</p>
-        <h2 className="mt-2 font-display text-5xl leading-none">3 passos pro <span className="text-gradient-primary">próximo cliente.</span></h2>
+        <h2 className="mt-3 font-display text-5xl leading-none">3 passos pro <span className="text-gradient-primary">próximo cliente.</span></h2>
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
           {[
-            [Search, "1. Busque", "Escolha a cidade e o ramo. O SemSite mostra só quem ainda não tem site."],
-            [MonitorSmartphone, "2. Demonstre", "Envie um site pronto com a cara do cliente antes mesmo dele pedir."],
-            [MessageCircle, "3. Feche", "Mensagem pronta e roteiro de vendas pra responder qualquer dúvida."],
+            [Search, "1. Busque", "Escolha a cidade e o ramo. O SemSite vasculha os mapas e mostra só quem ainda não tem site."],
+            [MonitorSmartphone, "2. Demonstre", "Gere um site pronto com a cara do cliente e envie o link antes mesmo dele pedir."],
+            [MessageCircle, "3. Feche", "Mensagem pronta, roteiro de vendas e recibo e contrato na hora de cobrar."],
           ].map(([Icon, t, d]) => {
             const I = Icon as typeof Search;
             return (
-              <div key={t as string} className="login-card rounded-2xl p-6">
+              <div key={t as string} className="app-card app-card-hover p-6">
                 <span className="grid size-11 place-items-center rounded-xl bg-primary/15 text-primary"><I className="size-5" /></span>
                 <h3 className="mt-4 font-display text-3xl">{t as string}</h3>
                 <p className="mt-1 text-sm text-muted-foreground">{d as string}</p>
@@ -119,19 +129,42 @@ function Login() {
         </div>
       </section>
 
-      <section className="mx-auto mt-14 max-w-6xl">
-        <p className="kicker-pill">/ DIFERENCIAIS</p>
-        <h2 className="mt-2 font-display text-5xl leading-none">Tudo pra você <span className="text-gradient-primary">vender mais.</span></h2>
-        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+      <section className="reveal mx-auto mt-16 max-w-6xl px-4 sm:px-6">
+        <p className="kicker-pill">/ PARA QUEM É</p>
+        <h2 className="mt-3 font-display text-5xl leading-none">Feito pra quem <span className="text-gradient-primary">vive de fazer site.</span></h2>
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          {[
+            [UserRound, "Freelancer", "Você faz sites e perde horas procurando cliente no Google Maps. O SemSite entrega a lista pronta, com telefone e WhatsApp."],
+            [Store, "Agência pequena", "Padronize a prospecção do time: mesma busca, mesma demonstração, mesma mensagem. Todo mundo vende do mesmo jeito."],
+            [ChartNoAxesCombined, "Quem quer renda extra", "Nunca vendeu site? O roteiro de vendas e a demonstração pronta te dão o que dizer e o que mostrar no primeiro contato."],
+          ].map(([Icon, t, d]) => {
+            const I = Icon as typeof Search;
+            return (
+              <div key={t as string} className="app-card app-card-hover p-6">
+                <span className="grid size-11 place-items-center rounded-xl bg-primary/15 text-primary"><I className="size-5" /></span>
+                <h3 className="mt-4 font-display text-3xl">{t as string}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">{d as string}</p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="reveal mx-auto mt-16 max-w-6xl px-4 sm:px-6">
+        <p className="kicker-pill">/ O QUE VOCÊ LEVA</p>
+        <h2 className="mt-3 font-display text-5xl leading-none">Tudo pra você <span className="text-gradient-primary">vender mais.</span></h2>
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {[
             [Star, "Demonstrações de impacto", "Visual próprio por ramo, fotos do segmento e avaliações reais do Google."],
             [Eye, "Saiba quem abriu", "Veja na hora se o cliente entrou no link que você enviou."],
             [FileText, "Roteiro de vendas", "Dor do cliente, respostas pras objeções e mensagem pronta."],
             [MessageCircle, "Painel de clientes", "Etapas, lembretes de retorno e gráficos dos seus resultados."],
+            [ScanSearch, "Raio-x do negócio", "Análise do comércio antes da abordagem pra você chegar sabendo mais que o dono."],
+            [ReceiptText, "Recibo e contrato", "Documento pronto pra formalizar a venda e cobrar com profissionalismo."],
           ].map(([Icon, t, d]) => {
             const I = Icon as typeof Search;
             return (
-              <div key={t as string} className="login-card flex gap-4 rounded-2xl p-5">
+              <div key={t as string} className="app-card app-card-hover flex gap-4 p-5">
                 <I className="mt-1 size-5 shrink-0 text-primary" />
                 <div><h3 className="font-bold">{t as string}</h3><p className="text-sm text-muted-foreground">{d as string}</p></div>
               </div>
@@ -140,46 +173,68 @@ function Login() {
         </div>
       </section>
 
-      <section id="planos" className="mx-auto mt-14 max-w-6xl scroll-mt-6">
+      <section id="planos" className="reveal mx-auto mt-16 max-w-6xl scroll-mt-20 px-4 sm:px-6">
         <p className="kicker-pill">/ PLANOS</p>
-        <h2 className="mt-2 font-display text-5xl leading-none">Comece a buscar. <span className="text-gradient-primary">Cresça no seu ritmo.</span></h2>
+        <h2 className="mt-3 font-display text-5xl leading-none">Comece a buscar. <span className="text-gradient-primary">Cresça no seu ritmo.</span></h2>
         <p className="mt-3 max-w-2xl text-sm text-muted-foreground">Teste a busca gratuita. Para criar demonstrações e liberar os recursos do Verificado, escolha um período depois de entrar.</p>
-        <div className="mt-6 grid gap-4 md:grid-cols-3">
-          <article className="login-card flex flex-col rounded-2xl border border-border p-6">
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          <article className="app-card flex flex-col p-6">
             <h3 className="font-bold">Gratuito</h3>
             <p className="mt-3 font-display text-5xl">R$ 0</p>
             <p className="mt-4 flex-1 text-sm text-muted-foreground">{FREE_DAILY_SEARCHES} buscas de clientes por dia. Não inclui sites de demonstração nem os recursos do Verificado.</p>
-            <button type="button" disabled={loading} onClick={signIn} className="mt-6 rounded-xl border border-border px-4 py-3 font-bold disabled:opacity-60">Começar com Google</button>
+            <button type="button" disabled={loading} onClick={signIn} className="mt-6 rounded-xl border border-border px-4 py-3 font-bold transition-colors hover:border-primary/60 hover:text-primary disabled:opacity-60">Começar com Google</button>
           </article>
-          {VERIFIED_PLANS.map((plan) => (
-            <article key={plan.id} className="login-card flex flex-col rounded-2xl border border-primary/40 p-6">
+          {VERIFIED_PLANS.map((plan, i) => (
+            <article key={plan.id} className={`app-card relative flex flex-col p-6 ${i === VERIFIED_PLANS.length - 1 ? "border-primary/50" : ""}`}>
+              {i === VERIFIED_PLANS.length - 1 && <span className="plan-flag">Melhor valor</span>}
               <h3 className="font-bold">Verificado · {plan.label}</h3>
               <p className="mt-3 font-display text-5xl text-primary">{plan.price}</p>
               <p className="mt-1 text-xs text-muted-foreground">{plan.period} · {plan.detail}</p>
               <ul className="mt-4 flex-1 space-y-2 text-sm text-muted-foreground">
-                <li>Buscas sem o limite diário do plano gratuito</li>
-                <li>Sites de demonstração e mensagem personalizada</li>
-                <li>Análise de negócios e selo no perfil</li>
+                <li className="flex gap-2"><Check className="mt-0.5 size-4 shrink-0 text-primary" />Buscas sem o limite diário do plano gratuito</li>
+                <li className="flex gap-2"><Check className="mt-0.5 size-4 shrink-0 text-primary" />Sites de demonstração e mensagem personalizada</li>
+                <li className="flex gap-2"><Check className="mt-0.5 size-4 shrink-0 text-primary" />Análise de negócios e selo no perfil</li>
               </ul>
               <button type="button" disabled={loading} onClick={signIn} className="login-cta mt-6 rounded-xl px-4 py-3 font-bold disabled:opacity-60">Entrar para escolher</button>
             </article>
           ))}
         </div>
-        <p className="mt-3 text-xs text-muted-foreground">Consulte os valores e as formas de pagamento no checkout antes de pagar.</p>
+        <div className="app-card mt-6 overflow-x-auto p-2 sm:p-4">
+          <table className="compare-table min-w-[34rem]">
+            <thead>
+              <tr><th scope="col">O que cada plano tem</th><th scope="col">Gratuito</th><th scope="col" className="text-primary">Verificado</th></tr>
+            </thead>
+            <tbody>
+              {[
+                ["Buscas de clientes por dia", `${FREE_DAILY_SEARCHES}`, "Sem limite diário"],
+                ["Sites de demonstração", "—", "Incluído"],
+                ["Mensagem de abordagem personalizada", "—", "Incluída"],
+                ["Análise de negócio (raio-x)", "—", "Incluída"],
+                ["Selo de Verificado no perfil", "—", "Incluído"],
+                ["Cobrança automática", "Não", "Não, você paga quando quiser"],
+              ].map(([feature, free, paid]) => (
+                <tr key={feature}><th scope="row">{feature}</th><td>{free}</td><td className="font-semibold text-foreground">{paid}</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-3 text-xs text-muted-foreground">Pagamento manual por Pix, débito, crédito, Apple Pay ou Google Pay. Consulte os valores no checkout antes de pagar.</p>
       </section>
 
-      <section id="duvidas" className="mx-auto mt-14 max-w-6xl">
+      <section id="duvidas" className="reveal mx-auto mt-16 max-w-6xl scroll-mt-20 px-4 sm:px-6">
         <p className="kicker-pill">/ DÚVIDAS</p>
-        <h2 className="mt-2 font-display text-5xl leading-none">Antes de <span className="text-gradient-primary">começar.</span></h2>
+        <h2 className="mt-3 font-display text-5xl leading-none">Antes de <span className="text-gradient-primary">começar.</span></h2>
         <div className="mt-6 space-y-3">
           {[
             ["Posso testar sem pagar?", `Sim. A conta gratuita permite ${FREE_DAILY_SEARCHES} buscas de clientes por dia. Sites de demonstração e os demais recursos do Verificado exigem um plano pago.`],
             ["Por que preciso entrar com Google?", "É a forma de acesso disponível no momento. Sua conta permite guardar seus clientes e acessar a plataforma."],
+            ["De onde vêm os negócios listados?", "De mapas abertos (OpenStreetMap). O SemSite cruza os dados públicos e mostra os negócios que não têm site registrado."],
+            ["Preciso instalar alguma coisa?", "Não. O SemSite funciona no navegador, no celular e no computador. É só entrar com a sua conta Google."],
             ["O plano renova automaticamente?", "Não. O Verificado custa R$ 8,99 por mês, pago manualmente: quando o período acaba, nada é cobrado e o selo sai sozinho. Para continuar, você paga de novo quando quiser. O plano anual segue a mesma regra, sem débito automático."],
             ["O SemSite envia mensagens sozinho?", "Você inicia a conversa com o cliente pelo WhatsApp. A plataforma ajuda com a demonstração e a mensagem de abordagem."],
             ["O SemSite garante que vou fechar clientes?", "Não. A plataforma ajuda na prospecção e na apresentação do seu trabalho. A negociação e os resultados dependem de cada caso."],
           ].map(([question, answer]) => (
-            <details key={question} className="login-card rounded-2xl border border-border p-5">
+            <details key={question} className="faq-item app-card p-5">
               <summary className="cursor-pointer font-bold">{question}</summary>
               <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">{answer}</p>
             </details>
@@ -187,14 +242,15 @@ function Login() {
         </div>
       </section>
 
-      <section className="login-wave mx-auto mt-14 mb-6 max-w-6xl rounded-3xl border border-border p-8 text-center">
+      <section className="login-wave reveal mx-auto mt-16 mb-8 max-w-6xl rounded-3xl border border-border p-8 text-center sm:px-6">
         <h2 className="font-display text-5xl leading-none">Seu próximo cliente <span className="text-gradient-primary">já está esperando.</span></h2>
         <p className="mt-3 text-sm text-muted-foreground">Entre com o Google e comece a prospectar agora.</p>
         <button type="button" disabled={loading} onClick={signIn} className="login-cta mx-auto mt-6 flex items-center gap-3 rounded-2xl px-6 py-3 font-bold disabled:opacity-60">
           {loading ? "Entrando…" : "Começar agora com Google"} <ArrowRight className="size-5" />
         </button>
       </section>
-      <footer className="mx-auto flex max-w-6xl flex-col justify-between gap-4 border-t border-border py-8 text-sm text-muted-foreground sm:flex-row">
+
+      <footer className="mx-auto flex max-w-6xl flex-col justify-between gap-4 border-t border-border px-4 py-8 text-sm text-muted-foreground sm:flex-row sm:px-6">
         <p><span className="font-display text-xl text-foreground">SEMSITE</span><br />Ferramentas para apresentar seu trabalho e encontrar clientes.</p>
         <nav aria-label="Navegação do rodapé" className="flex flex-wrap gap-4">
           <a href="#como-funciona" className="hover:text-foreground">Como funciona</a>
@@ -242,9 +298,9 @@ function FanShowcase() {
     return () => { document.body.style.overflow = prev; document.removeEventListener("keydown", onKeyDown); };
   }, [preview]);
   return (
-    <section id="catalogo" className="mx-auto mt-14 max-w-6xl overflow-hidden">
+    <section id="catalogo" className="mx-auto mt-16 max-w-6xl scroll-mt-20 overflow-hidden px-4 sm:px-6">
       <p className="kicker-pill">/ CATÁLOGO DE DEMONSTRAÇÕES</p>
-      <h2 className="mt-2 font-display text-5xl leading-none">Sites prontos dos ramos <span className="text-gradient-primary">que mais vendem.</span></h2>
+      <h2 className="mt-3 font-display text-5xl leading-none">Sites prontos dos ramos <span className="text-gradient-primary">que mais vendem.</span></h2>
       <p className="mt-2 text-sm text-muted-foreground">Estes 5 são só uma amostra — o catálogo tem mais de 60 ramos prontos. Toque em um modelo para destacar e veja a prévia.</p>
       <div ref={ref} className="relative mx-auto mt-6 h-[340px] w-full sm:h-[440px]">
         {FAN.map((d, i) => {
@@ -290,4 +346,4 @@ function FanShowcase() {
       )}
     </section>
   );
-        }
+}

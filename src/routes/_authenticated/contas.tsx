@@ -31,12 +31,12 @@ function Contas() {
     <>
       <ProspectTabs active="profile" />
       <main className="mx-auto max-w-3xl px-4 py-6">
-        <h1 className="font-display text-4xl tracking-wide">Contas do site</h1>
+        <p className="page-kicker mb-3">/ ADMIN</p><h1 className="font-display text-4xl tracking-wide">Contas do site</h1>
         {rows === null ? <p className="mt-4 text-muted-foreground">Carregando…</p> : rows.length === 0 ? <p className="mt-4 text-muted-foreground">Nada para mostrar aqui.</p> : (
           <>
             <div className="mt-4 grid grid-cols-2 gap-3">
-              <div className="rounded-xl border bg-card p-4"><p className="text-sm text-muted-foreground">Total de contas</p><p className="font-display text-4xl text-primary">{rows.length}</p></div>
-              <div className="rounded-xl border bg-card p-4"><p className="text-sm text-muted-foreground">Novas hoje</p><p className="font-display text-4xl">{novasHoje}</p></div>
+              <div className="app-card p-4"><p className="text-sm text-muted-foreground">Total de contas</p><p className="font-display text-4xl text-primary">{rows.length}</p></div>
+              <div className="app-card p-4"><p className="text-sm text-muted-foreground">Novas hoje</p><p className="font-display text-4xl">{novasHoje}</p></div>
             </div>
             <div className="relative mt-5">
               <Search className="pointer-events-none absolute left-3 top-3 size-4 text-muted-foreground" />
@@ -46,7 +46,7 @@ function Contas() {
             {filtered.length === 0 && <p className="mt-4 text-muted-foreground">Nenhuma conta encontrada.</p>}
             <ul className="mt-4 flex flex-col gap-2">
               {filtered.map((r) => (
-                <li key={(r.email ?? "") + r.created_at} className="rounded-xl border bg-card">
+                <li key={(r.email ?? "") + r.created_at} className="app-card">
                   <Button variant="ghost" aria-label={`Ver conta ${r.username ? `@${r.username}` : r.email ?? r.display_name ?? "sem nome"}`} onClick={() => setSelected(r)} className="h-auto w-full justify-between whitespace-normal p-3 text-left">
                   <span className="min-w-0 flex-1">
                   {r.display_name && <p className="break-words font-bold">{r.display_name}</p>}

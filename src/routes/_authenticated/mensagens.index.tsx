@@ -28,7 +28,7 @@ function Inbox() {
       <section className="mx-auto mt-6 max-w-2xl">
         <h1 className="text-5xl">Mensa<span className="text-primary">gens</span></h1>
         <p className="mt-1 text-sm text-muted-foreground">Pra começar uma conversa, abra o perfil de alguém e toque em <b>Mensagem</b>.</p>
-        <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-card">
+        <div className="app-card mt-4 overflow-hidden">
           {items === null && <p className="p-4 text-sm text-muted-foreground">Carregando…</p>}
           {items?.length === 0 && <p className="p-4 text-sm text-muted-foreground">Nenhuma conversa ainda.</p>}
           {items?.map(t => (

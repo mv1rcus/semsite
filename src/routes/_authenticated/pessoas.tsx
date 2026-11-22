@@ -33,7 +33,7 @@ function Pessoas() {
     <main className="relative min-h-screen px-4 pb-16">
       <ProspectTabs active="people" />
       <section className="mx-auto mt-8 max-w-2xl">
-        <h1 className="font-display text-5xl tracking-wide">Encontrar <span className="text-gradient-primary">pessoas.</span></h1>
+        <p className="page-kicker mb-3">/ COMUNIDADE</p><h1 className="font-display text-5xl tracking-wide">Encontrar <span className="text-gradient-primary">pessoas.</span></h1>
         <p className="mt-1 text-muted-foreground">Digite o @ ou o nome de alguém.</p>
         <div className="relative mt-6">
           <Search className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />
@@ -43,7 +43,7 @@ function Pessoas() {
           {loading && <p className="text-sm text-muted-foreground">Buscando…</p>}
           {!loading && q.trim() && list.length === 0 && <p className="text-sm text-muted-foreground">Ninguém encontrado com esse @.</p>}
           {list.map(p => (
-            <Link key={p.username} to="/u/$username" params={{ username: p.username }} className="glass flex gap-4 rounded-xl p-4 transition hover:border-primary">
+            <Link key={p.username} to="/u/$username" params={{ username: p.username }} className="app-card app-card-hover flex gap-4 p-4">
               {p.avatar_url
                 ? <img src={p.avatar_url} alt="" width={56} height={56} referrerPolicy="no-referrer" className="size-14 shrink-0 rounded-full object-cover" />
                 : <div className="flex size-14 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary"><UserRound /></div>}
