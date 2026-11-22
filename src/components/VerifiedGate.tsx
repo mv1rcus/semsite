@@ -20,7 +20,7 @@ export function VerifiedGate({ feature, children }: { feature: string; children:
         {UNLOCKED.map(u => <li key={u} className="flex items-start gap-2 text-sm"><Check className="size-4 shrink-0 text-primary" />{u}</li>)}
       </ul>
       <Button asChild className="mt-6 w-full rounded-full py-6 font-display text-2xl tracking-wide"><Link to="/verificado">Obter verificado por R$ 8,99/mês</Link></Button>
-      <p className="mt-2 text-xs text-muted-foreground">Cancele quando quiser: o selo continua até o fim do período pago.</p>
+      <p className="mt-2 text-xs text-muted-foreground">Sem cobrança automática: o selo vale até o fim do período pago.</p>
     </div>
   );
 }
