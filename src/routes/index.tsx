@@ -175,7 +175,7 @@ function Login() {
           {[
             ["Posso testar sem pagar?", `Sim. A conta gratuita permite ${FREE_DAILY_SEARCHES} buscas de clientes por dia. Sites de demonstração e os demais recursos do Verificado exigem um plano pago.`],
             ["Por que preciso entrar com Google?", "É a forma de acesso disponível no momento. Sua conta permite guardar seus clientes e acessar a plataforma."],
-            ["O plano renova automaticamente?", "Os planos à vista mostrados aqui são pagos por período, sem renovação automática. Confira as condições no checkout antes de pagar."],
+            ["O plano renova automaticamente?", "Não. O Verificado custa R$ 8,99 por mês, pago manualmente: quando o período acaba, nada é cobrado e o selo sai sozinho. Para continuar, você paga de novo quando quiser. O plano anual segue a mesma regra, sem débito automático."],
             ["O SemSite envia mensagens sozinho?", "Você inicia a conversa com o cliente pelo WhatsApp. A plataforma ajuda com a demonstração e a mensagem de abordagem."],
             ["O SemSite garante que vou fechar clientes?", "Não. A plataforma ajuda na prospecção e na apresentação do seu trabalho. A negociação e os resultados dependem de cada caso."],
           ].map(([question, answer]) => (
