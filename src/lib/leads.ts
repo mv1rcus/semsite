@@ -14,7 +14,7 @@ export type Lead = {
   phone: string | null; intlPhone: string | null;
   rating: number | null; reviews: number | null;
   category: string | null; mapsUrl: string | null;
-  // Contatos extras que o OpenStreetMap às vezes tem (o Google não retorna).
+  // Optional contact fields in open-data records and historical saved leads.
   email?: string | null; instagram?: string | null; facebook?: string | null;
   source?: "google" | "osm" | "overture";
 };

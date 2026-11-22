@@ -2,7 +2,7 @@ import { cleanBusinessName, detectNiche } from './business-niche';
 import { rankProspects, type Lead } from './leads';
 
 export const normalize = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
-export type CityEntry = { name: string; uf: string; count: number; bytes: number };
+export type CityEntry = { name: string; uf: string; count: number; bytes: number; partitioned?: boolean | undefined };
 export type PlaceRecord = {
   id: string; n: string; cat: string | null; sub: string | null;
   phones: string[]; websites: string[] | null; socials: string[] | null;
@@ -10,7 +10,7 @@ export type PlaceRecord = {
 };
 
 export function resolveCity(input: string, cities: Record<string, CityEntry>) {
-  const text = normalize(input).replace(/\s*[-/]\s*/g, ',').replace(/\s*,\s*/g, ',');
+  const text = normalize(input).replace(/\s*[-/]\s*([a-z]{2})$/, ',$1').replace(/\s*,\s*/g, ',');
   if (/^\d{7}$/.test(text) && cities[text]) return { id: text, ...cities[text]! };
   const candidates = Object.entries(cities).filter(([, c]) => {
     const name = normalize(c.name);
@@ -59,9 +59,9 @@ export function recordToLead(p: PlaceRecord, category: string): Lead | null {
 
 export function filterRecords(rows: PlaceRecord[], category: string) {
   const term = normalize(category);
-  const keywords = OVERTURE_KEYWORDS.find(([re]) => re.test(term))?.[1] ?? [];
+  const keywords = categoryKeywords(category);
   const matching = rows.filter((r) => {
-    return normalize(r.n).includes(term) || keywords.some((k) => (r.sub ?? '').includes(k));
+    return keywords.length ? keywords.some((k) => (r.sub ?? '').includes(k)) : normalize(r.n).includes(term);
   });
   const leads = matching.map((r) => recordToLead(r, category)).filter((l): l is Lead => l !== null);
   return { leads: rankProspects(leads), scanned: matching.length };
@@ -120,3 +120,7 @@ const OVERTURE_KEYWORDS: [match: RegExp, keywords: string[]][] = [
   [/idioma|ingles/, ["language_school"]],
   [/auto ?escola|cfc/, ["driving_school"]],
 ];
+
+export function categoryKeywords(category: string): string[] {
+  return OVERTURE_KEYWORDS.find(([re]) => re.test(normalize(category)))?.[1] ?? [];
+}

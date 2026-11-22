@@ -4,13 +4,14 @@ import { filterRecords, hasRegisteredWebsite, recordToLead, resolveCity, type Pl
 const place: PlaceRecord = { id: 'a', n: 'Barbearia do Zé', sub: 'barber', cat: 'personal_or_beauty_service', phones: ['+5532999998888'], websites: null, socials: ['https://www.instagram.com/zebarber/'], emails: null, address: 'Rua A, 1 - Juiz de Fora - MG', confidence: .9 };
 
 describe('city resolution', () => {
-  const cities = { '3136702': { name: 'Juiz de Fora', uf: 'MG', count: 1, bytes: 5 }, '1': { name: 'Bom Jesus', uf: 'RS', count: 1, bytes: 5 }, '2': { name: 'Bom Jesus', uf: 'PI', count: 1, bytes: 5 } };
+  const cities = { '3136702': { name: 'Juiz de Fora', uf: 'MG', count: 1, bytes: 5 }, '1': { name: 'Bom Jesus', uf: 'RS', count: 1, bytes: 5 }, '2': { name: 'Bom Jesus', uf: 'PI', count: 1, bytes: 5 }, '3': { name: 'São João del-Rei', uf: 'MG', count: 1, bytes: 5 } };
   it('requires UF when city names are ambiguous', () => {
     expect(() => resolveCity('Bom Jesus', cities)).toThrow('UF');
     expect(resolveCity('Bom Jesus, PI', cities).id).toBe('2');
   });
   it('accepts accents and common separators without matching nearby cities', () => {
     expect(resolveCity('Juiz de Fora - MG', cities).id).toBe('3136702');
+    expect(resolveCity('São João del-Rei, MG', cities).id).toBe('3');
     expect(() => resolveCity('Juiz de Fora, SP', cities)).toThrow();
     expect(() => resolveCity('Juiz de Fora bairro', cities)).toThrow();
   });
@@ -52,8 +53,8 @@ describe('pagination', () => {
   it('rejects unsigned forged cursors before allowing a free page', async () => {
     vi.stubEnv('SUPABASE_SERVICE_ROLE_KEY', 'test-only-signing-key');
     const { readCursor } = await import('../lib/overture-search.server');
-    expect(readCursor(undefined, 'barbearia', 'Juiz de Fora, MG')).toBe(0);
-    expect(() => readCursor('forged.token', 'barbearia', 'Juiz de Fora, MG')).toThrow('inválida');
+    expect(readCursor(undefined, 'barbearia', 'Juiz de Fora, MG', 'fixture-user')).toBe(0);
+    expect(() => readCursor('forged.token', 'barbearia', 'Juiz de Fora, MG', 'fixture-user')).toThrow('inválida');
     vi.unstubAllEnvs();
   });
 });
@@ -76,17 +77,50 @@ describe('same server search used by the site', () => {
       const ids = new Set<string>();
       let scanned = 0;
       do {
-        const offset = readCursor(token, 'Barbearia', 'Juiz de Fora, MG');
-        const page = await searchOverture('Barbearia', 'Juiz de Fora, MG', offset);
+        const offset = readCursor(token, 'Barbearia', 'Juiz de Fora, MG', 'fixture-user');
+        const page = await searchOverture('Barbearia', 'Juiz de Fora, MG', offset, 'fixture-user');
         expect(page.totalMatches).toBe(1400);
         page.leads.forEach(l => ids.add(l.id));
         scanned += page.scanned;
-        if (page.nextPageToken) expect(() => readCursor(page.nextPageToken!, 'Dentista', 'Juiz de Fora, MG')).toThrow();
+        if (page.nextPageToken) {
+          expect(() => readCursor(page.nextPageToken!, 'Dentista', 'Juiz de Fora, MG', 'fixture-user')).toThrow();
+          expect(() => readCursor(page.nextPageToken!, 'Barbearia', 'Juiz de Fora, MG', 'other-user')).toThrow();
+        }
         token = page.nextPageToken ?? undefined;
       } while (token);
       expect(ids.size).toBe(1400);
       expect(scanned).toBe(1400);
       expect(sourceFetch).toHaveBeenCalledTimes(2);
+    } finally { vi.unstubAllEnvs(); vi.unstubAllGlobals(); }
+  });
+});
+
+describe('large-city partitions', () => {
+  it('downloads only the matching category parts and serves all pages', async () => {
+    vi.resetModules();
+    vi.stubEnv('SUPABASE_SERVICE_ROLE_KEY', 'test-only-signing-key');
+    const { gzipSync } = await import('node:zlib');
+    const parts = Array.from({ length: 3 }, (_, part) => Array.from({ length: 500 }, (_, i) => ({ ...place, id: `${part}-${i}` })));
+    const calls: string[] = [];
+    vi.stubGlobal('fetch', async (url: string) => {
+      calls.push(url);
+      if (url.endsWith('manifest.json')) return new Response(JSON.stringify({ release: 'partition-test', cities: { '3550308': { name: 'São Paulo', uf: 'SP', count: 2000, bytes: 123, partitioned: true } } }));
+      if (url.endsWith('3550308.index.json')) return new Response(JSON.stringify({ parts: [
+        ...parts.map((_, i) => ({ file: `3550308--000${i}.json.gz`, cat: 'personal_or_beauty_service', sub: 'barber', count: 500, bytes: 123 })),
+        { file: '3550308--0003.json.gz', cat: 'restaurant', sub: 'restaurant', count: 500, bytes: 123 },
+      ] }));
+      const index = Number(url.match(/--000(\d)\.json\.gz$/)?.[1]);
+      if (index < 3) return new Response(gzipSync(JSON.stringify(parts[index])));
+      throw new Error('Unrelated city partition requested');
+    });
+    try {
+      const { searchOverture, readCursor } = await import('../lib/overture-search.server');
+      const first = await searchOverture('Barbearia', 'São Paulo, SP', 0, 'fixture-user');
+      expect(first.totalMatches).toBe(1500);
+      const second = await searchOverture('Barbearia', 'São Paulo, SP', readCursor(first.nextPageToken!, 'Barbearia', 'São Paulo, SP', 'fixture-user'), 'fixture-user');
+      expect(second.leads[0]!.id).not.toBe(first.leads[0]!.id);
+      expect(calls.length).toBe(5);
+      expect(calls.some(u => u.endsWith('0003.json.gz'))).toBe(false);
     } finally { vi.unstubAllEnvs(); vi.unstubAllGlobals(); }
   });
 });
