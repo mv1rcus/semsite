@@ -1,40 +1,25 @@
-# Cacacliente
+# SemSite
 
-Boa noite,
+O SemSite é um SaaS feito pra quem vende sites: freelancers e agências.
 
- preciso de um site pra buscar cliente, eu faço sites pra vender, porém é muito difícil achar cliente! 
+Em vez de garimpar o Google Maps atrás de cliente, o SemSite encontra negócios locais que ainda não têm site nenhum, gera um site de demonstração pronto pra cada um e te ajuda a fechar a venda pelo WhatsApp.
 
-Quero que você faça um site pra mim apenas EU! 
+## Como funciona
 
-Esse site seria o seguinte, seria o seguinte: ao invés de ficar procurando no google maps clientes eu quero que você deixa nesse site todos os clientes que não tenha NENHUM site e com botão de mensagem já com um “prompt” oferecendo o site pra esse tal local, 
+1. **Busque negócios sem site** — pesquise por cidade e categoria em todo o Brasil e veja só os negócios que ainda não têm presença na web.
+2. **Gere o site demo** — com um clique, o SemSite monta um site de demonstração pronto pra aquele negócio, com link curto pra enviar.
+3. **Feche pelo WhatsApp** — cada negócio já vem com uma mensagem pronta oferecendo o site. Na aba "Meus links" você acompanha quando o cliente abriu o demo e de qual dispositivo.
 
+## Planos
 
+- **Mensal**: R$ 8,99/mês — pagamento manual a cada mês, sem cobrança automática no cartão. Você renova só se quiser continuar.
+- **Anual**: R$ 69,90/ano.
 
-Pode buscar por todas as cidades! 
+## Links
 
+- **App no ar**: https://semsite.lovable.app
+- **TikTok**: [@semsiteapp](https://www.tiktok.com/@semsiteapp)
 
+---
 
-Quero o site com efeitos 3d bonitos etc, quero também que ele mexa quando eu entrar às letras desse
-
-This project was built with [Lovable](https://lovable.dev).
-
-**Live app**: https://cacacliente.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/bfc75770-c051-4758-a3d7-9b6b3cdcc8cd).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
-```
+Projeto construído com [Lovable](https://lovable.dev).
