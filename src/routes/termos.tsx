@@ -45,7 +45,7 @@ function Termos() {
         <li><b className="text-foreground">Pagamento único por período:</b> você paga o período escolhido (30 dias ou 1 ano) e não há débito automático. Quando o período termina, o selo sai sozinho e nada é cobrado. Para continuar, é só pagar de novo.</li>
         <li><b className="text-foreground">Como pagar:</b> o pagamento é processado pelo Stripe, com Pix, débito, crédito, Apple Pay ou Google Pay, conforme a opção mostrada no momento da compra. Não guardamos número de cartão.</li>
         <li><b className="text-foreground">Ativação:</b> o selo entra assim que o pagamento é confirmado. Se o pagamento falhar, nada é cobrado e você pode tentar de novo.</li>
-        <li><b className="text-foreground">Arrependimento e reembolso:</b> por ser um serviço digital liberado na hora, você pode pedir o cancelamento e o reembolso em até 7 dias após a compra, conforme o art. 49 do Código de Defesa do Consumidor, escrevendo para {CONTATO}. Ao ser reembolsado, o selo daquele período é removido.</li>
+        <li><b className="text-foreground">Arrependimento e reembolso:</b> por ser um serviço digital liberado na hora, você pode pedir o cancelamento e o reembolso em até 7 dias após a compra, conforme o art. 49 do Código de Defesa do Consumidor, pelo botão "Pedir reembolso" na página do Verificado ou escrevendo para {CONTATO}. O pedido por botão vale uma vez por conta. Ao ser reembolsado, o selo daquele período é removido.</li>
         <li><b className="text-foreground">Selo de teste:</b> podemos liberar o selo gratuitamente por um tempo. Ao fim do prazo, ele sai sozinho, sem cobrança.</li>
       </ul>
 
