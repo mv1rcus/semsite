@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { ArrowRight, Lock, Search, MonitorSmartphone, MessageCircle, Eye, Star, FileText, X, Check, UserRound, Store, ReceiptText, ScanSearch, ChartNoAxesCombined } from "lucide-react";
 import presentation from "@/assets/semsite-apresentacao.mp4.asset.json";
 const barber = "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=1600&auto=format&fit=crop";
@@ -338,14 +339,15 @@ function FanShowcase() {
         <span className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[0.7rem] font-bold text-primary">+40 outros ramos</span>
       </div>
       <p className="mt-3 text-center text-xs text-muted-foreground">Não viu o seu? Qualquer outro ramo também sai pronto em 1 clique.</p>
-      {preview && (
+      {preview && typeof document !== "undefined" && createPortal(
         <div className="fixed inset-0 z-[100] flex flex-col bg-background/95 backdrop-blur" role="dialog" aria-label={`Prévia ${preview.name}`}>
           <div className="flex items-center justify-between border-b border-border px-4 py-3">
             <p className="font-display text-2xl">{preview.name}</p>
             <button type="button" onClick={() => setPreview(null)} aria-label="Fechar prévia" className="rounded-full border border-border p-2"><X className="size-5" /></button>
           </div>
           <iframe title={`Prévia ${preview.name}`} src={`/${preview.slug}`} className="w-full flex-1 bg-card" />
-        </div>
+        </div>,
+        document.body,
       )}
     </section>
   );
