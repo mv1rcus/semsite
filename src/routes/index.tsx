@@ -15,9 +15,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "SemSite | Encontre seus próximos clientes" },
-      { name: "description", content: "Encontre negócios sem site e ofereça seu trabalho pelo WhatsApp." },
-      { property: "og:title", content: "SemSite — Encontre negócios sem site e ofereça seu trabalho pelo WhatsApp" },
-      { property: "og:description", content: "Encontre negócios sem site e ofereça seu trabalho pelo WhatsApp." },
+      { name: "description", content: "Ache negócios sem site, mostre o site pronto, feche a venda e cobre por Pix. Tudo num lugar só." },
+      { property: "og:title", content: "SemSite — Ache, mostre o site pronto, feche e cobre" },
+      { property: "og:description", content: "Ache negócios sem site, mostre o site pronto, feche a venda pelo WhatsApp e cobre por Pix." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -78,7 +78,7 @@ function Login() {
           <section className="login-card flex flex-col justify-center rounded-3xl p-7 sm:p-10">
             <p className="kicker-pill"><span className="pulse-dot" />/ DO PRIMEIRO CONTATO À DEMONSTRAÇÃO</p>
             <h1 className="mt-3 font-display text-6xl leading-[0.9] sm:text-7xl">Encontre quem<br /><span className="text-gradient-primary">precisa de site.</span></h1>
-            <p className="mt-4 max-w-sm text-sm text-muted-foreground">Busque negócios por cidade e ramo, mostre uma demonstração pronta e inicie a conversa pelo WhatsApp.</p>
+            <p className="mt-4 max-w-sm text-sm text-muted-foreground">Ache o negócio, mostre o site pronto, feche pelo WhatsApp e cobre por Pix. Do primeiro contato ao dinheiro na conta.</p>
             {googleButton("Começar com Google", "mt-8 w-full max-w-md")}
             {error && <p role="alert" className="mt-3 text-sm text-primary">{error}</p>}
             <p className="mt-6 flex items-center gap-2 text-[0.7rem] font-bold tracking-[0.2em] text-muted-foreground"><Lock className="size-3.5 text-primary" /> ACESSO SEGURO COM SUA CONTA GOOGLE</p>
@@ -111,12 +111,13 @@ function Login() {
 
       <section id="como-funciona" className="reveal mx-auto mt-16 max-w-6xl scroll-mt-20 px-4 sm:px-6">
         <p className="kicker-pill">/ COMO FUNCIONA</p>
-        <h2 className="mt-3 font-display text-5xl leading-none">3 passos pro <span className="text-gradient-primary">próximo cliente.</span></h2>
-        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+        <h2 className="mt-3 font-display text-5xl leading-none">4 passos pro <span className="text-gradient-primary">próximo cliente.</span></h2>
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            [Search, "1. Busque", "Escolha a cidade e o ramo. O SemSite vasculha os mapas e mostra só quem ainda não tem site."],
-            [MonitorSmartphone, "2. Demonstre", "Gere um site pronto com a cara do cliente e envie o link antes mesmo dele pedir."],
-            [MessageCircle, "3. Feche", "Mensagem pronta, roteiro de vendas e recibo e contrato na hora de cobrar."],
+            [Search, "1. Ache", "Escolha a cidade e o ramo. O SemSite mostra só quem ainda não tem site."],
+            [MonitorSmartphone, "2. Mostre", "Gere o site pronto com a cara do cliente e envie o link com prazo de validade. Você vê quantas vezes ele abriu."],
+            [MessageCircle, "3. Feche", "Mensagem pronta, roteiro de vendas e funil pra acompanhar cada lead até o sim."],
+            [ReceiptText, "4. Cobre", "Gere o Pix com a sua chave, direto na sua conta, e formalize com recibo e contrato."],
           ].map(([Icon, t, d]) => {
             const I = Icon as typeof Search;
             return (
@@ -157,11 +158,11 @@ function Login() {
         <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {[
             [Star, "Demonstrações de impacto", "Visual próprio por ramo, fotos do segmento e avaliações reais do Google."],
-            [Eye, "Saiba quem abriu", "Veja na hora se o cliente entrou no link que você enviou."],
+            [Eye, "Saiba quantas vezes abriu", "Veja na hora se o cliente entrou no link e quantas vezes voltou. A prévia expira e dá urgência."],
             [FileText, "Roteiro de vendas", "Dor do cliente, respostas pras objeções e mensagem pronta."],
-            [MessageCircle, "Painel de clientes", "Etapas, lembretes de retorno e gráficos dos seus resultados."],
+            [MessageCircle, "Funil de vendas", "Etapas, notas, lembretes de retorno e gráficos dos seus resultados."],
             [ScanSearch, "Raio-x do negócio", "Análise do comércio antes da abordagem pra você chegar sabendo mais que o dono."],
-            [ReceiptText, "Recibo e contrato", "Documento pronto pra formalizar a venda e cobrar com profissionalismo."],
+            [ReceiptText, "Cobrança por Pix", "QR Code e copia e cola com a sua chave, sem intermediário. Mais recibo e contrato prontos."],
           ].map(([Icon, t, d]) => {
             const I = Icon as typeof Search;
             return (
