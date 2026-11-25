@@ -71,3 +71,19 @@ export function currentStreak(dates: string[], now: Date = new Date()): { count:
   const start = shift(end, -(count - 1));
   return { count, reachedOn: count >= 7 ? shift(start, 6) : null, start };
 }
+
+/** Dia em que o site foi criado (primeiro commit do repositorio). */
+export const SITE_CREATED_DAY = "2026-10-16";
+
+/** Libera todas as conquistas manualmente (conta do dev). Mantem as datas reais quando existem.
+ *  A ofensiva do dev conta do dia da criacao do site ate hoje e nunca zera. */
+export function unlockAll(list: AchievementProgress[], now: Date = new Date()): AchievementProgress[] {
+  const stamp = now.toISOString();
+  const days = Math.max(1, Math.round((Date.parse(`${localDay(stamp)}T00:00:00Z`) - Date.parse(`${SITE_CREATED_DAY}T00:00:00Z`)) / 86400000) + 1);
+  return list.map((a): AchievementProgress => {
+    if (a.id === "ofensiva_7") return { id: a.id, description: a.description, emoji: a.emoji, name: `Ofensiva de ${days} ${days === 1 ? "dia" : "dias"}`, earnedAt: SITE_CREATED_DAY };
+    if (a.earnedAt) return a;
+    const { progress, ...rest } = a;
+    return progress ? { ...rest, earnedAt: stamp, progress: { current: progress.target, target: progress.target } } : { ...rest, earnedAt: stamp };
+  });
+}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { computeAchievements, streakReachedOn, currentStreak } from "@/lib/achievements";
+import { computeAchievements, streakReachedOn, currentStreak, unlockAll } from "@/lib/achievements";
 
 describe("computeAchievements", () => {
   it("nada feito", () => {
@@ -77,5 +77,18 @@ describe("ofensiva de 1 dia e resposta de lead", () => {
   it("resposta de lead usa a primeira demo enviada", () => {
     const r = computeAchievements({ salesDates: [], demoDates: [], firstSearchDay: null, leadReplyDates: ["2026-11-05T10:00:00Z", "2026-11-03T10:00:00Z"], now });
     expect(r.find((a) => a.id === "resposta_lead")?.earnedAt).toBe("2026-11-03T10:00:00Z");
+  });
+});
+
+describe("unlockAll", () => {
+  it("libera tudo e mantem datas reais", () => {
+    const base = computeAchievements({ salesDates: [], demoDates: ["2026-11-02T10:00:00Z"], firstSearchDay: null });
+    const all = unlockAll(base, new Date("2026-11-10T00:00:00Z"));
+    expect(all.every((a) => a.earnedAt)).toBe(true);
+    expect(all.find((a) => a.id === "primeira_demo")?.earnedAt).toBe("2026-11-02T10:00:00Z");
+  });
+  it("ofensiva do dev conta desde a criacao do site", () => {
+    const all = unlockAll(computeAchievements({ salesDates: [], demoDates: [], firstSearchDay: null }), new Date("2026-11-25T15:00:00Z"));
+    expect(all.find((a) => a.id === "ofensiva_7")).toMatchObject({ name: "Ofensiva de 41 dias", earnedAt: "2026-10-16" });
   });
 });
