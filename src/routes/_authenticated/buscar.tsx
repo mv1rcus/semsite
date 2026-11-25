@@ -3,7 +3,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX, Store, X, History, Radar, RotateCw, SlidersHorizontal, HeartPulse, Utensils, Scissors, Car, House, PawPrint, Dumbbell, BriefcaseBusiness, ArrowUpRight, Mail, Instagram, Facebook, type LucideIcon } from "lucide-react";
+import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX, Store, X, History, Radar, RotateCw, SlidersHorizontal, HeartPulse, Utensils, Scissors, Car, House, PawPrint, Dumbbell, BriefcaseBusiness, ArrowUpRight, Mail, Instagram, Facebook, Flame, Copy, type LucideIcon } from "lucide-react";
 import { searchLeads, type Lead } from "@/lib/leads.functions";
 import { clientSearchError } from "@/lib/search-errors";
 import { filterProspects, type ProspectFilter, type ProspectOrder } from "@/lib/prospect-filters";
@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { OceanScene } from "@/components/OceanScene";
 import { isMobilePhone, phoneCallLink, prospectPriority, rankProspects } from "@/lib/leads";
+import { approachReason, HEAT_LABEL, leadHeat } from "@/lib/lead-priority";
 import { nextSuggestedCity } from "@/lib/cities";
 import { draftForClient } from "@/lib/demonstrations";
 import { ProspectTabs } from "@/components/ProspectTabs";
@@ -291,7 +292,7 @@ function Buscar() {
           </div>
           <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_220px]">
             <Input aria-label="Buscar nos resultados" placeholder="Nome, bairro ou categoria" value={resultTerm} onChange={(event) => setResultTerm(event.target.value)} />
-            <Select value={order} onValueChange={(value) => { if (value === "priority" || value === "reviews" || value === "name") setOrder(value); }}><SelectTrigger aria-label="Ordenar resultados"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="priority">Maior prioridade</SelectItem><SelectItem value="reviews">Mais avaliações</SelectItem><SelectItem value="name">Nome: A a Z</SelectItem></SelectContent></Select>
+            <Select value={order} onValueChange={(value) => { if (value === "priority" || value === "reviews" || value === "name") setOrder(value); }}><SelectTrigger aria-label="Ordenar resultados"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="priority">Mais quentes</SelectItem><SelectItem value="reviews">Mais avaliações</SelectItem><SelectItem value="name">Nome: A a Z</SelectItem></SelectContent></Select>
           </div>
           <p role="status" className="mt-3 text-xs text-muted-foreground">{visible.length} de {ranked.length} clientes</p>
         </section>}
@@ -302,6 +303,8 @@ function Buscar() {
             const stage = followUp.clients.find((client) => client.id === l.id)?.stage;
             const done = stage ? stage !== "new" : contacted.has(l.id);
             const priority = prospectPriority(l);
+            const heat = leadHeat(l);
+            const reason = approachReason(l, activeQuery?.city ?? city);
             return (
               <article
                 key={l.id}
@@ -309,7 +312,10 @@ function Buscar() {
               >
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="min-w-0 break-words text-lg font-bold">{l.name}</h3>
-                  {done && <span className="flex shrink-0 items-center gap-1 rounded-sm bg-secondary px-2 py-0.5 text-xs text-primary"><Check className="size-3" />Contatado</span>}
+                  <div className="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
+                    <span title="Temperatura do lead: quem vale abordar primeiro" className={`flex items-center gap-1 rounded-sm px-2 py-0.5 text-xs font-semibold ${heat === "quente" ? "bg-destructive/15 text-destructive" : heat === "morno" ? "bg-amber-500/15 text-amber-500" : "bg-muted text-muted-foreground"}`}><Flame className="size-3" />{HEAT_LABEL[heat]}</span>
+                    {done && <span className="flex items-center gap-1 rounded-sm bg-secondary px-2 py-0.5 text-xs text-primary"><Check className="size-3" />Contatado</span>}
+                  </div>
                 </div>
                 <p className="text-xs uppercase tracking-wide text-primary">{detectNiche(l.name, l.category, activeQuery?.category)}</p>
                 {priority.score >= 65 && <p className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-primary"><Radar className="size-3.5" />Prioridade alta</p>}
@@ -324,6 +330,10 @@ function Buscar() {
                   </p>
                 )}
                 {l.rating && <p className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground"><Star className="size-4 text-primary" /><span className="font-semibold text-foreground">{l.rating}</span> · {l.reviews ?? 0} avaliações</p>}
+                <div className="mt-3 flex items-start gap-1.5 rounded-md border border-dashed border-border p-2">
+                  <p className="min-w-0 flex-1 text-xs italic text-muted-foreground">{reason}</p>
+                  <Button type="button" variant="ghost" size="icon" aria-label={`Copiar motivo de abordagem de ${l.name}`} title="Copiar motivo de abordagem" className="size-7 shrink-0 text-muted-foreground" onClick={() => { void navigator.clipboard?.writeText(reason).catch(() => {}); }}><Copy className="size-3.5" /></Button>
+                </div>
                 <div className="mt-4"><ClientStageSelect value={followUp.clients.find((client) => client.id === l.id)?.stage ?? "new"} onChange={(stage) => followUp.track(l, stage)} label={`Etapa de ${l.name}`} /></div>
                 <Button variant="ghost" size="sm" className="mt-2" onClick={() => { if (followUp.track(l)) navigate({ to: "/clientes" }); }}>Acompanhar e definir lembrete</Button>
                 <Button variant="outline" className="mt-4" onClick={() => demonstrate(l)}><PanelsTopLeft />Demonstração do site</Button>
