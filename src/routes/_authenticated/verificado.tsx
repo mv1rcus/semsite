@@ -87,12 +87,11 @@ function Verificado() {
   }, [status?.source]);
   const [refunding, setRefunding] = useState(false);
   const [refundMsg, setRefundMsg] = useState("");
-  async function requestRefund() {
+  async function requestRefund(reason: string, details: string) {
     setRefundMsg("");
-    if (!window.confirm("Pedir reembolso? O valor volta para a sua forma de pagamento e o selo sai agora. Só vale se você ainda não usou o produto, uma vez por conta, até 7 dias depois de pagar.")) return;
     setRefunding(true);
     try {
-      const r = await refundMyPurchase({ data: { environment: getStripeEnvironment() } });
+      const r = await refundMyPurchase({ data: { environment: getStripeEnvironment(), reason, details } });
       if (r.ok) { setRefundMsg("Reembolso pedido. O valor volta para a sua forma de pagamento em alguns dias (no Pix, costuma ser mais rápido). Seu selo foi removido."); setTimeout(() => window.location.replace("/verificado"), 4000); }
       else setRefundMsg(r.error);
     } catch { setRefundMsg("Não consegui processar agora. Tente de novo ou escreva para contatosemsite@gmail.com."); }

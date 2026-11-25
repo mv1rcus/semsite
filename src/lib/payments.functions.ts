@@ -96,6 +96,8 @@ export const createVerifiedPortal = createServerFn({ method: "POST" })
   });
 
 const REFUND_WINDOW_DAYS = 7;
+export const REFUND_REASONS = ["nao_precisei", "nao_gostei", "caro", "nao_funcionou", "comprei_sem_querer", "outro"] as const;
+export type RefundReason = (typeof REFUND_REASONS)[number];
 
 type PaidPurchase = { pi: StripeLib.PaymentIntent; charge: StripeLib.Charge };
 
@@ -190,11 +192,14 @@ export const getMyPurchaseInfo = createServerFn({ method: "POST" })
  */
 export const refundMyPurchase = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { environment: StripeEnv }) => {
+  .inputValidator((d: { environment: StripeEnv; reason: string; details?: string }) => {
     if (!isEnv(d.environment)) throw new Error("Ambiente inválido");
-    return d;
+    if (!REFUND_REASONS.includes(d.reason as RefundReason)) throw new Error("Escolha o motivo do reembolso");
+    const details = (d.details ?? "").trim().slice(0, 300);
+    if (d.reason === "outro" && details.length < 3) throw new Error("Conte o motivo em poucas palavras");
+    return { environment: d.environment, reason: d.reason, details };
   })
-  .handler(async ({ data, context }): Promise<{ ok: true; amount: number } | { ok: false; error: string }> => {
+  .handler(async ({ data, context }): Promise<{ ok: true; amount: number } | { ok: false; error: string; manual?: boolean }> => {
     const { supabase, userId } = context;
     const contato = "contatosemsite@gmail.com";
     if (!/^[a-zA-Z0-9_-]+$/.test(userId)) return { ok: false, error: "Conta inválida." };
@@ -218,10 +223,10 @@ export const refundMyPurchase = createServerFn({ method: "POST" })
         return { ok: false, error: `O prazo de ${REFUND_WINDOW_DAYS} dias para reembolso já passou. Se achar que é um caso especial, escreva para ${contato}.` };
       }
       if (await usedPaidFeatures(userId, last.pi.created * 1000)) {
-        return { ok: false, error: `Você já usou o SemSite com o selo (demonstrações ou buscas), então o reembolso é analisado pela gente. Escreva para ${contato} e a gente responde.` };
+        return { ok: false, error: `Você já usou o SemSite com o selo (demonstrações ou buscas), então o reembolso é analisado pela gente. Escreva para ${contato} contando o motivo e a gente responde.`, manual: true };
       }
       await stripe.refunds.create(
-        { payment_intent: last.pi.id, reason: "requested_by_customer", metadata: { userId, via: "self_service" } },
+        { payment_intent: last.pi.id, reason: "requested_by_customer", metadata: { userId, via: "self_service", motivo: data.reason, detalhes: data.details } },
         { idempotencyKey: `refund-${last.pi.id}` },
       );
       // Devolução feita: o selo comprado sai agora (o webhook de charge.refunded faz o mesmo, sem problema repetir).
