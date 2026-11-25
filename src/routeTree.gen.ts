@@ -27,8 +27,10 @@ import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedPessoasRouteImport } from './routes/_authenticated/pessoas'
 import { Route as AuthenticatedReciboRouteImport } from './routes/_authenticated/recibo'
 import { Route as AuthenticatedVerificadoRouteImport } from './routes/_authenticated/verificado'
+import { Route as AuthenticatedVitrineRouteImport } from './routes/_authenticated/vitrine'
 import { Route as DemoIdRouteImport } from './routes/demo.$id'
 import { Route as PortfolioUsernameRouteImport } from './routes/portfolio.$username'
+import { Route as VitrineIdRouteImport } from './routes/vitrine.$id'
 import { Route as AuthenticatedMensagensIndexRouteImport } from './routes/_authenticated/mensagens.index'
 import { Route as AuthenticatedMensagensUsernameRouteImport } from './routes/_authenticated/mensagens.$username'
 import { Route as AuthenticatedPostPostIdRouteImport } from './routes/_authenticated/post.$postId'
@@ -129,6 +131,11 @@ const AuthenticatedVerificadoRoute = AuthenticatedVerificadoRouteImport.update({
   path: '/verificado',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedVitrineRoute = AuthenticatedVitrineRouteImport.update({
+  id: '/vitrine',
+  path: '/vitrine',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const DemoIdRoute = DemoIdRouteImport.update({
   id: '/demo/$id',
   path: '/demo/$id',
@@ -137,6 +144,11 @@ const DemoIdRoute = DemoIdRouteImport.update({
 const PortfolioUsernameRoute = PortfolioUsernameRouteImport.update({
   id: '/portfolio/$username',
   path: '/portfolio/$username',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VitrineIdRoute = VitrineIdRouteImport.update({
+  id: '/vitrine/$id',
+  path: '/vitrine/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedMensagensIndexRoute =
@@ -202,8 +214,10 @@ export interface FileRoutesByFullPath {
   '/pessoas': typeof AuthenticatedPessoasRoute
   '/recibo': typeof AuthenticatedReciboRoute
   '/verificado': typeof AuthenticatedVerificadoRoute
+  '/vitrine': typeof AuthenticatedVitrineRoute
   '/demo/$id': typeof DemoIdRoute
   '/portfolio/$username': typeof PortfolioUsernameRoute
+  '/vitrine/$id': typeof VitrineIdRoute
   '/mensagens/$username': typeof AuthenticatedMensagensUsernameRoute
   '/post/$postId': typeof AuthenticatedPostPostIdRoute
   '/tag/$tag': typeof AuthenticatedTagTagRoute
@@ -231,8 +245,10 @@ export interface FileRoutesByTo {
   '/pessoas': typeof AuthenticatedPessoasRoute
   '/recibo': typeof AuthenticatedReciboRoute
   '/verificado': typeof AuthenticatedVerificadoRoute
+  '/vitrine': typeof AuthenticatedVitrineRoute
   '/demo/$id': typeof DemoIdRoute
   '/portfolio/$username': typeof PortfolioUsernameRoute
+  '/vitrine/$id': typeof VitrineIdRoute
   '/mensagens/$username': typeof AuthenticatedMensagensUsernameRoute
   '/post/$postId': typeof AuthenticatedPostPostIdRoute
   '/tag/$tag': typeof AuthenticatedTagTagRoute
@@ -262,8 +278,10 @@ export interface FileRoutesById {
   '/_authenticated/pessoas': typeof AuthenticatedPessoasRoute
   '/_authenticated/recibo': typeof AuthenticatedReciboRoute
   '/_authenticated/verificado': typeof AuthenticatedVerificadoRoute
+  '/_authenticated/vitrine': typeof AuthenticatedVitrineRoute
   '/demo/$id': typeof DemoIdRoute
   '/portfolio/$username': typeof PortfolioUsernameRoute
+  '/vitrine/$id': typeof VitrineIdRoute
   '/_authenticated/mensagens/$username': typeof AuthenticatedMensagensUsernameRoute
   '/_authenticated/post/$postId': typeof AuthenticatedPostPostIdRoute
   '/_authenticated/tag/$tag': typeof AuthenticatedTagTagRoute
@@ -293,8 +311,10 @@ export interface FileRouteTypes {
     | '/pessoas'
     | '/recibo'
     | '/verificado'
+    | '/vitrine'
     | '/demo/$id'
     | '/portfolio/$username'
+    | '/vitrine/$id'
     | '/mensagens/$username'
     | '/post/$postId'
     | '/tag/$tag'
@@ -322,8 +342,10 @@ export interface FileRouteTypes {
     | '/pessoas'
     | '/recibo'
     | '/verificado'
+    | '/vitrine'
     | '/demo/$id'
     | '/portfolio/$username'
+    | '/vitrine/$id'
     | '/mensagens/$username'
     | '/post/$postId'
     | '/tag/$tag'
@@ -352,8 +374,10 @@ export interface FileRouteTypes {
     | '/_authenticated/pessoas'
     | '/_authenticated/recibo'
     | '/_authenticated/verificado'
+    | '/_authenticated/vitrine'
     | '/demo/$id'
     | '/portfolio/$username'
+    | '/vitrine/$id'
     | '/_authenticated/mensagens/$username'
     | '/_authenticated/post/$postId'
     | '/_authenticated/tag/$tag'
@@ -372,6 +396,7 @@ export interface RootRouteChildren {
   TermosRoute: typeof TermosRoute
   DemoIdRoute: typeof DemoIdRoute
   PortfolioUsernameRoute: typeof PortfolioUsernameRoute
+  VitrineIdRoute: typeof VitrineIdRoute
   SiteSlugCodeRoute: typeof SiteSlugCodeRoute
   ApiPublicJobsSemsiteDailyPostRoute: typeof ApiPublicJobsSemsiteDailyPostRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
@@ -505,6 +530,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedVerificadoRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/vitrine': {
+      id: '/_authenticated/vitrine'
+      path: '/vitrine'
+      fullPath: '/vitrine'
+      preLoaderRoute: typeof AuthenticatedVitrineRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/demo/$id': {
       id: '/demo/$id'
       path: '/demo/$id'
@@ -517,6 +549,13 @@ declare module '@tanstack/react-router' {
       path: '/portfolio/$username'
       fullPath: '/portfolio/$username'
       preLoaderRoute: typeof PortfolioUsernameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vitrine/$id': {
+      id: '/vitrine/$id'
+      path: '/vitrine/$id'
+      fullPath: '/vitrine/$id'
+      preLoaderRoute: typeof VitrineIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/mensagens/': {
@@ -592,6 +631,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPessoasRoute: typeof AuthenticatedPessoasRoute
   AuthenticatedReciboRoute: typeof AuthenticatedReciboRoute
   AuthenticatedVerificadoRoute: typeof AuthenticatedVerificadoRoute
+  AuthenticatedVitrineRoute: typeof AuthenticatedVitrineRoute
   AuthenticatedMensagensUsernameRoute: typeof AuthenticatedMensagensUsernameRoute
   AuthenticatedPostPostIdRoute: typeof AuthenticatedPostPostIdRoute
   AuthenticatedTagTagRoute: typeof AuthenticatedTagTagRoute
@@ -613,6 +653,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPessoasRoute: AuthenticatedPessoasRoute,
   AuthenticatedReciboRoute: AuthenticatedReciboRoute,
   AuthenticatedVerificadoRoute: AuthenticatedVerificadoRoute,
+  AuthenticatedVitrineRoute: AuthenticatedVitrineRoute,
   AuthenticatedMensagensUsernameRoute: AuthenticatedMensagensUsernameRoute,
   AuthenticatedPostPostIdRoute: AuthenticatedPostPostIdRoute,
   AuthenticatedTagTagRoute: AuthenticatedTagTagRoute,
@@ -631,6 +672,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermosRoute: TermosRoute,
   DemoIdRoute: DemoIdRoute,
   PortfolioUsernameRoute: PortfolioUsernameRoute,
+  VitrineIdRoute: VitrineIdRoute,
   SiteSlugCodeRoute: SiteSlugCodeRoute,
   ApiPublicJobsSemsiteDailyPostRoute: ApiPublicJobsSemsiteDailyPostRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,

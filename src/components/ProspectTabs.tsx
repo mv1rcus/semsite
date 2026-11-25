@@ -2,13 +2,14 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { notificationsSeenAt } from "@/lib/social-unread";
 import { supabase } from "@/integrations/supabase/client";
-import { Search, PanelsTopLeft, Users, ChartNoAxesCombined, MessageSquareText, Sparkles, LogOut, UserRound, Newspaper, Bell, Send, UserSearch, FileText, Zap } from "lucide-react";
+import { Search, PanelsTopLeft, LayoutGrid, Users, ChartNoAxesCombined, MessageSquareText, Sparkles, LogOut, UserRound, Newspaper, Bell, Send, UserSearch, FileText, Zap } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 
 const TABS = [
   { key: "search", to: "/buscar", label: "Buscar clientes", icon: Search },
   { key: "demos", to: "/demonstracoes", label: "Demonstrações", icon: PanelsTopLeft },
+  { key: "vitrine", to: "/vitrine", label: "Vitrine", icon: LayoutGrid },
   { key: "clients", to: "/clientes", label: "Clientes", icon: Users },
   { key: "charts", to: "/graficos", label: "Gráficos", icon: ChartNoAxesCombined },
   { key: "message", to: "/mensagem", label: "Mensagem", icon: MessageSquareText },
