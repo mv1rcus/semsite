@@ -201,7 +201,7 @@ export const refundMyPurchase = createServerFn({ method: "POST" })
   })
   .handler(async ({ data, context }): Promise<{ ok: true; amount: number } | { ok: false; error: string; manual?: boolean }> => {
     const { supabase, userId } = context;
-    const contato = "contatosemsite@gmail.com";
+    const contato = "semsiteapp@gmail.com";
     if (!/^[a-zA-Z0-9_-]+$/.test(userId)) return { ok: false, error: "Conta inválida." };
     const { data: status } = await supabase.rpc("verified_status");
     if ((status as { source?: string } | null)?.source !== "one_time") {

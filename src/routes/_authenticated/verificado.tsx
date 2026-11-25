@@ -39,7 +39,7 @@ const DUVIDAS = [
   { q: "Tem cobrança automática?", a: "Não. Pagamento único de R$ 8,99 por mês (ou R$ 69,90 no plano anual). Quando o período termina, o selo sai sozinho e nada é debitado. Para continuar, é só pagar de novo." },
   { q: "Preciso de cartão?", a: "Não. Pague no Pix, débito, crédito, Apple Pay ou Google Pay." },
   { q: "Consigo pagar no Pix?", a: "Sim, nos dois planos: 1 mês por R$ 8,99 ou 1 ano por R$ 69,90." },
-  { q: "Posso pedir reembolso?", a: "Pode, até 7 dias depois de pagar. Se você ainda não usou o selo (nenhuma demonstração ou busca paga), o botão \"Pedir reembolso\" nesta página devolve na hora e o selo sai. Se já usou, escreva para contatosemsite@gmail.com e a gente analisa o seu caso." },
+  { q: "Posso pedir reembolso?", a: "Pode, até 7 dias depois de pagar. Se você ainda não usou o selo (nenhuma demonstração ou busca paga), o botão \"Pedir reembolso\" nesta página devolve na hora e o selo sai. Se já usou, escreva para semsiteapp@gmail.com e a gente analisa o seu caso." },
   { q: "E se o pagamento falhar?", a: "Nada é cobrado e você pode tentar de novo com outra forma de pagamento, como o Pix." },
 ];
 
@@ -94,7 +94,7 @@ function Verificado() {
       const r = await refundMyPurchase({ data: { environment: getStripeEnvironment(), reason, details } });
       if (r.ok) { setRefundMsg("Reembolso pedido. O valor volta para a sua forma de pagamento em alguns dias (no Pix, costuma ser mais rápido). Seu selo foi removido."); setTimeout(() => window.location.replace("/verificado"), 4000); }
       else setRefundMsg(r.error);
-    } catch { setRefundMsg("Não consegui processar agora. Tente de novo ou escreva para contatosemsite@gmail.com."); }
+    } catch { setRefundMsg("Não consegui processar agora. Tente de novo ou escreva para semsiteapp@gmail.com."); }
     setRefunding(false);
   }
 

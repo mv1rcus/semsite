@@ -64,7 +64,7 @@ export const deleteMyAccount = createServerFn({ method: "POST" })
           const msg = e instanceof Error ? e.message : "";
           // Já cancelada no Stripe não impede a exclusão; qualquer outro erro sim.
           if (!/No such subscription|already been canceled|resource_missing/i.test(msg)) {
-            return { ok: false, error: "Não foi possível cancelar sua assinatura agora. Nada foi excluído. Tente de novo ou escreva para contatosemsite@gmail.com." };
+            return { ok: false, error: "Não foi possível cancelar sua assinatura agora. Nada foi excluído. Tente de novo ou escreva para semsiteapp@gmail.com." };
           }
         }
       }
@@ -100,6 +100,6 @@ export const deleteMyAccount = createServerFn({ method: "POST" })
       return { ok: true, emailSent };
     } catch (e) {
       console.error("deleteMyAccount", e);
-      return { ok: false, error: "Não foi possível excluir sua conta agora. Tente de novo ou escreva para contatosemsite@gmail.com." };
+      return { ok: false, error: "Não foi possível excluir sua conta agora. Tente de novo ou escreva para semsiteapp@gmail.com." };
     }
   });

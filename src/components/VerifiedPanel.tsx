@@ -3,7 +3,7 @@ import { Check, Gift, Receipt, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { PurchaseInfo } from "@/lib/payments.functions";
 
-const CONTATO = "contatosemsite@gmail.com";
+const CONTATO = "semsiteapp@gmail.com";
 export const REASON_LABELS: Record<string, string> = {
   nao_precisei: "Não precisei do produto",
   nao_gostei: "Não gostei do que o SemSite entrega",
@@ -124,11 +124,11 @@ export function VerifiedPanel({ status, sub, purchase, refunding, refundMsg, onR
             <a className="mt-3 inline-block rounded-full border px-4 py-1.5 text-sm font-semibold hover:bg-accent" href={mailto("Pedido de reembolso SemSite", "Motivo do pedido de reembolso:\n\n")}>Escrever para {CONTATO}</a>
             </>
           ) : purchase?.refundUsed ? (
-            <p className="mt-2 text-muted-foreground">Esta conta já usou o reembolso automático. Se precisar de ajuda, escreva para contatosemsite@gmail.com.</p>
+            <p className="mt-2 text-muted-foreground">Esta conta já usou o reembolso automático. Se precisar de ajuda, escreva para semsiteapp@gmail.com.</p>
           ) : purchase ? (
-            <p className="mt-2 text-muted-foreground">O prazo de 7 dias para reembolso automático já passou. Caso especial? Escreva para contatosemsite@gmail.com.</p>
+            <p className="mt-2 text-muted-foreground">O prazo de 7 dias para reembolso automático já passou. Caso especial? Escreva para semsiteapp@gmail.com.</p>
           ) : (
-            <p className="mt-2 text-muted-foreground">Reembolso em até 7 dias depois de pagar. Se o botão não aparecer, escreva para contatosemsite@gmail.com.</p>
+            <p className="mt-2 text-muted-foreground">Reembolso em até 7 dias depois de pagar. Se o botão não aparecer, escreva para semsiteapp@gmail.com.</p>
           )}
           {refundMsg && <p className="mt-2 font-semibold" role="status">{refundMsg}</p>}
         </section>
