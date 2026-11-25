@@ -23,7 +23,7 @@ export const VERIFIED_PLANS: VerifiedPlan[] = [
     note: "30 dias de selo",
     months: 1,
     methods: "Pix, débito, crédito, Apple Pay e Google Pay",
-    detail: "Você paga manualmente a cada mês. Sem cobrança automática: não renova sozinho.",
+    detail: "Pagamento único por mês. Sem cobrança automática: não renova sozinho.",
   },
   {
     id: "verificado_anual_avista",

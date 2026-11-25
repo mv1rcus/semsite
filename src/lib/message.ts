@@ -4,24 +4,24 @@ export type MessageSettings = { senderName: string; template: string };
 export const MESSAGE_SUGGESTIONS: { label: string; template: string }[] = [
   { label: "Completa", template: `Olá, tudo bem? Me chamo {seu_nome} 😊
 
-Encontrei o {empresa} no Google Maps e percebi que vocês ainda não têm um site.
+Vi que o {empresa} ainda não tem um site.
 
 Eu crio sites profissionais que ajudam a aparecer melhor no Google e trazer mais clientes — e entrego em até uma semana.
 
 Posso te mostrar uma ideia de como ficaria o site de vocês, sem compromisso?` },
   { label: "Curta e direta", template: `Oi! Aqui é {seu_nome}. Vi que o {empresa} ainda não tem site. Faço sites profissionais com entrega em até uma semana. Posso te mostrar uma ideia, sem compromisso?` },
-  { label: "Amigável", template: `Olá! Tudo bem por aí? 😊 Sou {seu_nome} e adorei conhecer o {empresa} pelo Google Maps.
+  { label: "Amigável", template: `Olá! Tudo bem por aí? 😊 Sou {seu_nome} e adorei conhecer o {empresa}.
 
 Notei que vocês ainda não têm um site e preparei uma ideia de como ele poderia ficar. Fica pronto em até uma semana.
 
 Quer dar uma olhada? É sem compromisso!` },
-  { label: "Foco em clientes", template: `Olá! Meu nome é {seu_nome}. Hoje muita gente procura no Google antes de escolher onde ir, e o {empresa} ainda não aparece com um site próprio.
+  { label: "Foco em clientes", template: `Olá! Meu nome é {seu_nome}. Hoje muita gente pesquisa na internet antes de escolher onde ir, e o {empresa} ainda não tem um site próprio.
 
 Posso criar um site para vocês em até uma semana, com WhatsApp, localização e serviços. Posso te mostrar um exemplo sem compromisso?` },
-  { label: "Profissional", template: `Olá! Meu nome é {seu_nome}. Encontrei {empresa} no Google Maps e gostaria de apresentar uma proposta de site próprio para o negócio.
+  { label: "Profissional", template: `Olá! Meu nome é {seu_nome}. Vi que {empresa} ainda não tem site e gostaria de apresentar uma proposta de site próprio para o negócio.
 
 Trabalho com sites profissionais, com entrega em até uma semana. Podemos conversar sobre uma ideia, sem compromisso?` },
-  { label: "Catálogo e serviços", template: `Olá! Aqui é {seu_nome}. Vi {empresa} no Google Maps e pensei em um site para apresentar seus produtos ou serviços e facilitar o contato pelo WhatsApp.
+  { label: "Catálogo e serviços", template: `Olá! Aqui é {seu_nome}. Vi que {empresa} ainda não tem site e pensei em um site para apresentar seus produtos ou serviços e facilitar o contato pelo WhatsApp.
 
 A entrega é em até uma semana. Posso mostrar um exemplo para vocês avaliarem, sem compromisso?` },
   { label: "Conversa leve", template: `Oi! Tudo bem? Sou {seu_nome}. Quem cuida da presença online de {empresa}?

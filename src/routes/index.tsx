@@ -136,7 +136,7 @@ function Login() {
         <h2 className="mt-3 font-display text-5xl leading-none">Feito pra quem <span className="text-gradient-primary">vive de fazer site.</span></h2>
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
           {[
-            [UserRound, "Freelancer", "Você faz sites e perde horas procurando cliente no Google Maps. O SemSite entrega a lista pronta, com telefone e WhatsApp."],
+            [UserRound, "Freelancer", "Você faz sites e perde horas procurando cliente em mapas e redes. O SemSite entrega a lista pronta, com telefone e WhatsApp."],
             [Store, "Agência pequena", "Padronize a prospecção do time: mesma busca, mesma demonstração, mesma mensagem. Todo mundo vende do mesmo jeito."],
             [ChartNoAxesCombined, "Quem quer renda extra", "Nunca vendeu site? O roteiro de vendas e a demonstração pronta te dão o que dizer e o que mostrar no primeiro contato."],
           ].map(([Icon, t, d]) => {
@@ -157,7 +157,7 @@ function Login() {
         <h2 className="mt-3 font-display text-5xl leading-none">Tudo pra você <span className="text-gradient-primary">vender mais.</span></h2>
         <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            [Star, "Demonstrações de impacto", "Visual próprio por ramo, fotos do segmento e avaliações reais do Google."],
+            [Star, "Demonstrações de impacto", "Visual próprio por ramo, fotos do segmento e avaliações ilustrativas."],
             [Eye, "Saiba quantas vezes abriu", "Veja na hora se o cliente entrou no link e quantas vezes voltou. A prévia expira e dá urgência."],
             [FileText, "Roteiro de vendas", "Dor do cliente, respostas pras objeções e mensagem pronta."],
             [MessageCircle, "Funil de vendas", "Etapas, notas, lembretes de retorno e gráficos dos seus resultados."],
@@ -220,7 +220,7 @@ function Login() {
             </tbody>
           </table>
         </div>
-        <p className="mt-3 text-xs text-muted-foreground">Pagamento manual por Pix, débito, crédito, Apple Pay ou Google Pay. Consulte os valores no checkout antes de pagar.</p>
+        <p className="mt-3 text-xs text-muted-foreground">Pagamento único por período, sem renovação automática. Liberação na hora após o pagamento. Pix, débito, crédito, Apple Pay ou Google Pay. Consulte os valores no checkout antes de pagar.</p>
       </section>
 
       <section id="duvidas" className="reveal mx-auto mt-16 max-w-6xl scroll-mt-20 px-4 sm:px-6">
@@ -232,7 +232,7 @@ function Login() {
             ["Por que preciso entrar com Google?", "É a forma de acesso disponível no momento. Sua conta permite guardar seus clientes e acessar a plataforma."],
             ["De onde vêm os negócios listados?", "Dos dados abertos da Overture Maps. Mostramos registros com telefone e sem site próprio cadastrado na base. A cobertura e a atualização variam por município; confirme as informações antes de abordar."],
             ["Preciso instalar alguma coisa?", "Não. O SemSite funciona no navegador, no celular e no computador. É só entrar com a sua conta Google."],
-            ["O plano renova automaticamente?", "Não. O Verificado custa R$ 8,99 por mês, pago manualmente: quando o período acaba, nada é cobrado e o selo sai sozinho. Para continuar, você paga de novo quando quiser. O plano anual segue a mesma regra, sem débito automático."],
+            ["O plano renova automaticamente?", "Não. O Verificado custa R$ 8,99 por mês, em pagamento único: quando o período acaba, nada é cobrado e o selo sai sozinho. Para continuar, você paga de novo quando quiser. O plano anual segue a mesma regra, sem débito automático."],
             ["O SemSite envia mensagens sozinho?", "Você inicia a conversa com o cliente pelo WhatsApp. A plataforma ajuda com a demonstração e a mensagem de abordagem."],
             ["O SemSite garante que vou fechar clientes?", "Não. A plataforma ajuda na prospecção e na apresentação do seu trabalho. A negociação e os resultados dependem de cada caso."],
           ].map(([question, answer]) => (
@@ -339,7 +339,7 @@ function FanShowcase() {
       </div>
       <p className="mt-3 text-center text-xs text-muted-foreground">Não viu o seu? Qualquer outro ramo também sai pronto em 1 clique.</p>
       {preview && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-background/95 backdrop-blur" role="dialog" aria-label={`Prévia ${preview.name}`}>
+        <div className="fixed inset-0 z-[100] flex flex-col bg-background/95 backdrop-blur" role="dialog" aria-label={`Prévia ${preview.name}`}>
           <div className="flex items-center justify-between border-b border-border px-4 py-3">
             <p className="font-display text-2xl">{preview.name}</p>
             <button type="button" onClick={() => setPreview(null)} aria-label="Fechar prévia" className="rounded-full border border-border p-2"><X className="size-5" /></button>

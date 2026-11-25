@@ -35,7 +35,7 @@ const VANTAGENS = [
 
 const DUVIDAS = [
   { q: "Quando o selo aparece?", a: "Alguns segundos depois do pagamento confirmado. Você não precisa fazer nada: o selo entra sozinho e tudo é liberado na hora." },
-  { q: "Tem cobrança automática?", a: "Não. Você paga R$ 8,99 por mês de forma manual (ou R$ 69,90 no plano anual). Quando o período termina, o selo sai sozinho e nada é debitado. Para continuar, é só pagar de novo." },
+  { q: "Tem cobrança automática?", a: "Não. Pagamento único de R$ 8,99 por mês (ou R$ 69,90 no plano anual). Quando o período termina, o selo sai sozinho e nada é debitado. Para continuar, é só pagar de novo." },
   { q: "Preciso de cartão?", a: "Não. Pague no Pix, débito, crédito, Apple Pay ou Google Pay." },
   { q: "Consigo pagar no Pix?", a: "Sim, nos dois planos: 1 mês por R$ 8,99 ou 1 ano por R$ 69,90." },
   { q: "E se o pagamento falhar?", a: "Nada é cobrado e você pode tentar de novo com outra forma de pagamento, como o Pix." },
@@ -166,7 +166,7 @@ function Verificado() {
               ))}
             </div>
             <ul className="mt-4 space-y-1.5 text-sm text-muted-foreground">
-              <li className="flex items-center gap-2"><Check className="size-4 shrink-0 text-primary" />Você paga mês a mês, de forma manual: sem débito automático e sem renovação surpresa.</li>
+              <li className="flex items-center gap-2"><Check className="size-4 shrink-0 text-primary" />Pagamento único por mês: sem débito automático e sem renovação surpresa.</li>
               <li className="flex items-center gap-2"><Clock className="size-4 shrink-0 text-primary" />O selo entra sozinho, segundos depois do pagamento.</li>
               <li className="flex items-center gap-2"><ShieldCheck className="size-4 shrink-0 text-primary" />Pix, débito, crédito, Apple Pay ou Google Pay, em ambiente seguro.</li>
             </ul>

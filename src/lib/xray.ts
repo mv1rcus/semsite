@@ -26,6 +26,6 @@ export function buildScript(lead: Lead, city: string): Script {
       { q: "\"Tá caro / não tenho dinheiro agora\"", a: "Entendo! Pensa assim: basta um ou dois clientes novos vindos do Google para o site se pagar. E depois ele continua trazendo clientes todo mês." },
       { q: "\"Vou pensar\"", a: "Claro! Só te aviso que consigo entregar em uma semana e estou fechando poucos projetos este mês. Se quiser, já te mostro como ficaria o seu, sem compromisso." },
     ],
-    message: `Olá, ${lead.name}! Vi vocês no Google${where}${good ? ` com nota ${lead.rating} — parabéns pelo trabalho!` : "."} Notei que ainda não têm site. ${pain} Faço sites profissionais e entrego em uma semana. Posso te mostrar como ficaria o de vocês?`,
+    message: `Olá, ${lead.name}! Conheci vocês${where}${good ? ` com nota ${lead.rating} — parabéns pelo trabalho!` : "."} Notei que ainda não têm site. ${pain} Faço sites profissionais e entrego em uma semana. Posso te mostrar como ficaria o de vocês?`,
   };
 }

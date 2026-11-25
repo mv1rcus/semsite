@@ -18,6 +18,7 @@ import { approachReason, HEAT_LABEL, leadHeat } from "@/lib/lead-priority";
 import { nextSuggestedCity } from "@/lib/cities";
 import { draftForClient } from "@/lib/demonstrations";
 import { ProspectTabs } from "@/components/ProspectTabs";
+import { FirstStepsCard } from "@/components/FirstStepsCard";
 import { useFollowUp } from "@/lib/use-follow-up";
 import { ClientStageSelect } from "@/components/ClientStageSelect";
 
@@ -179,6 +180,7 @@ function Buscar() {
       <ProspectTabs active="search" />
 
       <section className="mx-auto mt-7 max-w-6xl sm:mt-10">
+        <FirstStepsCard />
         <div className="flex items-start justify-between gap-4">
           <div><p className="kicker-pill mb-3"><span className="pulse-dot" />Radar de oportunidades</p>
             <h1 className="font-display text-5xl leading-[0.92] tracking-wide sm:text-6xl">Buscar <span className="text-gradient-primary">clientes.</span></h1>

@@ -58,6 +58,7 @@ function Demonstracoes() {
   const [notice, setNotice] = useState("");
   const [origin, setOrigin] = useState("");
   const [model, setModel] = useState<LayoutId | null>(null);
+  useEffect(() => { if (window.location.hash === "#links") setTab("history"); }, []);
   useEffect(() => {
     setNow(Date.now());
     const timer = window.setInterval(() => setNow(Date.now()), 60000);
