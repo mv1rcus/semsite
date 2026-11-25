@@ -7,6 +7,9 @@ import { createDemonstration, getDemonstrationActivity, setDemonstrationExpiry, 
 import { removeSavedDemos, savedDemoSchema, verificationState, demoAccessBadge, type DemoActivity, type SavedDemo } from "@/lib/demo-verification";
 import { demoSchema, draftForClient, demonstrationLink, demonstrationSlug, demonstrationCode, demoWhatsAppShare, type Demonstration } from "@/lib/demonstrations";
 import { DEFAULT_EXPIRY_DAYS, EXPIRY_OPTIONS, expiryDate, expiryInfo, openCountLabel, urgencyMessage } from "@/lib/demo-expiry";
+import { FUNNEL_KEY, entryFor, funnelMetrics, parseFunnel, removeFromFunnel, setNotes as funnelSetNotes, setStage as funnelSetStage, type FunnelMap, type FunnelStage } from "@/lib/demo-funnel";
+import { DemoFunnelPanel } from "@/components/DemoFunnelPanel";
+import { DemoLeadFunnel } from "@/components/DemoLeadFunnel";
 import { SECTOR_HEADLINE } from "@/lib/demo-catalog";
 import { sitePrompt } from "@/lib/demo-prompt";
 import { DemoSite } from "@/components/DemoSite";
@@ -36,6 +39,9 @@ function Demonstracoes() {
   const loadActivity = useServerFn(getDemonstrationActivity);
   const [activity, setActivity] = useState<Record<string, DemoActivity>>({});
   const [validity, setValidity] = useState<number>(DEFAULT_EXPIRY_DAYS);
+  const [funnel, setFunnel] = useState<FunnelMap>({});
+  const [funnelLoaded, setFunnelLoaded] = useState(false);
+  const [stageFilter, setStageFilter] = useState<FunnelStage | "all">("all");
   const changeExpiry = useServerFn(setDemonstrationExpiry);
   const [activityLoaded, setActivityLoaded] = useState(false);
   const [id, setId] = useState<string | null>(null);
@@ -47,6 +53,8 @@ function Demonstracoes() {
     setNow(Date.now());
     const timer = window.setInterval(() => setNow(Date.now()), 60000);
     setOrigin(window.location.origin);
+    try { setFunnel(parseFunnel(localStorage.getItem(FUNNEL_KEY))); } catch { /* Storage is optional. */ }
+    setFunnelLoaded(true);
     try {
       const draft = sessionStorage.getItem("site-demo-draft");
       if (draft) { const parsed = demoSchema.safeParse(JSON.parse(draft)); if (parsed.success) setDemo(parsed.data); sessionStorage.removeItem("site-demo-draft"); }
@@ -59,6 +67,10 @@ function Demonstracoes() {
     if (!origin) return;
     try { localStorage.setItem("site-demo-links", JSON.stringify(saved)); } catch { /* History is optional. */ }
   }, [saved, origin]);
+  useEffect(() => {
+    if (!funnelLoaded) return;
+    try { localStorage.setItem(FUNNEL_KEY, JSON.stringify(funnel)); } catch { /* Funnel is optional. */ }
+  }, [funnel, funnelLoaded]);
   useEffect(() => {
     if (!origin || activityLoaded || saved.length === 0) return;
     setActivityLoaded(true);
@@ -109,7 +121,8 @@ function Demonstracoes() {
       setNotice(`Validade de ${item.name} ajustada para ${days} dias.`);
     } catch (e) { setNotice(e instanceof Error ? e.message : "Não foi possível ajustar a validade agora."); }
   }
-  const history = saved.filter(item => item.name.toLocaleLowerCase("pt-BR").includes(historyQuery.toLocaleLowerCase("pt-BR")));
+  const metrics = funnelMetrics(saved.map((s) => s.id), funnel, activity);
+  const history = saved.filter(item => item.name.toLocaleLowerCase("pt-BR").includes(historyQuery.toLocaleLowerCase("pt-BR")) && (stageFilter === "all" || entryFor(funnel, item.id).stage === stageFilter));
   const selectedIds = selected.filter(key => saved.some(item => item.id === key));
   const deleting = saved.filter(item => pendingDelete.includes(item.id));
   function confirmRemoval() {
@@ -119,6 +132,7 @@ function Demonstracoes() {
     try { localStorage.setItem("site-demo-links", JSON.stringify(updated)); }
     catch { setNotice("Não foi possível excluir os links neste navegador. Tente novamente."); setPendingDelete([]); return; }
     setSaved(updated);
+    setFunnel((old) => removeFromFunnel(old, ids));
     setSelected(previous => previous.filter(key => !ids.includes(key)));
     setPendingDelete([]);
     setNotice(`${deleting.length} ${deleting.length === 1 ? "link removido" : "links removidos"} da lista. Os sites compartilhados continuam disponíveis.`);
@@ -136,7 +150,7 @@ function Demonstracoes() {
         {id && <div className="space-y-3 border-t pt-4"><Input aria-label="Link da demonstração" readOnly value={link} /><div className="flex flex-wrap gap-2"><Button type="button" variant="outline" onClick={copy}><Copy />Copiar link</Button><Button type="button" variant="outline" onClick={copyPrompt}><ClipboardList />Copiar prompt</Button><Button asChild variant="outline"><Link to="/site/$slug/$code" params={{ slug: demonstrationSlug(demo.name), code: demonstrationCode(id) }}><ExternalLink />Abrir</Link></Button><Button asChild variant="whatsapp" title={demo.phone ? "Abre a conversa do WhatsApp do negócio com o link pronto" : "Escolha o contato no WhatsApp para enviar o link"}><a href={demoWhatsAppShare(demo.phone, demo.name, link, expiryDate(validity))} target="_blank" rel="noreferrer"><MessageCircle />Enviar no WhatsApp</a></Button></div></div>}
       </form><div className="min-w-0 border-t pt-5 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0"><h2 className="text-xl font-semibold">Escolha o estilo do negócio</h2><div className="mt-5 grid grid-cols-2 gap-3">{[{ label: "Restaurante", sector: "food" }, { label: "Academia", sector: "gym" }, { label: "Advogado", sector: "law" }, { label: "Clínica", sector: "health" }, { label: "Salão de beleza", sector: "beauty" }, { label: "Pet shop", sector: "pet" }, { label: "Oficina", sector: "auto" }, { label: "Serviços locais", sector: "services" }].map(item => <Button key={item.label} type="button" variant={demo.category === item.label ? "secondary" : "outline"} className="h-auto min-h-12 whitespace-normal" disabled={loading} onClick={() => { setDemo(old => ({ ...old, category: item.label, headline: SECTOR_HEADLINE[item.sector as keyof typeof SECTOR_HEADLINE] })); setId(null); setNotice(""); }}>{item.label}</Button>)}</div><div className="mt-7"><h2 className="text-xl font-semibold">Modelo do site</h2><p className="mt-1 text-sm text-muted-foreground">Já escolhemos o ideal para o ramo. Troque se o cliente preferir outro.</p><div className="mt-4 grid gap-2">{LAYOUT_IDS.map(m => { const on = (model ?? autoLayout(demo.category)) === m; return <Button key={m} type="button" variant={on ? "secondary" : "outline"} className="h-auto min-h-12 justify-start whitespace-normal text-left" onClick={() => setModel(m === autoLayout(demo.category) ? null : m)}><span><span className="block font-bold">{LAYOUTS[m].label}{m === autoLayout(demo.category) ? " · ideal" : ""}</span><span className="block text-xs font-normal opacity-80">{LAYOUTS[m].hint}</span></span></Button>; })}</div></div><div className="mt-7 border-y py-5"><p className="break-words text-2xl font-bold">{demo.name || "Nome do seu cliente"}</p><p className="mt-2 text-sm text-muted-foreground">{demo.headline}</p></div><Button type="button" variant="outline" className="mt-6 w-full" onClick={() => setTab("preview")}><Eye />Ver site completo<ArrowRight /></Button></div></div>}
       {tab === "preview" && <div className="mt-6"><div className="mb-5 flex flex-wrap items-center justify-between gap-3"><h2 className="text-xl font-semibold">Prévia do site</h2><Button variant="outline" onClick={() => setTab("edit")}>Voltar à edição</Button></div><div className="mb-4 flex flex-wrap gap-2">{LAYOUT_IDS.map(m => <Button key={m} size="sm" variant={(model ?? autoLayout(demo.category)) === m ? "default" : "outline"} onClick={() => setModel(m === autoLayout(demo.category) ? null : m)}>{LAYOUTS[m].label}</Button>)}</div><DemoSite key={demo.category + (model ?? "")} layout={model ?? undefined} demo={{ ...demo, name: demo.name || "Nome do seu cliente" }} /></div>}
-      {tab === "history" && <section className="mt-6"><h2 className="text-xl font-semibold">Demonstrações criadas neste navegador</h2><div className="relative mt-4"><Search className="absolute left-3 top-2.5 size-4 text-muted-foreground" /><Input aria-label="Buscar demonstração" placeholder="Buscar pelo nome do negócio" className="pl-10" value={historyQuery} onChange={event => setHistoryQuery(event.target.value)} /></div>{history.length === 0 && <div className="py-12 text-center"><p className="text-muted-foreground">{saved.length ? "Nenhum link encontrado." : "Nenhuma demonstração criada ainda."}</p><Button variant="outline" className="mt-4" onClick={() => setTab("edit")}><Plus />Criar demonstração</Button></div>}<ul className="mt-4 divide-y">{history.map((item) => {
+      {tab === "history" && <section className="mt-6"><h2 className="text-xl font-semibold">Funil de vendas</h2><p className="mt-1 text-sm text-muted-foreground">Acompanhe cada lead do link criado até o fechamento. Tudo fica salvo só neste navegador.</p>{saved.length > 0 && <DemoFunnelPanel metrics={metrics} filter={stageFilter} onFilter={setStageFilter} />}<div className="relative mt-4"><Search className="absolute left-3 top-2.5 size-4 text-muted-foreground" /><Input aria-label="Buscar demonstração" placeholder="Buscar pelo nome do negócio" className="pl-10" value={historyQuery} onChange={event => setHistoryQuery(event.target.value)} /></div>{history.length === 0 && <div className="py-12 text-center"><p className="text-muted-foreground">{saved.length ? "Nenhum link encontrado." : "Nenhuma demonstração criada ainda."}</p><Button variant="outline" className="mt-4" onClick={() => setTab("edit")}><Plus />Criar demonstração</Button></div>}<ul className="mt-4 divide-y">{history.map((item) => {
         const state = verificationState(item.verification, now);
         const Icon = state === "recent" ? CircleCheck : state === "failed" ? CircleAlert : Clock;
         const label = state === "recent" ? "Verificado nas últimas 24h" : state === "failed" ? "Link indisponível na última tentativa" : state === "stale" ? "Verificação há mais de 24h" : "Ainda não verificado";
@@ -152,6 +166,7 @@ function Demonstracoes() {
             <p className="mt-1 break-all text-xs text-muted-foreground">{demonstrationLink(item.id, origin || "https://semsite.lovable.app", item.name, item.slug).replace(/^https?:\/\//, "")}</p>
             {access && <p className={`mt-2 flex items-center gap-2 text-sm font-semibold ${access.state === "opened" ? "text-whatsapp" : "text-muted-foreground"}`}>{access.state === "opened" ? <Eye className="size-4 shrink-0" /> : <Clock className="size-4 shrink-0" />}{access.state === "opened" ? <time dateTime={activity[item.id]?.lastOpenedAt ?? ""}>{access.detail}</time> : access.detail}</p>}
             {activity[item.id] && <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs"><span className="font-semibold">{openCountLabel(activity[item.id]?.openCount)}</span><span className={expiry.state === "expired" ? "font-semibold text-destructive" : expiry.state === "soon" ? "font-semibold text-amber-500" : "text-muted-foreground"}>{expiry.label}</span><label className="flex items-center gap-1 text-muted-foreground">Prazo<select aria-label={`Ajustar validade de ${item.name}`} className="rounded border bg-background px-1 py-0.5" value="" onChange={(e) => { if (e.target.value) adjustExpiry(item, Number(e.target.value)); }}><option value="">ajustar…</option>{EXPIRY_OPTIONS.map((d) => <option key={d} value={d}>{d} dias a partir de hoje</option>)}</select></label></p>}
+            <DemoLeadFunnel name={item.name} entry={entryFor(funnel, item.id)} onStage={(stage) => setFunnel((old) => funnelSetStage(old, item.id, stage))} onNotes={(text) => setFunnel((old) => funnelSetNotes(old, item.id, text))} />
             <p role="status" className={`mt-1 flex items-start gap-2 text-xs ${state === "recent" ? "text-primary" : state === "failed" ? "text-destructive" : "text-muted-foreground"}`}><Icon className="size-4 shrink-0" />{label}</p>
             {item.verification && <p className="mt-1 text-xs text-muted-foreground">Última tentativa: <time dateTime={item.verification.checkedAt}>{new Date(item.verification.checkedAt).toLocaleString("pt-BR")}</time></p>}
           </div><div className="flex flex-wrap gap-2"><Button type="button" variant="outline" size="sm" onClick={() => copySaved(item)} aria-label={`Copiar link de ${item.name}`}><Copy />Copiar</Button><Button asChild variant="whatsapp" size="sm" title={item.phone ? "Abre a conversa do WhatsApp do negócio com o link pronto" : "Escolha o contato no WhatsApp para enviar o link"}><a href={demoWhatsAppShare(item.phone ?? "", item.name, demonstrationLink(item.id, origin || "https://semsite.lovable.app", item.name, item.slug), activity[item.id]?.expiresAt)} target="_blank" rel="noreferrer" aria-label={`Enviar link de ${item.name} no WhatsApp`}><MessageCircle />Enviar</a></Button><Button type="button" variant="outline" size="sm" onClick={() => copyUrgency(item)} aria-label={`Copiar texto de urgência de ${item.name}`}><Clock />Texto de urgência</Button><Button type="button" variant="outline" size="sm" disabled={checking !== null} onClick={() => check(item)} aria-label={`Verificar link de ${item.name}`}>
