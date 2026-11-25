@@ -1,12 +1,13 @@
-import type { CSSProperties, ReactNode } from "react";
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
+import { Poster, Salao, Pet, Advocacia, Oficina, Imobiliaria } from "@/components/PremiumSite2";
 import { PHOTO, img, type PremiumModel } from "@/lib/premium-models";
 import type { ModelClient } from "@/lib/site-models";
 
-const wa = (c: ModelClient) => { const d = (c.whatsapp ?? "").replace(/\D/g, ""); return d ? `https://wa.me/${d.length <= 11 ? "55" + d : d}` : "#contato"; };
-const Fonts = () => <style>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Bebas+Neue&family=Inter:wght@400;500;600;800&family=Fraunces:ital,wght@0,400;0,700;1,400&family=Oswald:wght@500;700&display=swap');.ps *{box-sizing:border-box}.ps img{display:block}.ps a{text-decoration:none;color:inherit}@keyframes psmq{to{transform:translateX(-50%)}}@keyframes psfade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}.ps .fade{animation:psfade .8s both}`}</style>;
-const Btn = ({ href, children, bg, fg, style }: { href: string; children: ReactNode; bg: string; fg: string; style?: CSSProperties }) => <a href={href} style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 26px", background: bg, color: fg, fontWeight: 700, borderRadius: 999, fontSize: 15, ...style }}>{children}</a>;
-const Sec = ({ children, style, id }: { children: ReactNode; style?: CSSProperties; id?: string }) => <section id={id} style={{ padding: "88px 6vw", ...style }}>{children}</section>;
-const Foot = ({ name, c, bg, fg }: { name: string; c: ModelClient; bg: string; fg: string }) => <footer id="contato" style={{ background: bg, color: fg, padding: "40px 6vw", display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 16, fontSize: 14, opacity: 0.95 }}><b>{name}</b><span>{c.city ? `${c.city} · ` : ""}{c.whatsapp ? `WhatsApp ${c.whatsapp}` : "Fale pelo WhatsApp"}</span><span>Modelo ilustrativo · Fotos Unsplash</span></footer>;
+export const wa = (c: ModelClient) => { const d = (c.whatsapp ?? "").replace(/\D/g, ""); return d ? `https://wa.me/${d.length <= 11 ? "55" + d : d}` : "#contato"; };
+export const Fonts = () => <style>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Bebas+Neue&family=Inter:wght@400;500;600;800&family=Fraunces:ital,wght@0,400;0,700;1,400&family=Oswald:wght@500;700&display=swap');.ps *{box-sizing:border-box}.ps img{display:block}.ps a{text-decoration:none;color:inherit}@keyframes psmq{to{transform:translateX(-50%)}}@keyframes psfade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}.ps .fade{animation:psfade .8s both}`}</style>;
+export const Btn = ({ href, children, bg, fg, style }: { href: string; children: ReactNode; bg: string; fg: string; style?: CSSProperties }) => <a href={href} style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 26px", background: bg, color: fg, fontWeight: 700, borderRadius: 999, fontSize: 15, ...style }}>{children}</a>;
+export const Sec = ({ children, style, id }: { children: ReactNode; style?: CSSProperties; id?: string }) => <section id={id} style={{ padding: "88px 6vw", ...style }}>{children}</section>;
+export const Foot = ({ name, c, bg, fg }: { name: string; c: ModelClient; bg: string; fg: string }) => <footer id="contato" style={{ background: bg, color: fg, padding: "40px 6vw", display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 16, fontSize: 14, opacity: 0.95 }}><b>{name}</b><span>{c.city ? `${c.city} · ` : ""}{c.whatsapp ? `WhatsApp ${c.whatsapp}` : "Fale pelo WhatsApp"}</span><span>Modelo ilustrativo · Fotos Unsplash</span></footer>;
 
 function Hamburgueria({ n, c }: { n: string; c: ModelClient }) {
   const red = "#ef3b2d"; const items = [[PHOTO.burger1, "Clássico da Casa", "Blend 160g, queijo, cebola e molho especial", "29,90"], [PHOTO.burger2, "Duplo Rústico", "Dois smash, picles e maionese defumada", "36,90"], [PHOTO.burger3, "Gourmet Sésamo", "Pão de gergelim, alface, tomate e cheddar", "32,90"], [PHOTO.burger5, "Bacon Egg", "Bacon crocante, ovo e cheddar derretido", "38,90"], [PHOTO.burger4, "Burger + Batata", "Acompanha porção de fritas crocantes", "41,90"], [PHOTO.burger1, "Cheese Salada", "O queridinho de sempre, bem completo", "27,90"]];
@@ -94,9 +95,27 @@ function Cafeteria({ n, c }: { n: string; c: ModelClient }) {
     <Foot name={n} c={c} bg="#3a2616" fg="#f3e9dc" /></div>;
 }
 
+/** Animações leves ao rolar: reveal (IntersectionObserver) e parallax (data-par). Desliga com "reduzir movimento". */
+function useScrollFx(root: React.RefObject<HTMLDivElement | null>, dep: string) {
+  useEffect(() => {
+    const el = root.current; if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const first = el.querySelector("img"); if (first && !first.hasAttribute("data-par") && first.getAttribute("data-nopar") === null) first.setAttribute("data-par", "0.12");
+    const targets = Array.from(el.querySelectorAll<HTMLElement>("section > *, [data-rv]"));
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { const t = e.target as HTMLElement; t.style.opacity = "1"; t.style.transform = t.dataset["tf"] ?? "none"; io.unobserve(t); } }), { threshold: 0.12 });
+    targets.forEach((t) => { if (t.getBoundingClientRect().top < window.innerHeight * 0.9) return; t.dataset["tf"] = t.style.transform || "none"; t.style.opacity = "0"; t.style.transform = "translateY(36px)"; t.style.transition = "opacity .8s ease, transform .8s ease"; io.observe(t); });
+    const pars = Array.from(el.querySelectorAll<HTMLElement>("[data-par]")); let raf = 0;
+    const tick = () => { raf = 0; const vh = window.innerHeight; pars.forEach((p) => { const r = p.parentElement?.getBoundingClientRect(); if (!r || r.bottom < -200 || r.top > vh + 200) return; p.style.transform = `translate3d(0,${((r.top + r.height / 2 - vh / 2) * -Number(p.dataset["par"])).toFixed(1)}px,0)` + (p.dataset["base"] ?? ""); }); };
+    const on = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    window.addEventListener("scroll", on, { passive: true }); on();
+    return () => { io.disconnect(); window.removeEventListener("scroll", on); if (raf) cancelAnimationFrame(raf); };
+  }, [root, dep]);
+}
+
 export function PremiumSite({ model, client }: { model: PremiumModel; client: ModelClient }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useScrollFx(ref, model.id);
   const n = client.name?.trim() || model.name;
-  const C = { hamburgueria: Hamburgueria, pizzaria: Pizzaria, barbearia: Barbearia, academia: Academia, restaurante: Restaurante, dentista: Dentista, cafeteria: Cafeteria }[model.ramo];
+  const C = { poster: Poster, salao: Salao, pet: Pet, advocacia: Advocacia, oficina: Oficina, imobiliaria: Imobiliaria, hamburgueria: Hamburgueria, pizzaria: Pizzaria, barbearia: Barbearia, academia: Academia, restaurante: Restaurante, dentista: Dentista, cafeteria: Cafeteria }[model.ramo];
   const c = { ...client, city: client.city?.trim() || model.city };
-  return <><Fonts /><C n={n} c={c} /></>;
+  return <div ref={ref} style={{ overflowX: "clip" }}><Fonts /><C n={n} c={c} /></div>;
 }
