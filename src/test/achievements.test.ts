@@ -54,12 +54,28 @@ describe("ofensiva atual", () => {
   const now = new Date("2026-11-10T15:00:00Z");
   it("conta ate hoje", () => {
     const d = ["2026-11-04","2026-11-05","2026-11-06","2026-11-07","2026-11-08","2026-11-09","2026-11-10","2026-11-11"].slice(0, 7);
-    expect(currentStreak(d, now)).toEqual({ count: 7, reachedOn: "2026-11-10" });
+    expect(currentStreak(d, now)).toMatchObject({ count: 7, reachedOn: "2026-11-10" });
   });
   it("ainda vale se o ultimo dia foi ontem", () => {
     expect(currentStreak(["2026-11-08","2026-11-09"], now).count).toBe(2);
   });
   it("zera se parou", () => {
     expect(currentStreak(["2026-11-01","2026-11-02","2026-11-03","2026-11-04","2026-11-05","2026-11-06","2026-11-07"], now).count).toBe(0);
+  });
+});
+
+describe("ofensiva de 1 dia e resposta de lead", () => {
+  const now = new Date("2026-11-10T15:00:00Z");
+  it("comeca em 1 dia", () => {
+    const r = computeAchievements({ salesDates: [], demoDates: [], firstSearchDay: null, activityDates: ["2026-11-10"], now });
+    expect(r.find((a) => a.id === "ofensiva_7")).toMatchObject({ name: "Ofensiva de 1 dia", earnedAt: "2026-11-10" });
+  });
+  it("sai se parar", () => {
+    const r = computeAchievements({ salesDates: [], demoDates: [], firstSearchDay: null, activityDates: ["2026-11-01"], now });
+    expect(r.find((a) => a.id === "ofensiva_7")?.earnedAt).toBeNull();
+  });
+  it("resposta de lead usa a primeira demo enviada", () => {
+    const r = computeAchievements({ salesDates: [], demoDates: [], firstSearchDay: null, leadReplyDates: ["2026-11-05T10:00:00Z", "2026-11-03T10:00:00Z"], now });
+    expect(r.find((a) => a.id === "resposta_lead")?.earnedAt).toBe("2026-11-03T10:00:00Z");
   });
 });

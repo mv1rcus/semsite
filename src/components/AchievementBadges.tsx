@@ -12,7 +12,7 @@ export function AchievementBadges({ userId }: { userId: string }) {
   useEffect(() => {
     let alive = true;
     (async () => {
-      const [sales, demos, searches, contacts, allDemos, allSearches, allContacts] = await Promise.all([
+      const [sales, demos, searches, contacts, allDemos, allSearches, allContacts, stores] = await Promise.all([
         supabase.from("closed_sales").select("closed_at").eq("user_id", userId).order("closed_at", { ascending: true }).limit(100),
         supabase.from("site_demonstrations").select("created_at").eq("owner_id", userId).order("created_at", { ascending: true }).limit(1),
         supabase.from("search_usage").select("day").eq("user_id", userId).order("day", { ascending: true }).limit(1),
@@ -20,6 +20,7 @@ export function AchievementBadges({ userId }: { userId: string }) {
         supabase.from("site_demonstrations").select("created_at").eq("owner_id", userId).order("created_at", { ascending: false }).limit(500),
         supabase.from("search_usage").select("day").eq("user_id", userId).order("day", { ascending: false }).limit(500),
         supabase.from("contacted_leads").select("created_at").eq("user_id", userId).order("created_at", { ascending: false }).limit(500),
+        (supabase as any).from("user_store").select("data").eq("user_id", userId).eq("kind", "client").limit(2000),
       ]);
       if (!alive) return;
       setList(computeAchievements({
@@ -27,6 +28,7 @@ export function AchievementBadges({ userId }: { userId: string }) {
         demoDates: (demos.data ?? []).map((r) => r.created_at),
         firstSearchDay: searches.data?.[0]?.day ?? null,
         firstContactDate: contacts.data?.[0]?.created_at ?? null,
+        leadReplyDates: ((stores?.data ?? []) as { data: { events?: { stage: string; date: string }[] } }[]).flatMap((r) => (r.data?.events ?? []).filter((e) => e.stage === "demo_sent").map((e) => e.date)),
         activityDates: [...(sales.data ?? []).map((r) => r.closed_at), ...(allDemos.data ?? []).map((r) => r.created_at), ...(allSearches.data ?? []).map((r) => r.day), ...(allContacts.data ?? []).map((r) => r.created_at)],
       }));
     })();
