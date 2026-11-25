@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, Heart, Link2, MapPin, UserPlus, UserCheck, Send, UserRound } from "lucide-react";
 import { profileLinkLabel, splitProfileLinks } from "@/lib/profile-link";
 import { ProspectTabs } from "@/components/ProspectTabs";
+import { AchievementBadges } from "@/components/AchievementBadges";
 import { PostFeed } from "@/components/PostFeed";
 import { PostText } from "@/components/PostText";
 import { Button } from "@/components/ui/button";
@@ -95,6 +96,7 @@ function PublicProfile() {
           </div>
         )}
         {p && <FollowListDialog username={p.username} kind={list} onClose={() => setList(null)} />}
+        {p && <AchievementBadges userId={p.id} />}
         {p && <div className="mt-4"><PostFeed onlyUser={p.username} canPost={false} /></div>}
       </section>
     </main>

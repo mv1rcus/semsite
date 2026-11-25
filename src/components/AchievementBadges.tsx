@@ -13,24 +13,36 @@ export function AchievementBadges({ userId }: { userId: string }) {
   useEffect(() => {
     let alive = true;
     (async () => {
-      const [sales, demos, searches, contacts, allDemos, allSearches, allContacts, stores] = await Promise.all([
-        supabase.from("closed_sales").select("closed_at").eq("user_id", userId).order("closed_at", { ascending: true }).limit(100),
-        supabase.from("site_demonstrations").select("created_at").eq("owner_id", userId).order("created_at", { ascending: true }).limit(1),
-        supabase.from("search_usage").select("day").eq("user_id", userId).order("day", { ascending: true }).limit(1),
-        supabase.from("contacted_leads").select("created_at").eq("user_id", userId).order("created_at", { ascending: true }).limit(1),
-        supabase.from("site_demonstrations").select("created_at").eq("owner_id", userId).order("created_at", { ascending: false }).limit(500),
-        supabase.from("search_usage").select("day").eq("user_id", userId).order("day", { ascending: false }).limit(500),
-        supabase.from("contacted_leads").select("created_at").eq("user_id", userId).order("created_at", { ascending: false }).limit(500),
-        (supabase as any).from("user_store").select("data").eq("user_id", userId).eq("kind", "client").limit(2000),
-      ]);
+      type Pub = { sales: string[]; demos: string[]; searches: string[]; contacts: string[]; lead_replies: string[] };
+      let pub: Pub | null = null;
+      const rpc = await (supabase as any).rpc("get_public_achievements", { _user_id: userId });
+      if (!rpc.error && rpc.data) pub = rpc.data as Pub;
+      if (!pub) {
+        // Funcao do banco ainda nao criada: so o dono consegue ler os proprios dados.
+        const [sales, demos, searches, contacts, stores] = await Promise.all([
+          supabase.from("closed_sales").select("closed_at").eq("user_id", userId).order("closed_at", { ascending: true }).limit(100),
+          supabase.from("site_demonstrations").select("created_at").eq("owner_id", userId).order("created_at", { ascending: false }).limit(500),
+          supabase.from("search_usage").select("day").eq("user_id", userId).order("day", { ascending: false }).limit(500),
+          supabase.from("contacted_leads").select("created_at").eq("user_id", userId).order("created_at", { ascending: false }).limit(500),
+          (supabase as any).from("user_store").select("data").eq("user_id", userId).eq("kind", "client").limit(2000),
+        ]);
+        pub = {
+          sales: (sales.data ?? []).map((r) => r.closed_at),
+          demos: (demos.data ?? []).map((r) => r.created_at),
+          searches: (searches.data ?? []).map((r) => r.day),
+          contacts: (contacts.data ?? []).map((r) => r.created_at),
+          lead_replies: ((stores?.data ?? []) as { data: { events?: { stage: string; date: string }[] } }[]).flatMap((r) => (r.data?.events ?? []).filter((e) => e.stage === "demo_sent").map((e) => e.date)),
+        };
+      }
       if (!alive) return;
+      const asc = (xs: string[]) => [...xs].sort();
       const computed = computeAchievements({
-        salesDates: (sales.data ?? []).map((r) => r.closed_at),
-        demoDates: (demos.data ?? []).map((r) => r.created_at),
-        firstSearchDay: searches.data?.[0]?.day ?? null,
-        firstContactDate: contacts.data?.[0]?.created_at ?? null,
-        leadReplyDates: ((stores?.data ?? []) as { data: { events?: { stage: string; date: string }[] } }[]).flatMap((r) => (r.data?.events ?? []).filter((e) => e.stage === "demo_sent").map((e) => e.date)),
-        activityDates: [...(sales.data ?? []).map((r) => r.closed_at), ...(allDemos.data ?? []).map((r) => r.created_at), ...(allSearches.data ?? []).map((r) => r.day), ...(allContacts.data ?? []).map((r) => r.created_at)],
+        salesDates: pub.sales,
+        demoDates: pub.demos,
+        firstSearchDay: asc(pub.searches)[0] ?? null,
+        firstContactDate: asc(pub.contacts)[0] ?? null,
+        leadReplyDates: pub.lead_replies,
+        activityDates: [...pub.sales, ...pub.demos, ...pub.searches, ...pub.contacts],
       });
       setList(isDeveloperId(userId) ? unlockAll(computed) : computed);
     })();
