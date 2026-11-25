@@ -79,7 +79,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "SemSite" },
-      { name: "description", content: "Encontre negócios sem site." },
+      { name: "description", content: "Ache negócios sem site, mostre o site pronto, feche e cobre." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

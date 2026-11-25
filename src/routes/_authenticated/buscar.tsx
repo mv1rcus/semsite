@@ -181,7 +181,7 @@ function Buscar() {
         <div className="flex items-start justify-between gap-4">
           <div><p className="kicker-pill mb-3"><span className="pulse-dot" />Radar de oportunidades</p>
             <h1 className="font-display text-5xl leading-[0.92] tracking-wide sm:text-6xl">Buscar <span className="text-gradient-primary">clientes.</span></h1>
-            <p className="mt-3 text-sm text-muted-foreground sm:text-base">Seu próximo projeto começa com uma boa conversa.</p>
+            <p className="mt-3 text-sm text-muted-foreground sm:text-base">Ache o negócio, mostre o site pronto, feche e cobre. Comece pela busca.</p>
           </div>
         </div>
 
