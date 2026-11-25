@@ -1,7 +1,8 @@
+import type StripeLib from "stripe";
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { type StripeEnv, createStripeClient, getStripeErrorMessage } from "@/lib/stripe.server";
-import { VERIFIED_PRICE_IDS, VERIFIED_PLANS, type VerifiedPriceId } from "@/lib/verified-plans";
+import { FREE_DAILY_SEARCHES, VERIFIED_PRICE_IDS, VERIFIED_PLANS, type VerifiedPriceId } from "@/lib/verified-plans";
 
 type Stripe = ReturnType<typeof createStripeClient>;
 
@@ -95,22 +96,112 @@ export const createVerifiedPortal = createServerFn({ method: "POST" })
   });
 
 const REFUND_WINDOW_DAYS = 7;
+export const REFUND_REASONS = ["nao_precisei", "nao_gostei", "caro", "nao_funcionou", "comprei_sem_querer", "outro"] as const;
+export type RefundReason = (typeof REFUND_REASONS)[number];
+
+type PaidPurchase = { pi: StripeLib.PaymentIntent; charge: StripeLib.Charge };
+
+/** Pagamentos concluídos da conta no Stripe, do mais novo pro mais antigo. */
+async function loadPaidPurchases(stripe: Stripe, userId: string): Promise<PaidPurchase[]> {
+  const found = await stripe.paymentIntents.search({
+    query: `metadata['userId']:'${userId}' AND status:'succeeded'`,
+    limit: 20,
+    expand: ["data.latest_charge"],
+  });
+  return found.data
+    .map(pi => ({ pi, charge: typeof pi.latest_charge === "object" ? pi.latest_charge : null }))
+    .filter((x): x is PaidPurchase => !!x.charge)
+    .sort((a, b) => b.pi.created - a.pi.created);
+}
 
 /**
- * Reembolso pedido pelo próprio cliente, até 7 dias depois de pagar (CDC art. 49).
- * O usuário vem do login (nunca do corpo da chamada) e a regra é conferida no Stripe:
- * só a compra à vista mais recente, paga há no máximo 7 dias, ainda sem devolução,
- * e uma única vez por conta. Depois de devolver, o selo sai na hora.
+ * A pessoa já usou o que o selo libera depois de pagar? Conta como uso: demonstração criada,
+ * busca além do limite grátis do dia ou venda registrada. Na dúvida (erro de leitura) vale "usou",
+ * e o pedido cai no e-mail pra análise manual.
  */
-export const refundMyPurchase = createServerFn({ method: "POST" })
+async function usedPaidFeatures(userId: string, sinceMs: number): Promise<boolean> {
+  try {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const admin = supabaseAdmin as any;
+    const sinceIso = new Date(sinceMs).toISOString();
+    const [demos, sales, searches] = await Promise.all([
+      admin.from("site_demonstrations").select("id", { count: "exact", head: true }).eq("owner_id", userId).gte("created_at", sinceIso),
+      admin.from("closed_sales").select("id", { count: "exact", head: true }).eq("user_id", userId).gte("created_at", sinceIso),
+      admin.from("search_usage").select("count").eq("user_id", userId).gte("day", sinceIso.slice(0, 10)).gt("count", FREE_DAILY_SEARCHES).limit(1),
+    ]);
+    if (demos.error || sales.error || searches.error) return true;
+    return (demos.count ?? 0) > 0 || (sales.count ?? 0) > 0 || (searches.data?.length ?? 0) > 0;
+  } catch {
+    return true;
+  }
+}
+
+export type PurchaseInfo = {
+  /** Texto do plano, ex.: "1 mês" ou "1 ano". */
+  plan: string;
+  amountCents: number;
+  paidAt: string;
+  /** Até quando dá pra pedir reembolso pelo botão; null se não dá mais. */
+  refundUntil: string | null;
+  /** Já houve um reembolso nesta conta (o botão vale uma vez). */
+  refundUsed: boolean;
+  /** Já usou demonstrações/buscas pagas desde o pagamento: o reembolso passa a ser analisado por e-mail. */
+  usedProduct: boolean;
+};
+
+/** Dados da compra do selo, só pra mostrar na página. O reembolso em si é conferido de novo em refundMyPurchase. */
+export const getMyPurchaseInfo = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { environment: StripeEnv }) => {
     if (!isEnv(d.environment)) throw new Error("Ambiente inválido");
     return d;
   })
-  .handler(async ({ data, context }): Promise<{ ok: true; amount: number } | { ok: false; error: string }> => {
+  .handler(async ({ data, context }): Promise<{ info: PurchaseInfo | null }> => {
+    const { userId } = context;
+    if (!/^[a-zA-Z0-9_-]+$/.test(userId)) return { info: null };
+    try {
+      const paid = await loadPaidPurchases(createStripeClient(data.environment), userId);
+      const last = paid[0];
+      if (!last) return { info: null };
+      const refundUsed = paid.some(x => x.charge.amount_refunded > 0 || x.charge.refunded);
+      const until = last.pi.created * 1000 + REFUND_WINDOW_DAYS * 86400_000;
+      const usedProduct = await usedPaidFeatures(userId, last.pi.created * 1000);
+      const amount = last.charge.amount;
+      const plan = VERIFIED_PLANS.find(p => p.price.replace(/\D/g, "") === String(amount))?.label ?? "Selo Verificado";
+      return {
+        info: {
+          plan,
+          amountCents: amount,
+          paidAt: new Date(last.pi.created * 1000).toISOString(),
+          refundUntil: !refundUsed && !usedProduct && paid.length === 1 && Date.now() < until ? new Date(until).toISOString() : null,
+          refundUsed,
+          usedProduct,
+        },
+      };
+    } catch (error) {
+      console.error("getMyPurchaseInfo failed:", getStripeErrorMessage(error));
+      return { info: null };
+    }
+  });
+
+/**
+ * Reembolso pedido pelo próprio cliente, até 7 dias depois de pagar (CDC art. 49).
+ * O usuário vem do login (nunca do corpo da chamada) e a regra é conferida no Stripe:
+ * só a compra à vista mais recente, paga há no máximo 7 dias, ainda sem devolução,
+ * sem uso do produto depois de pagar, e uma única vez por conta. Depois de devolver, o selo sai na hora.
+ */
+export const refundMyPurchase = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { environment: StripeEnv; reason: string; details?: string }) => {
+    if (!isEnv(d.environment)) throw new Error("Ambiente inválido");
+    if (!REFUND_REASONS.includes(d.reason as RefundReason)) throw new Error("Escolha o motivo do reembolso");
+    const details = (d.details ?? "").trim().slice(0, 300);
+    if (d.reason === "outro" && details.length < 3) throw new Error("Conte o motivo em poucas palavras");
+    return { environment: d.environment, reason: d.reason, details };
+  })
+  .handler(async ({ data, context }): Promise<{ ok: true; amount: number } | { ok: false; error: string; manual?: boolean }> => {
     const { supabase, userId } = context;
-    const contato = "contatosemsite@gmail.com";
+    const contato = "semsiteapp@gmail.com";
     if (!/^[a-zA-Z0-9_-]+$/.test(userId)) return { ok: false, error: "Conta inválida." };
     const { data: status } = await supabase.rpc("verified_status");
     if ((status as { source?: string } | null)?.source !== "one_time") {
@@ -118,15 +209,7 @@ export const refundMyPurchase = createServerFn({ method: "POST" })
     }
     try {
       const stripe = createStripeClient(data.environment);
-      const found = await stripe.paymentIntents.search({
-        query: `metadata['userId']:'${userId}' AND status:'succeeded'`,
-        limit: 20,
-        expand: ["data.latest_charge"],
-      });
-      const paid = found.data
-        .map(pi => ({ pi, charge: typeof pi.latest_charge === "object" ? pi.latest_charge : null }))
-        .filter((x): x is { pi: typeof x.pi; charge: NonNullable<typeof x.charge> } => !!x.charge)
-        .sort((a, b) => b.pi.created - a.pi.created);
+      const paid = await loadPaidPurchases(stripe, userId);
       if (paid.some(x => x.charge.amount_refunded > 0 || x.charge.refunded)) {
         return { ok: false, error: `Esta conta já teve um reembolso. Para novos pedidos, escreva para ${contato}.` };
       }
@@ -139,8 +222,11 @@ export const refundMyPurchase = createServerFn({ method: "POST" })
       if (ageDays > REFUND_WINDOW_DAYS) {
         return { ok: false, error: `O prazo de ${REFUND_WINDOW_DAYS} dias para reembolso já passou. Se achar que é um caso especial, escreva para ${contato}.` };
       }
+      if (await usedPaidFeatures(userId, last.pi.created * 1000)) {
+        return { ok: false, error: `Você já usou o SemSite com o selo (demonstrações ou buscas), então o reembolso é analisado pela gente. Escreva para ${contato} contando o motivo e a gente responde.`, manual: true };
+      }
       await stripe.refunds.create(
-        { payment_intent: last.pi.id, reason: "requested_by_customer", metadata: { userId, via: "self_service" } },
+        { payment_intent: last.pi.id, reason: "requested_by_customer", metadata: { userId, via: "self_service", motivo: data.reason, detalhes: data.details } },
         { idempotencyKey: `refund-${last.pi.id}` },
       );
       // Devolução feita: o selo comprado sai agora (o webhook de charge.refunded faz o mesmo, sem problema repetir).

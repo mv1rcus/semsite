@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-const CONTATO = "contatosemsite@gmail.com";
+const CONTATO = "semsiteapp@gmail.com";
 
 export const Route = createFileRoute("/privacidade")({
   head: () => ({

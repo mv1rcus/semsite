@@ -4,9 +4,10 @@ import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe
 import { Check, Clock, Infinity as InfinityIcon, Loader2, MessageSquareText, PanelsTopLeft, ShieldCheck, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
+import { VerifiedPanel } from "@/components/VerifiedPanel";
 import { supabase } from "@/integrations/supabase/client";
 import { getStripe, getStripeEnvironment } from "@/lib/stripe";
-import { createVerifiedCheckout, createVerifiedPortal, refundMyPurchase } from "@/lib/payments.functions";
+import { createVerifiedCheckout, createVerifiedPortal, getMyPurchaseInfo, refundMyPurchase, type PurchaseInfo } from "@/lib/payments.functions";
 import { VERIFIED_PLANS, type VerifiedPriceId } from "@/lib/verified-plans";
 import { useVerified } from "@/lib/use-verified";
 
@@ -38,7 +39,7 @@ const DUVIDAS = [
   { q: "Tem cobrança automática?", a: "Não. Pagamento único de R$ 8,99 por mês (ou R$ 69,90 no plano anual). Quando o período termina, o selo sai sozinho e nada é debitado. Para continuar, é só pagar de novo." },
   { q: "Preciso de cartão?", a: "Não. Pague no Pix, débito, crédito, Apple Pay ou Google Pay." },
   { q: "Consigo pagar no Pix?", a: "Sim, nos dois planos: 1 mês por R$ 8,99 ou 1 ano por R$ 69,90." },
-  { q: "Posso pedir reembolso?", a: "Pode, até 7 dias depois de pagar. Aqui mesmo, nesta página, no botão \"Pedir reembolso\" (aparece quando seu selo foi comprado). O valor volta para a sua forma de pagamento e o selo sai na hora." },
+  { q: "Posso pedir reembolso?", a: "Pode, até 7 dias depois de pagar. Se você ainda não usou o selo (nenhuma demonstração ou busca paga), o botão \"Pedir reembolso\" nesta página devolve na hora e o selo sai. Se já usou, escreva para semsiteapp@gmail.com e a gente analisa o seu caso." },
   { q: "E se o pagamento falhar?", a: "Nada é cobrado e você pode tentar de novo com outra forma de pagamento, como o Pix." },
 ];
 
@@ -77,17 +78,23 @@ function Verificado() {
     return () => clearInterval(id);
   }, [pago, verified]);
 
+  const [purchase, setPurchase] = useState<PurchaseInfo | null>(null);
+  useEffect(() => {
+    if (status?.source !== "one_time") { setPurchase(null); return; }
+    let env: "sandbox" | "live";
+    try { env = getStripeEnvironment(); } catch { return; }
+    getMyPurchaseInfo({ data: { environment: env } }).then(r => setPurchase(r.info)).catch(() => setPurchase(null));
+  }, [status?.source]);
   const [refunding, setRefunding] = useState(false);
   const [refundMsg, setRefundMsg] = useState("");
-  async function requestRefund() {
+  async function requestRefund(reason: string, details: string) {
     setRefundMsg("");
-    if (!window.confirm("Pedir reembolso? O valor volta para a sua forma de pagamento e o selo sai agora. Isso só pode ser feito uma vez, até 7 dias depois de pagar.")) return;
     setRefunding(true);
     try {
-      const r = await refundMyPurchase({ data: { environment: getStripeEnvironment() } });
+      const r = await refundMyPurchase({ data: { environment: getStripeEnvironment(), reason, details } });
       if (r.ok) { setRefundMsg("Reembolso pedido. O valor volta para a sua forma de pagamento em alguns dias (no Pix, costuma ser mais rápido). Seu selo foi removido."); setTimeout(() => window.location.replace("/verificado"), 4000); }
       else setRefundMsg(r.error);
-    } catch { setRefundMsg("Não consegui processar agora. Tente de novo ou escreva para contatosemsite@gmail.com."); }
+    } catch { setRefundMsg("Não consegui processar agora. Tente de novo ou escreva para semsiteapp@gmail.com."); }
     setRefunding(false);
   }
 
@@ -115,20 +122,7 @@ function Verificado() {
       {loading || waiting ? (
         <div className="flex flex-col items-center gap-2 py-10 text-muted-foreground"><Loader2 className="size-6 animate-spin" />{waiting && "Confirmando seu pagamento…"}</div>
       ) : verified ? (
-        <div className="space-y-3 app-card p-5 text-center">
-          <p className="font-bold">Sua conta é verificada. Tudo liberado! 🎉</p>
-          {status?.source === "one_time" && <p className="text-sm text-muted-foreground">Selo válido até {status.expires_at ? new Date(status.expires_at).toLocaleDateString("pt-BR") : "—"}. Depois, é só pagar de novo, sem cobrança automática.</p>}
-          {status?.source === "one_time" && (
-            <div className="border-t border-border pt-3 text-sm">
-              <p className="text-muted-foreground">Mudou de ideia? Você pode pedir o reembolso até 7 dias depois de pagar.</p>
-              <Button variant="outline" size="sm" className="mt-2 rounded-full" disabled={refunding} onClick={requestRefund}>{refunding ? "Processando…" : "Pedir reembolso"}</Button>
-              {refundMsg && <p className="mt-2 font-semibold" role="status">{refundMsg}</p>}
-            </div>
-          )}
-          {status?.source === "manual" && <p className="text-sm text-muted-foreground">Selo permanente, cortesia do SemSite.</p>}
-          {(!status || status.source === "subscription") && sub && <p className="text-sm text-muted-foreground">{sub.cancel_at_period_end ? "Cancelada — o selo fica até " : "Próxima cobrança em "}{sub.current_period_end ? new Date(sub.current_period_end).toLocaleDateString("pt-BR") : "—"}</p>}
-          {sub && ["active", "trialing", "past_due", "unpaid"].includes(sub.status) && <Button variant="outline" className="rounded-full" onClick={openPortal}>Gerenciar ou cancelar assinatura</Button>}
-        </div>
+        <VerifiedPanel status={status} sub={sub} purchase={purchase} refunding={refunding} refundMsg={refundMsg} onRefund={requestRefund} onPortal={openPortal} />
       ) : plan ? (
         <div className="space-y-3">
           <Button variant="ghost" onClick={() => { setPlan(null); setError(""); }}>← Trocar plano</Button>
