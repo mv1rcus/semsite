@@ -120,7 +120,7 @@ function Clientes() {
           } catch { setImportError("Não foi possível abrir o arquivo. Tente selecionar o backup novamente."); }
         }} />
       </div>
-      <p className="mt-3 text-xs text-muted-foreground">Clientes salvos somente neste navegador.</p></details>
+      <p className="mt-3 text-xs text-muted-foreground">Clientes salvos na sua conta.</p></details>
       <details className="mt-4 border-b pb-4"><summary className="cursor-pointer text-sm font-medium">Agenda de contatos</summary><ContactAgenda clients={clients} now={now} update={update} /></details>
       {due.length > 0 && <div role="status" className="mt-6 flex items-center gap-3 border-l-2 border-destructive bg-muted p-4"><Bell className="size-5 shrink-0 text-destructive" /><span>{due.length} {due.length === 1 ? "contato pendente" : "contatos pendentes"}</span><Button variant="ghost" size="sm" onClick={() => setFilter("due")}>Ver</Button></div>}
       <div className="mt-6 grid gap-3 sm:grid-cols-[1fr_260px]"><div className="relative"><Search className="absolute left-3 top-2.5 size-4 text-muted-foreground" /><Input aria-label="Buscar cliente" placeholder="Nome, cidade ou telefone" className="pl-10" value={query} onChange={(e) => { setQuery(e.target.value); setSelected([]); setLimit(12); }} /></div>

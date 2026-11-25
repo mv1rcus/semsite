@@ -8,7 +8,8 @@ import { setPortfolioVisibility } from "@/lib/portfolio.functions";
 import { removeSavedDemos, savedDemoSchema, verificationState, demoAccessBadge, type DemoActivity, type SavedDemo } from "@/lib/demo-verification";
 import { demoSchema, draftForClient, demonstrationLink, demonstrationSlug, demonstrationCode, demoWhatsAppShare, type Demonstration } from "@/lib/demonstrations";
 import { DEFAULT_EXPIRY_DAYS, EXPIRY_OPTIONS, expiryDate, expiryInfo, openCountLabel, urgencyMessage } from "@/lib/demo-expiry";
-import { FUNNEL_KEY, entryFor, funnelMetrics, parseFunnel, removeFromFunnel, setNotes as funnelSetNotes, setStage as funnelSetStage, type FunnelMap, type FunnelStage } from "@/lib/demo-funnel";
+import { FUNNEL_KEY, funnelEntrySchema, entryFor, funnelMetrics, parseFunnel, removeFromFunnel, setNotes as funnelSetNotes, setStage as funnelSetStage, type FunnelMap, type FunnelStage } from "@/lib/demo-funnel";
+import { cloudLoad, cloudSave, type CloudItem } from "@/lib/cloud-sync";
 import { PixChargeDialog } from "@/components/PixChargeDialog";
 import { DemoFunnelPanel } from "@/components/DemoFunnelPanel";
 import { DemoLeadFunnel } from "@/components/DemoLeadFunnel";
@@ -27,6 +28,10 @@ export const Route = createFileRoute("/_authenticated/demonstracoes")({
   head: () => ({ meta: [{ title: "Criar demonstração — SemSite" }, { name: "description", content: "Prepare uma proposta visual de site personalizada para seu cliente." }, { property: "og:title", content: "Demonstrações de sites — SemSite" }, { property: "og:description", content: "Crie uma demonstração relacionada ao negócio do cliente e compartilhe o link." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: () => <VerifiedGate feature="Demonstrações"><Demonstracoes /></VerifiedGate>,
 });
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+function parseSavedList(list: unknown[]): SavedDemo[] {
+  return list.flatMap((item) => { const parsed = savedDemoSchema.safeParse(item); return parsed.success && UUID_RE.test(parsed.data.id) ? [parsed.data] : []; });
+}
 const blank = draftForClient({ id: "", name: "", category: "Serviços locais", address: "", phone: null, intlPhone: null, rating: null, reviews: null, mapsUrl: null });
 function Demonstracoes() {
   const [tab, setTab] = useState("edit");
@@ -44,6 +49,7 @@ function Demonstracoes() {
   const [pixFor, setPixFor] = useState<SavedDemo | null>(null);
   const [funnel, setFunnel] = useState<FunnelMap>({});
   const [funnelLoaded, setFunnelLoaded] = useState(false);
+  const [cloudReady, setCloudReady] = useState(false);
   const [stageFilter, setStageFilter] = useState<FunnelStage | "all">("all");
   const changeExpiry = useServerFn(setDemonstrationExpiry);
   const [activityLoaded, setActivityLoaded] = useState(false);
@@ -56,24 +62,39 @@ function Demonstracoes() {
     setNow(Date.now());
     const timer = window.setInterval(() => setNow(Date.now()), 60000);
     setOrigin(window.location.origin);
-    try { setFunnel(parseFunnel(localStorage.getItem(FUNNEL_KEY))); } catch { /* Storage is optional. */ }
+    let localFunnel: FunnelMap = {};
+    let localSaved: SavedDemo[] = [];
+    let alive = true;
+    try { localFunnel = parseFunnel(localStorage.getItem(FUNNEL_KEY)); setFunnel(localFunnel); } catch { /* Storage is optional. */ }
     setFunnelLoaded(true);
     try {
       const draft = sessionStorage.getItem("site-demo-draft");
       if (draft) { const parsed = demoSchema.safeParse(JSON.parse(draft)); if (parsed.success) setDemo(parsed.data); sessionStorage.removeItem("site-demo-draft"); }
       const list: unknown = JSON.parse(localStorage.getItem("site-demo-links") || "[]");
-      if (Array.isArray(list)) setSaved(list.flatMap((item) => { const parsed = savedDemoSchema.safeParse(item); return parsed.success && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(parsed.data.id) ? [parsed.data] : []; }));
+      if (Array.isArray(list)) { localSaved = parseSavedList(list); setSaved(localSaved); }
     } catch { /* Storage is optional. */ }
-    return () => window.clearInterval(timer);
+    // Conta: links salvos e funil vêm do banco (e o que já estava neste navegador sobe na primeira vez).
+    Promise.all([
+      cloudLoad("saved_demo", localSaved.map((d) => ({ id: d.id, data: d as unknown as Record<string, unknown> }))),
+      cloudLoad("funnel", Object.entries(localFunnel).map(([id, entry]) => ({ id, data: entry as unknown as Record<string, unknown> }))),
+    ]).then(([links, steps]) => {
+      if (!alive) return;
+      if (links.ready) setSaved(parseSavedList(links.items.map((i) => i.data)));
+      if (steps.ready) setFunnel(Object.fromEntries(steps.items.flatMap((i) => { const p = funnelEntrySchema.safeParse(i.data); return p.success ? [[i.id, p.data] as const] : []; })));
+      setCloudReady(links.ready && steps.ready);
+    });
+    return () => { alive = false; window.clearInterval(timer); };
   }, []);
   useEffect(() => {
     if (!origin) return;
     try { localStorage.setItem("site-demo-links", JSON.stringify(saved)); } catch { /* History is optional. */ }
-  }, [saved, origin]);
+    if (cloudReady) cloudSave("saved_demo", saved.map((d): CloudItem => ({ id: d.id, data: d as unknown as Record<string, unknown> })));
+  }, [saved, origin, cloudReady]);
   useEffect(() => {
     if (!funnelLoaded) return;
     try { localStorage.setItem(FUNNEL_KEY, JSON.stringify(funnel)); } catch { /* Funnel is optional. */ }
-  }, [funnel, funnelLoaded]);
+    if (cloudReady) cloudSave("funnel", Object.entries(funnel).map(([id, entry]): CloudItem => ({ id, data: entry as unknown as Record<string, unknown> })));
+  }, [funnel, funnelLoaded, cloudReady]);
   useEffect(() => {
     if (!origin || activityLoaded || saved.length === 0) return;
     setActivityLoaded(true);
@@ -161,7 +182,7 @@ function Demonstracoes() {
         {id && <div className="space-y-3 border-t pt-4"><Input aria-label="Link da demonstração" readOnly value={link} /><div className="flex flex-wrap gap-2"><Button type="button" variant="outline" onClick={copy}><Copy />Copiar link</Button><Button type="button" variant="outline" onClick={copyPrompt}><ClipboardList />Copiar prompt</Button><Button asChild variant="outline"><Link to="/site/$slug/$code" params={{ slug: demonstrationSlug(demo.name), code: demonstrationCode(id) }}><ExternalLink />Abrir</Link></Button><Button asChild variant="whatsapp" title={demo.phone ? "Abre a conversa do WhatsApp do negócio com o link pronto" : "Escolha o contato no WhatsApp para enviar o link"}><a href={demoWhatsAppShare(demo.phone, demo.name, link, expiryDate(validity))} target="_blank" rel="noreferrer"><MessageCircle />Enviar no WhatsApp</a></Button></div></div>}
       </form><div className="min-w-0 border-t pt-5 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0"><h2 className="text-xl font-semibold">Escolha o estilo do negócio</h2><div className="mt-5 grid grid-cols-2 gap-3">{[{ label: "Restaurante", sector: "food" }, { label: "Academia", sector: "gym" }, { label: "Advogado", sector: "law" }, { label: "Clínica", sector: "health" }, { label: "Salão de beleza", sector: "beauty" }, { label: "Pet shop", sector: "pet" }, { label: "Oficina", sector: "auto" }, { label: "Serviços locais", sector: "services" }].map(item => <Button key={item.label} type="button" variant={demo.category === item.label ? "secondary" : "outline"} className="h-auto min-h-12 whitespace-normal" disabled={loading} onClick={() => { setDemo(old => ({ ...old, category: item.label, headline: SECTOR_HEADLINE[item.sector as keyof typeof SECTOR_HEADLINE] })); setId(null); setNotice(""); }}>{item.label}</Button>)}</div><div className="mt-7"><h2 className="text-xl font-semibold">Modelo do site</h2><p className="mt-1 text-sm text-muted-foreground">Já escolhemos o ideal para o ramo. Troque se o cliente preferir outro.</p><div className="mt-4 grid gap-2">{LAYOUT_IDS.map(m => { const on = (model ?? autoLayout(demo.category)) === m; return <Button key={m} type="button" variant={on ? "secondary" : "outline"} className="h-auto min-h-12 justify-start whitespace-normal text-left" onClick={() => setModel(m === autoLayout(demo.category) ? null : m)}><span><span className="block font-bold">{LAYOUTS[m].label}{m === autoLayout(demo.category) ? " · ideal" : ""}</span><span className="block text-xs font-normal opacity-80">{LAYOUTS[m].hint}</span></span></Button>; })}</div></div><div className="mt-7 border-y py-5"><p className="break-words text-2xl font-bold">{demo.name || "Nome do seu cliente"}</p><p className="mt-2 text-sm text-muted-foreground">{demo.headline}</p></div><Button type="button" variant="outline" className="mt-6 w-full" onClick={() => setTab("preview")}><Eye />Ver site completo<ArrowRight /></Button></div></div>}
       {tab === "preview" && <div className="mt-6"><div className="mb-5 flex flex-wrap items-center justify-between gap-3"><h2 className="text-xl font-semibold">Prévia do site</h2><Button variant="outline" onClick={() => setTab("edit")}>Voltar à edição</Button></div><div className="mb-4 flex flex-wrap gap-2">{LAYOUT_IDS.map(m => <Button key={m} size="sm" variant={(model ?? autoLayout(demo.category)) === m ? "default" : "outline"} onClick={() => setModel(m === autoLayout(demo.category) ? null : m)}>{LAYOUTS[m].label}</Button>)}</div><DemoSite key={demo.category + (model ?? "")} layout={model ?? undefined} demo={{ ...demo, name: demo.name || "Nome do seu cliente" }} /></div>}
-      {tab === "history" && <section className="mt-6"><h2 className="text-xl font-semibold">Funil de vendas</h2><p className="mt-1 text-sm text-muted-foreground">Acompanhe cada lead do link criado até o fechamento. Tudo fica salvo só neste navegador.</p>{saved.length > 0 && <DemoFunnelPanel metrics={metrics} filter={stageFilter} onFilter={setStageFilter} />}<div className="relative mt-4"><Search className="absolute left-3 top-2.5 size-4 text-muted-foreground" /><Input aria-label="Buscar demonstração" placeholder="Buscar pelo nome do negócio" className="pl-10" value={historyQuery} onChange={event => setHistoryQuery(event.target.value)} /></div>{history.length === 0 && <div className="py-12 text-center"><p className="text-muted-foreground">{saved.length ? "Nenhum link encontrado." : "Nenhuma demonstração criada ainda."}</p><Button variant="outline" className="mt-4" onClick={() => setTab("edit")}><Plus />Criar demonstração</Button></div>}<ul className="mt-4 divide-y">{history.map((item) => {
+      {tab === "history" && <section className="mt-6"><h2 className="text-xl font-semibold">Funil de vendas</h2><p className="mt-1 text-sm text-muted-foreground">Acompanhe cada lead do link criado até o fechamento. Tudo fica salvo na sua conta e acompanha você em qualquer aparelho.</p>{saved.length > 0 && <DemoFunnelPanel metrics={metrics} filter={stageFilter} onFilter={setStageFilter} />}<div className="relative mt-4"><Search className="absolute left-3 top-2.5 size-4 text-muted-foreground" /><Input aria-label="Buscar demonstração" placeholder="Buscar pelo nome do negócio" className="pl-10" value={historyQuery} onChange={event => setHistoryQuery(event.target.value)} /></div>{history.length === 0 && <div className="py-12 text-center"><p className="text-muted-foreground">{saved.length ? "Nenhum link encontrado." : "Nenhuma demonstração criada ainda."}</p><Button variant="outline" className="mt-4" onClick={() => setTab("edit")}><Plus />Criar demonstração</Button></div>}<ul className="mt-4 divide-y">{history.map((item) => {
         const state = verificationState(item.verification, now);
         const Icon = state === "recent" ? CircleCheck : state === "failed" ? CircleAlert : Clock;
         const label = state === "recent" ? "Verificado nas últimas 24h" : state === "failed" ? "Link indisponível na última tentativa" : state === "stale" ? "Verificação há mais de 24h" : "Ainda não verificado";
@@ -188,7 +209,7 @@ function Demonstracoes() {
       })}</ul></section>}
       {tab === "history" && history.length > 0 && <div className="flex flex-wrap items-center gap-3 border-y py-3"><label className="flex cursor-pointer items-center gap-2 text-sm"><Checkbox aria-label="Selecionar links exibidos" checked={history.every(item => selectedIds.includes(item.id)) ? true : history.some(item => selectedIds.includes(item.id)) ? "indeterminate" : false} onCheckedChange={checked => setSelected(previous => checked === true ? [...new Set([...previous, ...history.map(item => item.id)])] : previous.filter(key => !history.some(item => item.id === key)))} />Selecionar exibidos</label>{selectedIds.length > 0 && <><span className="text-sm text-muted-foreground">{selectedIds.length} selecionados</span><Button variant="destructive" size="sm" onClick={() => setPendingDelete(selectedIds)}><Trash2 />Excluir selecionados</Button><Button variant="ghost" size="sm" onClick={() => setSelected([])}>Cancelar seleção</Button></>}</div>}
       <PixChargeDialog open={pixFor !== null} onOpenChange={(o) => { if (!o) setPixFor(null); }} clientName={pixFor?.name ?? ""} />
-      <AlertDialog open={pendingDelete.length > 0} onOpenChange={open => { if (!open) setPendingDelete([]); }}><AlertDialogContent className="max-h-[85dvh] max-w-[calc(100%-2rem)] overflow-y-auto sm:max-w-lg"><AlertDialogHeader><AlertDialogTitle>Excluir {deleting.length === 1 ? `o link de ${deleting[0]?.name}` : `${deleting.length} links`}?</AlertDialogTitle><AlertDialogDescription>Os links serão removidos apenas da lista deste navegador. Os sites de demonstração continuarão abrindo para quem já recebeu o endereço. A remoção da lista não pode ser desfeita.</AlertDialogDescription></AlertDialogHeader><ul className="max-h-32 overflow-y-auto text-sm">{deleting.map(item => <li key={item.id} className="break-words py-1">{item.name}</li>)}</ul><AlertDialogFooter><AlertDialogCancel>Cancelar</AlertDialogCancel><Button variant="destructive" disabled={!deleting.length} onClick={confirmRemoval}><Trash2 />Confirmar exclusão</Button></AlertDialogFooter></AlertDialogContent></AlertDialog>
+      <AlertDialog open={pendingDelete.length > 0} onOpenChange={open => { if (!open) setPendingDelete([]); }}><AlertDialogContent className="max-h-[85dvh] max-w-[calc(100%-2rem)] overflow-y-auto sm:max-w-lg"><AlertDialogHeader><AlertDialogTitle>Excluir {deleting.length === 1 ? `o link de ${deleting[0]?.name}` : `${deleting.length} links`}?</AlertDialogTitle><AlertDialogDescription>Os links serão removidos apenas da sua lista. Os sites de demonstração continuarão abrindo para quem já recebeu o endereço. A remoção da lista não pode ser desfeita.</AlertDialogDescription></AlertDialogHeader><ul className="max-h-32 overflow-y-auto text-sm">{deleting.map(item => <li key={item.id} className="break-words py-1">{item.name}</li>)}</ul><AlertDialogFooter><AlertDialogCancel>Cancelar</AlertDialogCancel><Button variant="destructive" disabled={!deleting.length} onClick={confirmRemoval}><Trash2 />Confirmar exclusão</Button></AlertDialogFooter></AlertDialogContent></AlertDialog>
     </section>
   </main>;
 }

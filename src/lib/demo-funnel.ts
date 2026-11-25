@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { DemoActivity } from "./demo-verification";
 
-/** Funil de vendas de "Meus links": uma etapa por lead, guardada só neste navegador. */
+/** Funil de vendas de "Meus links": uma etapa por lead, guardada na conta do vendedor. */
 export const FUNNEL_STAGES = [
   { value: "found", label: "Encontrado" },
   { value: "preview", label: "Prévia pronta" },
