@@ -43,7 +43,7 @@ export function FirstStepsCard() {
       <ol className="mt-3 grid gap-2 sm:grid-cols-3">
         {steps.map((s, i) => (
           <li key={s.label}>
-            <Link to={s.to} hash={s.hash} className="flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm">
+            <Link to={s.to} {...(s.hash ? { hash: s.hash } : {})} className="flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm">
               <span className={`grid size-6 shrink-0 place-items-center rounded-full text-xs font-bold ${s.done ? "bg-primary text-primary-foreground" : "border border-border text-muted-foreground"}`}>{s.done ? <Check className="size-3.5" /> : i + 1}</span>
               <span className={s.done ? "text-muted-foreground line-through" : "font-semibold"}>{s.label}</span>
             </Link>

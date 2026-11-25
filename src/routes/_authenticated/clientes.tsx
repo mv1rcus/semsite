@@ -52,7 +52,7 @@ function Clientes() {
   function refreshResults() { loadResults().then(setResults).catch(() => setResults(null)); }
   useEffect(() => {
     refreshResults();
-    loadSales().then((rows) => setSales(rows.map((row) => ({ clientId: row.clientId, amountCents: row.amountCents })))).catch(() => {});
+    loadSales().then((rows) => setSales(rows.map((row: { clientId: string; amountCents: number }) => ({ clientId: row.clientId, amountCents: row.amountCents })))).catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const salesByClient = useMemo(() => new Map(sales.map((sale) => [sale.clientId, sale.amountCents])), [sales]);
