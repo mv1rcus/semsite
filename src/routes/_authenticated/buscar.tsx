@@ -3,11 +3,12 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX, Store, X, History, Radar, RotateCw, SlidersHorizontal, HeartPulse, Utensils, Scissors, Car, House, PawPrint, Dumbbell, BriefcaseBusiness, ArrowUpRight, Mail, Instagram, Facebook, Flame, Copy, type LucideIcon } from "lucide-react";
+import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX, Store, X, History, Radar, ScanSearch, RotateCw, SlidersHorizontal, HeartPulse, Utensils, Scissors, Car, House, PawPrint, Dumbbell, BriefcaseBusiness, ArrowUpRight, Mail, Instagram, Facebook, Flame, Copy, type LucideIcon } from "lucide-react";
 import { searchLeads, type Lead } from "@/lib/leads.functions";
 import { clientSearchError } from "@/lib/search-errors";
 import { filterProspects, type ProspectFilter, type ProspectOrder } from "@/lib/prospect-filters";
 import { ProspectMessage } from "@/components/ProspectMessage";
+import { BusinessXrayDialog } from "@/components/BusinessXrayDialog";
 import { XrayDialog } from "@/components/XrayDialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
@@ -79,6 +80,7 @@ function Buscar() {
   const [resultTerm, setResultTerm] = useState("");
   const [messageLead, setMessageLead] = useState<Lead | null>(null);
   const [xrayLead, setXrayLead] = useState<Lead | null>(null);
+  const [bizXrayLead, setBizXrayLead] = useState<Lead | null>(null);
   const busy = useRef(false);
   const queryChanged = activeQuery && (activeQuery.category !== category.trim() || activeQuery.city !== city.trim());
   const ranked = useMemo(() => rankProspects(leads), [leads]);
@@ -339,6 +341,7 @@ function Buscar() {
                 <div className="mt-4"><ClientStageSelect value={followUp.clients.find((client) => client.id === l.id)?.stage ?? "new"} onChange={(stage) => followUp.track(l, stage)} label={`Etapa de ${l.name}`} /></div>
                 <Button variant="ghost" size="sm" className="mt-2" onClick={() => { if (followUp.track(l)) navigate({ to: "/clientes" }); }}>Acompanhar e definir lembrete</Button>
                 <Button variant="outline" className="mt-4" onClick={() => demonstrate(l)}><PanelsTopLeft />Demonstração do site</Button>
+                <Button variant="outline" className="mt-2" onClick={() => setBizXrayLead(l)}><ScanSearch />Raio-X do negócio</Button>
                 <Button variant="outline" className="mt-2" onClick={() => setXrayLead(l)}><Radar />Roteiro de vendas</Button>
                 <div className="mt-auto flex gap-2 pt-4">
                   {isMobilePhone(l) ? (
@@ -371,6 +374,7 @@ function Buscar() {
         )}
       </section>
       {messageLead && <ProspectMessage key={messageLead.id} lead={messageLead} close={() => setMessageLead(null)} markContacted={() => markContacted(messageLead)} />}
+      {bizXrayLead && <BusinessXrayDialog key={bizXrayLead.id} lead={bizXrayLead} city={activeQuery?.city ?? city} close={() => setBizXrayLead(null)} />}
       {xrayLead && <XrayDialog key={xrayLead.id} lead={xrayLead} others={ranked} city={activeQuery?.city ?? city} close={() => setXrayLead(null)} />}
     </main>
   );
