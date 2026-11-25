@@ -10,7 +10,7 @@ Em vez de garimpar o Google Maps atrás de cliente, o SemSite encontra negócios
 2. **Mostre o site pronto** — com um clique, o SemSite monta um site de demonstração pronto pra aquele negócio, com link curto pra enviar.
 3. **Feche pelo WhatsApp** — cada negócio já vem com uma mensagem pronta oferecendo o site. Na aba "Meus links" você acompanha o funil de cada lead, quantas vezes o cliente abriu o demo e até quando o link fica no ar.
 4. **Cobre por Pix** — o botão "Cobrar" gera o QR Code e o copia e cola com a sua chave, direto na sua conta.
-
+ 
 ## Planos
 
 - **Mensal**: R$ 8,99/mês — pagamento manual a cada mês, sem cobrança automática no cartão. Você renova só se quiser continuar.
