@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Copy, ExternalLink, Loader2, MessageCircle, PanelsTopLeft, CircleCheck, CircleAlert, Clock, RefreshCw, Eye, Search, ArrowRight, Plus, Trash2, ClipboardList, QrCode } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { createDemonstration, getDemonstrationActivity, setDemonstrationExpiry, verifyDemonstrationLink } from "@/lib/demonstrations.functions";
+import { setPortfolioVisibility } from "@/lib/portfolio.functions";
 import { removeSavedDemos, savedDemoSchema, verificationState, demoAccessBadge, type DemoActivity, type SavedDemo } from "@/lib/demo-verification";
 import { demoSchema, draftForClient, demonstrationLink, demonstrationSlug, demonstrationCode, demoWhatsAppShare, type Demonstration } from "@/lib/demonstrations";
 import { DEFAULT_EXPIRY_DAYS, EXPIRY_OPTIONS, expiryDate, expiryInfo, openCountLabel, urgencyMessage } from "@/lib/demo-expiry";
@@ -116,6 +117,14 @@ function Demonstracoes() {
     const text = urgencyMessage(item.name, demonstrationLink(item.id, origin, item.name, item.slug), activity[item.id]?.expiresAt);
     try { await navigator.clipboard.writeText(text); setNotice(`Texto de urgência de ${item.name} copiado.`); } catch { setNotice("Não foi possível copiar o texto agora."); }
   }
+  const changePortfolio = useServerFn(setPortfolioVisibility);
+  async function togglePortfolio(item: SavedDemo, show: boolean) {
+    try {
+      await changePortfolio({ data: { id: item.id, show } });
+      setActivity((old) => ({ ...old, [item.id]: { ...(old[item.id] ?? { id: item.id, createdAt: new Date().toISOString(), lastOpenedAt: null }), showInPortfolio: show } }));
+      setNotice(show ? `${item.name} entrou no seu portfólio público.` : `${item.name} saiu do seu portfólio.`);
+    } catch (e) { setNotice(e instanceof Error ? e.message : "Não foi possível atualizar o portfólio agora."); }
+  }
   async function adjustExpiry(item: SavedDemo, days: number) {
     try {
       const result = await changeExpiry({ data: { id: item.id, days } });
@@ -168,6 +177,7 @@ function Demonstracoes() {
             <p className="mt-1 break-all text-xs text-muted-foreground">{demonstrationLink(item.id, origin || "https://semsite.lovable.app", item.name, item.slug).replace(/^https?:\/\//, "")}</p>
             {access && <p className={`mt-2 flex items-center gap-2 text-sm font-semibold ${access.state === "opened" ? "text-whatsapp" : "text-muted-foreground"}`}>{access.state === "opened" ? <Eye className="size-4 shrink-0" /> : <Clock className="size-4 shrink-0" />}{access.state === "opened" ? <time dateTime={activity[item.id]?.lastOpenedAt ?? ""}>{access.detail}</time> : access.detail}</p>}
             {activity[item.id] && <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs"><span className="font-semibold">{openCountLabel(activity[item.id]?.openCount)}</span><span className={expiry.state === "expired" ? "font-semibold text-destructive" : expiry.state === "soon" ? "font-semibold text-amber-500" : "text-muted-foreground"}>{expiry.label}</span><label className="flex items-center gap-1 text-muted-foreground">Prazo<select aria-label={`Ajustar validade de ${item.name}`} className="rounded border bg-background px-1 py-0.5" value="" onChange={(e) => { if (e.target.value) adjustExpiry(item, Number(e.target.value)); }}><option value="">ajustar…</option>{EXPIRY_OPTIONS.map((d) => <option key={d} value={d}>{d} dias a partir de hoje</option>)}</select></label></p>}
+            <label className="mt-2 flex items-center gap-2 text-xs text-muted-foreground"><Checkbox aria-label={`Mostrar ${item.name} no portfólio público`} checked={activity[item.id]?.showInPortfolio ?? false} onCheckedChange={(checked) => togglePortfolio(item, checked === true)} />Mostrar no meu portfólio público</label>
             <DemoLeadFunnel name={item.name} entry={entryFor(funnel, item.id)} onStage={(stage) => setFunnel((old) => funnelSetStage(old, item.id, stage))} onNotes={(text) => setFunnel((old) => funnelSetNotes(old, item.id, text))} />
             <p role="status" className={`mt-1 flex items-start gap-2 text-xs ${state === "recent" ? "text-primary" : state === "failed" ? "text-destructive" : "text-muted-foreground"}`}><Icon className="size-4 shrink-0" />{label}</p>
             {item.verification && <p className="mt-1 text-xs text-muted-foreground">Última tentativa: <time dateTime={item.verification.checkedAt}>{new Date(item.verification.checkedAt).toLocaleString("pt-BR")}</time></p>}

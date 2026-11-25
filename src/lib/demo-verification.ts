@@ -28,7 +28,7 @@ export function demonstrationPageIsAvailable(status: number, html: string) {
   return status === 200 && /class="demo-site(?:\s|")/.test(html) && /<h1\b/.test(html);
 }
 export const INACTIVE_DEMO_MS = 24 * 60 * 60 * 1000;
-export type DemoActivity = { id: string; slug?: string | null; createdAt: string; lastOpenedAt: string | null; lastOpenedDevice?: string | null; openCount?: number | null; expiresAt?: string | null };
+export type DemoActivity = { id: string; slug?: string | null; createdAt: string; lastOpenedAt: string | null; lastOpenedDevice?: string | null; openCount?: number | null; expiresAt?: string | null; showInPortfolio?: boolean };
 /** A demonstration is inactive when nobody opened it in the last 24h (or since creation, if never opened). */
 export function isInactiveDemo(activity: DemoActivity, now: number) {
   const last = Date.parse(activity.lastOpenedAt ?? activity.createdAt);
