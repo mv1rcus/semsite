@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
-import { computeAchievements, type AchievementProgress } from "@/lib/achievements";
+import { isDeveloperId } from "@/components/DeveloperBadge";
+import { computeAchievements, unlockAll, type AchievementProgress } from "@/lib/achievements";
 
 const fmt = (iso: string) => new Date(iso.length === 10 ? `${iso}T12:00:00` : iso).toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" });
 
@@ -23,14 +24,15 @@ export function AchievementBadges({ userId }: { userId: string }) {
         (supabase as any).from("user_store").select("data").eq("user_id", userId).eq("kind", "client").limit(2000),
       ]);
       if (!alive) return;
-      setList(computeAchievements({
+      const computed = computeAchievements({
         salesDates: (sales.data ?? []).map((r) => r.closed_at),
         demoDates: (demos.data ?? []).map((r) => r.created_at),
         firstSearchDay: searches.data?.[0]?.day ?? null,
         firstContactDate: contacts.data?.[0]?.created_at ?? null,
         leadReplyDates: ((stores?.data ?? []) as { data: { events?: { stage: string; date: string }[] } }[]).flatMap((r) => (r.data?.events ?? []).filter((e) => e.stage === "demo_sent").map((e) => e.date)),
         activityDates: [...(sales.data ?? []).map((r) => r.closed_at), ...(allDemos.data ?? []).map((r) => r.created_at), ...(allSearches.data ?? []).map((r) => r.day), ...(allContacts.data ?? []).map((r) => r.created_at)],
-      }));
+      });
+      setList(isDeveloperId(userId) ? unlockAll(computed) : computed);
     })();
     return () => { alive = false; };
   }, [userId]);
