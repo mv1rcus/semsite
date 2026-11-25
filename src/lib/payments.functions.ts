@@ -93,3 +93,62 @@ export const createVerifiedPortal = createServerFn({ method: "POST" })
       return { error: getStripeErrorMessage(error) };
     }
   });
+
+const REFUND_WINDOW_DAYS = 7;
+
+/**
+ * Reembolso pedido pelo próprio cliente, até 7 dias depois de pagar (CDC art. 49).
+ * O usuário vem do login (nunca do corpo da chamada) e a regra é conferida no Stripe:
+ * só a compra à vista mais recente, paga há no máximo 7 dias, ainda sem devolução,
+ * e uma única vez por conta. Depois de devolver, o selo sai na hora.
+ */
+export const refundMyPurchase = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { environment: StripeEnv }) => {
+    if (!isEnv(d.environment)) throw new Error("Ambiente inválido");
+    return d;
+  })
+  .handler(async ({ data, context }): Promise<{ ok: true; amount: number } | { ok: false; error: string }> => {
+    const { supabase, userId } = context;
+    const contato = "contatosemsite@gmail.com";
+    if (!/^[a-zA-Z0-9_-]+$/.test(userId)) return { ok: false, error: "Conta inválida." };
+    const { data: status } = await supabase.rpc("verified_status");
+    if ((status as { source?: string } | null)?.source !== "one_time") {
+      return { ok: false, error: `Só dá pra pedir reembolso por aqui de um selo comprado. Para outros casos, escreva para ${contato}.` };
+    }
+    try {
+      const stripe = createStripeClient(data.environment);
+      const found = await stripe.paymentIntents.search({
+        query: `metadata['userId']:'${userId}' AND status:'succeeded'`,
+        limit: 20,
+        expand: ["data.latest_charge"],
+      });
+      const paid = found.data
+        .map(pi => ({ pi, charge: typeof pi.latest_charge === "object" ? pi.latest_charge : null }))
+        .filter((x): x is { pi: typeof x.pi; charge: NonNullable<typeof x.charge> } => !!x.charge)
+        .sort((a, b) => b.pi.created - a.pi.created);
+      if (paid.some(x => x.charge.amount_refunded > 0 || x.charge.refunded)) {
+        return { ok: false, error: `Esta conta já teve um reembolso. Para novos pedidos, escreva para ${contato}.` };
+      }
+      const last = paid[0];
+      if (!last) return { ok: false, error: `Não encontrei um pagamento seu. Escreva para ${contato} que a gente resolve.` };
+      if (paid.length > 1) {
+        return { ok: false, error: `Você tem mais de um pagamento na conta. Escreva para ${contato} e dizemos qual devolver.` };
+      }
+      const ageDays = (Date.now() / 1000 - last.pi.created) / 86400;
+      if (ageDays > REFUND_WINDOW_DAYS) {
+        return { ok: false, error: `O prazo de ${REFUND_WINDOW_DAYS} dias para reembolso já passou. Se achar que é um caso especial, escreva para ${contato}.` };
+      }
+      await stripe.refunds.create(
+        { payment_intent: last.pi.id, reason: "requested_by_customer", metadata: { userId, via: "self_service" } },
+        { idempotencyKey: `refund-${last.pi.id}` },
+      );
+      // Devolução feita: o selo comprado sai agora (o webhook de charge.refunded faz o mesmo, sem problema repetir).
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      await supabaseAdmin.from("verified_profiles").delete().eq("profile_id", userId).eq("source", "one_time");
+      return { ok: true, amount: last.charge.amount };
+    } catch (error) {
+      console.error("refundMyPurchase failed:", getStripeErrorMessage(error));
+      return { ok: false, error: `Não consegui processar agora. Nada foi mexido. Tente de novo ou escreva para ${contato}.` };
+    }
+  });
