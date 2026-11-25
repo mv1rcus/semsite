@@ -24,6 +24,8 @@ function Privacidade() {
       <h1 className="mt-6 text-3xl font-extrabold text-foreground">Política de Privacidade</h1>
       <p className="mt-2">Última atualização: 25 de novembro de 2026</p>
 
+      <p className="mt-2">Veja também os <Link to="/termos" className="underline">Termos de Uso</Link>.</p>
+
       <H>1. Quem somos</H>
       <p className="mt-2">O SemSite é uma plataforma para quem vende sites (freelancers e agências). Contato sobre privacidade: <a className="underline" href={`mailto:${CONTATO}`}>{CONTATO}</a>.</p>
 

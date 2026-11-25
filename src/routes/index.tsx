@@ -259,6 +259,7 @@ function Login() {
           <a href="#como-funciona" className="hover:text-foreground">Como funciona</a>
           <a href="#planos" className="hover:text-foreground">Planos</a>
           <a href="#duvidas" className="hover:text-foreground">Dúvidas</a>
+          <Link to="/termos" className="hover:text-foreground">Termos de Uso</Link>
           <Link to="/privacidade" className="hover:text-foreground">Política de Privacidade</Link>
         </nav>
       </footer>
