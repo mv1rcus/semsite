@@ -13,6 +13,8 @@ export const clientSchema = z.object({
   intlPhone: z.string().nullable(), category: z.string().nullable(), mapsUrl: z.string().nullable(),
   stage: z.enum(["new", "contacted", "demo_sent", "closed"]),
   stageDate: z.string(), nextContact: z.string(), createdAt: z.string(),
+  /** Próximo passo combinado com o cliente (texto livre, curto). */
+  nextStep: z.string().max(300).default(""),
   noResponse: z.boolean().default(false),
   events: z.array(z.object({ stage: z.enum(["new", "contacted", "demo_sent", "closed"]), date: z.string() })).default([]),
 });
@@ -30,12 +32,13 @@ export function trackClient(clients: FollowUpClient[], lead: Lead, stage?: Stage
     category: lead.category, mapsUrl: lead.mapsUrl, stage: nextStage,
     stageDate: previous && previous.stage === nextStage ? previous.stageDate : now,
     nextContact: previous?.nextContact ?? "", createdAt: previous?.createdAt ?? now,
+    nextStep: previous?.nextStep ?? "",
     noResponse: previous?.noResponse ?? false,
     events: previous ? previous.stage === nextStage ? previous.events : [...previous.events, { stage: nextStage, date: now }] : [{ stage: nextStage, date: now }],
   };
   return previous ? clients.map((old) => old.id === lead.id ? client : old) : [client, ...clients];
 }
-export function updateClient(client: FollowUpClient, patch: Partial<Pick<FollowUpClient, "stage" | "stageDate" | "nextContact" | "noResponse">>, now = new Date().toISOString()): FollowUpClient {
+export function updateClient(client: FollowUpClient, patch: Partial<Pick<FollowUpClient, "stage" | "stageDate" | "nextContact" | "nextStep" | "noResponse">>, now = new Date().toISOString()): FollowUpClient {
   if (patch.stage && patch.stage !== client.stage) return { ...client, ...patch, stageDate: now, events: [...client.events, { stage: patch.stage, date: now }] };
   const events = [...client.events];
   if (patch.stageDate) {
@@ -47,6 +50,13 @@ export function updateClient(client: FollowUpClient, patch: Partial<Pick<FollowU
 }
 export function reminderDue(client: FollowUpClient, now = Date.now()) {
   return client.stage !== "closed" && !!client.nextContact && new Date(client.nextContact).getTime() <= now;
+}
+
+/** "Pra hoje": lembrete marcado até o fim do dia de hoje (inclui atrasados) e negócio ainda aberto. */
+export function dueToday(client: FollowUpClient, now = new Date()) {
+  if (client.stage === "closed" || !client.nextContact) return false;
+  const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1).getTime();
+  return new Date(client.nextContact).getTime() < endOfToday;
 }
 export function removeClients(clients: FollowUpClient[], ids: string[]) {
   const selected = new Set(ids);
