@@ -1,6 +1,6 @@
 import { Code2 } from "lucide-react";
 
-export const DEVELOPER_USERNAME = "mvthebest";
+export const DEVELOPER_USERNAME = "mv1rcus";
 
 export function DeveloperBadge({ size = 18 }: { size?: number }) {
   return (

@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { categoryKeywords, filterRecords, normalize, resolveCity, type PlaceRecord } from './overture-leads';
 
 // Only open Overture extracts live here. No database imports or Google/OSM calls.
-const BASE = 'https://raw.githubusercontent.com/mvthebest/overture-br-municipios/main/data/';
+const BASE = 'https://raw.githubusercontent.com/mv1rcus/overture-br-municipios/main/data/';
 const manifestSchema = z.object({ release: z.string(), cities: z.record(z.object({ name: z.string(), uf: z.string(), count: z.number(), bytes: z.number(), partitioned: z.boolean().optional() })) });
 const rowsSchema = z.array(z.object({
   id: z.string(), n: z.string(), cat: z.string().nullable(), sub: z.string().nullable(),
