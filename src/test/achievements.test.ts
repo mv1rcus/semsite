@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { computeAchievements } from "@/lib/achievements";
+import { computeAchievements, streakReachedOn, currentStreak } from "@/lib/achievements";
 
 describe("computeAchievements", () => {
   it("nada feito", () => {
@@ -33,5 +33,33 @@ describe("selo de dev", () => {
     expect(isDeveloperId("60254e77-1a4c-4be8-8b77-3d29a537785f")).toBe(true);
     expect(isDeveloperId("outro")).toBe(false);
     expect(isDeveloperId(undefined)).toBe(false);
+  });
+});
+
+describe("ofensiva", () => {
+  it("7 dias seguidos fecha no setimo dia", () => {
+    const days = ["2026-11-01", "2026-11-02", "2026-11-03", "2026-11-04", "2026-11-05", "2026-11-06", "2026-11-07"];
+    expect(streakReachedOn(days, 7)).toBe("2026-11-07");
+  });
+  it("buraco quebra a sequencia", () => {
+    const days = ["2026-11-01", "2026-11-02", "2026-11-03", "2026-11-05", "2026-11-06", "2026-11-07", "2026-11-08"];
+    expect(streakReachedOn(days, 7)).toBeNull();
+  });
+  it("conta o dia no fuso do Brasil", () => {
+    expect(streakReachedOn(["2026-11-02T01:00:00Z"], 1)).toBe("2026-11-01");
+  });
+});
+
+describe("ofensiva atual", () => {
+  const now = new Date("2026-11-10T15:00:00Z");
+  it("conta ate hoje", () => {
+    const d = ["2026-11-04","2026-11-05","2026-11-06","2026-11-07","2026-11-08","2026-11-09","2026-11-10","2026-11-11"].slice(0, 7);
+    expect(currentStreak(d, now)).toEqual({ count: 7, reachedOn: "2026-11-10" });
+  });
+  it("ainda vale se o ultimo dia foi ontem", () => {
+    expect(currentStreak(["2026-11-08","2026-11-09"], now).count).toBe(2);
+  });
+  it("zera se parou", () => {
+    expect(currentStreak(["2026-11-01","2026-11-02","2026-11-03","2026-11-04","2026-11-05","2026-11-06","2026-11-07"], now).count).toBe(0);
   });
 });
