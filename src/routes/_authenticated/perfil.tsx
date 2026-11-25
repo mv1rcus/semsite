@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { CalendarDays, Camera, Check, Link2, MapPin, Save, Share2, UserRound } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { FollowListDialog, type FollowKind } from "@/components/FollowListDialog";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { DeveloperBadge, DEVELOPER_USERNAME } from "@/components/DeveloperBadge";
@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
+import { deleteMyAccount } from "@/lib/account-deletion.functions";
 import { loadMessageSettings, saveMessageSettings } from "@/lib/message";
 import { normalizeProfileLinks, splitProfileLinks, profileLinkLabel, MAX_PROFILE_LINKS } from "@/lib/profile-link";
 
@@ -28,6 +29,10 @@ const EMPTY: Form = { username: "", display_name: "", phone: "", city: "", bio: 
 function Perfil() {
   const [form, setForm] = useState<Form>(EMPTY);
   const [email, setEmail] = useState("");
+  const [delOpen, setDelOpen] = useState(false);
+  const [delText, setDelText] = useState("");
+  const [delBusy, setDelBusy] = useState(false);
+  const [delErr, setDelErr] = useState("");
   const [userId, setUserId] = useState("");
   const [savedUser, setSavedUser] = useState("");
   const [editing, setEditing] = useState(false);
@@ -102,6 +107,20 @@ function Perfil() {
     });
   }, [savedUser]);
 
+
+  async function removeAccount() {
+    if (delText.trim() !== "EXCLUIR" || delBusy) return;
+    setDelBusy(true); setDelErr("");
+    try {
+      const res = await deleteMyAccount({ data: { confirm: "EXCLUIR" } });
+      if (!res.ok) { setDelErr(res.error); setDelBusy(false); return; }
+      await supabase.auth.signOut();
+      window.location.href = "/";
+    } catch {
+      setDelErr("Não foi possível excluir sua conta agora. Tente de novo."); setDelBusy(false);
+    }
+  }
+
   async function share() {
     const url = `${window.location.origin}/u/${savedUser}`;
     try { if (navigator.share) await navigator.share({ title: `@${savedUser} no SemSite`, url }); else { await navigator.clipboard.writeText(url); setCopied(true); setTimeout(() => setCopied(false), 2000); } } catch { /* cancelado */ }
@@ -143,6 +162,7 @@ function Perfil() {
             <Button variant="outline" className="rounded-full font-bold" disabled={!savedUser} onClick={share}><Share2 />{copied ? "Link copiado!" : "Compartilhar perfil"}</Button>
             <Button variant="outline" className="rounded-full font-bold" onClick={() => { setForm(saved); setStatus(""); setEditing(true); }}>Editar perfil</Button>
           </div>
+          <button type="button" onClick={() => { setDelText(""); setDelErr(""); setDelOpen(true); }} className="mt-3 w-full text-center text-xs text-muted-foreground hover:text-destructive">Excluir minha conta</button>
         </div>
         <div className="flex border-t border-border">
           <span className="flex-1 border-b-2 border-primary py-3 text-center font-bold">Posts</span>
@@ -153,6 +173,22 @@ function Perfil() {
         {savedUser ? <PostFeed key={savedUser} onlyUser={savedUser} canPost={false} /> : !loading && <p className="text-sm text-muted-foreground">Escolha seu @ em Editar perfil pra ver suas publicações aqui.</p>}
       </section>
       {savedUser && <FollowListDialog username={savedUser} kind={list} onClose={() => setList(null)} />}
+      <Dialog open={delOpen} onOpenChange={o => { if (!delBusy) setDelOpen(o); }}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Excluir minha conta</DialogTitle>
+            <DialogDescription>Isso apaga seu perfil, posts, comentários, mensagens e arquivos, e cancela qualquer assinatura ativa. O tempo pago que sobrar se perde. Não dá pra desfazer. Você recebe um e-mail confirmando.</DialogDescription>
+          </DialogHeader>
+          <label className="block text-sm font-semibold">Digite EXCLUIR para confirmar
+            <Input value={delText} onChange={e => setDelText(e.target.value)} autoComplete="off" className="mt-1.5" />
+          </label>
+          {delErr && <p className="text-sm text-destructive">{delErr}</p>}
+          <div className="flex justify-end gap-2">
+            <Button type="button" variant="outline" disabled={delBusy} onClick={() => setDelOpen(false)}>Cancelar</Button>
+            <Button type="button" variant="destructive" disabled={delText.trim() !== "EXCLUIR" || delBusy} onClick={removeAccount}>{delBusy ? "Excluindo…" : "Excluir definitivamente"}</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
       <Dialog open={editing} onOpenChange={setEditing}>
         <DialogContent className="max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>Editar perfil</DialogTitle></DialogHeader>
