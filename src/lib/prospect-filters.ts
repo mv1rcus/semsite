@@ -1,4 +1,5 @@
 import { isMobilePhone, prospectPriority, rankProspects, type Lead } from "./leads";
+import { leadHeatScore } from "./lead-priority";
 import type { FollowUpClient } from "./follow-up";
 
 export type ProspectFilter = "all" | "reachable" | "priority" | "new";
@@ -15,6 +16,8 @@ export function filterProspects(leads: Lead[], clients: FollowUpClient[], filter
     if (filter === "new") return (stages.get(lead.id) ?? "new") === "new";
     return true;
   });
+  // "priority" ordena pela temperatura (quem vale abordar primeiro) e depois reputação.
+  if (order === "priority") results.sort((a, b) => leadHeatScore(b).score - leadHeatScore(a).score || prospectPriority(b).score - prospectPriority(a).score);
   if (order === "reviews") results.sort((a, b) => (b.reviews ?? 0) - (a.reviews ?? 0));
   if (order === "name") results.sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
   return results;
