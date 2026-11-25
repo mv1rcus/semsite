@@ -1,8 +1,9 @@
-export type AchievementId = "primeira_busca" | "primeira_demo" | "venda_1" | "venda_5" | "venda_10" | "venda_25" | "venda_50";
+export type AchievementId = "primeiros_passos" | "primeira_busca" | "primeira_demo" | "venda_1" | "venda_5" | "venda_10" | "venda_25" | "venda_50";
 
 export type AchievementDef = { id: AchievementId; name: string; description: string; emoji: string };
 
 export const ACHIEVEMENTS: AchievementDef[] = [
+  { id: "primeiros_passos", name: "Primeiros passos", description: "Buscou clientes, criou uma demonstração e enviou a primeira mensagem.", emoji: "🏁" },
   { id: "primeira_busca", name: "Primeira busca", description: "Fez a primeira busca de clientes sem site.", emoji: "🔎" },
   { id: "primeira_demo", name: "Primeira demonstração", description: "Criou o primeiro site de demonstração.", emoji: "🎨" },
   { id: "venda_1", name: "Primeiro site fechado", description: "Fechou o primeiro site.", emoji: "🤝" },
@@ -17,10 +18,13 @@ const SALES_STEPS: [AchievementId, number][] = [["venda_1", 1], ["venda_5", 5], 
 export type AchievementProgress = AchievementDef & { earnedAt: string | null; progress?: { current: number; target: number } };
 
 /** Datas em ISO. salesDates: datas dos fechamentos; demoDates: criacao das demos; firstSearchDay: dia da primeira busca. */
-export function computeAchievements(input: { salesDates: string[]; demoDates: string[]; firstSearchDay: string | null }): AchievementProgress[] {
+export function computeAchievements(input: { salesDates: string[]; demoDates: string[]; firstSearchDay: string | null; firstContactDate?: string | null }): AchievementProgress[] {
   const sales = [...input.salesDates].sort();
   const demos = [...input.demoDates].sort();
+  const steps = [input.firstSearchDay, demos[0] ?? null, input.firstContactDate ?? null];
+  const stepsDone = steps.every(Boolean) ? (steps as string[]).map((x) => new Date(x.length === 10 ? `${x}T12:00:00Z` : x).getTime()).reduce((a, b) => Math.max(a, b)) : null;
   return ACHIEVEMENTS.map((d) => {
+    if (d.id === "primeiros_passos") return { ...d, earnedAt: stepsDone === null ? null : new Date(stepsDone).toISOString(), progress: { current: steps.filter(Boolean).length, target: 3 } };
     if (d.id === "primeira_busca") return { ...d, earnedAt: input.firstSearchDay };
     if (d.id === "primeira_demo") return { ...d, earnedAt: demos[0] ?? null };
     const target = SALES_STEPS.find(([id]) => id === d.id)![1];

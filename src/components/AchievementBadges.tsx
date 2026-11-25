@@ -12,16 +12,18 @@ export function AchievementBadges({ userId }: { userId: string }) {
   useEffect(() => {
     let alive = true;
     (async () => {
-      const [sales, demos, searches] = await Promise.all([
+      const [sales, demos, searches, contacts] = await Promise.all([
         supabase.from("closed_sales").select("closed_at").eq("user_id", userId).order("closed_at", { ascending: true }).limit(100),
         supabase.from("site_demonstrations").select("created_at").eq("owner_id", userId).order("created_at", { ascending: true }).limit(1),
         supabase.from("search_usage").select("day").eq("user_id", userId).order("day", { ascending: true }).limit(1),
+        supabase.from("contacted_leads").select("created_at").eq("user_id", userId).order("created_at", { ascending: true }).limit(1),
       ]);
       if (!alive) return;
       setList(computeAchievements({
         salesDates: (sales.data ?? []).map((r) => r.closed_at),
         demoDates: (demos.data ?? []).map((r) => r.created_at),
         firstSearchDay: searches.data?.[0]?.day ?? null,
+        firstContactDate: contacts.data?.[0]?.created_at ?? null,
       }));
     })();
     return () => { alive = false; };

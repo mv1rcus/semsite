@@ -19,6 +19,15 @@ describe("computeAchievements", () => {
 });
 
 import { isDeveloperId } from "@/components/DeveloperBadge";
+describe("primeiros passos", () => {
+  it("so conta com busca, demo e contato, na data do ultimo", () => {
+    const base = { salesDates: [], demoDates: ["2026-10-02T00:00:00Z"], firstSearchDay: "2026-10-01" };
+    expect(computeAchievements(base).find((a) => a.id === "primeiros_passos")!.earnedAt).toBeNull();
+    const r = computeAchievements({ ...base, firstContactDate: "2026-10-05T10:00:00Z" }).find((a) => a.id === "primeiros_passos")!;
+    expect(r.earnedAt).toBe("2026-10-05T10:00:00.000Z");
+  });
+});
+
 describe("selo de dev", () => {
   it("so vale para o id do fundador", () => {
     expect(isDeveloperId("60254e77-1a4c-4be8-8b77-3d29a537785f")).toBe(true);
