@@ -1,13 +1,14 @@
 import { VerifiedGate } from "@/components/VerifiedGate";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Copy, ExternalLink, Loader2, MessageCircle, PanelsTopLeft, CircleCheck, CircleAlert, Clock, RefreshCw, Eye, Search, ArrowRight, Plus, Trash2, ClipboardList } from "lucide-react";
+import { Copy, ExternalLink, Loader2, MessageCircle, PanelsTopLeft, CircleCheck, CircleAlert, Clock, RefreshCw, Eye, Search, ArrowRight, Plus, Trash2, ClipboardList, QrCode } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { createDemonstration, getDemonstrationActivity, setDemonstrationExpiry, verifyDemonstrationLink } from "@/lib/demonstrations.functions";
 import { removeSavedDemos, savedDemoSchema, verificationState, demoAccessBadge, type DemoActivity, type SavedDemo } from "@/lib/demo-verification";
 import { demoSchema, draftForClient, demonstrationLink, demonstrationSlug, demonstrationCode, demoWhatsAppShare, type Demonstration } from "@/lib/demonstrations";
 import { DEFAULT_EXPIRY_DAYS, EXPIRY_OPTIONS, expiryDate, expiryInfo, openCountLabel, urgencyMessage } from "@/lib/demo-expiry";
 import { FUNNEL_KEY, entryFor, funnelMetrics, parseFunnel, removeFromFunnel, setNotes as funnelSetNotes, setStage as funnelSetStage, type FunnelMap, type FunnelStage } from "@/lib/demo-funnel";
+import { PixChargeDialog } from "@/components/PixChargeDialog";
 import { DemoFunnelPanel } from "@/components/DemoFunnelPanel";
 import { DemoLeadFunnel } from "@/components/DemoLeadFunnel";
 import { SECTOR_HEADLINE } from "@/lib/demo-catalog";
@@ -39,6 +40,7 @@ function Demonstracoes() {
   const loadActivity = useServerFn(getDemonstrationActivity);
   const [activity, setActivity] = useState<Record<string, DemoActivity>>({});
   const [validity, setValidity] = useState<number>(DEFAULT_EXPIRY_DAYS);
+  const [pixFor, setPixFor] = useState<SavedDemo | null>(null);
   const [funnel, setFunnel] = useState<FunnelMap>({});
   const [funnelLoaded, setFunnelLoaded] = useState(false);
   const [stageFilter, setStageFilter] = useState<FunnelStage | "all">("all");
@@ -169,12 +171,13 @@ function Demonstracoes() {
             <DemoLeadFunnel name={item.name} entry={entryFor(funnel, item.id)} onStage={(stage) => setFunnel((old) => funnelSetStage(old, item.id, stage))} onNotes={(text) => setFunnel((old) => funnelSetNotes(old, item.id, text))} />
             <p role="status" className={`mt-1 flex items-start gap-2 text-xs ${state === "recent" ? "text-primary" : state === "failed" ? "text-destructive" : "text-muted-foreground"}`}><Icon className="size-4 shrink-0" />{label}</p>
             {item.verification && <p className="mt-1 text-xs text-muted-foreground">Última tentativa: <time dateTime={item.verification.checkedAt}>{new Date(item.verification.checkedAt).toLocaleString("pt-BR")}</time></p>}
-          </div><div className="flex flex-wrap gap-2"><Button type="button" variant="outline" size="sm" onClick={() => copySaved(item)} aria-label={`Copiar link de ${item.name}`}><Copy />Copiar</Button><Button asChild variant="whatsapp" size="sm" title={item.phone ? "Abre a conversa do WhatsApp do negócio com o link pronto" : "Escolha o contato no WhatsApp para enviar o link"}><a href={demoWhatsAppShare(item.phone ?? "", item.name, demonstrationLink(item.id, origin || "https://semsite.lovable.app", item.name, item.slug), activity[item.id]?.expiresAt)} target="_blank" rel="noreferrer" aria-label={`Enviar link de ${item.name} no WhatsApp`}><MessageCircle />Enviar</a></Button><Button type="button" variant="outline" size="sm" onClick={() => copyUrgency(item)} aria-label={`Copiar texto de urgência de ${item.name}`}><Clock />Texto de urgência</Button><Button type="button" variant="outline" size="sm" disabled={checking !== null} onClick={() => check(item)} aria-label={`Verificar link de ${item.name}`}>
+          </div><div className="flex flex-wrap gap-2"><Button type="button" variant="outline" size="sm" onClick={() => copySaved(item)} aria-label={`Copiar link de ${item.name}`}><Copy />Copiar</Button><Button asChild variant="whatsapp" size="sm" title={item.phone ? "Abre a conversa do WhatsApp do negócio com o link pronto" : "Escolha o contato no WhatsApp para enviar o link"}><a href={demoWhatsAppShare(item.phone ?? "", item.name, demonstrationLink(item.id, origin || "https://semsite.lovable.app", item.name, item.slug), activity[item.id]?.expiresAt)} target="_blank" rel="noreferrer" aria-label={`Enviar link de ${item.name} no WhatsApp`}><MessageCircle />Enviar</a></Button><Button type="button" variant="outline" size="sm" onClick={() => setPixFor(item)} aria-label={`Cobrar ${item.name} por Pix`}><QrCode />Cobrar</Button><Button type="button" variant="outline" size="sm" onClick={() => copyUrgency(item)} aria-label={`Copiar texto de urgência de ${item.name}`}><Clock />Texto de urgência</Button><Button type="button" variant="outline" size="sm" disabled={checking !== null} onClick={() => check(item)} aria-label={`Verificar link de ${item.name}`}>
             {checking === item.id ? <Loader2 className="animate-spin" /> : <RefreshCw />} {checking === item.id ? "Verificando…" : "Verificar link"}
           </Button><Button type="button" variant="ghost" size="icon" aria-label={`Excluir link de ${item.name}`} title={`Excluir link de ${item.name}`} onClick={() => setPendingDelete([item.id])}><Trash2 className="size-4 text-destructive" /></Button></div>
         </li>;
       })}</ul></section>}
       {tab === "history" && history.length > 0 && <div className="flex flex-wrap items-center gap-3 border-y py-3"><label className="flex cursor-pointer items-center gap-2 text-sm"><Checkbox aria-label="Selecionar links exibidos" checked={history.every(item => selectedIds.includes(item.id)) ? true : history.some(item => selectedIds.includes(item.id)) ? "indeterminate" : false} onCheckedChange={checked => setSelected(previous => checked === true ? [...new Set([...previous, ...history.map(item => item.id)])] : previous.filter(key => !history.some(item => item.id === key)))} />Selecionar exibidos</label>{selectedIds.length > 0 && <><span className="text-sm text-muted-foreground">{selectedIds.length} selecionados</span><Button variant="destructive" size="sm" onClick={() => setPendingDelete(selectedIds)}><Trash2 />Excluir selecionados</Button><Button variant="ghost" size="sm" onClick={() => setSelected([])}>Cancelar seleção</Button></>}</div>}
+      <PixChargeDialog open={pixFor !== null} onOpenChange={(o) => { if (!o) setPixFor(null); }} clientName={pixFor?.name ?? ""} />
       <AlertDialog open={pendingDelete.length > 0} onOpenChange={open => { if (!open) setPendingDelete([]); }}><AlertDialogContent className="max-h-[85dvh] max-w-[calc(100%-2rem)] overflow-y-auto sm:max-w-lg"><AlertDialogHeader><AlertDialogTitle>Excluir {deleting.length === 1 ? `o link de ${deleting[0]?.name}` : `${deleting.length} links`}?</AlertDialogTitle><AlertDialogDescription>Os links serão removidos apenas da lista deste navegador. Os sites de demonstração continuarão abrindo para quem já recebeu o endereço. A remoção da lista não pode ser desfeita.</AlertDialogDescription></AlertDialogHeader><ul className="max-h-32 overflow-y-auto text-sm">{deleting.map(item => <li key={item.id} className="break-words py-1">{item.name}</li>)}</ul><AlertDialogFooter><AlertDialogCancel>Cancelar</AlertDialogCancel><Button variant="destructive" disabled={!deleting.length} onClick={confirmRemoval}><Trash2 />Confirmar exclusão</Button></AlertDialogFooter></AlertDialogContent></AlertDialog>
     </section>
   </main>;
