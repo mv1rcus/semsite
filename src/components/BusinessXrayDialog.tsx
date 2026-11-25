@@ -24,7 +24,7 @@ export function BusinessXrayDialog({ lead, city, close }: { lead: Lead; city: st
               <li key={i.label} className="flex items-center gap-2">
                 {i.ok === true ? <Check className="size-4 shrink-0 text-green-500" /> : i.ok === false ? <X className="size-4 shrink-0 text-primary" /> : <Minus className="size-4 shrink-0 text-muted-foreground" />}
                 <span className="font-medium">{i.label}</span>
-                <span className="min-w-0 break-all text-muted-foreground">{i.value}</span>
+                {i.href ? <a href={i.href} target={i.href.startsWith("mailto:") ? undefined : "_blank"} rel="noreferrer" className="min-w-0 break-all text-primary underline underline-offset-2">{i.value}</a> : <span className="min-w-0 break-all text-muted-foreground">{i.value}</span>}
               </li>
             ))}
           </ul>
