@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Lock, Search, MonitorSmartphone, MessageCircle, Eye, Star, FileText, X, Check, UserRound, Store, ReceiptText, ScanSearch, ChartNoAxesCombined } from "lucide-react";
 import presentation from "@/assets/semsite-apresentacao.mp4.asset.json";
@@ -82,6 +82,7 @@ function Login() {
             {googleButton("Começar com Google", "mt-8 w-full max-w-md")}
             {error && <p role="alert" className="mt-3 text-sm text-primary">{error}</p>}
             <p className="mt-6 flex items-center gap-2 text-[0.7rem] font-bold tracking-[0.2em] text-muted-foreground"><Lock className="size-3.5 text-primary" /> ACESSO SEGURO COM SUA CONTA GOOGLE</p>
+            <p className="mt-3 text-xs text-muted-foreground">Ao continuar, você concorda com a <Link to="/privacidade" className="underline hover:text-foreground">Política de Privacidade</Link>.</p>
           </section>
 
           <section className="login-wave relative flex flex-col items-center justify-center gap-6 overflow-hidden rounded-3xl border border-border p-4 text-center sm:p-8">
@@ -256,6 +257,7 @@ function Login() {
           <a href="#como-funciona" className="hover:text-foreground">Como funciona</a>
           <a href="#planos" className="hover:text-foreground">Planos</a>
           <a href="#duvidas" className="hover:text-foreground">Dúvidas</a>
+          <Link to="/privacidade" className="hover:text-foreground">Política de Privacidade</Link>
         </nav>
       </footer>
     </main>
