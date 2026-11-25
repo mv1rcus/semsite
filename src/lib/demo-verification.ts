@@ -28,7 +28,7 @@ export function demonstrationPageIsAvailable(status: number, html: string) {
   return status === 200 && /class="demo-site(?:\s|")/.test(html) && /<h1\b/.test(html);
 }
 export const INACTIVE_DEMO_MS = 24 * 60 * 60 * 1000;
-export type DemoActivity = { id: string; slug?: string | null; createdAt: string; lastOpenedAt: string | null; lastOpenedDevice?: string | null };
+export type DemoActivity = { id: string; slug?: string | null; createdAt: string; lastOpenedAt: string | null; lastOpenedDevice?: string | null; openCount?: number | null; expiresAt?: string | null };
 /** A demonstration is inactive when nobody opened it in the last 24h (or since creation, if never opened). */
 export function isInactiveDemo(activity: DemoActivity, now: number) {
   const last = Date.parse(activity.lastOpenedAt ?? activity.createdAt);
@@ -54,10 +54,11 @@ export function demoAccessBadge(activity: DemoActivity | undefined, now: number)
     return { state: "waiting", label: "Aguardando abertura", detail: "Ninguém abriu o link ainda" };
   }
   const device = activity.lastOpenedDevice ? ` · ${activity.lastOpenedDevice}` : "";
+  const count = activity.openCount && activity.openCount > 1 ? ` · ${activity.openCount} aberturas` : "";
   const time = new Date(openedAt).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
   const days = Math.round((startOfDay(now) - startOfDay(openedAt)) / DAY_MS);
-  if (days <= 0) return { state: "opened", label: "Acessado pelo cliente", detail: `Aberto hoje às ${time}${device}` };
-  if (days === 1) return { state: "opened", label: "Acessado pelo cliente", detail: `Aberto ontem às ${time}${device}` };
+  if (days <= 0) return { state: "opened", label: "Acessado pelo cliente", detail: `Aberto hoje às ${time}${device}${count}` };
+  if (days === 1) return { state: "opened", label: "Acessado pelo cliente", detail: `Aberto ontem às ${time}${device}${count}` };
   const date = new Date(openedAt).toLocaleDateString("pt-BR");
-  return { state: "opened", label: "Acessado pelo cliente", detail: `Aberto em ${date} às ${time}${device}` };
+  return { state: "opened", label: "Acessado pelo cliente", detail: `Aberto em ${date} às ${time}${device}${count}` };
 }

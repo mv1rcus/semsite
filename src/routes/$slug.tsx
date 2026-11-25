@@ -4,6 +4,7 @@ import { demoQuery } from "@/lib/demo-query";
 import { DEMO_SLUG_RE } from "@/lib/demonstrations";
 import { getDemonstrationIdBySlug } from "@/lib/demonstrations.functions";
 import { DemoSite } from "@/components/DemoSite";
+import { DemoExpired } from "@/components/DemoExpired";
 
 export const Route = createFileRoute("/$slug")({
   loader: async ({ params, context }) => {
@@ -28,5 +29,5 @@ export const Route = createFileRoute("/$slug")({
 function ShortDemo() {
   const demo = Route.useLoaderData();
   const { data } = useSuspenseQuery(demoQuery(demo.id));
-  return data ? <DemoSite demo={data} /> : null;
+  return !data ? null : data.expired ? <DemoExpired name={data.name} /> : <DemoSite demo={data} />;
 }

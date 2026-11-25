@@ -1,8 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import type { Json } from "@/integrations/supabase/types";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { demonstrationLink, demoSchema, demoDeviceFromUserAgent } from "./demonstrations";
 import { demonstrationPageIsAvailable, type DemoVerification } from "./demo-verification";
+import { DEFAULT_EXPIRY_DAYS, expiryDate, isExpired, isNewOpenSession } from "./demo-expiry";
 
 export const verifyDemonstrationLink = createServerFn({ method: "POST" })
   .inputValidator((input) => z.object({ id: z.string().uuid() }).parse(input))
@@ -26,24 +28,37 @@ export const verifyDemonstrationLink = createServerFn({ method: "POST" })
   });
 
 // The table has no public policies: rows are only reachable by exact id (never listed) through these functions.
+const DEMO_COLUMNS = "id,name,category,address,phone,headline,description,google_rating,google_rating_count,google_reviews";
 export const getDemonstration = createServerFn({ method: "GET" })
   .inputValidator((input) => z.object({ id: z.string().uuid() }).parse(input))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: demo, error } = await supabaseAdmin.from("site_demonstrations").select("id,name,category,address,phone,headline,description,google_rating,google_rating_count,google_reviews").eq("id", data.id).maybeSingle();
-    if (error) throw new Error("Não foi possível abrir esta demonstração.");
-    if (demo) {
-      const { getRequest } = await import("@tanstack/react-start/server");
-      const device = demoDeviceFromUserAgent(getRequest().headers.get("user-agent"));
-      // Só grava o aparelho quando o acesso veio de um navegador de verdade (ignora bots de prévia).
-      const openedAt = new Date().toISOString();
-      const tracked = await supabaseAdmin.from("site_demonstrations").update({ last_opened_at: openedAt, ...(device ? { last_opened_device: device } : {}) }).eq("id", demo.id);
-      if (tracked.error && device) {
-        // Coluna ainda não aplicada (migração 0019 pendente): registra só o horário até lá.
-        await supabaseAdmin.from("site_demonstrations").update({ last_opened_at: openedAt }).eq("id", demo.id);
-      }
+    type DemoRow = { id: string; name: string; category: string; address: string; phone: string; headline: string; description: string; google_rating: number | null; google_rating_count: number | null; google_reviews: Json; expires_at?: string | null; open_count?: number; last_opened_at?: string | null };
+    let res: { data: unknown; error: unknown } = await supabaseAdmin.from("site_demonstrations").select(`${DEMO_COLUMNS},expires_at,open_count,last_opened_at`).eq("id", data.id).maybeSingle();
+    if (res.error) {
+      // Colunas novas ainda não aplicadas (migração de validade pendente): abre a demo sem validade nem contador.
+      res = await supabaseAdmin.from("site_demonstrations").select(DEMO_COLUMNS).eq("id", data.id).maybeSingle();
     }
-    return demo;
+    if (res.error) throw new Error("Não foi possível abrir esta demonstração.");
+    const row = res.data as DemoRow | null;
+    if (!row) return null;
+    const { expires_at, open_count, last_opened_at, ...demo } = row;
+    const expiresAt = expires_at ?? null;
+    // Prévia vencida: não mostra o conteúdo nem conta como abertura.
+    if (isExpired(expiresAt)) {
+      return { id: demo.id, name: demo.name, category: "", address: "", phone: "", headline: "", description: "", google_rating: null, google_rating_count: null, google_reviews: [] as Json, expired: true, expiresAt };
+    }
+    const { getRequest } = await import("@tanstack/react-start/server");
+    const device = demoDeviceFromUserAgent(getRequest().headers.get("user-agent"));
+    // Só grava o aparelho quando o acesso veio de um navegador de verdade (ignora bots de prévia).
+    const openedAt = new Date().toISOString();
+    const counts = !!device && isNewOpenSession(last_opened_at ?? null);
+    const tracked = await supabaseAdmin.from("site_demonstrations").update({ last_opened_at: openedAt, ...(device ? { last_opened_device: device } : {}), ...(counts && open_count !== undefined ? { open_count: open_count + 1 } : {}) }).eq("id", demo.id);
+    if (tracked.error && device) {
+      // Coluna ainda não aplicada (migração 0019 pendente): registra só o horário até lá.
+      await supabaseAdmin.from("site_demonstrations").update({ last_opened_at: openedAt }).eq("id", demo.id);
+    }
+    return { ...demo, expired: false, expiresAt };
   });
 
 // Resolves a short public address (e.g. pizzariadomarcusdemo) to its demonstration id.
@@ -78,12 +93,17 @@ export const createDemonstration = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { data: verified } = await context.supabase.rpc("am_i_verified");
     if (!verified) throw new Error("Demonstrações são exclusivas para contas verificadas.");
-    const { placeId, ...fields } = data;
+    const { placeId, expiresInDays, ...fields } = data;
     const google = placeId ? await fetchGoogleReviews(placeId) : null;
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const slug = await uniqueDemoSlug(supabaseAdmin, fields.name);
     const base = { ...fields, place_id: placeId ?? null, google_rating: google?.rating ?? null, google_rating_count: google?.count ?? null, google_reviews: google?.reviews ?? [] };
-    let { data: row, error } = await supabaseAdmin.from("site_demonstrations").insert({ ...base, slug }).select("id,name,slug").single();
+    const expires_at = expiryDate(expiresInDays ?? DEFAULT_EXPIRY_DAYS);
+    let { data: row, error } = await supabaseAdmin.from("site_demonstrations").insert({ ...base, slug, expires_at }).select("id,name,slug").single();
+    if (error && /expires_at/i.test(error.message ?? "")) {
+      // Coluna de validade ainda não aplicada: cria sem validade até a migração entrar.
+      ({ data: row, error } = await supabaseAdmin.from("site_demonstrations").insert({ ...base, slug }).select("id,name,slug").single());
+    }
     if (error && /slug/i.test(error.message ?? "")) {
       // Coluna slug ainda não aplicada (migração 0022 pendente): salva sem o endereço curto até lá.
       const fallback = await supabaseAdmin.from("site_demonstrations").insert(base).select("id,name").single();
@@ -94,20 +114,37 @@ export const createDemonstration = createServerFn({ method: "POST" })
     return row;
   });
 
+export const setDemonstrationExpiry = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input) => z.object({ id: z.string().uuid(), days: z.number().int().min(1).max(365) }).parse(input))
+  .handler(async ({ data, context }) => {
+    const { data: verified } = await context.supabase.rpc("am_i_verified");
+    if (!verified) throw new Error("Demonstrações são exclusivas para contas verificadas.");
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const expires_at = expiryDate(data.days);
+    const { error } = await supabaseAdmin.from("site_demonstrations").update({ expires_at }).eq("id", data.id);
+    if (error) throw new Error("Não foi possível ajustar a validade agora.");
+    return { id: data.id, expiresAt: expires_at };
+  });
+
 export const getDemonstrationActivity = createServerFn({ method: "POST" })
   .inputValidator((input) => z.object({ ids: z.array(z.string().uuid()).max(30) }).parse(input))
   .handler(async ({ data }) => {
     if (data.ids.length === 0) return [];
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    type ActivityRow = { id: string; slug: string | null; created_at: string; last_opened_at: string | null; last_opened_device: string | null };
-    let rows: ActivityRow[] | null = (await supabaseAdmin.from("site_demonstrations").select("id,slug,created_at,last_opened_at,last_opened_device").in("id", data.ids)).data;
+    type ActivityRow = { id: string; slug: string | null; created_at: string; last_opened_at: string | null; last_opened_device: string | null; open_count?: number | null; expires_at?: string | null };
+    let rows: ActivityRow[] | null = (await supabaseAdmin.from("site_demonstrations").select("id,slug,created_at,last_opened_at,last_opened_device,open_count,expires_at").in("id", data.ids)).data;
+    if (rows === null) {
+      // Colunas de validade/contador podem faltar: tenta o conjunto anterior antes de desistir.
+      rows = (await supabaseAdmin.from("site_demonstrations").select("id,slug,created_at,last_opened_at,last_opened_device").in("id", data.ids)).data as ActivityRow[] | null;
+    }
     if (rows === null) {
       // Coluna ainda não aplicada (migração 0019 pendente): responde sem o aparelho até lá.
       const fallback = await supabaseAdmin.from("site_demonstrations").select("id,slug,created_at,last_opened_at").in("id", data.ids);
       if (fallback.error) throw new Error("Não foi possível consultar os acessos.");
       rows = (fallback.data ?? []).map((r) => ({ ...r, last_opened_device: null }));
     }
-    return (rows ?? []).map((r) => ({ id: r.id, slug: r.slug, createdAt: r.created_at, lastOpenedAt: r.last_opened_at, lastOpenedDevice: r.last_opened_device }));
+    return (rows ?? []).map((r) => ({ id: r.id, slug: r.slug, createdAt: r.created_at, lastOpenedAt: r.last_opened_at, lastOpenedDevice: r.last_opened_device, openCount: r.open_count ?? 0, expiresAt: r.expires_at ?? null }));
   });
 
 // Real Google reviews (max 5, Google's choice) fetched once at creation; failures just leave the section hidden.

@@ -3,6 +3,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { demoQuery } from "@/lib/demo-query";
 import { demonstrationId } from "@/lib/demonstrations";
 import { DemoSite } from "@/components/DemoSite";
+import { DemoExpired } from "@/components/DemoExpired";
 
 export const Route = createFileRoute("/site/$slug/$code")({
   loader: async ({ params, context }) => {
@@ -26,5 +27,5 @@ export const Route = createFileRoute("/site/$slug/$code")({
 function NamedDemo() {
   const demo = Route.useLoaderData();
   const { data } = useSuspenseQuery(demoQuery(demo.id));
-  return data ? <DemoSite demo={data} /> : null;
+  return !data ? null : data.expired ? <DemoExpired name={data.name} /> : <DemoSite demo={data} />;
 }

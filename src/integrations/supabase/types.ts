@@ -316,6 +316,7 @@ export type Database = {
           address: string
           category: string
           created_at: string
+          expires_at: string | null
           description: string
           google_rating: number | null
           google_rating_count: number | null
@@ -325,6 +326,7 @@ export type Database = {
           last_opened_at: string | null
           last_opened_device: string | null
           name: string
+          open_count: number
           phone: string
           place_id: string | null
           slug: string | null
@@ -333,6 +335,7 @@ export type Database = {
           address?: string
           category: string
           created_at?: string
+          expires_at?: string | null
           description: string
           google_rating?: number | null
           google_rating_count?: number | null
@@ -342,6 +345,7 @@ export type Database = {
           last_opened_at?: string | null
           last_opened_device?: string | null
           name: string
+          open_count?: number
           phone?: string
           place_id?: string | null
           slug?: string | null
@@ -350,6 +354,7 @@ export type Database = {
           address?: string
           category?: string
           created_at?: string
+          expires_at?: string | null
           description?: string
           google_rating?: number | null
           google_rating_count?: number | null
@@ -359,6 +364,7 @@ export type Database = {
           last_opened_at?: string | null
           last_opened_device?: string | null
           name?: string
+          open_count?: number
           phone?: string
           place_id?: string | null
           slug?: string | null
