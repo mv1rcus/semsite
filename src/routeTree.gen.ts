@@ -27,6 +27,7 @@ import { Route as AuthenticatedPessoasRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedReciboRouteImport } from './routes/_authenticated/recibo'
 import { Route as AuthenticatedVerificadoRouteImport } from './routes/_authenticated/verificado'
 import { Route as DemoIdRouteImport } from './routes/demo.$id'
+import { Route as PortfolioUsernameRouteImport } from './routes/portfolio.$username'
 import { Route as AuthenticatedMensagensIndexRouteImport } from './routes/_authenticated/mensagens.index'
 import { Route as AuthenticatedMensagensUsernameRouteImport } from './routes/_authenticated/mensagens.$username'
 import { Route as AuthenticatedPostPostIdRouteImport } from './routes/_authenticated/post.$postId'
@@ -127,6 +128,11 @@ const DemoIdRoute = DemoIdRouteImport.update({
   path: '/demo/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortfolioUsernameRoute = PortfolioUsernameRouteImport.update({
+  id: '/portfolio/$username',
+  path: '/portfolio/$username',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedMensagensIndexRoute =
   AuthenticatedMensagensIndexRouteImport.update({
     id: '/mensagens/',
@@ -190,6 +196,7 @@ export interface FileRoutesByFullPath {
   '/recibo': typeof AuthenticatedReciboRoute
   '/verificado': typeof AuthenticatedVerificadoRoute
   '/demo/$id': typeof DemoIdRoute
+  '/portfolio/$username': typeof PortfolioUsernameRoute
   '/mensagens/$username': typeof AuthenticatedMensagensUsernameRoute
   '/post/$postId': typeof AuthenticatedPostPostIdRoute
   '/tag/$tag': typeof AuthenticatedTagTagRoute
@@ -217,6 +224,7 @@ export interface FileRoutesByTo {
   '/recibo': typeof AuthenticatedReciboRoute
   '/verificado': typeof AuthenticatedVerificadoRoute
   '/demo/$id': typeof DemoIdRoute
+  '/portfolio/$username': typeof PortfolioUsernameRoute
   '/mensagens/$username': typeof AuthenticatedMensagensUsernameRoute
   '/post/$postId': typeof AuthenticatedPostPostIdRoute
   '/tag/$tag': typeof AuthenticatedTagTagRoute
@@ -246,6 +254,7 @@ export interface FileRoutesById {
   '/_authenticated/recibo': typeof AuthenticatedReciboRoute
   '/_authenticated/verificado': typeof AuthenticatedVerificadoRoute
   '/demo/$id': typeof DemoIdRoute
+  '/portfolio/$username': typeof PortfolioUsernameRoute
   '/_authenticated/mensagens/$username': typeof AuthenticatedMensagensUsernameRoute
   '/_authenticated/post/$postId': typeof AuthenticatedPostPostIdRoute
   '/_authenticated/tag/$tag': typeof AuthenticatedTagTagRoute
@@ -275,6 +284,7 @@ export interface FileRouteTypes {
     | '/recibo'
     | '/verificado'
     | '/demo/$id'
+    | '/portfolio/$username'
     | '/mensagens/$username'
     | '/post/$postId'
     | '/tag/$tag'
@@ -302,6 +312,7 @@ export interface FileRouteTypes {
     | '/recibo'
     | '/verificado'
     | '/demo/$id'
+    | '/portfolio/$username'
     | '/mensagens/$username'
     | '/post/$postId'
     | '/tag/$tag'
@@ -330,6 +341,7 @@ export interface FileRouteTypes {
     | '/_authenticated/recibo'
     | '/_authenticated/verificado'
     | '/demo/$id'
+    | '/portfolio/$username'
     | '/_authenticated/mensagens/$username'
     | '/_authenticated/post/$postId'
     | '/_authenticated/tag/$tag'
@@ -346,6 +358,7 @@ export interface RootRouteChildren {
   SlugRoute: typeof SlugRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
   DemoIdRoute: typeof DemoIdRoute
+  PortfolioUsernameRoute: typeof PortfolioUsernameRoute
   SiteSlugCodeRoute: typeof SiteSlugCodeRoute
   ApiPublicJobsSemsiteDailyPostRoute: typeof ApiPublicJobsSemsiteDailyPostRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
@@ -479,6 +492,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portfolio/$username': {
+      id: '/portfolio/$username'
+      path: '/portfolio/$username'
+      fullPath: '/portfolio/$username'
+      preLoaderRoute: typeof PortfolioUsernameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/mensagens/': {
       id: '/_authenticated/mensagens/'
       path: '/mensagens'
@@ -589,6 +609,7 @@ const rootRouteChildren: RootRouteChildren = {
   SlugRoute: SlugRoute,
   PrivacidadeRoute: PrivacidadeRoute,
   DemoIdRoute: DemoIdRoute,
+  PortfolioUsernameRoute: PortfolioUsernameRoute,
   SiteSlugCodeRoute: SiteSlugCodeRoute,
   ApiPublicJobsSemsiteDailyPostRoute: ApiPublicJobsSemsiteDailyPostRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,

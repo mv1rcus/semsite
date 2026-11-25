@@ -144,9 +144,9 @@ export const getDemonstrationActivity = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     if (data.ids.length === 0) return [];
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    type ActivityRow = { id: string; slug: string | null; created_at: string; last_opened_at: string | null; last_opened_device: string | null; open_count?: number | null; expires_at?: string | null; owner_id?: string | null };
+    type ActivityRow = { id: string; slug: string | null; created_at: string; last_opened_at: string | null; last_opened_device: string | null; open_count?: number | null; expires_at?: string | null; owner_id?: string | null; show_in_portfolio?: boolean | null };
     // Só o dono vê a atividade: filtra por owner_id no banco e de novo na saída (defesa em profundidade).
-    let rows: ActivityRow[] | null = (await supabaseAdmin.from("site_demonstrations").select("id,slug,created_at,last_opened_at,last_opened_device,open_count,expires_at,owner_id").in("id", data.ids).eq("owner_id", context.userId)).data;
+    let rows: ActivityRow[] | null = (await supabaseAdmin.from("site_demonstrations").select("id,slug,created_at,last_opened_at,last_opened_device,open_count,expires_at,owner_id,show_in_portfolio").in("id", data.ids).eq("owner_id", context.userId)).data;
     if (rows === null) {
       // Colunas de validade/contador podem faltar: tenta o conjunto anterior antes de desistir.
       rows = (await supabaseAdmin.from("site_demonstrations").select("id,slug,created_at,last_opened_at,last_opened_device,owner_id").in("id", data.ids).eq("owner_id", context.userId)).data as ActivityRow[] | null;
@@ -161,7 +161,7 @@ export const getDemonstrationActivity = createServerFn({ method: "POST" })
       }
       rows = (fallback.data ?? []).map((r) => ({ ...r, last_opened_device: null }));
     }
-    return filterOwnedDemonstrations(rows ?? [], context.userId).map((r) => ({ id: r.id, slug: r.slug, createdAt: r.created_at, lastOpenedAt: r.last_opened_at, lastOpenedDevice: r.last_opened_device, openCount: r.open_count ?? 0, expiresAt: r.expires_at ?? null }));
+    return filterOwnedDemonstrations(rows ?? [], context.userId).map((r) => ({ id: r.id, slug: r.slug, createdAt: r.created_at, lastOpenedAt: r.last_opened_at, lastOpenedDevice: r.last_opened_device, openCount: r.open_count ?? 0, expiresAt: r.expires_at ?? null, showInPortfolio: r.show_in_portfolio ?? false }));
   });
 
 // Real Google reviews (max 5, Google's choice) fetched once at creation; failures just leave the section hidden.
