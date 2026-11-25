@@ -23,8 +23,8 @@ describe("leadHeatScore", () => {
     expect(leadHeat(frio)).toBe("frio");
   });
   it("reconhece os segmentos de alta conversão do spec", () => {
-    for (const [name, category] of [["Barbearia A", "Barbearia"], ["Pizzaria B", "Pizzaria"], ["Odonto C", "Dentista"], ["Salão D", "Salão de beleza"], ["Estética E", "Estética"], ["Oficina F", "Oficina mecânica"]]) {
-      expect(leadHeatScore(lead({ name, category, address: "", category })).score).toBe(2);
+    for (const [name, category] of ([["Barbearia A", "Barbearia"], ["Pizzaria B", "Pizzaria"], ["Odonto C", "Dentista"], ["Salão D", "Salão de beleza"], ["Estética E", "Estética"], ["Oficina F", "Oficina mecânica"]] as const)) {
+      expect(leadHeatScore(lead({ name, category, address: "" })).score).toBe(2);
     }
   });
   it("limiares: 5+ quente, 3-4 morno, 0-2 frio", () => {
