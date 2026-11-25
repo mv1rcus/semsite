@@ -7,6 +7,7 @@ export const demoSchema = z.object({
   address: z.string().trim().max(400), phone: z.string().trim().max(40),
   headline: z.string().trim().min(2).max(200), description: z.string().trim().min(2).max(1000),
   placeId: z.string().regex(/^[A-Za-z0-9_-]{5,300}$/).optional(),
+  expiresInDays: z.number().int().min(1).max(365).optional(),
 });
 export type GoogleReview = { author: string; rating: number; text: string; when: string };
 export type DemoGoogle = { google_rating?: number | null; google_rating_count?: number | null; google_reviews?: unknown };
@@ -82,8 +83,9 @@ export function demoPhoneLink(phone: string) {
 }
 
 /** Link para mandar a demonstração no WhatsApp: direto na conversa do negócio quando o telefone existe; senão abre o seletor de contatos. */
-export function demoWhatsAppShare(phone: string, name: string, link: string) {
-  const text = encodeURIComponent(`Olá! Preparei uma ideia de site para ${name}, sem compromisso: ${link}`);
+export function demoWhatsAppShare(phone: string, name: string, link: string, expiresAt?: string | null) {
+  const until = expiresAt && Number.isFinite(Date.parse(expiresAt)) ? ` O link fica no ar até ${new Date(expiresAt).toLocaleDateString("pt-BR")}.` : "";
+  const text = encodeURIComponent(`Olá! Preparei uma ideia de site para ${name}, sem compromisso: ${link}${until}`);
   const contact = demoPhoneLink(phone);
   return contact ? `${contact}?text=${text}` : `https://wa.me/?text=${text}`;
 }
