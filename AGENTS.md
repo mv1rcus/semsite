@@ -21,6 +21,7 @@
 - Entry and search share a static abstract SVG background using CSS semantic tokens; avoid WebGL and media downloads on these pages to keep prospecting lightweight.
 - Google page tokens are opaque strings validated in the shared search schema and never truncated; rank and deduplicate loaded prospects using observable contact and reputation signals, never conversion probabilities.
 - Demonstrations are immutable public business-only records with no access to account-owned leads; browser-local history lists created links and typed public server reads load the share page.
+- Every new demonstration records its creator in `owner_id`; only the owner can change the expiry or read open activity (count, device, time), enforced server-side by an owner filter with fail-closed fallbacks, and legacy demos without an owner stay frozen until an owner is registered manually. The public demo render stays anonymous and has no owner check.
 - Manual demonstration removal requires confirmation and only changes browser-local link history; existing shared pages remain available.
 - Generate demonstration sharing URLs through the shared link helper using the active published domain outside localhost, so preview addresses and obsolete domains are never sent to clients.
 - Named demonstration URLs encode the complete UUID losslessly in a URL-safe code and include a cosmetic business slug; legacy /demo/:id links remain valid and both routes share the same exact-id query and activity read.
