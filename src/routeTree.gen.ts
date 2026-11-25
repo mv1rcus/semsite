@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as SlugRouteImport } from './routes/$slug'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as TermosRouteImport } from './routes/termos'
 import { Route as AuthenticatedAnaliseRouteImport } from './routes/_authenticated/analise'
 import { Route as AuthenticatedBuscarRouteImport } from './routes/_authenticated/buscar'
 import { Route as AuthenticatedClientesRouteImport } from './routes/_authenticated/clientes'
@@ -54,6 +55,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const PrivacidadeRoute = PrivacidadeRouteImport.update({
   id: '/privacidade',
   path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermosRoute = TermosRouteImport.update({
+  id: '/termos',
+  path: '/termos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAnaliseRoute = AuthenticatedAnaliseRouteImport.update({
@@ -182,6 +188,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$slug': typeof SlugRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/termos': typeof TermosRoute
   '/analise': typeof AuthenticatedAnaliseRoute
   '/buscar': typeof AuthenticatedBuscarRoute
   '/clientes': typeof AuthenticatedClientesRoute
@@ -210,6 +217,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$slug': typeof SlugRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/termos': typeof TermosRoute
   '/analise': typeof AuthenticatedAnaliseRoute
   '/buscar': typeof AuthenticatedBuscarRoute
   '/clientes': typeof AuthenticatedClientesRoute
@@ -240,6 +248,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/$slug': typeof SlugRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/termos': typeof TermosRoute
   '/_authenticated/analise': typeof AuthenticatedAnaliseRoute
   '/_authenticated/buscar': typeof AuthenticatedBuscarRoute
   '/_authenticated/clientes': typeof AuthenticatedClientesRoute
@@ -270,6 +279,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$slug'
     | '/privacidade'
+    | '/termos'
     | '/analise'
     | '/buscar'
     | '/clientes'
@@ -298,6 +308,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$slug'
     | '/privacidade'
+    | '/termos'
     | '/analise'
     | '/buscar'
     | '/clientes'
@@ -327,6 +338,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/$slug'
     | '/privacidade'
+    | '/termos'
     | '/_authenticated/analise'
     | '/_authenticated/buscar'
     | '/_authenticated/clientes'
@@ -357,6 +369,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   SlugRoute: typeof SlugRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
+  TermosRoute: typeof TermosRoute
   DemoIdRoute: typeof DemoIdRoute
   PortfolioUsernameRoute: typeof PortfolioUsernameRoute
   SiteSlugCodeRoute: typeof SiteSlugCodeRoute
@@ -392,6 +405,13 @@ declare module '@tanstack/react-router' {
       path: '/privacidade'
       fullPath: '/privacidade'
       preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/termos': {
+      id: '/termos'
+      path: '/termos'
+      fullPath: '/termos'
+      preLoaderRoute: typeof TermosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/analise': {
@@ -608,6 +628,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   SlugRoute: SlugRoute,
   PrivacidadeRoute: PrivacidadeRoute,
+  TermosRoute: TermosRoute,
   DemoIdRoute: DemoIdRoute,
   PortfolioUsernameRoute: PortfolioUsernameRoute,
   SiteSlugCodeRoute: SiteSlugCodeRoute,
