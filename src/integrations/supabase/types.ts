@@ -327,6 +327,7 @@ export type Database = {
           last_opened_device: string | null
           name: string
           open_count: number
+          owner_id: string | null
           phone: string
           place_id: string | null
           slug: string | null
@@ -346,6 +347,7 @@ export type Database = {
           last_opened_device?: string | null
           name: string
           open_count?: number
+          owner_id?: string | null
           phone?: string
           place_id?: string | null
           slug?: string | null
@@ -365,6 +367,7 @@ export type Database = {
           last_opened_device?: string | null
           name?: string
           open_count?: number
+          owner_id?: string | null
           phone?: string
           place_id?: string | null
           slug?: string | null

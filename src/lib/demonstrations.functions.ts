@@ -5,6 +5,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { demonstrationLink, demoSchema, demoDeviceFromUserAgent } from "./demonstrations";
 import { demonstrationPageIsAvailable, type DemoVerification } from "./demo-verification";
 import { DEFAULT_EXPIRY_DAYS, expiryDate, isExpired, isNewOpenSession } from "./demo-expiry";
+import { filterOwnedDemonstrations } from "./demo-ownership";
 
 export const verifyDemonstrationLink = createServerFn({ method: "POST" })
   .inputValidator((input) => z.object({ id: z.string().uuid() }).parse(input))
@@ -87,6 +88,22 @@ async function uniqueDemoSlug(supabaseAdmin: any, name: string): Promise<string>
   return `${base}${Date.now() % 100000}`;
 }
 
+// Colunas que podem faltar enquanto a migração correspondente não roda: tenta sem elas antes de desistir.
+const OPTIONAL_DEMO_COLUMNS = ["owner_id", "expires_at", "slug"] as const;
+async function insertDemonstration(supabaseAdmin: any, row: Record<string, unknown>) {
+  let attempt = { ...row };
+  for (;;) {
+    const returning = ["id", "name", ...("slug" in attempt ? ["slug"] : [])].join(",");
+    const { data, error } = await supabaseAdmin.from("site_demonstrations").insert(attempt).select(returning).single();
+    if (!error) return { row: { slug: null, ...data } as { id: string; name: string; slug: string | null }, error: null };
+    const message = String((error as { message?: string } | null)?.message ?? "").toLowerCase();
+    const optional = OPTIONAL_DEMO_COLUMNS.find((column) => column in attempt && message.includes(column));
+    if (!optional) return { row: null, error };
+    const { [optional]: _dropped, ...rest } = attempt;
+    attempt = rest;
+  }
+}
+
 export const createDemonstration = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input) => demoSchema.parse(input))
@@ -99,17 +116,8 @@ export const createDemonstration = createServerFn({ method: "POST" })
     const slug = await uniqueDemoSlug(supabaseAdmin, fields.name);
     const base = { ...fields, place_id: placeId ?? null, google_rating: google?.rating ?? null, google_rating_count: google?.count ?? null, google_reviews: google?.reviews ?? [] };
     const expires_at = expiryDate(expiresInDays ?? DEFAULT_EXPIRY_DAYS);
-    let { data: row, error } = await supabaseAdmin.from("site_demonstrations").insert({ ...base, slug, expires_at }).select("id,name,slug").single();
-    if (error && /expires_at/i.test(error.message ?? "")) {
-      // Coluna de validade ainda não aplicada: cria sem validade até a migração entrar.
-      ({ data: row, error } = await supabaseAdmin.from("site_demonstrations").insert({ ...base, slug }).select("id,name,slug").single());
-    }
-    if (error && /slug/i.test(error.message ?? "")) {
-      // Coluna slug ainda não aplicada (migração 0022 pendente): salva sem o endereço curto até lá.
-      const fallback = await supabaseAdmin.from("site_demonstrations").insert(base).select("id,name").single();
-      row = fallback.data ? { ...fallback.data, slug: null } : null;
-      error = fallback.error;
-    }
+    // Toda demo nova registra o dono (usuário logado): só ele ajusta validade e vê a atividade.
+    const { row, error } = await insertDemonstration(supabaseAdmin, { ...base, slug, expires_at, owner_id: context.userId });
     if (error || !row) throw new Error("Não foi possível salvar a demonstração.");
     return row;
   });
@@ -122,29 +130,38 @@ export const setDemonstrationExpiry = createServerFn({ method: "POST" })
     if (!verified) throw new Error("Demonstrações são exclusivas para contas verificadas.");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const expires_at = expiryDate(data.days);
-    const { error } = await supabaseAdmin.from("site_demonstrations").update({ expires_at }).eq("id", data.id);
+    // Só o dono muda a validade: o filtro por owner_id impede mexer na demo de outra pessoa.
+    // Demos antigas sem dono (owner_id NULL) não batem no filtro e ficam congeladas.
+    const { data: updated, error } = await supabaseAdmin.from("site_demonstrations").update({ expires_at }).eq("id", data.id).eq("owner_id", context.userId).select("id");
     if (error) throw new Error("Não foi possível ajustar a validade agora.");
+    if (!updated || updated.length === 0) throw new Error("Demonstração não encontrada ou não pertence a você.");
     return { id: data.id, expiresAt: expires_at };
   });
 
 export const getDemonstrationActivity = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((input) => z.object({ ids: z.array(z.string().uuid()).max(30) }).parse(input))
-  .handler(async ({ data }) => {
+  .handler(async ({ data, context }) => {
     if (data.ids.length === 0) return [];
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    type ActivityRow = { id: string; slug: string | null; created_at: string; last_opened_at: string | null; last_opened_device: string | null; open_count?: number | null; expires_at?: string | null };
-    let rows: ActivityRow[] | null = (await supabaseAdmin.from("site_demonstrations").select("id,slug,created_at,last_opened_at,last_opened_device,open_count,expires_at").in("id", data.ids)).data;
+    type ActivityRow = { id: string; slug: string | null; created_at: string; last_opened_at: string | null; last_opened_device: string | null; open_count?: number | null; expires_at?: string | null; owner_id?: string | null };
+    // Só o dono vê a atividade: filtra por owner_id no banco e de novo na saída (defesa em profundidade).
+    let rows: ActivityRow[] | null = (await supabaseAdmin.from("site_demonstrations").select("id,slug,created_at,last_opened_at,last_opened_device,open_count,expires_at,owner_id").in("id", data.ids).eq("owner_id", context.userId)).data;
     if (rows === null) {
       // Colunas de validade/contador podem faltar: tenta o conjunto anterior antes de desistir.
-      rows = (await supabaseAdmin.from("site_demonstrations").select("id,slug,created_at,last_opened_at,last_opened_device").in("id", data.ids)).data as ActivityRow[] | null;
+      rows = (await supabaseAdmin.from("site_demonstrations").select("id,slug,created_at,last_opened_at,last_opened_device,owner_id").in("id", data.ids).eq("owner_id", context.userId)).data as ActivityRow[] | null;
     }
     if (rows === null) {
       // Coluna ainda não aplicada (migração 0019 pendente): responde sem o aparelho até lá.
-      const fallback = await supabaseAdmin.from("site_demonstrations").select("id,slug,created_at,last_opened_at").in("id", data.ids);
-      if (fallback.error) throw new Error("Não foi possível consultar os acessos.");
+      const fallback = await supabaseAdmin.from("site_demonstrations").select("id,slug,created_at,last_opened_at,owner_id").in("id", data.ids).eq("owner_id", context.userId);
+      if (fallback.error) {
+        // owner_id ainda não aplicado (migração de dono pendente): falha fechado, sem atividade até lá.
+        if (/owner_id/i.test(fallback.error.message ?? "")) return [];
+        throw new Error("Não foi possível consultar os acessos.");
+      }
       rows = (fallback.data ?? []).map((r) => ({ ...r, last_opened_device: null }));
     }
-    return (rows ?? []).map((r) => ({ id: r.id, slug: r.slug, createdAt: r.created_at, lastOpenedAt: r.last_opened_at, lastOpenedDevice: r.last_opened_device, openCount: r.open_count ?? 0, expiresAt: r.expires_at ?? null }));
+    return filterOwnedDemonstrations(rows ?? [], context.userId).map((r) => ({ id: r.id, slug: r.slug, createdAt: r.created_at, lastOpenedAt: r.last_opened_at, lastOpenedDevice: r.last_opened_device, openCount: r.open_count ?? 0, expiresAt: r.expires_at ?? null }));
   });
 
 // Real Google reviews (max 5, Google's choice) fetched once at creation; failures just leave the section hidden.
