@@ -23,3 +23,4 @@ Em vez de garimpar o Google Maps atrás de cliente, o SemSite encontra negócios
 ---
 
 Projeto construído com [Lovable](https://lovable.dev).
+
