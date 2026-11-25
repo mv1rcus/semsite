@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { ModelMiniPreview } from "@/components/ModelMiniPreview";
+import { PREMIUM_MODELS, img } from "@/lib/premium-models";
 import { ALL_MODELS, LAYOUT_KEYS, LAYOUT_LABEL, PALETTES, RAMOS, filterModels, type LayoutKey } from "@/lib/site-models";
 
 export const Route = createFileRoute("/_authenticated/vitrine")({
@@ -48,6 +49,15 @@ function Vitrine() {
         </div>
         <p className="mt-4 text-sm text-muted-foreground">{list.length.toLocaleString("pt-BR")} {list.length === 1 ? "modelo" : "modelos"}{ramo ? ` de ${RAMOS.find((r) => r.key === ramo)?.label.toLocaleLowerCase("pt-BR")}` : ""}</p>
 
+        <ul className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {PREMIUM_MODELS.filter((m) => (!ramo || m.ramo === ramo) && (layout === "" || layout === "3d" ? layout === "" : false) && (!q || [m.name, m.ramoLabel, ...m.tags].join(" ").toLowerCase().includes(q.toLowerCase()))).map((m) => (
+            <li key={m.id}><Link to="/vitrine/$id" params={{ id: m.id }} className="group relative block overflow-hidden rounded-2xl border border-border bg-card">
+              <img src={img(m.cover, 800, 560)} alt="" loading="lazy" className="aspect-[10/7] w-full object-cover transition duration-500 group-hover:scale-105" />
+              <span className="absolute left-3 top-3 rounded-full bg-black/70 px-2.5 py-1 text-[11px] font-bold text-white">{m.ramoLabel}</span>
+              <div className="px-4 py-3"><p className="font-bold">{m.name}</p><p className="text-xs text-muted-foreground">{m.style}</p></div>
+            </Link></li>
+          ))}
+        </ul>
         {list.length === 0 ? <p className="mt-10 text-center text-muted-foreground">Nenhum modelo com esses filtros.</p> : (
           <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {list.slice(0, shown).map((m) => (

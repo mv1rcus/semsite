@@ -2,6 +2,8 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
 import { SiteModelView } from "@/components/SiteModelView";
+import { PremiumSite } from "@/components/PremiumSite";
+import { getPremium } from "@/lib/premium-models";
 import { getModel, modelLink, type ModelClient } from "@/lib/site-models";
 
 type Search = { n?: string; w?: string; c?: string };
@@ -12,8 +14,8 @@ export const Route = createFileRoute("/vitrine/$id")({
     ...(typeof s["w"] === "string" ? { w: s["w"].replace(/\D/g, "").slice(0, 15) } : {}),
     ...(typeof s["c"] === "string" ? { c: s["c"].slice(0, 60) } : {}),
   }),
-  loader: ({ params }) => { const m = getModel(params.id); if (!m) throw notFound(); return m.id; },
-  head: ({ params }) => { const m = getModel(params.id); return { meta: [{ title: `${m ? `${m.ramoLabel} (${m.layoutLabel})` : "Modelo"} | Vitrine SemSite` }, { name: "robots", content: "noindex" }] }; },
+  loader: ({ params }) => { const m = getPremium(params.id) ?? getModel(params.id); if (!m) throw notFound(); return m.id; },
+  head: ({ params }) => { const m = getPremium(params.id) ?? getModel(params.id); return { meta: [{ title: `${m ? m.ramoLabel : "Modelo"} | Vitrine SemSite` }, { name: "robots", content: "noindex" }] }; },
   notFoundComponent: () => <main className="p-8 text-center"><h1 className="text-2xl font-bold">Modelo não encontrado</h1><Link to="/vitrine" className="mt-4 inline-block underline">Voltar para a vitrine</Link></main>,
   component: Viewer,
 });
@@ -21,7 +23,8 @@ export const Route = createFileRoute("/vitrine/$id")({
 function Viewer() {
   const { id } = Route.useParams();
   const sp = Route.useSearch();
-  const model = getModel(id)!;
+  const premium = getPremium(id);
+  const model = getModel(id);
   const [client, setClient] = useState<ModelClient>({ name: sp.n ?? "", whatsapp: sp.w ?? "", city: sp.c ?? "" });
   const [copied, setCopied] = useState(false);
   const field = "h-9 min-w-0 flex-1 rounded-lg border border-border bg-card px-2.5 text-sm outline-none focus:border-primary";
@@ -40,7 +43,7 @@ function Viewer() {
         </div>
         <p className="mx-auto mt-1 max-w-5xl text-[11px] text-muted-foreground">Modelo ilustrativo. Serviços, preços e avaliações são exemplos para o cliente revisar.</p>
       </div>
-      <SiteModelView model={model} client={client} />
+      {premium ? <PremiumSite model={premium} client={client} /> : model ? <SiteModelView model={model} client={client} /> : null}
     </div>
   );
 }
