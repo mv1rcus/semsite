@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      closed_sales: {
+        Row: {
+          amount_cents: number
+          client_id: string
+          client_name: string
+          closed_at: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          amount_cents?: number
+          client_id: string
+          client_name: string
+          closed_at?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Update: {
+          amount_cents?: number
+          client_id?: string
+          client_name?: string
+          closed_at?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       contacted_leads: {
         Row: {
           city: string | null
@@ -316,8 +346,8 @@ export type Database = {
           address: string
           category: string
           created_at: string
-          expires_at: string | null
           description: string
+          expires_at: string | null
           google_rating: number | null
           google_rating_count: number | null
           google_reviews: Json
@@ -330,14 +360,15 @@ export type Database = {
           owner_id: string | null
           phone: string
           place_id: string | null
+          show_in_portfolio: boolean
           slug: string | null
         }
         Insert: {
           address?: string
           category: string
           created_at?: string
-          expires_at?: string | null
           description: string
+          expires_at?: string | null
           google_rating?: number | null
           google_rating_count?: number | null
           google_reviews?: Json
@@ -350,14 +381,15 @@ export type Database = {
           owner_id?: string | null
           phone?: string
           place_id?: string | null
+          show_in_portfolio?: boolean
           slug?: string | null
         }
         Update: {
           address?: string
           category?: string
           created_at?: string
-          expires_at?: string | null
           description?: string
+          expires_at?: string | null
           google_rating?: number | null
           google_rating_count?: number | null
           google_reviews?: Json
@@ -370,6 +402,7 @@ export type Database = {
           owner_id?: string | null
           phone?: string
           place_id?: string | null
+          show_in_portfolio?: boolean
           slug?: string | null
         }
         Relationships: []
@@ -417,6 +450,33 @@ export type Database = {
           status?: string
           stripe_customer_id?: string
           stripe_subscription_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_store: {
+        Row: {
+          data: Json
+          item_id: string
+          kind: string
+          position: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          data: Json
+          item_id: string
+          kind: string
+          position?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          data?: Json
+          item_id?: string
+          kind?: string
+          position?: number
           updated_at?: string
           user_id?: string
         }
