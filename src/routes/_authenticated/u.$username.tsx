@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FollowListDialog, type FollowKind } from "@/components/FollowListDialog";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
-import { DeveloperBadge, isDeveloperUsername } from "@/components/DeveloperBadge";
+import { DeveloperBadge, isDeveloperId } from "@/components/DeveloperBadge";
 import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, Heart, Link2, MapPin, UserPlus, UserCheck, Send, UserRound } from "lucide-react";
 import { profileLinkLabel, splitProfileLinks } from "@/lib/profile-link";
@@ -78,7 +78,7 @@ function PublicProfile() {
                   </div>
                 )}
               </div>
-              <h1 className="mt-3 flex items-center gap-2 font-sans text-2xl font-extrabold">{p.display_name || "Sem nome"}{p.verified && <VerifiedBadge size={22} />}{isDeveloperUsername(p.username) && <DeveloperBadge size={20} />}</h1>
+              <h1 className="mt-3 flex items-center gap-2 font-sans text-2xl font-extrabold">{p.display_name || "Sem nome"}{p.verified && <VerifiedBadge size={22} />}{isDeveloperId(p.id) && <DeveloperBadge size={20} />}</h1>
               <p className="text-muted-foreground">@{p.username}</p>
               {p.bio && <PostText body={p.bio} className="mt-3 whitespace-pre-wrap break-words" />}
               {splitProfileLinks(p.link_url).length > 0 && <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">{splitProfileLinks(p.link_url).map(l => <a key={l} href={l} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-semibold text-link hover:underline"><Link2 className="size-4" />{profileLinkLabel(l)}</a>)}</div>}
