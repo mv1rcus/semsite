@@ -12,7 +12,7 @@ const CASES = [
 const TILES: [string, string][] = [
   [U.c1, "50% 50%"], [U.m1, "50% 50%"], [U.c2, "50% 50%"], [U.m3, "50% 50%"], [U.c4, "50% 50%"],
   [U.m2, "50% 50%"], [U.c3, "50% 50%"], [U.m5, "50% 50%"], [U.c5, "50% 50%"], [U.m4, "50% 50%"],
-  [U.c6, "50% 50%"], [U.m6, "50% 50%"], [U.c2, "75% 40%"], [U.m3, "30% 70%"], [U.c4, "20% 60%"],
+  [U.c6, "50% 50%"], [U.m6, "50% 50%"], [U.c2, "88% 55%/210%"], [U.m3, "50% 60%/220%"], [U.c4, "12% 45%/200%"],
 ];
 
 export function HorizontePrimeFold({ client }: { client?: { name?: string; whatsapp?: string; city?: string } }) {
@@ -134,7 +134,7 @@ export function HorizontePrimeFold({ client }: { client?: { name?: string; whats
           <div className="rt">{CASES[0]!.a}<br />{CASES[0]!.s}<br />Vendido em 21 dias</div>
         </div>
         <div className="mos">
-          {TILES.map(([img, pos], i) => <div key={i} style={{ backgroundImage: `url("${img}")`, backgroundPosition: pos }} />)}
+          {TILES.map(([img, pos], i) => <div key={i} style={{ backgroundImage: `url("${img}")`, backgroundPosition: pos.split("/")[0], backgroundSize: pos.split("/")[1] || "cover" }} />)}
         </div>
         <div className="cta">
           <h4>Vamos encontrar o imóvel certo para você</h4>
