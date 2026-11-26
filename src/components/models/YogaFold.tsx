@@ -85,7 +85,7 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
           <div style={{ maxWidth: 520 }}>
             <span className="eyebrow">Estúdio de yoga · {city}</span>
             <h1 style={{ fontSize: "clamp(46px,6.5vw,84px)", lineHeight: 1.02, margin: "18px 0 22px", color: DK }}>
-              Mova.<br /><span style={{ fontStyle: "italic", color: OL2 }}>Respire.</span><br />Torne-se.
+              Mova.<br /><span style={{ color: OL2 }}>Respire.</span><br />Torne-se.
             </h1>
             <p style={{ fontSize: 17.5, lineHeight: 1.7, color: GR, maxWidth: 460, marginBottom: 30 }}>
               Práticas de yoga e meditação para quem quer força no corpo e calma na cabeça. Turmas pequenas, professoras experientes e um espaço que abraça.
@@ -122,7 +122,7 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
                     <span style={{ fontSize: 11.5, fontWeight: 800, letterSpacing: 1.6, color: CLAY_TXT, textTransform: "uppercase" }}>{c.dur}</span>
                     <span style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: 1, color: OL2, textTransform: "uppercase" }}>{c.lv}</span>
                   </div>
-                  <h3 style={{ fontSize: 26, margin: "12px 0 10px", color: DK, fontStyle: "italic" }}>{c.t}</h3>
+                  <h3 style={{ fontSize: 26, margin: "12px 0 10px", color: DK }}>{c.t}</h3>
                   <div style={{ width: 42, height: 2, background: CLAY, marginBottom: 14, borderRadius: 2 }} />
                   <p style={{ fontSize: 14.5, lineHeight: 1.65, color: "#5c5949" }}>{c.d}</p>
                 </div>
@@ -204,7 +204,7 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
         <div style={{ position: "absolute", inset: 0, background: "rgba(30,33,20,.55)" }} />
         <div className="wrap" style={{ position: "relative" }}>
           <span className="eyebrow" style={{ color: SAND, justifyContent: "center" }}>Primeira aula gratuita</span>
-          <h2 style={{ margin: "14px auto 18px", fontSize: "clamp(34px,4.5vw,56px)", maxWidth: 700 }}>O seu tapete está <span style={{ fontStyle: "italic", color: SAND }}>esperando.</span></h2>
+          <h2 style={{ margin: "14px auto 18px", fontSize: "clamp(34px,4.5vw,56px)", maxWidth: 700 }}>O seu tapete está <span style={{ color: SAND }}>esperando.</span></h2>
           <p style={{ fontSize: 16.5, color: "rgba(245,241,230,.75)", maxWidth: 520, margin: "0 auto 32px" }}>Agende a aula experimental gratuita e sinta na pele o que a prática faz por você.</p>
           <a className="btn" style={{ background: CLAY, fontSize: 16, padding: "18px 36px" }} href={wa("Olá! Quero agendar minha aula experimental gratuita no " + brand + ".")}>Agendar pelo WhatsApp →</a>
         </div>
