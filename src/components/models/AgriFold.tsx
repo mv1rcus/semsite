@@ -73,9 +73,9 @@ export function AgriFold({ client }: { client?: { name?: string; whatsapp?: stri
         .ag0 .wf{position:fixed;right:18px;bottom:18px;z-index:30;width:56px;height:56px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 8px 22px rgba(0,0,0,.4)}
         @media(max-width:900px){
           .ag0 .wrap{padding:0 20px}.ag0 .links,.ag0 .nav .btn,.ag0 .sun{display:none}.ag0 .burger{display:block}
-          .ag0 .hero{min-height:auto}.ag0 .hero:before{background:linear-gradient(180deg,rgba(7,18,10,.55) 0%,rgba(7,18,10,.35) 35%,rgba(11,26,18,.85) 80%,#0b1a12 100%)}
-          .ag0 .hero img.bg{object-position:72% center}
-          .ag0 h1{font-size:38px}.ag0 .hc{padding:40px 0 30px}
+          .ag0 .hero{min-height:auto}.ag0 .hero:before{background:linear-gradient(180deg,rgba(7,18,10,.6) 0%,rgba(7,18,10,.62) 45%,rgba(11,26,18,.9) 80%,#0b1a12 100%)}
+          .ag0 .hero img.bg{object-position:66% center}
+          .ag0 h1{font-size:38px}.ag0 .hc{padding:40px 20px 30px}
           .ag0 .stats,.ag0 .live{position:relative;left:auto;right:auto;bottom:auto;width:auto;margin:0 20px 16px;z-index:4}
           .ag0 .stats{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:20px}.ag0 .live{width:auto}
           .ag0 .sh,.ag0 .tech{grid-template-columns:1fr;gap:18px}.ag0 .sh h2{font-size:28px}.ag0 .cards{grid-template-columns:1fr 1fr}
