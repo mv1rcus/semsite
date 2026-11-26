@@ -12,6 +12,7 @@ import { JoiaFold } from "@/components/models/JoiaFold";
 import { LivroFold } from "@/components/models/LivroFold";
 import { ModaFold } from "@/components/models/ModaFold";
 import { SorveteFold } from "@/components/models/SorveteFold";
+import { EletroFold } from "@/components/models/EletroFold";
 import { BakeFold } from "@/components/models/BakeFold";
 import { WashFold } from "@/components/models/WashFold";
 import { LaundryFold } from "@/components/models/LaundryFold";
@@ -44,6 +45,7 @@ else if (__MODEL__ === "atelie-seda") root.render(<JoiaFold client={cfg.client} 
 else if (__MODEL__ === "folha-corrida") root.render(<LivroFold client={cfg.client} />);
 else if (__MODEL__ === "alto-corte") root.render(<ModaFold client={cfg.client} />);
 else if (__MODEL__ === "doce-pomar") root.render(<SorveteFold client={cfg.client} />);
+else if (__MODEL__ === "volt-e-som") root.render(<EletroFold client={cfg.client} />);
 else if (__MODEL__ === "massa-mae") root.render(<BakeFold client={cfg.client} />);
 else if (__MODEL__ === "jato-azul") root.render(<WashFold client={cfg.client} />);
 else if (__MODEL__ === "pano-limpo") root.render(<LaundryFold client={cfg.client} />);
