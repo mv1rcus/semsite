@@ -278,7 +278,7 @@ export function MedFold({ client }: { client?: { name?: string; whatsapp?: strin
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(139,160,122,.25) 1.2px, transparent 1.2px)", backgroundSize: "28px 28px", maskImage: "radial-gradient(ellipse at 50% 0%, black 25%, transparent 72%)" }} />
         <div className="wrap" style={{ position: "relative" }}>
           <span className="eyebrow" style={{ justifyContent: "center", color: SAGE }}>Semana experimental gratuita</span>
-          <h2 style={{ margin: "14px auto 18px", fontSize: "clamp(34px,4.6vw,60px)", maxWidth: 720, color: CRM }}>Comece hoje. <span style={{ fontStyle: "italic", color: PEACH }}>A calma é treino.</span></h2>
+          <h2 style={{ margin: "14px auto 18px", fontSize: "clamp(34px,4.6vw,60px)", maxWidth: 720, color: CRM }}>Comece hoje. <span style={{ color: PEACH }}>A calma é treino.</span></h2>
           <p style={{ fontSize: 16.5, color: "rgba(244,240,230,.78)", maxWidth: 540, margin: "0 auto 32px" }}>Sete dias de aulas ao vivo e sessões guiadas, sem cartão e sem compromisso.</p>
           <a className="btn" style={{ fontSize: 16, padding: "18px 36px", background: PEACH, color: INK }} href={wa("Olá! Quero começar a semana experimental gratuita no " + brand + ".")}>Quero minha semana grátis →</a>
         </div>
