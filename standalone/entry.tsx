@@ -47,6 +47,7 @@ import { BandoneonFold } from "@/components/models/BandoneonFold";
 import { BolaPraFrenteFold } from "@/components/models/BolaPraFrenteFold";
 import { CardumeFold } from "@/components/models/CardumeFold";
 import { FolegoFold } from "@/components/models/FolegoFold";
+import { AcuFold } from "@/components/models/AcuFold";
 import { ContaFold } from "@/components/models/ContaFold";
 import { FisioFold } from "@/components/models/FisioFold";
 import { DentalFold } from "@/components/models/DentalFold";
@@ -62,6 +63,7 @@ else if (__MODEL__ === "casa-bandoneon") root.render(<BandoneonFold client={cfg.
 else if (__MODEL__ === "estudio-impeto") root.render(<ImpetoFold client={cfg.client} />);
 else if (__MODEL__ === "estudio-toque") root.render(<ToqueFold client={cfg.client} />);
 else if (__MODEL__ === "estudio-serena") root.render(<MedFold client={cfg.client} />);
+if (__MODEL__ === "clinica-meridian") root.render(<AcuFold client={cfg.client} />);
 else if (__MODEL__ === "raiz-yoga") root.render(<YogaFold client={cfg.client} />);
 else if (__MODEL__ === "vetor-contabilidade") root.render(<ContaFold client={cfg.client} />);
 else if (__MODEL__ === "daniela-rocha") root.render(<FisioFold client={cfg.client} />);
