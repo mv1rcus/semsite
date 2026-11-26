@@ -51,6 +51,9 @@ export function FolegoFold({ client }: { client?: { name?: string; whatsapp?: st
   const go = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   const display = "'Archivo Black', 'Arial Narrow', sans-serif";
   useEffect(() => {
+    const pre = document.createElement("link");
+    pre.rel = "preconnect"; pre.href = "https://fonts.gstatic.com"; pre.crossOrigin = "anonymous";
+    document.head.appendChild(pre);
     const l = document.createElement("link");
     l.href = "https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap";
     l.rel = "stylesheet"; document.head.appendChild(l);
@@ -74,14 +77,16 @@ export function FolegoFold({ client }: { client?: { name?: string; whatsapp?: st
         .folego .tcard{background:#101c7d;border:2px solid rgba(246,248,255,.4);padding:30px}
         .folego .step{border-top:5px solid ${AZ};padding-top:22px}
         @media(max-width:900px){
-          .folego .hero-km{font-size:clamp(84px,23vw,140px)!important}
-          .folego .hero-kmlabel{font-size:34px!important}
+          .folego .hero-km{font-size:clamp(120px,30vw,240px)!important;letter-spacing:-.04em}
+          .folego .hero-kmlabel{font-size:44px!important}
           .folego .brand-city{display:none}
           .folego .grid4{grid-template-columns:1fr 1fr!important}
           .folego .grid3{grid-template-columns:1fr!important}
           .folego .hero-pad{padding-top:110px!important}
         }
         @media(max-width:560px){
+          .folego .hero-km{font-size:32vw!important}
+          .folego .hero-kmlabel{font-size:40px!important;padding-bottom:8px}
           .folego .grid4{grid-template-columns:1fr!important}
           .folego .row-l{display:grid!important;grid-template-columns:62px 1fr auto;grid-template-areas:"dia treino treino" "dia dist pace" "dia tag tag";gap:3px 12px;padding:16px 16px!important}
           .folego .row-l .cell{padding:0!important;width:auto!important;text-align:left!important}
