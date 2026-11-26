@@ -59,7 +59,7 @@ export function PizzaFold({ client }: { client?: { name?: string; whatsapp?: str
         .pz .eyebrow{font-size:11.5px;letter-spacing:2.4px;text-transform:uppercase;color:${MU};font-weight:500}
         .pz h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(58px,7vw,92px);line-height:.98;margin:18px 0 0;letter-spacing:-1px}
         .pz .lead{font-size:19px;line-height:1.5;margin:20px 0 30px;color:#4a352e}
-        .pz .script{font-family:Allura,cursive;font-size:30px;color:#b88a78;margin-top:22px;transform:rotate(-4deg);display:inline-block}
+        .pz .script{font-family:Allura,cursive;font-size:32px;color:#8f4a37;margin-top:22px;transform:rotate(-4deg);display:inline-block}
         .pz .panel{position:absolute;right:28px;top:20px;width:360px;background:rgba(255,255,255,.55);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.8);border-radius:22px;padding:20px 22px;box-shadow:0 10px 30px rgba(90,60,70,.14);z-index:3}
         .pz .panel h4{margin:0 0 12px;font-size:11px;letter-spacing:2.2px;text-transform:uppercase;color:${MU};font-weight:600}
         .pz .chips{display:flex;flex-wrap:wrap;gap:8px}
