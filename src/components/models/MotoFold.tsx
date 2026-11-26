@@ -22,89 +22,6 @@ function nextDays() {
   return out;
 }
 
-function Wheel({ cx, cy }: { cx: number; cy: number }) {
-  const spokes = Array.from({ length: 32 }, (_, i) => {
-    const a = (i / 32) * Math.PI * 2, r1 = 12, r2 = 62;
-    const off = i % 2 ? 0.14 : -0.14;
-    return <line key={i} x1={cx + Math.cos(a + off) * r1} y1={cy + Math.sin(a + off) * r1} x2={cx + Math.cos(a) * r2} y2={cy + Math.sin(a) * r2} stroke="#8d8d8d" strokeWidth="1.1" />;
-  });
-  return (
-    <g>
-      <circle cx={cx} cy={cy} r={74} fill="none" stroke="#141414" strokeWidth="13" />
-      <circle cx={cx} cy={cy} r={64} fill="none" stroke="#d6d6d6" strokeWidth="3" />
-      {spokes}
-      <circle cx={cx} cy={cy} r={17} fill="#bdbdbd" stroke="#2a2a2a" strokeWidth="4" />
-      <circle cx={cx} cy={cy} r={6} fill="#2a2a2a" />
-    </g>
-  );
-}
-
-function Moto() {
-  return (
-    <svg viewBox="0 0 640 320" role="img" aria-label="Moto clássica boxer, desenho" style={{ width: "100%", height: "auto", display: "block" }}>
-      <ellipse cx="320" cy="288" rx="270" ry="10" fill="rgba(0,0,0,.28)" />
-      <Wheel cx={140} cy={210} />
-      <Wheel cx={500} cy={210} />
-      {/* paralamas */}
-      <path d="M62 190 Q140 118 218 176 L214 186 Q140 134 70 200Z" fill="#161413" />
-      <path d="M432 170 Q500 118 574 192 L566 200 Q500 140 438 182Z" fill="#161413" />
-      {/* garfo e guidao */}
-      <path d="M500 210 L452 104" stroke="#c9c9c9" strokeWidth="9" strokeLinecap="round" />
-      <path d="M512 206 L462 100" stroke="#8d8d8d" strokeWidth="5" strokeLinecap="round" />
-      <path d="M440 98 L412 84 Q404 80 396 86" stroke="#161413" strokeWidth="7" fill="none" strokeLinecap="round" />
-      <path d="M396 86 L378 88" stroke="#161413" strokeWidth="11" strokeLinecap="round" />
-      {/* farol */}
-      <ellipse cx="474" cy="92" rx="22" ry="24" fill="#161413" />
-      <ellipse cx="482" cy="92" rx="14" ry="17" fill="#f2f2f2" stroke="#8d8d8d" strokeWidth="2" />
-      {/* quadro */}
-      <path d="M140 210 L236 138 L418 130 L452 104" stroke="#161413" strokeWidth="9" fill="none" strokeLinejoin="round" strokeLinecap="round" />
-      <path d="M140 210 L300 214 L430 188" stroke="#161413" strokeWidth="9" fill="none" strokeLinejoin="round" strokeLinecap="round" />
-      <path d="M236 138 L300 214" stroke="#161413" strokeWidth="7" fill="none" />
-      {/* motor boxer: carter, caixa de cambio e cabecote do cilindro visto de lado */}
-      <path d="M262 196 Q262 178 290 178 L392 178 Q420 178 420 200 L420 236 Q420 246 408 246 L274 246 Q262 246 262 236Z" fill="#a9a9a9" stroke="#161413" strokeWidth="4" />
-      <path d="M392 190 L432 196 L432 232 L392 238Z" fill="#8f8f8f" stroke="#161413" strokeWidth="4" />
-      <circle cx="322" cy="214" r="34" fill="#c4c4c4" stroke="#161413" strokeWidth="5" />
-      {[0, 1, 2, 3, 4].map((i) => <circle key={i} cx="322" cy="214" r={30 - i * 5.5} fill="none" stroke="#161413" strokeWidth="2.2" />)}
-      <circle cx="322" cy="214" r="6" fill="#161413" />
-      <rect x="300" y="236" width="44" height="12" rx="4" fill="#161413" />
-      {/* tanque e banco */}
-      <path d="M232 132 Q250 78 330 80 L420 90 Q440 100 428 122 Q400 142 340 142 L242 148Z" fill="#161413" />
-      <path d="M262 100 Q300 90 350 96" stroke="#e4514d" strokeWidth="6" fill="none" strokeLinecap="round" />
-      <path d="M150 154 Q168 130 232 138 L240 160 Q190 168 150 164Z" fill="#161413" />
-      <path d="M172 143 Q196 136 224 140" stroke="#4a4644" strokeWidth="3" fill="none" />
-      {/* escape */}
-      <path d="M286 232 Q230 252 172 238 L90 236" stroke="#d6d6d6" strokeWidth="11" fill="none" strokeLinecap="round" />
-      <path d="M286 232 Q230 252 172 238 L90 236" stroke="#161413" strokeWidth="2" fill="none" />
-      <path d="M404 236 Q448 250 486 232" stroke="#d6d6d6" strokeWidth="9" fill="none" strokeLinecap="round" />
-      <rect x="82" y="228" width="26" height="14" rx="5" fill="#9b9b9b" stroke="#161413" strokeWidth="3" />
-      {/* lanterna traseira */}
-      <circle cx="82" cy="172" r="5" fill={CO} />
-    </svg>
-  );
-}
-
-function MotoFront() {
-  return (
-    <svg viewBox="0 0 260 360" role="img" aria-label="Moto clássica vista de frente, desenho" style={{ width: "100%", height: "auto", display: "block" }}>
-      <ellipse cx="130" cy="338" rx="70" ry="9" fill="rgba(0,0,0,.25)" />
-      <rect x="116" y="196" width="28" height="138" rx="14" fill="#161413" />
-      {Array.from({ length: 10 }, (_, i) => <line key={i} x1={118} y1={206 + i * 12} x2={142} y2={206 + i * 12} stroke="#4a4644" strokeWidth="2" />)}
-      <path d="M130 180 L130 120" stroke="#c9c9c9" strokeWidth="14" strokeLinecap="round" />
-      <path d="M20 96 L240 96" stroke="#161413" strokeWidth="8" strokeLinecap="round" />
-      <rect x="6" y="88" width="30" height="16" rx="7" fill="#161413" />
-      <rect x="224" y="88" width="30" height="16" rx="7" fill="#161413" />
-      <ellipse cx="130" cy="108" rx="34" ry="36" fill="#161413" />
-      <ellipse cx="130" cy="108" rx="24" ry="26" fill="#f2f2f2" stroke="#8d8d8d" strokeWidth="3" />
-      <ellipse cx="62" cy="262" rx="44" ry="30" fill="#a5a5a5" stroke="#161413" strokeWidth="5" />
-      <ellipse cx="198" cy="262" rx="44" ry="30" fill="#a5a5a5" stroke="#161413" strokeWidth="5" />
-      {[0, 1, 2, 3, 4, 5].map((i) => <line key={i} x1={32 + i * 12} y1={236} x2={32 + i * 12} y2={288} stroke="#161413" strokeWidth="2" />)}
-      {[0, 1, 2, 3, 4, 5].map((i) => <line key={i} x1={168 + i * 12} y1={236} x2={168 + i * 12} y2={288} stroke="#161413" strokeWidth="2" />)}
-      <rect x="104" y="150" width="52" height="86" rx="20" fill="#161413" />
-      <path d="M118 158 Q130 150 142 158" stroke="#f4625f" strokeWidth="5" fill="none" strokeLinecap="round" />
-    </svg>
-  );
-}
-
 export function MotoFold({ client }: { client?: { name?: string; whatsapp?: string; city?: string } }) {
   const brand = client?.name?.trim() || "Garagem 74";
   const city = client?.city?.trim() || "Belo Horizonte";
@@ -144,7 +61,7 @@ export function MotoFold({ client }: { client?: { name?: string; whatsapp?: stri
         .mt .sub{text-align:center;color:#fff;font-size:17px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-top:14px;padding-bottom:34px}
         .mt .stage{position:relative;margin-top:6px}
         .mt .stage .half{position:absolute;left:0;right:0;bottom:0;height:40%;background:#fff}
-        .mt .stage .m{position:relative;max-width:940px;margin:0 auto;padding:0 20px 30px}.mt .stage .m img{filter:drop-shadow(0 16px 10px rgba(0,0,0,.22))}
+        .mt .story .fr{position:relative}.mt .story .fr .fsh{position:absolute;left:25%;right:25%;bottom:-6px;height:18px;background:radial-gradient(ellipse at center,rgba(0,0,0,.35),transparent 70%);filter:blur(3px)}.mt .story .fr img{position:relative}.mt .stage .m .sh{position:absolute;left:14%;right:10%;bottom:34px;height:26px;background:radial-gradient(ellipse at center,rgba(0,0,0,.28),transparent 70%);filter:blur(4px)}.mt .stage .m img{position:relative}.mt .stage .m{position:relative;max-width:940px;margin:0 auto;padding:0 20px 30px}
         .mt .cta{display:inline-flex;align-items:center;gap:10px;background:${INK};color:#fff;text-decoration:none;font-weight:600;font-size:14px;letter-spacing:.12em;text-transform:uppercase;padding:16px 30px;border:0;cursor:pointer}
         .mt .cta:hover{background:${CO2}}
         .mt .strip{display:flex;justify-content:center;gap:56px;flex-wrap:wrap;padding:34px 20px 8px;text-align:center}
@@ -214,7 +131,7 @@ export function MotoFold({ client }: { client?: { name?: string; whatsapp?: stri
         </div>
         <div className="stage">
           <div className="half" />
-          <div className="m"><img src="/garagem-moto.webp" alt="Triumph clássica preta de perfil" style={{ width: "100%", height: "auto", display: "block" }} /></div>
+          <div className="m"><div className="sh" /><img src="/garagem-lado.webp" alt="Moto clássica boxer preta de perfil" style={{ width: "100%", height: "auto", display: "block" }} /></div>
         </div>
       </div>
 
@@ -232,7 +149,7 @@ export function MotoFold({ client }: { client?: { name?: string; whatsapp?: stri
             <p>Hoje trabalhamos só com motos clássicas. Cada uma entra com ficha, sai com laudo, e o dono pode ver cada etapa pelo celular. O mais importante é manter a história de cada moto inteira.</p>
             <a className="link" onClick={() => go("servicos")}>Ver serviços ▾</a>
           </div>
-          <div className="fr"><MotoFront /></div>
+          <div className="fr"><div className="fsh" /><img src="/garagem-frente.webp" alt="Moto clássica boxer vista de frente" style={{ width: "100%", height: "auto", display: "block" }} /></div>
         </div>
       </div>
 
