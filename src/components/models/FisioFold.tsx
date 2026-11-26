@@ -19,9 +19,9 @@ const PLANS = [
   { t: "Combo Saúde", p: "R$ 420", u: "/mês", feats: ["8 sessões combinadas Pilates + Fisioterapia", "Avaliação inicial grátis", "Plano individual personalizado", "Acompanhamento via WhatsApp"], hot: true },
 ];
 const TESTI = [
-  { n: "Marcos Vieira", r: "Analista, 44 anos", t: "Vivia com dor lombar há anos e achava que era normal. Em três meses de tratamento com a Daniela voltei a trabalhar sem travar. A avaliação inicial já mostrou o que ninguém tinha visto.", a: "/fisio-a1.webp" },
+  { n: "Marcos Vieira", r: "Contador, 62 anos", t: "Vivia com dor lombar há anos e achava que era normal. Em três meses de tratamento com a Daniela voltei a trabalhar sem travar. A avaliação inicial já mostrou o que ninguém tinha visto.", a: "/fisio-d3.webp" },
   { n: "Sônia Pereira", r: "Professora, 56 anos", t: "Depois da cirurgia no joelho, achei que não voltaria a caminhar direito. O plano foi no meu ritmo, sem pressa e sem dor. Hoje faço minhas caminhadas todos os dias.", a: "/fisio-a2.webp" },
-  { n: "Lucas Ferreira", r: "Corredor amador, 31 anos", t: "Lesionei o tornozelo na semana de uma prova. A recuperação esportiva me colocou de volta nos treinos em cinco semanas, mais forte do que antes.", a: "/fisio-a3.webp" },
+  { n: "Lucas Ferreira", r: "Corredor amador, 31 anos", t: "Lesionei o tornozelo na semana de uma prova. A recuperação esportiva me colocou de volta nos treinos em cinco semanas, mais forte do que antes.", a: "/fisio-d2.webp" },
 ];
 const CHECK = "M7 16l6 6L26 9";
 const CAL = "M6 8h20v18H6zM6 13h20M11 4v5M21 4v5";
@@ -150,7 +150,7 @@ export function FisioFold({ client }: { client?: { name?: string; whatsapp?: str
       <section id="sobre" style={{ background: MINT, padding: "64px 0" }}>
         <div className="wrap" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 44, alignItems: "center" }}>
           <div style={{ borderRadius: 24, overflow: "hidden", boxShadow: "0 24px 60px -24px rgba(15,46,51,.35)", maxWidth: 420, margin: "0 auto" }}>
-            <img src="/fisio-sobre.webp" alt={`Dra. ${brand}, fisioterapeuta`} style={{ width: "100%", objectFit: "cover" }} />
+            <img src="/fisio-d1.webp" alt={`Dra. ${brand}, fisioterapeuta`} style={{ width: "100%", objectFit: "cover" }} />
           </div>
           <div>
             <span className="pill">Sobre mim</span>
