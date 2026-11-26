@@ -12,7 +12,9 @@ export const PHOTO = {
   bread: "photo-1509440159596-0249088772ff", clinic: "photo-1519494026892-80bbd2d6fd0d",
 } as const;
 
+const LIVE_PREMIUM = ["brasa-e-pao"]; // modelos refeitos no padrao novo e liberados
 const ALL_PREMIUM: PremiumModel[] = [
+  { id: "brasa-e-pao", ramo: "hamburgueria", ramoLabel: "Hamburgueria", style: "Escuro com tipo gigante atrás do burger recortado", name: "Brasa&Pão", city: "Campinas", cover: "/brasa-cover.jpg", accent: "#ff5a1f", tags: ["hamburguer", "burger", "lanchonete", "smash", "escuro", "delivery"] },
   { id: "smash-poster", ramo: "poster", ramoLabel: "Hamburgueria", style: "Pôster com tipo gigante e parallax", name: "Smash Poster", city: "São Paulo", cover: PHOTO.burger1, accent: "#ef3b2d", tags: ["hamburguer", "burger", "poster", "tipografia", "parallax", "escuro"] },
   { id: "amigo-fiel", ramo: "pet", ramoLabel: "Pet shop", style: "Pôster colorido com tipo gigante", name: "Amigo Fiel", city: "Curitiba", cover: PHOTO.dog, accent: "#ff7a1a", tags: ["pet", "petshop", "cachorro", "veterinaria", "poster", "colorido"] },
   { id: "studio-fio", ramo: "salao", ramoLabel: "Salão de beleza", style: "Editorial rosé", name: "Studio Fio", city: "Belo Horizonte", cover: PHOTO.salon, accent: "#b5546b", tags: ["salao", "beleza", "cabelo", "estetica", "editorial", "claro"] },
@@ -28,7 +30,7 @@ const ALL_PREMIUM: PremiumModel[] = [
   { id: "grao-dourado", ramo: "cafeteria", ramoLabel: "Cafeteria", style: "Aconchego artesanal", name: "Grão Dourado", city: "Recife", cover: PHOTO.coffee, accent: "#b8642a", tags: ["cafe", "cafeteria", "artesanal"] },
 ];
 // Reset geral: todos os modelos antigos ficam fora do ar. Novos modelos entram um a um (codigo antigo segue no historico do git).
-export const HIDDEN_PREMIUM = new Set(ALL_PREMIUM.map((m) => m.id));
+export const HIDDEN_PREMIUM = new Set(ALL_PREMIUM.map((m) => m.id).filter((id) => !LIVE_PREMIUM.includes(id)));
 export const PREMIUM_MODELS: PremiumModel[] = ALL_PREMIUM.filter((m) => !HIDDEN_PREMIUM.has(m.id));
 export const getPremium = (id: string) => PREMIUM_MODELS.find((m) => m.id === id);
 
