@@ -40,10 +40,22 @@ const TESTI = [
   { n: "Patrícia Gomes", r: "Mãe do Davi, Sub-7", t: "Meu filho sai de cada treino contando o que aprendeu. E eu fico tranquila: espaço fechado, água, primeiro socorro e professor que conhece cada criança pelo nome." },
 ];
 
-/** Mancha orgânica que flui atrás do wordmark, estilo amoeba do pin. */
-const Blob = () => (
+/** Manchas orgânicas do pin: duas atrás das letras, uma faixa que cruza POR CIMA do wordmark (entrelaçamento). */
+const BlobBackA = () => (
   <path
-    d="M620 30 C 800 -10, 980 60, 950 160 C 925 240, 700 240, 640 320 C 580 400, 830 400, 900 480 C 970 560, 820 660, 660 640 C 520 622, 560 500, 420 470 C 280 440, 120 480, 80 380 C 40 280, 180 220, 200 140 C 218 70, 460 62, 620 30 Z"
+    d="M830 50 C 990 30, 1065 170, 1005 295 C 955 400, 770 380, 725 480 C 680 580, 905 615, 965 715 C 1025 825, 885 950, 705 930 C 565 915, 605 800, 465 770 C 325 740, 145 800, 92 690 C 40 580, 195 520, 225 430 C 255 340, 125 300, 155 200 C 185 100, 430 80, 575 60 Z"
+    fill={VM}
+  />
+);
+const BlobBackB = () => (
+  <path
+    d="M70 130 C 50 60, 190 25, 275 65 C 360 105, 320 215, 215 235 C 110 255, 90 195, 70 130 Z"
+    fill={VM}
+  />
+);
+const BlobFront = () => (
+  <path
+    d="M-20 520 C 200 470, 400 545, 610 505 C 820 465, 990 540, 1100 515 L 1100 585 C 920 630, 730 555, 530 595 C 330 635, 120 570, -20 605 Z"
     fill={VM}
   />
 );
@@ -114,20 +126,22 @@ export function BolaPraFrenteFold({ client }: { client?: { name?: string; whatsa
         <div className="wrap" style={{ textAlign: "center", paddingTop: 30 }}>
           <p className="eyebrow" style={{ color: VMT, marginBottom: 20, textWrap: "balance", maxWidth: 560, marginLeft: "auto", marginRight: "auto" }}>Todo sábado tem jogo. Toda semana tem evolução.</p>
           <h1 style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>{brand} Escolinha de Futebol em {city}: aulas de futebol infantil do sub-7 ao sub-15 com campeonato interno</h1>
-          <svg viewBox="0 0 1080 700" role="img" aria-label="Pôster com as palavras Bola pra Frente em letras gigantes entremeadas por uma mancha vermelha" style={{ width: "100%", maxWidth: 960, height: "auto", display: "block", margin: "0 auto" }}>
-            <Blob />
+          <svg viewBox="0 0 1080 1000" role="img" aria-label="Pôster com as palavras Bola pra Frente em letras gigantes de ponta a ponta, entremeadas por manchas vermelhas" style={{ width: "100%", height: "auto", display: "block", margin: "0 auto" }}>
+            <BlobBackA />
+            <BlobBackB />
             <g fontFamily={display} fontWeight="800" textAnchor="middle">
-              <g fill={PL} transform="translate(16,14)">
-                <text x="540" y="210" fontSize="300">BOLA</text>
-                <text x="540" y="440" fontSize="300">PRA</text>
-                <text x="540" y="668" fontSize="238">FRENTE</text>
+              <g fill={PL} transform="translate(14,16)">
+                <text x="540" y="300" fontSize="360" textLength="1020" lengthAdjust="spacingAndGlyphs">BOLA</text>
+                <text x="540" y="640" fontSize="360" textLength="1020" lengthAdjust="spacingAndGlyphs">PRA</text>
+                <text x="540" y="975" fontSize="360" textLength="1020" lengthAdjust="spacingAndGlyphs">FRENTE</text>
               </g>
               <g fill={NV}>
-                <text x="540" y="210" fontSize="300">BOLA</text>
-                <text x="540" y="440" fontSize="300">PRA</text>
-                <text x="540" y="668" fontSize="238">FRENTE</text>
+                <text x="540" y="300" fontSize="360" textLength="1020" lengthAdjust="spacingAndGlyphs">BOLA</text>
+                <text x="540" y="640" fontSize="360" textLength="1020" lengthAdjust="spacingAndGlyphs">PRA</text>
+                <text x="540" y="975" fontSize="360" textLength="1020" lengthAdjust="spacingAndGlyphs">FRENTE</text>
               </g>
             </g>
+            <BlobFront />
           </svg>
           <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap", marginTop: 26 }}>
             <a className="btn-v" href={wa(`Olá! Quero agendar uma aula experimental gratuita na escolinha ${brand}.`)} target="_blank" rel="noreferrer">Aula experimental grátis</a>
