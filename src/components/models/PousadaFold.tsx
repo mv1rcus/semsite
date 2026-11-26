@@ -64,7 +64,7 @@ export function PousadaFold({ client }: { client?: { name?: string; whatsapp?: s
         .pf .links a{color:#c8cfc2;cursor:pointer;transition:color .2s}.pf .links a:hover{color:#fff}
         .pf .btn{background:${GOLD};color:#1c1408;border:0;border-radius:999px;padding:0 26px;min-height:50px;font-weight:700;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;gap:10px;text-decoration:none}
         .pf .btn:hover{background:#d9a44f}
-        .pf .btn.o{background:transparent;color:#f3ede0;border:1.5px solid #4c5b4d}
+        .pf .btn.o{background:transparent;color:#f3ede0;border:1.5px solid rgba(243,237,224,.7)}
         .pf .btn.o:hover{border-color:${GOLD};color:#fff}
         .pf .burger{display:none;background:none;border:0;width:44px;height:44px;cursor:pointer}
         .pf .hero{background:${GREEN};color:${CR};padding-bottom:70px}
@@ -169,10 +169,63 @@ export function PousadaFold({ client }: { client?: { name?: string; whatsapp?: s
           .pf .nav .btn{display:none}
         }
         @media (max-width:520px){ .pf .grid4,.pf .exgrid{grid-template-columns:1fr} .pf .fld2{grid-template-columns:1fr} }
+
+        .pf .hero{position:relative;color:#f6f1e4;padding:0;background:${GREEN};overflow:hidden}
+        .pf .hbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 50%}
+        .pf .hshade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,18,12,.72) 0%,rgba(10,18,12,.38) 42%,rgba(10,18,12,0) 70%),linear-gradient(180deg,rgba(10,18,12,.35) 0%,rgba(10,18,12,0) 25%,rgba(10,18,12,.45) 100%)}
+        .pf .hin{position:relative;z-index:2;padding-bottom:150px}
+        .pf .hcopy{padding:70px 0 54px;max-width:520px}
+        .pf h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(42px,5.2vw,68px);line-height:1.04;margin:16px 0 0;color:#fff;letter-spacing:-.3px;text-wrap:balance}
+        .pf .lead{color:#e3e8dc;font-size:16.5px;line-height:1.65;max-width:440px}
+        .pf .btn.cream{background:#f3ede0;color:#182018}.pf .btn.cream:hover{background:#fff}
+        .pf .feats{display:flex;gap:46px;margin-top:0;flex-wrap:wrap;justify-content:space-between;max-width:760px}
+        .pf .feats div{max-width:150px;color:#f3ede0;font-size:14px;font-weight:500}
+        .pf .hcopy .lead{text-shadow:0 1px 12px rgba(0,0,0,.35)}
+        .pf .wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:90px;z-index:3;display:block}
+        .pf h2{font-weight:500;line-height:1.08;text-wrap:balance;margin:12px 0 0}
+        .pf .rooms{display:grid;grid-template-columns:1fr 1.05fr;gap:54px;align-items:center}
+        .pf .rimgs{position:relative;padding-bottom:70px}
+        .pf .rimgs .r1{width:84%;aspect-ratio:4/5;object-fit:cover;border-radius:320px 320px 24px 24px;display:block}
+        .pf .rimgs .r2{position:absolute;right:0;bottom:0;width:48%;aspect-ratio:1;object-fit:cover;border-radius:50%;border:8px solid ${CR};display:block}
+        .pf .rcards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
+        .pf .rc{cursor:pointer}
+        .pf .rc img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:16px;display:block;transition:transform .3s}
+        .pf .rc:hover img{transform:translateY(-4px)}
+        .pf .rc b{display:block;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:18px;color:${GREEN};margin-top:10px}
+        .pf .rc small{display:block;color:${MU};font-size:12.5px;margin-top:2px}
+        .pf .dine{position:relative;background:${GREEN};color:${CR};padding:96px 0}
+        .pf .dine .wv{position:absolute;left:0;width:100%;height:46px;display:block}
+        .pf .dine .wv.t{top:-1px}.pf .dine .wv.b{bottom:-1px}
+        .pf .dgrid{display:grid;grid-template-columns:.9fr 1.1fr;gap:50px;align-items:center}
+        .pf .dine h2{color:#f6f1e4}.pf .dine .sub{color:#b9c2b2;margin:14px 0 24px}
+        .pf .dgrid img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:22px;display:block}
+        .pf .expw{display:grid;grid-template-columns:.7fr 2fr;gap:36px;align-items:center}
+        .pf .exgrid{margin-top:0;grid-template-columns:repeat(4,1fr)}
+        .pf .ex{min-height:0;aspect-ratio:3/4;border-radius:16px}
+        .pf .ex .ov{padding:40px 12px 12px}
+        .pf .ex b{font-size:16px;font-weight:600}
+        .pf .revs{margin-top:0}
+        .pf .rev{background:#fffdf7;border:1px solid ${CR2}}
+        .pf .rev p{color:${INK}}.pf .rev b{color:#6e4e14}
+        .pf .band img{filter:brightness(.55);height:300px}
+        .pf .btn{font-size:14px}
+        .pf .card small{font-size:12.5px}
+        @media (max-width:900px){
+          .pf .hshade{background:linear-gradient(180deg,rgba(10,18,12,.6) 0%,rgba(10,18,12,.55) 55%,rgba(10,18,12,.35) 100%)}
+          .pf .hin{padding-bottom:110px}.pf .hcopy{padding:34px 0 36px}
+          .pf .feats{gap:18px;justify-content:flex-start}
+          .pf .rooms,.pf .dgrid,.pf .expw{grid-template-columns:1fr;gap:30px}
+          .pf .rcards{grid-template-columns:1fr 1fr 1fr}
+          .pf .exgrid{grid-template-columns:repeat(2,1fr)}
+          .pf .dine{padding:70px 0}
+        }
+        @media (max-width:520px){.pf .rcards{grid-template-columns:1fr}.pf .rc img{aspect-ratio:16/10}}
       `}</style>
 
       <div className="hero">
-        <div className="wrap">
+        <img className="hbg" src="/pou-hero2.webp" alt="Chalé de madeira e pedra com piscina ao pôr do sol na serra" />
+        <div className="hshade" />
+        <div className="wrap hin">
           <nav className="nav">
             <div className="logo"><span className="mark"><Ic d={LEAF} s={20} /></span> Serra do Vento</div>
             <div className="links">
@@ -182,68 +235,39 @@ export function PousadaFold({ client }: { client?: { name?: string; whatsapp?: s
               <a onClick={() => go("avals")}>Avaliações</a>
               <a onClick={() => go("contato")}>Contato</a>
             </div>
-            <button className="btn" onClick={() => start()}>Reserve pelo WhatsApp</button>
+            <button className="btn cream" onClick={() => start()}>Reserve pelo WhatsApp</button>
             <button className="burger" onClick={() => setMenu(true)} aria-label="menu"><Ic d="M4 7h16M4 12h16M4 17h16" s={26} c="#f3ede0" /></button>
           </nav>
-          <div className="herogrid">
-            <div>
-              <span className="kick">Pousada boutique • {city}</span>
-              <h1>Um refúgio <em>de montanha</em> feito pra desacelerar</h1>
-              <p className="lead">Chalés de madeira e pedra no alto da serra, café colonial servido na varanda e cachoeiras a poucos minutos. A {brand} é daquele lugar que a gente volta antes de ir embora.</p>
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                <button className="btn" onClick={() => start()}>Reserve pelo WhatsApp</button>
-                <button className="btn o" onClick={() => go("quartos")}>Conheça os chalés</button>
-              </div>
-              <div className="feats">
-                {PERKS.map((p) => <div key={p.t}><Ic d={p.ic} s={24} />{p.t}</div>)}
-              </div>
-            </div>
-            <div className="himg">
-              <div className="arch" />
-              <img src="/pou-hero.webp" alt="Chalés da pousada ao entardecer na serra" />
-              <div className="badge">natureza · conforto · charme</div>
+          <div className="hcopy">
+            <h1>Um refúgio de montanha pra desacelerar</h1>
+            <p className="lead">Chalés de madeira e pedra no alto da serra, café colonial servido na varanda e cachoeiras a poucos minutos. A {brand} é daquele lugar que a gente volta antes de ir embora.</p>
+            <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+              <button className="btn cream" onClick={() => start()}>Planeje sua escapada →</button>
+              <button className="btn o" onClick={() => go("quartos")}>Conheça os chalés</button>
             </div>
           </div>
+          <div className="feats">
+            {PERKS.map((p) => <div key={p.t}><Ic d={p.ic} s={26} c="#f3ede0" />{p.t}</div>)}
+          </div>
         </div>
+        <svg className="wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden><path d="M0 50c180 50 360 50 540 14s360-60 540-30 270 34 360 6v50H0z" fill={CR} /></svg>
       </div>
 
-      <section className="sec" id="quartos">
-        <div className="wrap">
-          <div className="center">
-            <span className="kick" style={{ color: "#6e4e14" }}>Acomodações</span>
-            <h2>Chalés e suítes com <em>cheiro de serra</em></h2>
+      <section className="sec" id="quartos" style={{ paddingTop: 30 }}>
+        <div className="wrap rooms">
+          <div className="rimgs">
+            <img className="r1" src="/pou-quarto.webp" alt="Quarto de chalé com cama de linho e janela para a floresta" loading="lazy" />
+            <img className="r2" src="/pou-banheira.webp" alt="Ofurô de madeira na floresta com velas" loading="lazy" />
+          </div>
+          <div className="rtxt">
+            <h2>Chalés e suítes com cheiro de serra</h2>
             <p className="sub">Poucas unidades, muito cuidado. Todas com roupa de cama de algodão, aquecimento e vista pro verde.</p>
-          </div>
-          <div className="grid4">
-            {ROOMS.map((r) => (
-              <div className="card" key={r.n} onClick={() => start(r.n)}>
-                <img src={r.img} alt={r.n} loading="lazy" />
-                <div className="lb">
+            <div className="rcards">
+              {ROOMS.slice(0, 3).map((r) => (
+                <div className="rc" key={r.n} onClick={() => start(r.n)}>
+                  <img src={r.img} alt={r.n} loading="lazy" />
                   <b>{r.n}</b>
-                  <small>{r.d}</small>
-                  <div className="pr"><span>{r.p}</span><span className="go">→</span></div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="sec" id="cafe" style={{ paddingTop: 0 }}>
-        <div className="wrap split">
-          <div className="bigimg">
-            <img src="/pou-breakfast.webp" alt="Mesa de café da manhã colonial na varanda" loading="lazy" />
-            <span className="tag">Servido das 8h às 11h</span>
-          </div>
-          <div>
-            <span className="kick" style={{ color: "#6e4e14" }}>Da nossa cozinha</span>
-            <h2>Café da manhã <em>de fazenda</em>, na varanda</h2>
-            <p className="sub" style={{ marginBottom: 0 }}>Pão de queijo saindo do forno, bolo de fubá, queijo minas da região, geleias feitas em casa e café passado na hora. Tudo incluso na diária, com a serra de companhia.</p>
-            <div className="plist">
-              {PERKS.map((p) => (
-                <div className="pi" key={p.t}>
-                  <span className="pk"><Ic d={p.ic} s={20} c={GREEN} /></span>
-                  <div><b>{p.t}</b><p>{p.d}</p></div>
+                  <small>{r.p}</small>
                 </div>
               ))}
             </div>
@@ -251,30 +275,38 @@ export function PousadaFold({ client }: { client?: { name?: string; whatsapp?: s
         </div>
       </section>
 
-      <section className="sec" id="exp" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <div className="center">
-            <span className="kick" style={{ color: "#6e4e14" }}>Experiências</span>
-            <h2>Mais que uma estadia, <em>um fim de semana inteiro</em></h2>
+      <section className="dine" id="cafe">
+        <svg className="wv t" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden><path d="M0 0h1440v20c-240 40-480 40-720 10S240 0 0 30z" fill={CR} /></svg>
+        <div className="wrap dgrid">
+          <div>
+            <h2>Café da manhã e jantar de fazenda</h2>
+            <p className="sub">Pão de queijo saindo do forno, bolo de fubá, queijo minas da região e geleias feitas em casa. Tudo incluso na diária, com a serra de companhia.</p>
+            <button className="btn cream" onClick={() => go("exp")}>Ver experiências →</button>
+          </div>
+          <img src="/pou-prato.webp" alt="Prato de salmão grelhado com legumes e flor comestível" loading="lazy" />
+        </div>
+        <svg className="wv b" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden><path d="M0 60V28c240-34 480-34 720-4s480 30 720 6v30z" fill={CR} /></svg>
+      </section>
+
+      <section className="sec" id="exp" style={{ paddingTop: 26 }}>
+        <div className="wrap expw">
+          <div className="etxt">
+            <h2>Mais que uma estadia</h2>
             <p className="sub">A gente monta o roteiro com você: cachoeira de manhã, trilha depois do almoço e lareira com vinho à noite.</p>
           </div>
           <div className="exgrid">
             {EXPS.map((e) => (
               <div className="ex" key={e.n}>
                 <img src={e.img} alt={e.n} loading="lazy" />
-                <div className="ov"><b>{e.n}</b><small>{e.d}</small></div>
+                <div className="ov"><b>{e.n}</b></div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="sec dark" id="avals">
+      <section className="sec" id="avals" style={{ paddingTop: 0 }}>
         <div className="wrap">
-          <div className="center">
-            <span className="kick">Quem ficou, conta</span>
-            <h2>O que nossos <em style={{ color: GOLD }}>hóspedes</em> dizem</h2>
-          </div>
           <div className="revs">
             {REVIEWS.map((r) => (
               <div className="rev" key={r.n}>
@@ -289,10 +321,11 @@ export function PousadaFold({ client }: { client?: { name?: string; whatsapp?: s
 
       <div className="wrap">
         <div className="band">
-          <img src="/pou-ex3.webp" alt="Piscina da pousada ao pôr do sol" loading="lazy" />
+          <img src="/pou-banner.webp" alt="Montanhas ao nascer do sol com névoa" loading="lazy" />
           <div className="in">
-            <h3>Sua próxima escapada está a<br />uma mensagem de distância</h3>
-            <span style={{ fontSize: 14, color: "#dfe4d8", letterSpacing: .5 }}>1. Escolha o chalé → 2. Escolha as datas → 3. Confirme no WhatsApp</span><button className="btn" onClick={() => start()}>Ver datas e reservar</button>
+            <h3>Sua próxima escapada está a uma mensagem de distância</h3>
+            <span style={{ fontSize: 14, color: "#dfe4d8" }}>1. Escolha o chalé · 2. Escolha as datas · 3. Confirme no WhatsApp</span>
+            <button className="btn cream" onClick={() => start()}>Ver datas e reservar</button>
           </div>
         </div>
       </div>
