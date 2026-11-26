@@ -66,6 +66,7 @@ function Buscar() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [next, setNext] = useState<string | null>(null);
   const [scanned, setScanned] = useState(0);
+  const [nearby, setNearby] = useState<string[]>([]);
   const [cityInfo, setCityInfo] = useState<{ name: string; uf: string; places: number } | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -125,7 +126,7 @@ function Buscar() {
     setLoading(true);
     setError(null);
     setRetryToken(null);
-    if (!pageToken) { setLeads([]); setScanned(0); setNext(null); setSearched(false); setFilter("all"); setResultTerm(""); }
+    if (!pageToken) { setNearby([]); setLeads([]); setScanned(0); setNext(null); setSearched(false); setFilter("all"); setResultTerm(""); }
     try {
       let acc = pageToken ? leads : [];
       const goal = acc.length + target;
@@ -138,7 +139,7 @@ function Buscar() {
         if (r.searchesLeft >= 0 || !token) setSearchesLeft(r.searchesLeft);
         acc = rankProspects([...acc, ...r.leads]);
         total += r.scanned;
-        if (!token) setCityInfo({ name: r.cityName, uf: r.cityUf, places: r.cityPlaces });
+        if (!token) { setNearby(r.nearby); setCityInfo({ name: r.cityName, uf: r.cityUf, places: r.cityPlaces }); }
         nextTok = r.nextPageToken;
         token = nextTok ?? undefined;
         pages++;
@@ -280,6 +281,9 @@ function Buscar() {
             <p className="mt-3 font-semibold">{scanned === 0 ? "Nenhum registro encontrado nesse recorte da base." : `Os ${scanned} registros encontrados têm site cadastrado na base.`}</p>
             <p className="mt-1 text-sm text-muted-foreground">{next ? "Busque mais resultados ou tente outra categoria ou cidade." : cityInfo && cityInfo.places < 100 ? `A base aberta tem só ${cityInfo.places} lugares com telefone em ${cityInfo.name}, ${cityInfo.uf}. Tente uma categoria mais ampla (ex.: restaurante, salão) ou uma cidade maior por perto; isso não significa que não existam negócios lá.` : "A cobertura varia por município. Tente outra categoria ou cidade; isso não significa que não existam negócios na região."}</p>
           </div>
+        )}
+        {nearby.length > 0 && !loading && leads.length > 0 && (
+          <p className="mt-8 rounded-lg border border-border/60 bg-secondary/40 p-3 text-sm text-muted-foreground">Poucos resultados em {cityInfo?.name ?? "essa cidade"}. Incluí negócios de cidades vizinhas: {nearby.join(", ")}.</p>
         )}
         {scanned > 0 && (
           <p className="mt-8 text-sm text-muted-foreground">
