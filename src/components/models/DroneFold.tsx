@@ -64,9 +64,9 @@ export function DroneFold({ client }: { client?: { name?: string; whatsapp?: str
         .dr0 .sys{display:grid;grid-template-columns:.8fr 2fr;background:#091016;border-top:1px solid ${LN};border-bottom:1px solid ${LN};align-items:center}
         .dr0 .sys .l{padding:38px 28px 38px 32px}.dr0 .sys h2{font-size:34px;margin-bottom:18px}.dr0 .sys i.bar{display:block;width:40px;height:3px;background:${CY};margin-bottom:22px}
         .dr0 .sys li{list-style:none;font-size:12px;letter-spacing:.18em;text-transform:uppercase;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.08);display:flex;gap:16px}.dr0 .sys li b{color:${CY};font-weight:600}
-        .dr0 .sys img{width:100%;display:block;aspect-ratio:16/8;object-fit:cover;background:#0c161d}
-        .dr0 .build{position:relative;min-height:220px;display:flex;align-items:center;justify-content:flex-end;background:#13252e;overflow:hidden}
-        .dr0 .build img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% center}.dr0 .build:before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(270deg,rgba(7,13,18,.85) 0%,rgba(7,13,18,0) 62%)}
+        .dr0 .sys img{width:100%;display:block;aspect-ratio:16/8;object-fit:cover;background:#0c161d;filter:brightness(.52) saturate(.8) contrast(1.15) hue-rotate(-8deg)}
+        .dr0 .build{position:relative;min-height:340px;display:flex;align-items:center;justify-content:flex-end;background:#13252e;overflow:hidden}
+        .dr0 .build img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:28% 30%}.dr0 .build:before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(270deg,rgba(7,13,18,.85) 0%,rgba(7,13,18,0) 62%)}
         .dr0 .build .t{position:relative;z-index:2;padding:0 60px 0 0;max-width:430px}.dr0 .build h2{font-size:44px}.dr0 .build p{font-size:13px;letter-spacing:.24em;text-transform:uppercase;margin:12px 0 22px}
         .dr0 .foot{padding:26px 0;background:#05090d;font-size:11.500px;letter-spacing:.14em;color:${MUT};text-transform:uppercase}.dr0 .foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
         @media(max-width:900px){
@@ -80,7 +80,7 @@ export function DroneFold({ client }: { client?: { name?: string; whatsapp?: str
         }
       `}</style>
       <section className="hero">
-        <img className="bg" src="/drone-hero.webp" alt="Drone preto com detalhes ciano em voo, de frente" />
+        <img className="bg" src="/drone-hero.webp" alt="Drone preto com rastros de luz ciano sobre a cidade à noite" />
         <div className="wrap" style={{ width: "100%" }}><div className="nav"><div className="in">
           <span className="logo"><svg width="30" height="26" viewBox="0 0 30 26" fill={CY}><path d="M15 1L29 25H22l-7-12-7 12H1z" /></svg>{brand}<sup style={{ fontSize: 8, marginTop: -8 }}>™</sup></span>
           <div className="links"><a href="#">Loja ⌄</a><a href="#sys">Sistemas</a><a href="#acc">Acessórios</a><a href={wa()}>Monte seu kit</a><a href={wa("suporte")}>Suporte</a></div>
@@ -106,9 +106,9 @@ export function DroneFold({ client }: { client?: { name?: string; whatsapp?: str
       </div></section>
       <section className="sys" id="sys">
         <div className="l"><h2>Por dentro<br />do sistema<br />de voo</h2><i className="bar" /><ul style={{ padding: 0, margin: 0 }}>{MOD.map((m, i) => <li key={m}><b>0{i + 1}</b>{m}</li>)}</ul></div>
-        <img src="/drone-sistema.webp" alt="Drone em vista explodida: casco, núcleo de controle, câmera e gimbal" />
+        <img src="/drone-sistema.webp" alt="Câmera e gimbal de estabilização de um drone em close" />
       </section>
-      <section className="build"><img src="/drone-build.webp" alt="Piloto de jaqueta com mochila e controle diante de montanhas e lago, com drone ao fundo" /><div className="t"><h2>Monte<br />seu kit</h2><p>Escolha. Personalize. Voe.</p><a className="btn" href={wa()}>Configurar agora <Arr /></a></div></section>
+      <section className="build"><img src="/drone-build.webp" alt="Mulher de costas com controle de drone diante de montanhas" /><div className="t"><h2>Monte<br />seu kit</h2><p>Escolha. Personalize. Voe.</p><a className="btn" href={wa()}>Configurar agora <Arr /></a></div></section>
       <footer className="foot"><div className="wrap"><span>© 2026 {brand}. Todos os direitos reservados.</span><span>Privacidade · Termos · Entregas para todo o Brasil</span></div></footer>
     </div>
   );
