@@ -1,6 +1,8 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
-import { Check, Copy, Plus, UserRound } from "lucide-react";
+import { useFollowUp } from "@/lib/use-follow-up";
+import { senderIntro } from "@/lib/message";
+import { Check, Copy, Plus, Send, UserRound } from "lucide-react";
 import { SiteModelView } from "@/components/SiteModelView";
 import { PremiumSite } from "@/components/PremiumSite";
 import { getPremium, modelPrompt } from "@/lib/premium-models";
@@ -28,10 +30,23 @@ function Viewer() {
   const [client, setClient] = useState<ModelClient>({ name: sp.n ?? "", whatsapp: sp.w ?? "", city: sp.c ?? "" });
   const [open, setOpen] = useState(false);
   const [done, setDone] = useState("");
-  const field = "h-9 min-w-0 flex-1 rounded-lg border border-border bg-card px-2.5 text-sm outline-none focus:border-primary";
+  const field = "h-9 min-w-[44%] flex-1 rounded-lg sm:min-w-0 border border-border bg-card px-2.5 text-sm outline-none focus:border-primary";
   const btn = "inline-flex h-9 items-center gap-1.5 rounded-lg border border-border px-3 text-sm font-bold hover:bg-muted";
   async function copy(kind: string, text: string) {
     try { await navigator.clipboard.writeText(text); setDone(kind); setTimeout(() => setDone(""), 2000); } catch { /* Clipboard blocked. */ }
+  }
+  const { clients: all, update } = useFollowUp();
+  const clients = all.filter((c) => c.stage === "contacted" || c.stage === "demo_sent");
+  const [q, setQ] = useState("");
+  const norm = (t: string) => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  const shown = clients.filter((c) => norm(`${c.name} ${c.address ?? ""}`).includes(norm(q))).slice(0, 30);
+  function sendTo(c: { id?: string; name: string; phone: string | null; intlPhone: string | null } | null) {
+    const digits = c ? ((c.intlPhone ?? "").replace(/\D/g, "") || (c.phone ? `55${c.phone.replace(/\D/g, "")}` : "")) : "";
+    const cl: ModelClient = c ? { name: c.name, whatsapp: digits.replace(/^55/, ""), city: "" } : {};
+    const url = modelLink(window.location.origin, id, cl);
+    const msg = `${senderIntro()}${c ? ` Vi a ${c.name} e preparei um modelo de site pra vocês.` : " Preparei um modelo de site pra você."} Dá uma olhada, funciona no celular:\n${url}\nSe gostar, eu ajusto fotos, textos e cores pro seu negócio.`;
+    if (c?.id) update(c.id, { stage: "demo_sent" });
+    window.open(`https://wa.me/${digits}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
   }
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -43,11 +58,17 @@ function Viewer() {
           <button type="button" disabled title="Em breve" className={`${btn} opacity-50`}><Plus className="size-4" />Em breve</button>
         </div>
         {open && (
-          <div className="mx-auto mt-2 flex max-w-5xl flex-wrap items-center gap-2">
-            <input value={client.name ?? ""} onChange={(e) => setClient({ ...client, name: e.target.value })} placeholder="Nome do cliente" aria-label="Nome do cliente" className={field} />
-            <input value={client.whatsapp ?? ""} onChange={(e) => setClient({ ...client, whatsapp: e.target.value })} placeholder="WhatsApp (DDD + número)" inputMode="tel" aria-label="WhatsApp" className={field} />
-            <input value={client.city ?? ""} onChange={(e) => setClient({ ...client, city: e.target.value })} placeholder="Cidade" aria-label="Cidade" className={field} />
-            <button type="button" onClick={() => copy("l", modelLink(window.location.origin, id, client))} className={btn}>{done === "l" ? <Check className="size-4" /> : <Copy className="size-4" />}{done === "l" ? "Link copiado!" : "Copiar link"}</button>
+          <div className="mx-auto mt-2 max-w-5xl rounded-xl border border-border bg-card p-2">
+            <div className="flex items-center gap-2">
+              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar entre quem já recebeu mensagem" aria-label="Buscar cliente" className={field} />
+              <button type="button" onClick={() => sendTo(null)} className={btn}><Send className="size-4" />Escolher no WhatsApp</button>
+            </div>
+            <ul className="mt-2 max-h-56 overflow-auto">
+              {shown.length === 0 && <li className="px-2 py-3 text-sm text-muted-foreground">Nenhum cliente com mensagem enviada ainda. Marque como Contatado na aba Clientes ou use "Escolher no WhatsApp".</li>}
+              {shown.map((c) => (
+                <li key={c.id}><button type="button" onClick={() => sendTo(c)} className="flex w-full items-center justify-between gap-2 rounded-lg px-2 py-2 text-left text-sm hover:bg-muted"><span className="min-w-0 truncate font-bold">{c.name}</span><span className="inline-flex shrink-0 items-center gap-1 text-xs font-bold text-[#25D366]"><Send className="size-3.5" />Enviar</span></button></li>
+              ))}
+            </ul>
           </div>
         )}
       </div>
