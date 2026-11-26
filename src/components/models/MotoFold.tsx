@@ -144,7 +144,7 @@ export function MotoFold({ client }: { client?: { name?: string; whatsapp?: stri
         .mt .sub{text-align:center;color:#fff;font-size:17px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-top:14px;padding-bottom:34px}
         .mt .stage{position:relative;margin-top:6px}
         .mt .stage .half{position:absolute;left:0;right:0;bottom:0;height:40%;background:#fff}
-        .mt .stage .m{position:relative;max-width:1020px;margin:0 auto;padding:0 20px}
+        .mt .stage .m{position:relative;max-width:940px;margin:0 auto;padding:0 20px 30px}.mt .stage .m img{filter:drop-shadow(0 16px 10px rgba(0,0,0,.22))}
         .mt .cta{display:inline-flex;align-items:center;gap:10px;background:${INK};color:#fff;text-decoration:none;font-weight:600;font-size:14px;letter-spacing:.12em;text-transform:uppercase;padding:16px 30px;border:0;cursor:pointer}
         .mt .cta:hover{background:${CO2}}
         .mt .strip{display:flex;justify-content:center;gap:56px;flex-wrap:wrap;padding:34px 20px 8px;text-align:center}
@@ -214,7 +214,7 @@ export function MotoFold({ client }: { client?: { name?: string; whatsapp?: stri
         </div>
         <div className="stage">
           <div className="half" />
-          <div className="m"><img src="/garagem-moto.webp" alt="Triumph clássica preta em parede coral" style={{ width: "100%", height: "auto", display: "block", boxShadow: "0 24px 50px rgba(0,0,0,.18)" }} /></div>
+          <div className="m"><img src="/garagem-moto.webp" alt="Triumph clássica preta de perfil" style={{ width: "100%", height: "auto", display: "block" }} /></div>
         </div>
       </div>
 
