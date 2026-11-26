@@ -3,12 +3,12 @@ import { useEffect } from "react";
 /** Marca de xaropes premium para coquetelaria, montada a partir de um pin de landing de marca de xaropes: fundo quase preto, wordmark em script branca com sublinhado vermelho, hero com fileira de garrafas e respingos de fruta, tira de benefícios com ícones de linha, carrossel de sabores em cards escuros, banner de coquetéis, sobre a marca com checks e bloco "perfeito para", rodapé com newsletter. */
 const BG = "#0C090D", BG2 = "#141017", CARD = "#18121B", LINE = "#2A212E", RED = "#E33246", RED_DK = "#B81F33", TXT = "#F5EFE8", TXT2 = "#B9AEB4", WHITE = "#FFFFFF";
 const SABORES = [
-  { img: "/bar-s1.jpg", n: "Framboesa", d: "Vermelho intenso, doçura de fruta madura colhida no ponto." },
-  { img: "/bar-s2.jpg", n: "Lichia", d: "Rosa delicado, floral e exótico para drinks autorais." },
-  { img: "/bar-s3.jpg", n: "Kiwi", d: "Verde vibrante, azedinho refrescante na medida." },
-  { img: "/bar-s4.jpg", n: "Uva", d: "Roxo profundo, corpo de mosto de uva escura." },
-  { img: "/bar-s5.jpg", n: "Laranja", d: "Cítrico solar, casca e polpa em equilíbrio." },
-  { img: "/bar-s6.jpg", n: "Goiaba", d: "Magenta tropical, perfume de feira livre." },
+  { img: "/bar-s1.jpg", n: "Framboesa", d: "Vermelho intenso, doçura de fruta madura colhida no ponto.", cor: "#D9263E" },
+  { img: "/bar-s2.jpg", n: "Lichia", d: "Rosa delicado, floral e exótico para drinks autorais.", cor: "#E88BA0" },
+  { img: "/bar-s3.jpg", n: "Kiwi", d: "Verde vibrante, azedinho refrescante na medida.", cor: "#6FAF3C" },
+  { img: "/bar-s4.jpg", n: "Uva", d: "Roxo profundo, corpo de mosto de uva escura.", cor: "#7A3FA0" },
+  { img: "/bar-s5.jpg", n: "Laranja", d: "Cítrico solar, casca e polpa em equilíbrio.", cor: "#E87E22" },
+  { img: "/bar-s6.jpg", n: "Goiaba", d: "Magenta tropical, perfume de feira livre.", cor: "#E2546F" },
 ];
 const BENEFICIOS = [
   { t: "Ingredientes naturais", ic: "M16 5 C9 12 7 20 16 27 C25 20 23 12 16 5 Z M16 12 v9" },
@@ -60,6 +60,8 @@ export function XaropeFold({ client }: { client?: { name?: string; whatsapp?: st
         .lisse .flavor{position:relative;border-radius:6px;overflow:hidden;background:${CARD};border:1px solid ${LINE}}
         .lisse .flavor img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;transition:transform .5s}
         .lisse .flavor:hover img{transform:scale(1.05)}
+        .lisse .hero-ovl{background:linear-gradient(90deg, rgba(12,9,13,.96) 0%, rgba(12,9,13,.88) 34%, rgba(12,9,13,.55) 58%, rgba(12,9,13,.15) 82%, rgba(12,9,13,.05) 100%)}
+        .lisse .hero-min{min-height:560px;display:flex;flex-direction:column;justify-content:center}
         .lisse .nav-a{cursor:pointer;transition:.2s}
         .lisse .nav-a:hover{color:${WHITE}}
         @media (max-width:900px){
@@ -73,6 +75,7 @@ export function XaropeFold({ client }: { client?: { name?: string; whatsapp?: st
           .lisse .sobre-grid{grid-template-columns:1fr!important}
           .lisse .foot-grid{grid-template-columns:1fr 1fr!important}
         }
+        @media (max-width:760px){ .lisse .hero-ovl{background:linear-gradient(180deg, rgba(12,9,13,.90) 0%, rgba(12,9,13,.55) 45%, rgba(12,9,13,.85) 100%)} .lisse .hero-min{min-height:0} }
         @media (max-width:560px){ .lisse .g5{grid-template-columns:1fr 1fr!important} .lisse .g4{grid-template-columns:1fr!important} .lisse .hero-wm{font-size:64px!important} .lisse header .btn{display:none!important} .lisse .foot-grid{grid-template-columns:1fr!important} }
       `}</style>
 
@@ -88,20 +91,21 @@ export function XaropeFold({ client }: { client?: { name?: string; whatsapp?: st
       </header>
 
       {/* hero: wordmark script + título condensado à esquerda, fileira de garrafas à direita */}
-      <section style={{ position: "relative", overflow: "hidden", background: `radial-gradient(900px 480px at 78% 40%, rgba(227,50,70,.16), transparent 60%), ${BG}` }}>
-        <div className="wrap hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1.15fr", gap: 40, alignItems: "center", paddingTop: 64, paddingBottom: 64 }}>
-          <div>
+      <section style={{ position: "relative", overflow: "hidden", background: BG }}>
+        <img src="/bar-hero.jpg" alt={"Fileira de garrafas de xarope " + brand + " com respingos de frutas"} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        <div className="hero-ovl" style={{ position: "absolute", inset: 0 }} />
+        <div className="wrap hero-min" style={{ position: "relative", paddingTop: 92, paddingBottom: 92 }}>
+          <div style={{ maxWidth: 560 }}>
             <div className="wordmark wm-under hero-wm" style={{ fontSize: 110, color: WHITE }}>Bar Lisse</div>
-            <h1 className="hero-sub" style={{ fontSize: 34, marginTop: 18, letterSpacing: ".02em" }}>Crie a sua<br />história de sabores!</h1>
-            <p style={{ marginTop: 18, fontSize: 15, lineHeight: 1.65, color: TXT2, maxWidth: 420 }}>Xaropes premium para coquetéis, limonadas, cafés e sobremesas. Sabor natural em cada gota.</p>
+            <h1 className="hero-sub" style={{ fontSize: 34, marginTop: 18, letterSpacing: ".02em", color: WHITE }}>Crie a sua<br />história de sabores!</h1>
+            <p style={{ marginTop: 18, fontSize: 15, lineHeight: 1.65, color: TXT, maxWidth: 420 }}>Xaropes premium para coquetéis, limonadas, cafés e sobremesas. Sabor natural em cada gota.</p>
             <div style={{ marginTop: 30, display: "flex", gap: 14, flexWrap: "wrap" }}>
               <a href={wa("Olá! Quero escolher meus sabores de xarope da " + brand + ".")} className="btn">Escolher sabor →</a>
             </div>
             <div style={{ display: "flex", gap: 7, marginTop: 34 }}>
-              {[0, 1, 2].map((i) => <span key={i} style={{ width: i === 0 ? 22 : 8, height: 4, borderRadius: 99, background: i === 0 ? RED : LINE }} />)}
+              {[0, 1, 2].map((i) => <span key={i} style={{ width: i === 0 ? 22 : 8, height: 4, borderRadius: 99, background: i === 0 ? RED : "rgba(253,248,241,.4)" }} />)}
             </div>
           </div>
-          <img src="/bar-hero.jpg" alt={"Fileira de garrafas de xarope " + brand + " com respingos de frutas"} style={{ width: "100%", borderRadius: 6, display: "block" }} />
         </div>
       </section>
 
@@ -131,6 +135,7 @@ export function XaropeFold({ client }: { client?: { name?: string; whatsapp?: st
             {SABORES.map((s) => (
               <div key={s.n} className="flavor">
                 <img src={s.img} alt={"Xarope sabor " + s.n + " da " + brand} loading="lazy" />
+                <div style={{ position: "absolute", inset: 0, background: s.cor, mixBlendMode: "color", opacity: .62, pointerEvents: "none" }} />
                 <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: "40px 18px 16px", background: "linear-gradient(180deg, transparent, rgba(12,9,13,.92) 55%)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
                   <div>
                     <div style={{ fontSize: 18, fontWeight: 800, textTransform: "uppercase", color: WHITE }}>{s.n}</div>
