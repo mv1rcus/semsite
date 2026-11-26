@@ -57,6 +57,9 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
         @media (max-width:900px){
           .yga .g3y{grid-template-columns:1fr!important}
           .yga .g4y{grid-template-columns:1fr 1fr!important}
+        }
+        @media (max-width:560px){
+          .yga .g4y{grid-template-columns:1fr!important}
           .yga .hero-g{grid-template-columns:1fr!important}
           .yga .hor-g{grid-template-columns:1fr!important;gap:32px!important}
           .yga .desk-nav{display:none!important}
