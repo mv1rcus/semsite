@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /** Loja de bikes e e-bikes a partir do pin "Move the city": amarelo, azul royal e branco, tipo itálico pesado, cortes inclinados, numeração 01/02 gigante. */
 const Y = "#ffe600", B = "#1b2fd6", K = "#0a0a0a", GR = "#e9e9ec";
@@ -25,6 +25,18 @@ const ROUTES = [
   { n: "Corrida no rio", k: "12 a 25 km", i: <path d="M3 18l6-10 4 6 3-4 5 8z" /> },
   { n: "Cinturão verde", k: "20 a 40 km", i: <path d="M12 3l5 8h-3l4 7H6l4-7H7zM12 18v3" /> },
 ];
+const FEAT = [
+  { t: "Até 120 km de autonomia", i: <path d="M13 2L5 14h6l-1 8 8-12h-6z" /> },
+  { t: "Quadro leve (18,5 kg)", i: <path d="M20 4c-8 0-14 4-14 12l-2 4M20 4c0 8-4 12-12 12M10 14l4-4" /> },
+  { t: "App inteligente e antifurto", i: <path d="M8 2h8a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zM11 19h2" /> },
+  { t: "Garantia de 2 anos", i: <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" /> },
+];
+const CI = [
+  <path key="a" d="M12 21a9 9 0 1 1 9-9M12 12l4-4M12 6v1" />,
+  <path key="b" d="M5 8h14l2 12H3zM9 8a3 3 0 0 1 6 0" />,
+  <path key="c" d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v3M12 19v3M2 12h3M19 12h3" />,
+  <path key="d" d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11zM12 7v6M9 10h6" />,
+];
 const COMP = [
   ["Autonomia", "120 km", "—", "—"],
   ["Peso", "18,5 kg", "13,2 kg", "12,8 kg"],
@@ -42,6 +54,7 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
   const num = phone ? (phone.startsWith("55") ? phone : `55${phone}`) : "5500000000000";
   const [cart, setCart] = useState<string[]>([]);
   const [menu, setMenu] = useState(false);
+  const gl = useRef<HTMLDivElement>(null);
   const [toast, setToast] = useState("");
   const [mail, setMail] = useState("");
   useEffect(() => { if (!toast) return; const t = setTimeout(() => setToast(""), 1800); return () => clearTimeout(t); }, [toast]);
@@ -117,12 +130,12 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
         .gb .pd .pc{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:32px;margin:6px 0}
         .gb .cm{background:#fff;border-left:1px solid #e3e3e8;padding:26px 24px;display:grid;gap:12px}
         .gb .cm h3{font-size:22px}
-        .gb .ct{display:grid;grid-template-columns:96px repeat(3,1fr);font-size:12px;align-items:center}
+        .gb .ct{display:grid;grid-template-columns:112px repeat(3,1fr);font-size:12px;align-items:center}
         .gb .ct>div{padding:10px 4px;border-bottom:1px solid #ececf0;text-align:center}
         .gb .ct>div:nth-child(4n+1){text-align:left;font-weight:500;color:#444}
         .gb .ct .h img{display:block;width:100%;height:36px;object-fit:contain;mix-blend-mode:multiply;margin:0 auto 4px}.gb .ct .h{border:0;font-weight:700;font-size:12px;line-height:1.3}
         .gb .ct .hy{background:${Y};font-weight:800}
-        .gb .ct b{font-weight:700}
+        .gb .ct b{font-weight:700}.gb .cl{display:flex;align-items:center;gap:8px}
         .gb .plan{position:relative;display:grid;grid-template-columns:.9fr 1fr;min-height:360px;background:#0f1013;overflow:hidden;color:#fff}
         .gb .plan .mp{position:relative;padding:56px 3% 36px max(3%,calc((100vw - 1200px)/2));z-index:2}
         
@@ -134,7 +147,7 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
         .gb .plan .rt small{display:block;font-weight:500;color:#555;font-size:11px}
         .gb .gear{display:grid;grid-template-columns:1.35fr 1fr;gap:20px;padding:68px 0}
         .gb .gg h2{margin-bottom:6px}
-        .gb .gl{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}
+        .gb .gl{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 24px)/3);gap:12px;margin-top:18px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}.gb .gl::-webkit-scrollbar{display:none}.gb .gc{scroll-snap-align:start}.gb .car{display:flex;gap:10px;margin-top:14px}.gb .car button{width:44px;height:44px;border-radius:50%;border:1.5px solid #777;background:#fff;display:grid;place-items:center;cursor:pointer;color:#111}
         .gb .gc{background:#f1f1f4;padding:12px;display:flex;flex-direction:column}
         .gb .gc img{width:100%;aspect-ratio:1;object-fit:contain;mix-blend-mode:multiply}
         .gb .gc b{font-size:12px;font-weight:600;margin-top:6px}
@@ -164,7 +177,7 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
           .gb .rg{grid-template-columns:1fr;gap:20px}.gb .rc{grid-template-columns:1fr 1fr;gap:8px}.gb .rk{margin:0;clip-path:none;height:170px}
           .gb .pr .in{grid-template-columns:1fr}.gb .pl{grid-template-columns:1fr;padding:20px 0}.gb .pl .n2{font-size:150px}.gb .pl img{margin-top:70px}.gb .cm{border-left:0}
           .gb .plan{grid-template-columns:1fr}.gb .plan .mp{padding:30px 5%}.gb .plan svg.map{position:relative;width:100%;height:200px}.gb .plan .ph{position:relative;width:100%;height:240px;clip-path:none}.gb .plan .rts{position:relative;right:auto;top:auto;transform:none;padding:14px 5%;background:#0f1013}
-          .gb .gear{grid-template-columns:1fr}.gb .gl{grid-template-columns:1fr 1fr}.gb .svc{grid-template-columns:1fr}.gb footer .in{grid-template-columns:1fr 1fr}
+          .gb .gear{grid-template-columns:1fr}.gb .gl{grid-auto-columns:calc((100% - 12px)/2)}.gb .svc{grid-template-columns:1fr}.gb footer .in{grid-template-columns:1fr 1fr}
         }
       `}</style>
       <header className="top">
@@ -211,7 +224,7 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
           <div className="pd">
             <h3>Giro<br />E-City Pro<span className="new">Novo</span></h3>
             <p>Uma e-bike potente e conectada, pensada para a vida urbana moderna.</p>
-            <ul>{["Até 120 km de autonomia", "Quadro leve (18,5 kg)", "App inteligente e antifurto", "Garantia de 2 anos"].map((t) => <li key={t}><Ico s={16}><path d="M5 12l4 4 10-10" /></Ico>{t}</li>)}</ul>
+            <ul>{FEAT.map((f) => <li key={f.t}><Ico s={16}>{f.i}</Ico>{f.t}</li>)}</ul>
             <div className="pc">{brl(12499)}</div>
             <button type="button" className="btn y" onClick={() => add("Giro E-City Pro")}><Cart s={16} /> Adicionar ao carrinho</button>
             <a className="btn" href={wa("Oi! Quero ver a E-City Pro em ação.")} target="_blank" rel="noreferrer" style={{ background: "transparent", color: K, padding: 0 }}><span style={{ width: 28, height: 28, borderRadius: "50%", background: K, display: "grid", placeItems: "center" }}><Ico s={12} c="#fff"><path d="M8 5v14l11-7z" /></Ico></span>Ver em ação</a>
@@ -221,7 +234,7 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
           <h3>Compare as bikes</h3>
           <div className="ct" role="table" aria-label="Comparação">
             <div className="h" /><div className="h hy"><img src="/gb-prod.webp" alt="" />E-City Pro<br />{brl(12499)}</div><div className="h"><img src="/gb-cat2.webp" alt="" />Urban Lite<br />{brl(7499)}</div><div className="h"><img src="/gb-cat3.webp" alt="" />Gravel X<br />{brl(9499)}</div>
-            {COMP.map((r) => r.map((c, i) => <div key={`${r[0]}${i}`} style={i === 1 ? { fontWeight: 700 } : undefined}>{c}</div>))}
+            {COMP.map((r, ri) => r.map((c, i) => <div key={`${r[0]}${i}`} style={i === 1 ? { fontWeight: 700 } : undefined}>{i === 0 ? <span className="cl"><Ico s={15} c="#444">{CI[ri]}</Ico>{c}</span> : c}</div>))}
           </div>
           <a className="btn o" href={wa("Oi! Quero a comparação completa das bikes.")} target="_blank" rel="noreferrer" style={{ justifyContent: "center" }}>Ver comparação completa <Arr s={14} /></a>
         </div>
@@ -242,8 +255,8 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
       </section>
 
       <section className="in gear" id="acess">
-        <div className="gg"><h2>Equipe-se<br />e pedale melhor</h2>
-          <div className="gl">{GEAR.map((g) => <article className="gc" key={g.n}><img src={g.img} alt={g.n} /><b>{g.n}</b><div>{brl(g.p)}<button type="button" aria-label={`Adicionar ${g.n} ao carrinho`} onClick={() => add(g.n)}><Cart s={16} /></button></div></article>)}</div>
+        <div className="gg"><h2>Equipe-se<br />e pedale melhor</h2><div className="car"><button type="button" aria-label="Anterior" onClick={() => gl.current?.scrollBy({ left: -230, behavior: "smooth" })}><Ico s={18} w={2.4}><path d="M19 12H5M11 6l-6 6 6 6" /></Ico></button><button type="button" aria-label="Próximo" onClick={() => gl.current?.scrollBy({ left: 230, behavior: "smooth" })}><Arr s={18} /></button></div>
+          <div className="gl" ref={gl}>{GEAR.map((g) => <article className="gc" key={g.n}><img src={g.img} alt={g.n} /><b>{g.n}</b><div>{brl(g.p)}<button type="button" aria-label={`Adicionar ${g.n} ao carrinho`} onClick={() => add(g.n)}><Cart s={16} /></button></div></article>)}</div>
         </div>
         <div className="svc" id="servico">
           <div><h2>Agende<br />uma revisão</h2><p>Mantenha sua bike em forma. Serviço rápido e especializado na loja mais próxima.</p><a className="btn y" href={wa("Oi! Quero agendar uma revisão.")} target="_blank" rel="noreferrer">Agendar agora <Arr /></a></div>
