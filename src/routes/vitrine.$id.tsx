@@ -13,6 +13,7 @@ import { FloraFold } from "@/components/models/FloraFold";
 import { InglesFold } from "@/components/models/InglesFold";
 import { CoworkFold } from "@/components/models/CoworkFold";
 import { PizzaFold } from "@/components/models/PizzaFold";
+import { JoiaFold } from "@/components/models/JoiaFold";
 import { BakeFold } from "@/components/models/BakeFold";
 import { WashFold } from "@/components/models/WashFold";
 import { CafeFold } from "@/components/models/CafeFold";
@@ -89,7 +90,7 @@ function Viewer() {
           <button type="button" disabled title="Em breve" className={`${btn} px-2.5 opacity-50 sm:px-3`}><Plus className="size-4" />Em breve</button>
         </div>
       </div>
-      {premium?.id === "marina-costa" ? <PsyFold client={client} /> : premium?.id === "ponte-ingles" ? <InglesFold client={client} /> : premium?.id === "forno-lume" ? <PizzaFold client={client} /> : premium?.id === "brasa-e-pao" ? <BurgerFold client={client} /> : premium?.id === "focinho-feliz" ? <PetFold client={client} /> : premium?.id === "dom-navalha" ? <BarberFold client={client} /> : premium?.id === "sorriso-verde" ? <DentalFold client={client} /> : premium?.id === "toledo-azevedo" ? <LawFold client={client} /> : premium?.id === "studio-era" ? <SalonFold client={client} /> : premium?.id === "fluxo-cowork" ? <CoworkFold client={client} /> : premium?.id === "jato-azul" ? <WashFold client={client} /> : premium?.id === "grao-e-prosa" ? <CafeFold client={client} /> : premium?.id === "casa-petala" ? <FloraFold client={client} /> : premium?.id === "massa-mae" ? <BakeFold client={client} /> : premium?.id === "forca-viva" ? <GymFold client={client} /> : premium?.id === "tinta-rara" ? <TattooFold client={client} /> : premium?.id === "otica-prisma" ? <OpticFold client={client} /> : premium?.id === "serra-do-vento" ? <PousadaFold client={client} /> : premium ? <PremiumSite model={premium} client={client} /> : model ? <SiteModelView model={model} client={client} /> : null}
+      {premium?.id === "atelie-seda" ? <JoiaFold client={client} /> : premium?.id === "marina-costa" ? <PsyFold client={client} /> : premium?.id === "ponte-ingles" ? <InglesFold client={client} /> : premium?.id === "forno-lume" ? <PizzaFold client={client} /> : premium?.id === "brasa-e-pao" ? <BurgerFold client={client} /> : premium?.id === "focinho-feliz" ? <PetFold client={client} /> : premium?.id === "dom-navalha" ? <BarberFold client={client} /> : premium?.id === "sorriso-verde" ? <DentalFold client={client} /> : premium?.id === "toledo-azevedo" ? <LawFold client={client} /> : premium?.id === "studio-era" ? <SalonFold client={client} /> : premium?.id === "fluxo-cowork" ? <CoworkFold client={client} /> : premium?.id === "jato-azul" ? <WashFold client={client} /> : premium?.id === "grao-e-prosa" ? <CafeFold client={client} /> : premium?.id === "casa-petala" ? <FloraFold client={client} /> : premium?.id === "massa-mae" ? <BakeFold client={client} /> : premium?.id === "forca-viva" ? <GymFold client={client} /> : premium?.id === "tinta-rara" ? <TattooFold client={client} /> : premium?.id === "otica-prisma" ? <OpticFold client={client} /> : premium?.id === "serra-do-vento" ? <PousadaFold client={client} /> : premium ? <PremiumSite model={premium} client={client} /> : model ? <SiteModelView model={model} client={client} /> : null}
     </div>
   );
 }

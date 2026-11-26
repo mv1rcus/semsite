@@ -8,6 +8,7 @@ import { FloraFold } from "@/components/models/FloraFold";
 import { InglesFold } from "@/components/models/InglesFold";
 import { CoworkFold } from "@/components/models/CoworkFold";
 import { PizzaFold } from "@/components/models/PizzaFold";
+import { JoiaFold } from "@/components/models/JoiaFold";
 import { BakeFold } from "@/components/models/BakeFold";
 import { WashFold } from "@/components/models/WashFold";
 import { CafeFold } from "@/components/models/CafeFold";
@@ -27,6 +28,7 @@ else if (__MODEL__ === "studio-era") root.render(<SalonFold client={cfg.client} 
 else if (__MODEL__ === "casa-petala") root.render(<FloraFold client={cfg.client} />);
 else if (__MODEL__ === "fluxo-cowork") root.render(<CoworkFold client={cfg.client} />);
 else if (__MODEL__ === "forno-lume") root.render(<PizzaFold client={cfg.client} />);
+else if (__MODEL__ === "atelie-seda") root.render(<JoiaFold client={cfg.client} />);
 else if (__MODEL__ === "massa-mae") root.render(<BakeFold client={cfg.client} />);
 else if (__MODEL__ === "jato-azul") root.render(<WashFold client={cfg.client} />);
 else if (__MODEL__ === "grao-e-prosa") root.render(<CafeFold client={cfg.client} />);
