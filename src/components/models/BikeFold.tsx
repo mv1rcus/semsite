@@ -142,7 +142,7 @@ export function BikeFold({ client }: { client?: { name?: string; whatsapp?: stri
       </div>
 
       <div className="hero">
-        <svg className="blob" viewBox="0 0 700 640" preserveAspectRatio="none" aria-hidden><path d="M0 0H470c120 70 150 190 90 290-24 40-10 90 40 120 50 30 40 100-40 130-60 20-140 20-200 100H0z" fill={Y} /></svg>
+        <svg className="blob" viewBox="0 0 700 640" preserveAspectRatio="none" aria-hidden><path d="M0 0H470c120 70 150 190 90 290-24 40-10 90 40 120 80 30 110 150 60 220-20 8-80 10-230 10H0z" fill={Y} /></svg>
         <Rider />
         <div className="ht">
           <h1>O mundo é seu.<br />Pedala!</h1>
