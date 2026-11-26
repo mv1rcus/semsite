@@ -191,7 +191,7 @@ export function BuffetFold({ client }: { client?: { name?: string; whatsapp?: st
             <div className="chips">{TYPES.slice(0, 5).map((t) => (<button type="button" key={t} onClick={() => start(t)}>{t}</button>))}</div>
           </div>
           <div className="dia">
-            {DIA.map(([src, x, y, w, alt]) => (<img key={src} src={src} alt={alt} style={{ left: `${x}%`, top: `${y}%`, width: `${w}%` }} />))}
+            {DIA.map(([src, x, y, w, alt]) => (<img key={src} src={src} alt={alt} style={{ left: `${x}%`, top: `${y}%`, width: `${w * 1.12}%` }} />))}
           </div>
         </div>
       </div></div>
@@ -242,7 +242,7 @@ export function BuffetFold({ client }: { client?: { name?: string; whatsapp?: st
       </div></section>
 
       <div className="wrap">
-        <div className="ban"><div><b>Festa de segunda a quinta</b><span>10% de desconto em datas de semana este mês*</span></div></div>
+        <div className="ban"><div><b>Festa de segunda a quinta</b><span>10% de desconto em datas de semana este mês</span></div></div>
         <div className="tiles">
           <button type="button" style={{ backgroundImage: 'linear-gradient(rgba(28,10,34,.35),rgba(28,10,34,.35)),url("/bf-t1.webp")' }} onClick={() => start()}><span>Reservar data</span></button>
           <button type="button" style={{ backgroundImage: 'linear-gradient(rgba(28,10,34,.35),rgba(28,10,34,.35)),url("/bf-t2.webp")' }} onClick={() => go("pacotes")}><span>Ver cardápio</span></button>
