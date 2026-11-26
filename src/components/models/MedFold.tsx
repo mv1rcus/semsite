@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-/** Estúdio de meditação e breathwork, construído do zero a partir de um pin editorial creme/sálvia com lista de sessões em cards tipográficos. Aula experimental gratuita que fecha no WhatsApp. */
+/** Estúdio de meditação e breathwork. Hero à risca do pin: aquarela de folhas ao fundo, wordmark serifada gigante, mockup de celular com a UI do app (sessões, respiração, progresso) e CTA em pílula sálvia. Semana experimental gratuita que fecha no WhatsApp. */
 const CRM = "#f4f0e6", CRM2 = "#e7e0cd", DEEP = "#3c4d34", SAGE = "#8ba07a", SAGED = "#5c6f4e", INK = "#243020", GR = "#46523c", PEACH = "#d9a05b", WHITE = "#fffdf8";
 const SESS = [
   { t: "Calma da Manhã", d: "Meditação guiada para começar o dia com foco e sem pressa.", m: "10 min", tag: "Guiada", bg: "#edf1e6", i: "M16 4a12 12 0 1 0 0 24 12 12 0 0 0 0-24zM16 10v6l4 4" },
@@ -40,13 +40,10 @@ export function MedFold({ client }: { client?: { name?: string; whatsapp?: strin
   const wa = (m: string) => `https://wa.me/${phone || "5541999999999"}?text=${encodeURIComponent(m)}`;
   const go = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   const serif = "'Fraunces', Georgia, serif";
-  const [inOn, setIn] = useState(true);
   useEffect(() => {
     const l = document.createElement("link");
     l.href = "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Outfit:wght@300..700&display=swap";
     l.rel = "stylesheet"; document.head.appendChild(l);
-    const t = setInterval(() => setIn((v) => !v), 4000);
-    return () => clearInterval(t);
   }, []);
   return (
     <div className="med" style={{ fontFamily: "'Outfit', system-ui, sans-serif", color: INK, background: CRM, overflowX: "hidden" }}>
@@ -81,45 +78,82 @@ export function MedFold({ client }: { client?: { name?: string; whatsapp?: strin
         </div>
       </header>
 
-      {/* hero */}
-      <section style={{ position: "relative", padding: "80px 0 90px", background: CRM, overflow: "hidden" }}>
-        <svg viewBox="0 0 120 220" style={{ position: "absolute", left: -18, bottom: 0, width: 130, opacity: .5 }} aria-hidden>
-          <path d="M60 220 C60 150 60 80 60 10" fill="none" stroke={SAGE} strokeWidth="2" />
-          {[30, 70, 110, 150].map((y, k) => <g key={k}><path d={`M60 ${y} C38 ${y - 8} 30 ${y - 26} 30 ${y - 40} C48 ${y - 34} 58 ${y - 18} 60 ${y}`} fill="none" stroke={SAGE} strokeWidth="1.6" /><path d={`M60 ${y + 20} C82 ${y + 12} 90 ${y - 6} 90 ${y - 20} C72 ${y - 14} 62 ${y + 2} 60 ${y + 20}`} fill="none" stroke={SAGE} strokeWidth="1.6" /></g>)}
-        </svg>
-        <svg viewBox="0 0 120 220" style={{ position: "absolute", right: -18, top: 40, width: 110, opacity: .5, transform: "scaleX(-1)" }} aria-hidden>
-          <path d="M60 220 C60 150 60 80 60 10" fill="none" stroke={SAGE} strokeWidth="2" />
-          {[30, 70, 110, 150].map((y, k) => <g key={k}><path d={`M60 ${y} C38 ${y - 8} 30 ${y - 26} 30 ${y - 40} C48 ${y - 34} 58 ${y - 18} 60 ${y}`} fill="none" stroke={SAGE} strokeWidth="1.6" /><path d={`M60 ${y + 20} C82 ${y + 12} 90 ${y - 6} 90 ${y - 20} C72 ${y - 14} 62 ${y + 2} 60 ${y + 20}`} fill="none" stroke={SAGE} strokeWidth="1.6" /></g>)}
-        </svg>
-        <div className="wrap hero-g" style={{ position: "relative", display: "grid", gridTemplateColumns: "1.05fr .95fr", gap: 56, alignItems: "center" }}>
-          <div>
-            <span className="eyebrow">Meditação e breathwork · {city}</span>
-            <h1 style={{ fontSize: "clamp(46px,6.4vw,82px)", lineHeight: 1.02, margin: "18px 0 16px", color: DEEP }}>
-              Acalme a mente.<br /><span style={{ fontStyle: "italic", fontWeight: 400 }}>Respire.</span>
-            </h1>
-            <p style={{ fontFamily: serif, fontStyle: "italic", fontSize: 19, color: SAGE, marginBottom: 18 }}>Meditar · Respirar · Encontrar calma</p>
-            <p style={{ fontSize: 16.5, lineHeight: 1.7, color: GR, maxWidth: 460, marginBottom: 30 }}>
-              Aulas ao vivo e sessões guiadas de 5 a 20 minutos para dormir melhor, focar no que importa e atravessar o dia sem ansiedade.
-            </p>
-            <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 28 }}>
-              <a className="btn" href={wa("Olá! Quero começar a semana experimental gratuita no " + brand + ".")}>Começar a semana grátis →</a>
-              <button className="btn-o" onClick={() => go("sess")}>Ver sessões →</button>
-            </div>
-            <div style={{ display: "flex", gap: 22, fontSize: 13.5, color: GR, flexWrap: "wrap", fontWeight: 500 }}>
-              {["Sem experiência necessária", "Aulas ao vivo todos os dias", "Cancele quando quiser"].map((b) => <span key={b} style={{ display: "inline-flex", gap: 7, alignItems: "center" }}><Ic d={CHECK} s={14} c={DEEP} />{b}</span>)}
+      {/* hero: pin - aquarela de folhas ao fundo, wordmark serifada gigante, mockup de celular com UI do app, CTA em pilula */}
+      <section style={{ position: "relative", padding: "76px 0 84px", background: CRM, overflow: "hidden" }}>
+        <img src="/serena-aquarela.jpg" alt="" aria-hidden style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: .6, pointerEvents: "none" }} />
+        <div className="wrap" style={{ position: "relative", textAlign: "center" }}>
+          <h1 className="hero-wm" style={{ fontSize: "clamp(76px,14vw,172px)", lineHeight: .96, color: DEEP, margin: 0 }}>{brand.split(" ").pop()}</h1>
+          <p style={{ marginTop: 14, fontSize: "clamp(15px,2vw,21px)", fontWeight: 500, letterSpacing: ".06em", color: SAGE }}>Meditar · Respirar · Encontrar calma</p>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14, marginTop: 20, color: SAGE }}>
+            <span style={{ width: 56, height: 1, background: SAGE, opacity: .6 }} />
+            <Ic d="M6 26c8-2 12-8 13-20 6 10 4 18-3 21 4-1 8-1 11 1-6 5-15 4-21-2z" s={18} />
+            <Ic d="M4 14h14a4 4 0 1 0-4-4M4 20h18a4 4 0 1 1-4 4M4 26h10a3 3 0 1 1-3 3" s={18} />
+            <Ic d="M16 6l2 6 6 2-6 2-2 6-2-6-6-2 6-2zM24 20l1.2 3 3 1.2-3 1.2-1.2 3-1.2-3-3-1.2 3-1.2z" s={18} />
+            <span style={{ width: 56, height: 1, background: SAGE, opacity: .6 }} />
+          </div>
+
+          {/* mockup do app */}
+          <div style={{ width: "min(340px,88vw)", margin: "44px auto 0", background: "#202b1d", borderRadius: 46, padding: 11, boxShadow: "0 34px 70px -34px rgba(36,48,32,.55)", textAlign: "left" }}>
+            <div style={{ background: WHITE, borderRadius: 36, padding: "18px 15px 14px", overflow: "hidden" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ fontFamily: serif, fontSize: 19, color: DEEP }}>{brand.split(" ").pop()}</span>
+                <span style={{ width: 30, height: 30, borderRadius: "50%", background: CRM2, display: "grid", placeItems: "center" }}><Ic d="M16 15a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM7 27a9 9 0 0 1 18 0" s={15} c={GR} /></span>
+              </div>
+              <div style={{ marginTop: 12, background: "#dfe6ec", borderRadius: 15, padding: "15px 14px", textAlign: "center" }}>
+                <div style={{ fontSize: 14.5, color: INK }}><strong>Bom dia,</strong><br />reserve um momento para respirar</div>
+                <div style={{ marginTop: 6, fontSize: 11.5, color: SAGED }}>Foco de hoje · 5 min</div>
+              </div>
+              <div style={{ margin: "15px 2px 8px", fontSize: 13, fontWeight: 700, color: INK }}>Sessões de meditação</div>
+              {SESS.slice(0, 3).map((s) => (
+                <div key={s.t} style={{ display: "flex", alignItems: "center", gap: 10, background: s.bg, borderRadius: 13, padding: "9px 11px", marginBottom: 7 }}>
+                  <span style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,.65)", display: "grid", placeItems: "center", flexShrink: 0 }}><Ic d={s.i} s={16} c={DEEP} /></span>
+                  <span style={{ flex: 1, minWidth: 0 }}>
+                    <span style={{ display: "block", fontSize: 13, fontWeight: 700, color: DEEP }}>{s.t}</span>
+                    <span style={{ display: "block", fontSize: 10.5, color: GR }}>{s.m} · {s.tag}</span>
+                  </span>
+                  <span style={{ width: 25, height: 25, borderRadius: "50%", background: DEEP, display: "grid", placeItems: "center", flexShrink: 0 }}><svg width="9" height="10" viewBox="0 0 9 10" aria-hidden><path d="M1 1l7 4-7 4z" fill={WHITE} /></svg></span>
+                </div>
+              ))}
+              <div style={{ margin: "14px 2px 8px", fontSize: 13, fontWeight: 700, color: INK }}>Exercícios de respiração</div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                {[["Box Breathing", "4·4·4·4 · 3 min", "#e4ebf0"], ["Respiração calma", "4·6 · 2 min", "#dfe7d4"]].map(([t, m, bg]) => (
+                  <div key={t} style={{ background: bg, borderRadius: 13, padding: "10px 11px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 6 }}>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: DEEP }}>{t}</span>
+                      <Ic d="M4 14h14a4 4 0 1 0-4-4M4 20h18a4 4 0 1 1-4 4M4 26h10a3 3 0 1 1-3 3" s={14} c={SAGED} />
+                    </div>
+                    <div style={{ marginTop: 3, fontSize: 10.5, color: GR }}>{m}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ margin: "14px 2px 8px", fontSize: 13, fontWeight: 700, color: INK }}>Seu progresso</div>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, background: WHITE, border: `1px solid ${CRM2}`, borderRadius: 13, padding: "10px 12px" }}>
+                <span style={{ display: "flex", alignItems: "center", gap: 9 }}>
+                  <Ic d="M16 4c2 5-4 7-4 12a8 8 0 0 0 16 0c0-3-1.5-5-3-7-1 2-2.5 3-4 3 .5-3-2-7-5-8z" s={20} c={PEACH} />
+                  <span>
+                    <span style={{ display: "block", fontSize: 12.5, fontWeight: 700, color: DEEP }}>7 dias seguidos</span>
+                    <span style={{ display: "block", fontSize: 10.5, color: GR }}>120 min esta semana</span>
+                  </span>
+                </span>
+                <span style={{ position: "relative", width: 42, height: 42, flexShrink: 0 }}>
+                  <svg width="42" height="42" viewBox="0 0 42 42" aria-hidden>
+                    <circle cx="21" cy="21" r="16" fill="none" stroke={CRM2} strokeWidth="4" />
+                    <circle cx="21" cy="21" r="16" fill="none" stroke={DEEP} strokeWidth="4" strokeLinecap="round" strokeDasharray="100.5" strokeDashoffset="25.1" transform="rotate(-90 21 21)" />
+                  </svg>
+                  <span style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", fontSize: 9.5, fontWeight: 700, color: DEEP }}>75%</span>
+                </span>
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-around", marginTop: 12, paddingTop: 10, borderTop: `1px solid ${CRM2}` }}>
+                <Ic d="M7 26V14l9-7 9 7v12a1 1 0 0 1-1 1h-5v-7h-6v7H8a1 1 0 0 1-1-1z" s={19} c={DEEP} />
+                <Ic d="M4 14h14a4 4 0 1 0-4-4M4 20h18a4 4 0 1 1-4 4M4 26h10a3 3 0 1 1-3 3" s={19} c={SAGE} />
+                <Ic d="M16 4a12 12 0 1 0 0 24 12 12 0 0 0 0-24zM16 10v6l4 4" s={19} c={SAGE} />
+                <Ic d="M16 15a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM7 27a9 9 0 0 1 18 0" s={19} c={SAGE} />
+              </div>
             </div>
           </div>
-          {/* artefato CSS: circulo de respiração */}
-          <div className="hero-art" style={{ position: "relative", minHeight: 420, display: "grid", placeItems: "center" }}>
-            <div className="ring" style={{ width: 340, height: 340, opacity: .25 }} />
-            <div className="ring" style={{ width: 260, height: 260, opacity: .45 }} />
-            <div className="ring" style={{ width: 180, height: 180, opacity: .7 }} />
-            <div style={{ width: 150, height: 150, borderRadius: "50%", background: `radial-gradient(circle at 35% 30%, ${SAGE}, ${DEEP})`, transition: "transform 4s ease-in-out", transform: inOn ? "scale(1.28)" : "scale(1)", boxShadow: "0 24px 60px -24px rgba(60,77,52,.55)" }} />
-            <div style={{ position: "absolute", textAlign: "center", color: WHITE, pointerEvents: "none" }}>
-              <div style={{ fontFamily: serif, fontStyle: "italic", fontSize: 22, textShadow: "0 2px 12px rgba(36,48,32,.5)" }}>{inOn ? "inspire…" : "expire…"}</div>
-              <div style={{ fontSize: 11, letterSpacing: 2.5, textTransform: "uppercase", opacity: .85, marginTop: 4 }}>4 segundos</div>
-            </div>
-            <div style={{ position: "absolute", bottom: 8, left: "50%", transform: "translateX(-50%)", background: WHITE, borderRadius: 999, padding: "10px 20px", fontSize: 13, fontWeight: 600, color: DEEP, border: `1px solid ${CRM2}`, boxShadow: "0 12px 30px -18px rgba(60,77,52,.5)", whiteSpace: "nowrap" }}>✳ Respiração guiada ao vivo, todo dia 7h</div>
+
+          <div style={{ marginTop: 38 }}>
+            <a className="btn" href={wa("Olá! Quero começar a semana experimental gratuita no " + brand + ".")} style={{ background: SAGE, color: WHITE, fontSize: 16, padding: "17px 34px" }}>Comece sua jornada de calma, grátis hoje</a>
           </div>
         </div>
       </section>
@@ -244,7 +278,7 @@ export function MedFold({ client }: { client?: { name?: string; whatsapp?: strin
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(139,160,122,.25) 1.2px, transparent 1.2px)", backgroundSize: "28px 28px", maskImage: "radial-gradient(ellipse at 50% 0%, black 25%, transparent 72%)" }} />
         <div className="wrap" style={{ position: "relative" }}>
           <span className="eyebrow" style={{ justifyContent: "center", color: SAGE }}>Semana experimental gratuita</span>
-          <h2 style={{ margin: "14px auto 18px", fontSize: "clamp(34px,4.6vw,60px)", maxWidth: 720, color: CRM }}>Comece hoje. <span style={{ fontStyle: "italic", color: PEACH }}>A calma é treino.</span></h2>
+          <h2 style={{ margin: "14px auto 18px", fontSize: "clamp(34px,4.6vw,60px)", maxWidth: 720, color: CRM }}>Comece hoje. <span style={{ color: PEACH }}>A calma é treino.</span></h2>
           <p style={{ fontSize: 16.5, color: "rgba(244,240,230,.78)", maxWidth: 540, margin: "0 auto 32px" }}>Sete dias de aulas ao vivo e sessões guiadas, sem cartão e sem compromisso.</p>
           <a className="btn" style={{ fontSize: 16, padding: "18px 36px", background: PEACH, color: INK }} href={wa("Olá! Quero começar a semana experimental gratuita no " + brand + ".")}>Quero minha semana grátis →</a>
         </div>
