@@ -86,7 +86,7 @@ export function PneuNeon({ client }: { client?: { name?: string; whatsapp?: stri
         .pn .ft{display:flex;gap:26px;margin-top:30px;flex-wrap:wrap}
         .pn .ft div{display:flex;gap:10px;align-items:center;max-width:190px}
         .pn .ft b{display:block;font-size:12px;font-weight:600;line-height:1.25}
-        .pn .ft span{display:block;font-size:11px;color:#bdbdbd;line-height:1.3}
+        .pn .ft span{display:block;font-size:12px;color:#c8c8c8;line-height:1.3}
         .pn .appr{position:absolute;z-index:3;right:5%;top:34px;display:flex;align-items:center;gap:10px;border:1px solid #3a3a3a;background:rgba(0,0,0,.55);padding:10px 14px;border-radius:4px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#fff;text-decoration:none;min-height:44px}
         .pn .spec{position:absolute;z-index:3;right:5%;bottom:44px;display:flex;align-items:center;gap:14px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#e6e6e6;text-align:right;line-height:1.5}
         .pn .spec i{width:44px;height:44px;border:1px solid ${LIME};border-radius:50%;display:grid;place-items:center;color:${LIME};font-style:normal;font-size:22px}
@@ -109,7 +109,7 @@ export function PneuNeon({ client }: { client?: { name?: string; whatsapp?: stri
         .pn .pc h3{font-size:19px;margin:14px 0 4px}
         .pn .pc>small{color:#bdbdbd;font-size:12px}
         .pn .ch{display:flex;gap:6px;margin:12px 0;flex-wrap:wrap}
-        .pn .ch span{border:1px solid #333;border-radius:3px;padding:4px 8px;font-size:11px;color:#d6d6d6}
+        .pn .ch span{border:1px solid #333;border-radius:3px;padding:5px 9px;font-size:12px;color:#e0e0e0}
         .pn .pf{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
         .pn .pf b{font-size:20px;font-weight:600}
         .pn .cb{width:44px;height:44px;border-radius:4px;background:${LIME};border:0;display:grid;place-items:center;cursor:pointer;color:#000}
@@ -121,7 +121,7 @@ export function PneuNeon({ client }: { client?: { name?: string; whatsapp?: stri
         .pn .ban .t{position:relative;z-index:2;text-align:left;width:min(90%,380px);margin:0 0 0 40%;padding:20px;background:linear-gradient(90deg,rgba(0,0,0,.7),rgba(0,0,0,.35))}
         .pn .ban .t small{color:${LIME};letter-spacing:.2em;font-size:11px;font-weight:600}
         .pn .ban h2{margin:10px 0 18px;font-size:clamp(40px,5vw,60px)}
-        .pn .ban .dv{position:absolute;z-index:2;right:2%;top:50%;writing-mode:vertical-rl;transform:translateY(-50%) rotate(180deg);color:${LIME};font-family:'Barlow Condensed',sans-serif;font-style:italic;font-weight:700;letter-spacing:.16em;font-size:14px;white-space:nowrap}
+        .pn .ban .dv{position:absolute;z-index:2;right:2%;top:50%;writing-mode:vertical-rl;transform:translateY(-50%) rotate(180deg);color:${LIME};font-family:'Barlow Condensed',sans-serif;font-style:italic;font-weight:700;letter-spacing:.14em;font-size:17px;white-space:nowrap}
         .pn .bn{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:34px 0;border-bottom:1px solid #1a1a1a}
         .pn .bn div{display:flex;gap:14px;align-items:center}
         .pn .bn b{display:block;font-size:14px;font-weight:600}
@@ -134,7 +134,7 @@ export function PneuNeon({ client }: { client?: { name?: string; whatsapp?: stri
         .pn .more h2 em{color:${LIME};display:block}
         .pn .gl{width:min(100%,300px);background:rgba(20,20,20,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:24px;display:grid;gap:12px}
         .pn .gl h3{font-size:24px;margin-bottom:4px}
-        .pn .gl label{font-size:11px;color:#cfcfcf;letter-spacing:.08em;text-transform:uppercase}
+        .pn .gl label{font-size:12px;color:#e0e0e0;letter-spacing:.08em;text-transform:uppercase}
         .pn .gl select{width:100%;height:46px;background:#0b0b0b;color:#fff;border:1px solid #333;border-radius:4px;padding:0 12px;font-size:14px;margin-top:5px}
         .pn .gl .btn{width:100%}
         .pn footer{padding:34px 0 44px;text-align:center;color:#a5a5a5;font-size:12px}
