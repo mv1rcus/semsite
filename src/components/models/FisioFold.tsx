@@ -10,7 +10,7 @@ const TREATS = [
 ];
 const STATS = [
   { v: "500+", l: "Pacientes atendidos" },
-  { v: "12+", l: "Anos de experiência" },
+  { v: "10+", l: "Anos de experiência" },
   { v: "4.9★", l: "Avaliação média" },
   { v: "100%", l: "Planos personalizados" },
 ];
@@ -19,9 +19,9 @@ const PLANS = [
   { t: "Combo Saúde", p: "R$ 420", u: "/mês", feats: ["8 sessões combinadas Pilates + Fisioterapia", "Avaliação inicial grátis", "Plano individual personalizado", "Acompanhamento via WhatsApp"], hot: true },
 ];
 const TESTI = [
-  { n: "Marcos Vieira", r: "Analista, 44 anos", t: "Vivia com dor lombar há anos e achava que era normal. Em três meses de tratamento com a Daniela voltei a trabalhar sem travar. A avaliação inicial já mostrou o que ninguém tinha visto.", a: "/fisio-a1.webp" },
+  { n: "Marcos Vieira", r: "Contador, 62 anos", t: "Vivia com dor lombar há anos e achava que era normal. Em três meses de tratamento com a Daniela voltei a trabalhar sem travar. A avaliação inicial já mostrou o que ninguém tinha visto.", a: "/fisio-d3.webp" },
   { n: "Sônia Pereira", r: "Professora, 56 anos", t: "Depois da cirurgia no joelho, achei que não voltaria a caminhar direito. O plano foi no meu ritmo, sem pressa e sem dor. Hoje faço minhas caminhadas todos os dias.", a: "/fisio-a2.webp" },
-  { n: "Lucas Ferreira", r: "Corredor amador, 31 anos", t: "Lesionei o tornozelo na semana de uma prova. A recuperação esportiva me colocou de volta nos treinos em cinco semanas, mais forte do que antes.", a: "/fisio-a3.webp" },
+  { n: "Lucas Ferreira", r: "Corredor amador, 31 anos", t: "Lesionei o tornozelo na semana de uma prova. A recuperação esportiva me colocou de volta nos treinos em cinco semanas, mais forte do que antes.", a: "/fisio-d2.webp" },
 ];
 const CHECK = "M7 16l6 6L26 9";
 const CAL = "M6 8h20v18H6zM6 13h20M11 4v5M21 4v5";
@@ -41,7 +41,7 @@ export function FisioFold({ client }: { client?: { name?: string; whatsapp?: str
   const [trat, setTrat] = useState("Fisioterapia");
   useEffect(() => { const f = () => setSc(window.scrollY > 40); f(); window.addEventListener("scroll", f, { passive: true }); return () => window.removeEventListener("scroll", f); }, []);
   const wa = `https://wa.me/${num}?text=${encodeURIComponent(`Oi, Dra. ${brand}! Quero agendar uma avaliação gratuita${nome ? ` em nome de ${nome}` : ""} (${trat})${zap ? ` - meu WhatsApp: ${zap}` : ""}.`)}`;
-  const nav: [string, string][] = [["Início", "ini"], ["Tratamentos", "trat"], ["Planos", "planos"], ["Sobre mim", "sobre"], ["Depoimentos", "depo"], ["Contato", "cont"]];
+  const nav: [string, string][] = [["Início", "ini"], ["Tratamentos", "trat"], ["Planos", "planos"], ["Depoimentos", "depo"], ["Contato", "cont"]];
   const go = (id: string) => { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); setMenu(false); };
 
   return (
@@ -129,7 +129,7 @@ export function FisioFold({ client }: { client?: { name?: string; whatsapp?: str
         <div className="wrap">
           <h2>Nossos Tratamentos</h2>
           <p className="sub">Cuidado completo para sua recuperação e bem-estar, com abordagens modernas e personalizadas.</p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))", gap: 20, marginTop: 36 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 20, marginTop: 36 }}>
             {TREATS.map((t) => (
               <article key={t.t} style={{ background: "#fff", borderRadius: 20, overflow: "hidden", border: `1px solid ${MINT2}`, boxShadow: "0 10px 30px -22px rgba(15,46,51,.3)", display: "flex", flexDirection: "column" }}>
                 <div style={{ position: "relative" }}>
@@ -142,29 +142,18 @@ export function FisioFold({ client }: { client?: { name?: string; whatsapp?: str
                 </div>
               </article>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* sobre */}
-      <section id="sobre" style={{ background: MINT, padding: "64px 0" }}>
-        <div className="wrap" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 44, alignItems: "center" }}>
-          <div style={{ borderRadius: 24, overflow: "hidden", boxShadow: "0 24px 60px -24px rgba(15,46,51,.35)", maxWidth: 420, margin: "0 auto" }}>
-            <img src="/fisio-sobre.webp" alt={`Dra. ${brand}, fisioterapeuta`} style={{ width: "100%", objectFit: "cover" }} />
-          </div>
-          <div>
-            <span className="pill">Sobre mim</span>
-            <h2 style={{ textAlign: "left", margin: "18px 0 14px" }}>Cuidado que começa ouvindo o seu corpo</h2>
-            <p style={{ color: "#33555b", fontSize: 15.5, lineHeight: 1.7, marginBottom: 14 }}>Sou a Dra. {brand}, fisioterapeuta em {city} há mais de 12 anos. Cada tratamento começa com uma avaliação completa: entendo sua rotina, sua dor e seus objetivos antes de montar qualquer plano.</p>
-            <p style={{ color: "#33555b", fontSize: 15.5, lineHeight: 1.7, marginBottom: 22 }}>Aqui você não é um número. As sessões são individuais, com acompanhamento próximo entre um atendimento e outro.</p>
-            <div style={{ display: "grid", gap: 10 }}>
-              {["CREFITO ativo e especializações em RPG e Pilates", "Sessões individuais de 50 minutos", "Avaliação inicial gratuita e sem compromisso"].map((t) => (
-                <span key={t} style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14.5, fontWeight: 600 }}>
-                  <span style={{ width: 24, height: 24, borderRadius: "50%", background: TE, display: "grid", placeItems: "center", flexShrink: 0 }}><Ic d={CHECK} s={13} c="#fff" /></span>{t}
-                </span>
-              ))}
-            </div>
-            <a href={wa} target="_blank" rel="noreferrer" className="btn-t" style={{ marginTop: 24 }}><Ic d={CAL} s={19} c="#fff" />Agendar Avaliação Grátis</a>
+            <article style={{ background: "#fff", borderRadius: 20, overflow: "hidden", border: `1px solid ${MINT2}`, boxShadow: "0 10px 30px -22px rgba(15,46,51,.3)", display: "flex", flexDirection: "column" }}>
+              <div style={{ padding: "20px 18px 20px", display: "flex", flexDirection: "column", flex: 1 }}>
+                <h3 style={{ fontSize: 21, fontWeight: 800, marginBottom: 6 }}>Fisioterapia</h3>
+                <p style={{ marginBottom: 14 }}><span style={{ color: TE, fontSize: 30, fontWeight: 800, letterSpacing: "-.02em" }}>R$ 150</span> <span style={{ color: "#5b7a80", fontSize: 15, fontWeight: 600 }}>/sessão</span></p>
+                <div style={{ display: "grid", gap: 7, marginBottom: 18 }}>
+                  {["Sessão individual de 50 minutos", "Protocolo personalizado", "Recuperação de lesões", "Retorno rápido ao dia a dia"].map((t) => (
+                    <span key={t} style={{ fontSize: 14, fontWeight: 600, color: "#1d3f45" }}>{t}</span>
+                  ))}
+                </div>
+                <button className="btn-o" onClick={() => go("planos")} style={{ marginTop: "auto", justifyContent: "center" }}>Escolher plano</button>
+              </div>
+            </article>
           </div>
         </div>
       </section>

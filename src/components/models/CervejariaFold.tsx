@@ -29,35 +29,21 @@ const Glass = ({ c, s = 120 }: { c: string; s?: number }) => (
   </svg>
 );
 const HeroArt = () => (
-  <svg viewBox="0 0 520 440" className="hart" role="img" aria-label="Copo de cerveja âmbar em um círculo dourado, cercado por ingredientes">
-    <circle cx="260" cy="230" r="170" fill={AMB} />
-    <ellipse cx="260" cy="230" rx="62" ry="170" fill={BG} />
-    <g transform="translate(260 232)">
-      <path d="M-52-96h104l-11 182a12 12 0 0 1-12 11h-58a12 12 0 0 1-12-11z" fill="#e8921e" stroke={CREAM} strokeWidth="4" />
-      <path d="M-52-96h104l-2.500 40h-99z" fill={CREAM} />
-      <path d="M-30-30l5 100M-8-30l3 100" stroke={CREAM} strokeOpacity=".28" strokeWidth="5" strokeLinecap="round" />
-      <circle cx="22" cy="10" r="4" fill={CREAM} opacity=".55" /><circle cx="10" cy="-12" r="3" fill={CREAM} opacity=".55" /><circle cx="28" cy="46" r="3" fill={CREAM} opacity=".55" />
-    </g>
-    <circle cx="398" cy="88" r="40" fill={AMB} opacity=".9" />
-    <g stroke={BG} strokeWidth="3" fill="none" strokeLinecap="round"><path d="M398 56v64M366 88h64M375 65l46 46M421 65l-46 46" /></g>
-    <circle cx="110" cy="190" r="36" fill="#1d140c" stroke={LINE} strokeWidth="2" />
-    <g fill="#8a5a2b">{Array.from({ length: 18 }).map((_, i) => (<circle key={i} cx={110 + Math.cos(i * 2.4) * (4 + (i % 6) * 4.5)} cy={190 + Math.sin(i * 2.4) * (4 + (i % 6) * 4.5)} r={2.600 + (i % 3)} />))}</g>
-    <circle cx="372" cy="360" r="28" fill={CREAM} />
-    <g fill="#9bb84a"><path d="M372 346c10 6 14 16 6 26-8 4-16-2-18-10-2-8 4-14 12-16z" /><path d="M372 346c-10 6-14 16-6 26" stroke={BG} strokeWidth="2" fill="none" /></g>
-  </svg>
-);
-const Disc = ({ k }: { k: "grain" | "hop" | "citrus" | "malt" }) => {
-  const bg = { grain: "#b99655", hop: "#8fa843", citrus: "#e9a93a", malt: "#6b4423" }[k];
-  return (
-    <svg viewBox="0 0 100 100" aria-hidden>
-      <circle cx="50" cy="50" r="50" fill={bg} />
-      {k === "grain" && <g stroke="#6a4f22" strokeWidth="2.500" strokeLinecap="round"><path d="M50 92V28M50 40l-14-12M50 40l14-12M50 54l-16-12M50 54l16-12M50 68l-16-12M50 68l16-12M50 28v-14" /></g>}
-      {k === "hop" && <g fill="#c9dc72" stroke="#4b6020" strokeWidth="2"><path d="M50 20c18 4 26 22 18 40-6 12-14 20-18 22-4-2-12-10-18-22-8-18 0-36 18-40z" /><path d="M50 30v44M38 40c6 4 18 4 24 0M36 52c8 6 20 6 28 0" fill="none" /></g>}
-      {k === "citrus" && <g><circle cx="50" cy="50" r="38" fill="#f6d27a" stroke="#fff3d0" strokeWidth="5" /><g stroke="#fff3d0" strokeWidth="3"><path d="M50 14v72M14 50h72M24 24l52 52M76 24L24 76" /></g></g>}
-      {k === "malt" && <g fill="#2e1a0b">{Array.from({ length: 14 }).map((_, i) => (<ellipse key={i} cx={50 + Math.cos(i * 2.2) * (6 + (i % 5) * 7)} cy={50 + Math.sin(i * 2.2) * (6 + (i % 5) * 7)} rx="6" ry="3.500" transform={`rotate(${i * 40} ${50 + Math.cos(i * 2.2) * (6 + (i % 5) * 7)} ${50 + Math.sin(i * 2.2) * (6 + (i % 5) * 7)})`} />))}</g>}
+  <div className="hart" role="img" aria-label="Copo de cerveja âmbar em um círculo dourado, cercado por ingredientes">
+    <svg viewBox="0 0 520 440" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+      <defs><clipPath id="cpEl"><ellipse cx="260" cy="230" rx="62" ry="170" /></clipPath></defs>
+      <circle cx="260" cy="230" r="170" fill={AMB} />
+      <image href="/cald-copo.webp" x="198" y="60" width="124" height="340" preserveAspectRatio="xMidYMid slice" clipPath="url(#cpEl)" />
+      <circle cx="362" cy="352" r="36" fill={CREAM} />
     </svg>
-  );
-};
+    <img src="/cald-graos.webp" alt="" style={{ position: "absolute", left: "-34%", top: "32%", width: "18%", borderRadius: "50%", objectFit: "cover", aspectRatio: "1" }} />
+    <img src="/cald-ouro.webp" alt="" style={{ position: "absolute", left: "72%", top: "9%", width: "19%", borderRadius: "50%", objectFit: "cover", aspectRatio: "1" }} />
+  </div>
+);
+const DISC = { grain: "/cald-trigo.webp", hop: "/cald-lupulo.webp", citrus: "/cald-bokeh.webp", malt: "/cald-cevada.webp" };
+const Disc = ({ k }: { k: "grain" | "hop" | "citrus" | "malt" }) => (
+  <img src={DISC[k]} alt="" aria-hidden style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover", aspectRatio: "1", display: "block" }} />
+);
 
 export function CervejariaFold({ client }: { client?: { name?: string; whatsapp?: string; city?: string } }) {
   const brand = client?.name?.trim() || "Caldeira Brava";
@@ -94,7 +80,7 @@ export function CervejariaFold({ client }: { client?: { name?: string; whatsapp?
         .cv .hero h1{margin:0}
         .cv .h1a{font-size:clamp(34px,7.4vw,86px);display:block;color:transparent;-webkit-text-stroke:2px ${CREAM}}
         .cv .h1b{font-size:clamp(44px,10.2vw,124px);display:block;margin-top:4px}
-        .cv .hart{width:min(520px,86%);height:auto;display:block;margin:-6px auto 0}
+        .cv .hart{position:relative;width:min(520px,86%);aspect-ratio:520/440;display:block;margin:-6px auto 0}
         .cv .strip{display:grid;grid-template-columns:1fr auto 1fr;gap:22px;align-items:center;margin:34px auto 0;max-width:1200px;padding:0 28px;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:#ecdcc0}
         .cv .strip .l{border-top:1.5px dotted #6b5a42;position:relative;height:0}
         .cv .strip .l span{position:absolute;top:-8px;background:${BG};padding:0 12px;white-space:nowrap}
@@ -103,15 +89,15 @@ export function CervejariaFold({ client }: { client?: { name?: string; whatsapp?
         .cv .strip .mid a:last-child{color:${CREAM};border-bottom:1.5px solid ${CREAM};text-decoration:none;font-family:Anton;font-size:13px;letter-spacing:.06em;padding-bottom:1px}
         .cv .sec{padding:120px 0 0}
         .cv .t2{font-size:clamp(34px,5.6vw,66px);line-height:1.08;text-align:center;margin:0 0 56px}
-        .cv .rules{position:relative;max-width:300px;margin:0 auto}
+        .cv .rules{position:relative;max-width:410px;margin:0 auto}
         .cv .rule{background:#17100a;border:1px solid ${LINE};border-radius:10px;margin-bottom:-4px}
-        .cv .rule h3{margin:0;background:${CREAM};color:${BG};font-family:Anton;font-weight:400;text-transform:uppercase;font-size:15px;padding:10px 14px;border-radius:8px 8px 0 0;display:flex;justify-content:space-between;align-items:center}
+        .cv .rule h3{margin:0;background:${CREAM};color:${BG};font-family:Anton;font-weight:400;text-transform:uppercase;font-size:19px;padding:12px 18px;border-radius:8px 8px 0 0;display:flex;justify-content:space-between;align-items:center}
         .cv .rule h3:before,.cv .rule h3:after{content:"";width:6px;height:6px;border-radius:50%;background:${BG}}
-        .cv .rule p{margin:0;padding:16px 18px 20px;font-size:14px;line-height:1.5;text-align:center;color:#ece0c9}
+        .cv .rule p{margin:0;padding:20px 26px 26px;font-size:17px;line-height:1.5;text-align:center;color:#ece0c9}
         .cv .rule:nth-child(1){transform:rotate(-1.200deg)}.cv .rule:nth-child(2){transform:translateX(56px) rotate(1deg)}.cv .rule:nth-child(3){transform:translateX(-10px) rotate(-1.500deg)}.cv .rule:nth-child(4){transform:translateX(46px) rotate(1.200deg)}
-        .cv .discs{position:absolute;inset:0;pointer-events:none}
-        .cv .discs svg{position:absolute;width:112px;height:112px}
-        .cv .dr{display:none;justify-content:center;gap:14px;margin:-22px 0 26px}.cv .dr svg{width:52px;height:52px}
+        .cv .discs{position:absolute;top:0;bottom:0;left:calc(50% - 50vw);width:100vw;pointer-events:none}
+        
+        .cv .dr{display:none;justify-content:center;gap:14px;margin:-22px 0 26px}.cv .dr img{width:52px!important;height:52px!important;flex:none}
         .cv .rwrap{position:relative;max-width:900px;margin:0 auto;padding-bottom:10px}
         .cv .pour{text-align:center;padding:130px 0 0}
         .cv .pour .a{font-size:clamp(28px,4vw,46px)}
@@ -138,7 +124,7 @@ export function CervejariaFold({ client }: { client?: { name?: string; whatsapp?
           .cv .links,.cv .nav .btn{display:none}.cv .burger{display:block}.cv .nav{padding:0 12px 0 18px}
           .cv .wrap{padding:0 20px}.cv .sec{padding-top:76px}.cv .pour{padding-top:84px}
           .cv .out,.cv .h1a{-webkit-text-stroke-width:1.5px}
-          .cv .rwrap{max-width:350px}.cv .rules{max-width:270px;margin-left:0}
+          .cv .rwrap{max-width:350px}.cv .rules{max-width:270px;margin-left:0}.cv .rule h3{font-size:15px;padding:10px 14px}.cv .rule p{font-size:14px;padding:16px 18px 20px}
           .cv .rule:nth-child(2){transform:translateX(40px) rotate(1deg)}.cv .rule:nth-child(4){transform:translateX(34px) rotate(1.200deg)}
           .cv .discs{display:none}.cv .dr{display:flex!important}
           .cv .taps{grid-template-columns:1fr}
@@ -167,10 +153,10 @@ export function CervejariaFold({ client }: { client?: { name?: string; whatsapp?
         <div className="dr"><Disc k="grain" /><Disc k="hop" /><Disc k="malt" /><Disc k="citrus" /></div>
         <div className="rwrap">
           <div className="discs">
-            <div style={{ position: "absolute", left: "0%", top: "2%" }}><Disc k="grain" /></div>
-            <div style={{ position: "absolute", right: "-2%", top: "16%" }}><Disc k="hop" /></div>
-            <div style={{ position: "absolute", left: "8%", top: "58%" }}><Disc k="malt" /></div>
-            <div style={{ position: "absolute", right: "0%", top: "74%" }}><Disc k="citrus" /></div>
+            <div style={{ position: "absolute", left: "6%", top: "2%", width: "17vw", height: "17vw" }}><Disc k="grain" /></div>
+            <div style={{ position: "absolute", right: "9%", top: "16%", width: "11vw", height: "11vw" }}><Disc k="hop" /></div>
+            <div style={{ position: "absolute", left: "13%", top: "58%", width: "10vw", height: "10vw" }}><Disc k="malt" /></div>
+            <div style={{ position: "absolute", right: "6%", top: "74%", width: "18vw", height: "18vw" }}><Disc k="citrus" /></div>
           </div>
           <div className="rules">{RULES.map((r) => (<div className="rule" key={r.t}><h3>{r.t}</h3><p>{r.d}</p></div>))}</div>
         </div>
