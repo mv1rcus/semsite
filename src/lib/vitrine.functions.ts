@@ -47,6 +47,7 @@ const HTML_LOADERS: Record<string, () => Promise<{ default: string }>> = {
   "focinho-feliz": () => import("./standalone-html/focinho-feliz.html?raw"),
   "brasa-e-pao": () => import("./standalone-html/brasa-e-pao.html?raw"),
   "dom-navalha": () => import("./standalone-html/dom-navalha.html?raw"),
+  "grao-e-prosa": () => import("./standalone-html/grao-e-prosa.html?raw"),
   "sorriso-verde": () => import("./standalone-html/sorriso-verde.html?raw"),
   "forca-viva": () => import("./standalone-html/forca-viva.html?raw"),
 };
