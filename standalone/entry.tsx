@@ -21,6 +21,7 @@ import { OpticFold } from "@/components/models/OpticFold";
 import { PousadaFold } from "@/components/models/PousadaFold";
 import { BurgerPopFold } from "@/components/models/BurgerPopFold";
 import { HorizontePrimeFold } from "@/components/models/HorizontePrimeFold";
+import { FarmaciaSaviaFold } from "@/components/models/FarmaciaSaviaFold";
 import { LawFold } from "@/components/models/LawFold";
 import { PsyFold } from "@/components/models/PsyFold";
 import { NutriFold } from "@/components/models/NutriFold";
@@ -53,4 +54,5 @@ else if (__MODEL__ === "otica-prisma") root.render(<OpticFold client={cfg.client
 else if (__MODEL__ === "serra-do-vento") root.render(<PousadaFold client={cfg.client} />);
 else if (__MODEL__ === "burgeria-pop") root.render(<BurgerPopFold client={cfg.client} />);
 else if (__MODEL__ === "horizonte-prime") root.render(<HorizontePrimeFold client={cfg.client} />);
+else if (__MODEL__ === "farmacia-savia") root.render(<FarmaciaSaviaFold client={cfg.client} />);
 else if (__MODEL__ === "brasa-e-pao") root.render(<BurgerFold client={cfg.client} />);
