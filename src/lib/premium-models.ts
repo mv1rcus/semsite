@@ -12,7 +12,7 @@ export const PHOTO = {
   bread: "photo-1509440159596-0249088772ff", clinic: "photo-1519494026892-80bbd2d6fd0d",
 } as const;
 
-export const PREMIUM_MODELS: PremiumModel[] = [
+const ALL_PREMIUM: PremiumModel[] = [
   { id: "smash-poster", ramo: "poster", ramoLabel: "Hamburgueria", style: "Pôster com tipo gigante e parallax", name: "Smash Poster", city: "São Paulo", cover: PHOTO.burger1, accent: "#ef3b2d", tags: ["hamburguer", "burger", "poster", "tipografia", "parallax", "escuro"] },
   { id: "amigo-fiel", ramo: "pet", ramoLabel: "Pet shop", style: "Pôster colorido com tipo gigante", name: "Amigo Fiel", city: "Curitiba", cover: PHOTO.dog, accent: "#ff7a1a", tags: ["pet", "petshop", "cachorro", "veterinaria", "poster", "colorido"] },
   { id: "studio-fio", ramo: "salao", ramoLabel: "Salão de beleza", style: "Editorial rosé", name: "Studio Fio", city: "Belo Horizonte", cover: PHOTO.salon, accent: "#b5546b", tags: ["salao", "beleza", "cabelo", "estetica", "editorial", "claro"] },
@@ -27,6 +27,9 @@ export const PREMIUM_MODELS: PremiumModel[] = [
   { id: "sorriso-pleno", ramo: "dentista", ramoLabel: "Odontologia", style: "Clínico moderno", name: "Sorriso Pleno", city: "Curitiba", cover: PHOTO.dentist, accent: "#0ea5a4", tags: ["dentista", "clinica", "saude", "claro"] },
   { id: "grao-dourado", ramo: "cafeteria", ramoLabel: "Cafeteria", style: "Aconchego artesanal", name: "Grão Dourado", city: "Recife", cover: PHOTO.coffee, accent: "#b8642a", tags: ["cafe", "cafeteria", "artesanal"] },
 ];
+// Modelos ainda fora do padrao novo ficam despublicados da Vitrine ate ficarem prontos.
+export const HIDDEN_PREMIUM = new Set(["smash-poster", "forno-vivo", "studio-fio", "silva-lima", "motor-certo", "casa-alta", "amigo-fiel"]);
+export const PREMIUM_MODELS: PremiumModel[] = ALL_PREMIUM.filter((m) => !HIDDEN_PREMIUM.has(m.id));
 export const getPremium = (id: string) => PREMIUM_MODELS.find((m) => m.id === id);
 
 const SYN: Record<string, string> = {
