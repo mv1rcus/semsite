@@ -70,6 +70,7 @@ import { EixoFold } from "../src/components/models/EixoFold";
 import { AticoFold } from "../src/components/models/AticoFold";
 import { AlvaFold } from "../src/components/models/AlvaFold";
 import { LuminaFold } from "../src/components/models/LuminaFold";
+import { VidaLeveFold } from "../src/components/models/VidaLeveFold";
 import { HelenaFold } from "../src/components/models/HelenaFold";
 import { AdvMcFold } from "@/components/models/AdvMcFold";
 import { AquaGrowFold } from "@/components/models/AquaGrowFold";
@@ -102,6 +103,7 @@ else if (__MODEL__ === "villa-acai") root.render(<AcaiFold client={cfg.client} /
 else if (__MODEL__ === "sala-rubra") root.render(<DarkroomFold client={cfg.client} />);
 else if (__MODEL__ === "eixo-pilates") root.render(<EixoFold client={cfg.client} />);
 else if (__MODEL__ === "atico-pilates") root.render(<AticoFold client={cfg.client} />);
+else if (__MODEL__ === "vida-leve-nutricao") root.render(<VidaLeveFold client={cfg.client} />);
 else if (__MODEL__ === "alva-estetica") root.render(<AlvaFold client={cfg.client} />);
 else if (__MODEL__ === "helena-duarte") root.render(<HelenaFold client={cfg.client} />);
 else if (__MODEL__ === "menezes-prado") root.render(<AdvMcFold client={cfg.client} />);
