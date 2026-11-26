@@ -21,26 +21,16 @@ const KITS = [
   { n: "Para o time", p: "R$ 349", d: "20 garrafas de 300 ml para escritório ou treino.", c: "#5d1fa8" },
 ];
 
-const Fruit = ({ k }: { k: P["fruit"] }) => {
-  if (k === "lime") return (<svg viewBox="0 0 100 100" aria-hidden><circle cx="50" cy="50" r="46" fill="#b8e04a" stroke="#fff" strokeWidth="6" /><g stroke="#fff" strokeWidth="3"><path d="M50 8v84M8 50h84M20 20l60 60M80 20L20 80" /></g><circle cx="50" cy="50" r="6" fill="#fff" /></svg>);
-  if (k === "orange") return (<svg viewBox="0 0 100 100" aria-hidden><circle cx="50" cy="50" r="46" fill="#ffb347" stroke="#fff3e0" strokeWidth="6" /><g stroke="#fff3e0" strokeWidth="3"><path d="M50 8v84M8 50h84M20 20l60 60M80 20L20 80" /></g></svg>);
-  if (k === "berry") return (<svg viewBox="0 0 100 100" aria-hidden><path d="M50 92C24 76 14 54 24 36c8-12 20-10 26-4 6-6 18-8 26 4 10 18 0 40-26 56z" fill="#ff4a6e" /><g fill="#ffd1da">{[[38, 46], [58, 46], [48, 62], [34, 62], [62, 62], [48, 78]].map(([x, y], i) => (<ellipse key={i} cx={x} cy={y} rx="2.800" ry="4" />))}</g><path d="M40 28c4-8 16-8 20 0-6-2-14-2-20 0z" fill="#3a8a3a" /></svg>);
-  return (<svg viewBox="0 0 100 100" aria-hidden><circle cx="38" cy="58" r="26" fill="#3b2a8a" /><circle cx="68" cy="50" r="22" fill="#4d38b0" /><circle cx="52" cy="76" r="14" fill="#2e2070" /><g fill="#9b8cf0"><path d="M38 52l4 4-4 4-4-4zM68 44l3 3-3 3-3-3z" /></g></svg>);
+const BOT: Record<string, { w: number; h: number; l: number; t: number; wd: number; ht: number }> = {"fresco": {"w": 599, "h": 923, "l": 27.4, "t": 47.8, "wd": 42.1, "ht": 38.6}, "vivo": {"w": 599, "h": 932, "l": 29.7, "t": 47.7, "wd": 40.7, "ht": 32.8}, "sol": {"w": 584, "h": 892, "l": 31.0, "t": 50.6, "wd": 38.7, "ht": 27.4}, "roxo": {"w": 388, "h": 972, "l": 2.6, "t": 49.6, "wd": 68.0, "ht": 31.3}};
+const Bottle = ({ c, w, k }: { c: string; w: string; k: string }) => {
+  const b = BOT[k]!;
+  return (
+    <div className="bot" style={{ aspectRatio: `${b.w} / ${b.h}` }}>
+      <img src={`/suco-${k}.webp`} alt={`Garrafa de suco ${w.toLowerCase()}`} width={b.w} height={b.h} />
+      <span className="lab" style={{ left: `${b.l}%`, top: `${b.t}%`, width: `${b.wd}%`, height: `${b.ht}%`, ["--c" as string]: c }}><b>GOTA</b><b>VIVA</b></span>
+    </div>
+  );
 };
-const Bottle = ({ c, w }: { c: string; w: string }) => (
-  <svg viewBox="0 0 120 300" className="bot" role="img" aria-label={`Garrafa de suco ${w.toLowerCase()}`}>
-    <ellipse cx="60" cy="290" rx="44" ry="8" fill="#000" opacity=".22" />
-    <rect x="40" y="6" width="40" height="26" rx="6" fill="#fff" />
-    <rect x="36" y="28" width="48" height="12" rx="4" fill="#eaeaea" />
-    <path d="M38 40h44c6 0 10 6 10 12v224c0 8-6 14-14 14H42c-8 0-14-6-14-14V52c0-6 4-12 10-12z" fill={c} />
-    <path d="M38 40h44c6 0 10 6 10 12v18H28V52c0-6 4-12 10-12z" fill="#000" opacity=".12" />
-    <rect x="28" y="110" width="64" height="120" fill="#fff" opacity=".94" />
-    <text x="60" y="150" textAnchor="middle" fontFamily="Oswald, sans-serif" fontWeight="700" fontSize="24" fill="#1d2a14">GOTA</text>
-    <text x="60" y="174" textAnchor="middle" fontFamily="Oswald, sans-serif" fontWeight="700" fontSize="24" fill={c}>VIVA</text>
-    <rect x="42" y="190" width="36" height="3" fill="#1d2a14" opacity=".6" /><rect x="46" y="200" width="28" height="3" fill="#1d2a14" opacity=".35" />
-    <path d="M40 56c-4 40-4 120 0 200" stroke="#fff" strokeWidth="5" strokeLinecap="round" opacity=".35" fill="none" />
-  </svg>
-);
 
 export function SucoFold({ client }: { client?: { name?: string; whatsapp?: string; city?: string } }) {
   const brand = client?.name?.trim() || "Gota Viva";
@@ -78,7 +68,7 @@ export function SucoFold({ client }: { client?: { name?: string; whatsapp?: stri
         .sj .pan .tx a{color:#fff;font-weight:700;font-size:13.5px;text-decoration:none;border-bottom:1.5px solid #fff;padding-bottom:1px}
         .sj .mid{position:relative;height:340px}
         .sj .word{position:absolute;left:50%;top:38px;transform:translateX(-50%);font-family:Oswald;font-weight:700;font-size:min(var(--fs),var(--fm));line-height:1;color:#fff;white-space:nowrap;letter-spacing:-.01em}
-        .sj .bot{position:absolute;left:50%;top:14px;width:104px;transform:translateX(-50%);z-index:2;filter:drop-shadow(0 14px 18px rgba(0,0,0,.25))}
+        .sj .bot{position:absolute;left:50%;top:22px;height:270px;transform:translateX(-50%);z-index:2;container-type:inline-size;filter:drop-shadow(0 14px 18px rgba(0,0,0,.22))}.sj .bot img{display:block;height:100%;width:auto}.sj .lab{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Oswald,sans-serif;font-weight:500;line-height:.95;font-size:11cqw;color:#1d2a14;letter-spacing:.02em}.sj .lab b{font-weight:500}.sj .lab b+b{color:var(--c)}
         .sj .fr{position:absolute;width:86px;z-index:3;right:6%;bottom:36px}
         .sj .rt{position:relative;z-index:3;justify-self:end;text-align:right;padding-top:34px}
         .sj .rt small{display:block;font-size:12.5px;opacity:.9;margin-bottom:12px}
@@ -113,7 +103,7 @@ export function SucoFold({ client }: { client?: { name?: string; whatsapp?: stri
         @media(max-width:760px){
           .sj .card{margin-top:0;width:100%;border-radius:0}
           .sj .links,.sj .nav .pill{display:none}.sj .burger{display:block}.sj .nav{padding:10px 12px 0 18px}
-          .sj .word{font-size:var(--ms);top:44px}.sj .mid{height:270px}.sj .bot{width:92px}.sj .fr{width:64px;bottom:20px}
+          .sj .word{font-size:var(--ms);top:44px}.sj .mid{height:270px}.sj .bot{height:240px;top:24px}
           .sj .pan{margin-top:-28px}.sj .wrap{padding:0 20px}.sj .sec,.sj .kits{padding:64px 0}.sj .cta{padding:70px 20px}
           .sj .foot{grid-template-columns:1fr 1fr;padding:30px 20px}
         }
@@ -132,7 +122,7 @@ export function SucoFold({ client }: { client?: { name?: string; whatsapp?: stri
           {PANELS.map((p, i) => (
             <div className="pan" key={p.w} style={{ background: `linear-gradient(110deg, ${p.a}, ${p.b} 70%)`, zIndex: i + 1 }}>
               <div className="tx"><h3>{p.flavor}</h3><p>{p.desc}</p><a href={wa(`saber mais do suco ${p.w.toLowerCase()}`)} target="_blank" rel="noreferrer">Ver ingredientes</a></div>
-              <div className="mid"><div className="word" style={{ ["--fs" as string]: p.w.length > 5 ? "12.6vw" : "16vw", ["--fm" as string]: p.w.length > 5 ? "158px" : "205px", ["--ms" as string]: p.w.length > 5 ? "22vw" : "27vw" }}>{p.w}</div><Bottle c={p.bot} w={p.w} /><div className="fr"><Fruit k={p.fruit} /></div></div>
+              <div className="mid"><div className="word" style={{ ["--fs" as string]: p.w.length > 5 ? "12.6vw" : "16vw", ["--fm" as string]: p.w.length > 5 ? "158px" : "205px", ["--ms" as string]: p.w.length > 5 ? "22vw" : "27vw" }}>{p.w}</div><Bottle c={p.a} w={p.w} k={p.w.toLowerCase()} /></div>
               <div className="rt">
                 <small>Sabor {p.flavor.toLowerCase()}</small>
                 <div className="sz">{SIZES.map((s, k) => (<button key={s} type="button" className={sel[i] === k ? "on" : ""} onClick={() => setSel((a) => a.map((v, j) => (j === i ? k : v)))}>{s.replace(" ", "\n")}</button>))}</div>
