@@ -41,7 +41,8 @@ export function CinzaFold({ client }: { client?: { name?: string; whatsapp?: str
         .cz .left .blk{padding:44px 40px 0}
         .cz .left h2{font-size:18px;color:#e9e7e4;margin-bottom:6px}
         .cz .car{position:relative;height:230px;margin-top:18px;background:#1a1a1a url(/cinza-vasos.webp) center 80%/cover no-repeat}
-        .cz .dots{display:flex;gap:6px;position:absolute;left:50%;bottom:10px;transform:translateX(-50%)}.cz .dots i{width:4px;height:4px;border-radius:50%;background:#fff;opacity:.5}.cz .dots i:first-child{opacity:1}
+        .cz .car:after{content:"";position:absolute;right:0;top:0;bottom:0;width:21%;background:#1a1a1a url(/cinza-copo.webp) center/cover no-repeat;border-left:1px solid #2a2927}
+        .cz .dots{z-index:2;display:flex;gap:6px;position:absolute;left:50%;bottom:10px;transform:translateX(-50%)}.cz .dots i{width:4px;height:4px;border-radius:50%;background:#fff;opacity:.5}.cz .dots i:first-child{opacity:1}
         .cz .pcs{margin-top:18px}.cz .pc{display:flex;justify-content:space-between;gap:16px;border-top:1px solid #3c3a37;padding:12px 0}
         .cz .pc h3{font-size:12px;letter-spacing:.14em;color:#e9e7e4}.cz .pc p{font-size:12px;line-height:1.55;color:#a9a7a3;margin:4px 0 0;font-weight:300;letter-spacing:0}.cz .pc b{font-weight:300;letter-spacing:.1em;color:${CL};font-size:12px;white-space:nowrap}
         .cz .more{display:inline-flex;gap:12px;align-items:center;margin-top:20px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#d8d6d2;text-decoration:none;cursor:pointer}.cz .more:after{content:"";width:46px;border-top:1px solid #d8d6d2}
@@ -62,7 +63,7 @@ export function CinzaFold({ client }: { client?: { name?: string; whatsapp?: str
         .cz nav.top .links{display:flex;gap:16px}.cz nav.top a{color:#d8d6d2;text-decoration:none;cursor:pointer;padding-bottom:3px;border-bottom:1px solid transparent}.cz nav.top a.on{border-color:#d8d6d2;color:#fff}
         .cz nav.top .lg{font-weight:300;color:#fff;font-size:9px}.cz .burger{display:none;background:none;border:0;color:#fff;font-size:26px;cursor:pointer}
         .cz .mob{position:fixed;inset:0;z-index:20;background:#1b1b1b;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:30px;font-size:15px;letter-spacing:.2em;text-transform:uppercase}.cz .mob a{color:#fff;cursor:pointer}
-        .cz .hero{position:relative;color:#f3f2f0;background:linear-gradient(180deg,#2d2e30 0,#2d2e30 43%,rgba(45,46,48,0) 64%),url(/cinza-hero.webp) center bottom/100% auto no-repeat,#e9e9e8;padding:150px 0 0}
+        .cz .hero{position:relative;color:#f3f2f0;background:linear-gradient(180deg,#2d2e30 0,#2d2e30 43%,rgba(45,46,48,0) 64%),url(/cinza-hero.webp) 45% 100%/135% auto no-repeat,#e9e9e8;padding:150px 0 0}
         .cz .hero .in{padding:0 12%;position:relative;z-index:2}
         .cz .hero h1{font-size:clamp(24px,2.8vw,34px);color:#f3f2f0;line-height:1.15}
         .cz .hero p{margin:12px 0 22px;font-size:11px;letter-spacing:.04em;color:#bdbbb7;font-weight:300}
@@ -75,7 +76,7 @@ export function CinzaFold({ client }: { client?: { name?: string; whatsapp?: str
         .cz footer{background:#2a2826;padding:22px 20px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:${MU}}.cz footer .wrap{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
         .cz .wa{position:fixed;right:22px;bottom:22px;width:56px;height:56px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;z-index:15;box-shadow:0 8px 22px rgba(0,0,0,.4)}
         @media(max-width:860px){
-          .cz .stage{grid-template-columns:1fr;padding:0 0 30px;display:flex;flex-direction:column}
+          .cz .stage{grid-template-columns:1fr;padding:0;background:#2a2826;display:flex;flex-direction:column}
           .cz .right{order:1;margin:0;box-shadow:none}.cz .left{order:2;margin:0}
           .cz nav.top{padding:18px 20px;font-size:10px}.cz nav.top .links{display:none}.cz .burger{display:block}
           .cz .hero{padding-top:110px}.cz .hero .in{padding:0 24px}.cz .fil{padding:30px 24px 40px}.cz .fil .cols{grid-template-columns:1fr;gap:18px}
