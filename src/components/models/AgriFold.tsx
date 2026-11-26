@@ -26,7 +26,7 @@ export function AgriFold({ client }: { client?: { name?: string; whatsapp?: stri
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
         .ag0 *{box-sizing:border-box}.ag0 a,.ag0 button{font-family:inherit;text-decoration:none;color:inherit}
-        .ag0 h1,.ag0 h2,.ag0 h3{font-family:'Plus Jakarta Sans',system-ui,sans-serif !important;font-weight:600 !important;letter-spacing:-.02em;text-transform:none;margin:0}
+        .ag0 h1,.ag0 h2,.ag0 h3{font-family:'Plus Jakarta Sans',system-ui,sans-serif !important;font-weight:500 !important;letter-spacing:-.02em;text-transform:none;margin:0}
         .ag0 .wrap{max-width:1180px;margin:0 auto;padding:0 32px}
         .ag0 .hero{position:relative;min-height:760px;display:flex;flex-direction:column;background:#10230f}
         .ag0 .hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% center}
