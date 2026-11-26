@@ -45,9 +45,9 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
       <style>{`
         .yga h1,.yga h2,.yga h3{font-family:${serif}!important;font-weight:500;letter-spacing:-.01em;line-height:1.06;text-wrap:balance}
         .yga .wrap{max-width:1140px;margin:0 auto;padding:0 28px}
-        .yga .btn{display:inline-flex;align-items:center;gap:10px;background:${OL};color:#fff;font-weight:700;font-size:15px;padding:16px 30px;border-radius:999px;text-decoration:none;border:none;cursor:pointer;transition:.2s;letter-spacing:.3px}
+        .yga .btn{font-family:'Karla',system-ui,sans-serif;display:inline-flex;align-items:center;gap:10px;background:${OL};color:#fff;font-weight:700;font-size:15px;padding:16px 30px;border-radius:999px;text-decoration:none;border:none;cursor:pointer;transition:.2s;letter-spacing:.3px}
         .yga .btn:hover{background:${DK};transform:translateY(-2px)}
-        .yga .btn-o{text-decoration:none;display:inline-flex;align-items:center;gap:10px;background:none;color:${OL};border:1.5px solid ${OL};font-weight:700;font-size:15px;padding:15px 28px;border-radius:999px;cursor:pointer;transition:.2s}
+        .yga .btn-o{font-family:'Karla',system-ui,sans-serif;text-decoration:none;display:inline-flex;align-items:center;gap:10px;background:none;color:${OL};border:1.5px solid ${OL};font-weight:700;font-size:15px;padding:15px 28px;border-radius:999px;cursor:pointer;transition:.2s}
         .yga .btn-o:hover{background:rgba(74,82,48,.08)}
         .yga .eyebrow{display:inline-flex;align-items:center;gap:8px;color:${CLAY_TXT};font-weight:700;font-size:12px;letter-spacing:2.5px;text-transform:uppercase}
         .yga .eyebrow::before{content:"●";font-size:8px}
@@ -55,6 +55,8 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
         .yga .hov:hover{transform:translateY(-4px);box-shadow:0 18px 40px -24px rgba(46,51,32,.45);border-color:rgba(185,138,94,.6)!important}
         .yga .hero-comp{min-height:700px}
         @media (max-width:900px){
+          .yga .g3y{grid-template-columns:1fr!important}
+          .yga .g4y{grid-template-columns:1fr 1fr!important}
           .yga .hero-g{grid-template-columns:1fr!important}
           .yga .hor-g{grid-template-columns:1fr!important;gap:32px!important}
           .yga .desk-nav{display:none!important}
@@ -121,7 +123,7 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
         <div className="wrap">
           <span className="eyebrow">Aulas</span>
           <h2 style={{ marginTop: 12, fontSize: "clamp(30px,3.6vw,44px)", color: DK }}>Descubra a sua prática</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(250px,1fr))", gap: 18, marginTop: 36 }}>
+          <div className="g4y" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 18, marginTop: 36 }}>
             {CLASSES.map((c, i) => (
               <article key={c.t} className="hov" style={{ borderRadius: 20, border: `1px solid ${CRM2}`, background: CRM, padding: "26px 24px 24px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10 }}>
@@ -163,7 +165,7 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
         <div className="wrap">
           <span className="eyebrow">Planos</span>
           <h2 style={{ marginTop: 12, fontSize: "clamp(30px,3.6vw,44px)", color: DK }}>Comece do seu jeito</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 18, marginTop: 36 }}>
+          <div className="g3y" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 18, marginTop: 36 }}>
             {PLANS.map((p) => (
               <article key={p.t} className="hov" style={{ background: "#fff", borderRadius: 22, padding: "30px 26px", border: p.hot ? `2px solid ${OL}` : `1px solid ${CRM2}`, position: "relative" }}>
                 {p.hot && <span style={{ position: "absolute", top: -13, left: 24, background: OL, color: "#fff", fontSize: 11.5, fontWeight: 800, letterSpacing: 1.2, padding: "5px 14px", borderRadius: 999 }}>MAIS ESCOLHIDO</span>}
@@ -187,7 +189,7 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
         <div className="wrap">
           <span className="eyebrow">Depoimentos</span>
           <h2 style={{ marginTop: 12, fontSize: "clamp(30px,3.6vw,44px)", color: DK }}>Quem pratica, sente</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(270px,1fr))", gap: 20, marginTop: 36 }}>
+          <div className="g3y" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20, marginTop: 36 }}>
             {TESTI.map((t) => (
               <figure key={t.n} className="hov" style={{ background: CRM, borderRadius: 20, padding: "28px 26px", border: `1px solid ${CRM2}`, display: "flex", flexDirection: "column", gap: 14 }}>
                 <span style={{ fontFamily: serif, fontSize: 46, lineHeight: .6, color: CLAY }}>"</span>
