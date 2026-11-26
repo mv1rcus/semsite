@@ -83,7 +83,7 @@ export function HelenaFold({ client }: { client?: { name?: string; whatsapp?: st
         .helena .bullet b{font-weight:500;color:${GOLDL}}
         .helena .diamond{flex:none;width:7px;height:7px;background:${GOLD};transform:rotate(45deg);margin-top:9px}
         @media (max-width: 900px){
-          .helena .grid2{grid-template-columns:1fr;gap:40px}
+          .helena .grid2{grid-template-columns:1fr!important;gap:40px}
           .helena .feats{grid-template-columns:1fr 1fr}
           .helena .feat + .feat{border-left:none}
           .helena .feat{border-top:1px solid ${LINE}}
@@ -217,8 +217,8 @@ export function HelenaFold({ client }: { client?: { name?: string; whatsapp?: st
             <p className="bullet"><span className="diamond" aria-hidden /><span><b>Neurociência</b> – Atualmente dentro da psicologia, o conhecimento sobre a neurociência dos principais problemas e transtornos torna o atendimento muito mais assertivo.</span></p>
           </div>
           <div style={{ position: "relative" }}>
-            <div aria-hidden style={{ position: "absolute", inset: "8% 0 0 22%", background: BEGE, clipPath: "polygon(34% 0, 100% 0, 100% 100%, 0 100%)" }} />
-            <div style={{ position: "relative", maxWidth: 380, marginLeft: "auto" }}>
+            <div aria-hidden style={{ position: "absolute", inset: "8% -3% 0 10%", background: BEGE, clipPath: "polygon(30% 0, 100% 0, 100% 100%, 0 100%)" }} />
+            <div style={{ position: "relative", maxWidth: 360, marginLeft: "auto", marginTop: "8%", marginRight: "4%" }}>
               <Ph src="/psico-sobre.jpg" alt="Psicóloga sentada em poltrona clara sorrindo, roupa em tom bege" ratio="4/5" />
               <div style={{ position: "absolute", top: -34, left: -34, transform: "rotate(-8deg)" }}><Selo size={110} /></div>
             </div>
