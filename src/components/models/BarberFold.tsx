@@ -1,7 +1,7 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /** Barbearia nova, construida do zero a partir de um pin claro e elegante (creme, preto e dourado). Agendamento de verdade em 4 passos que fecha no WhatsApp. */
-const INK = "#141414", GOLD = "#a98457", CREAM = "#faf8f4", SAND = "#f1ede6", DARK = "#16211e";
+const INK = "#141414", GOLD = "#7d5c2e", CREAM = "#faf8f4", SAND = "#f1ede6", DARK = "#16211e";
 const SERVICES = [
   { id: "corte", n: "Corte", p: 55, min: 40, img: "/barber-s1.webp" },
   { id: "barba", n: "Barba", p: 40, min: 30, img: "/barber-s2.webp" },
@@ -9,13 +9,13 @@ const SERVICES = [
   { id: "kids", n: "Corte infantil", p: 45, min: 30, img: "/barber-s4.webp" },
 ];
 const EXTRA = [{ n: "Corte + Barba", p: 85 }, { n: "Sobrancelha", p: 15 }, { n: "Pigmentação", p: 50 }, { n: "Hidratação capilar", p: 35 }];
-const TEAM = [{ n: "Rafael", r: "Degradês e navalhado", img: "/barber-b1.webp" }, { n: "Thiago", r: "Cortes modernos", img: "/barber-b2.webp" }, { n: "Seu Marcos", r: "Barba e clássicos", img: "/barber-b3.webp" }];
+const TEAM = [{ n: "Rafael", r: "Degradês e navalhado", img: "/barber-b1.webp" }, { n: "Thiago", r: "Cortes modernos", img: "/barber-b2.webp" }, { n: "Seu Nilton", r: "Barba e clássicos", img: "/barber-b3.webp" }];
 const TIMES = ["09:00", "10:00", "11:00", "13:30", "14:30", "15:30", "16:30", "18:00"];
 const brl = (v: number) => `R$ ${v.toFixed(0)}`;
 const DOW = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
 
 const Ic = ({ d, s = 28 }: { d: string; s?: number }) => (
-  <svg width={s} height={s} viewBox="0 0 32 32" fill="none" stroke={GOLD} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d={d} /></svg>
+  <svg width={s} height={s} viewBox="0 0 32 32" fill="none" stroke={GOLD} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d={d} /></svg>
 );
 const I = {
   chair: "M10 4h12v12H10zM8 16h16v5H8zM16 21v6M10 27h12",
@@ -53,6 +53,8 @@ export function BarberFold({ client }: { client?: { name?: string; whatsapp?: st
   const [time, setTime] = useState("");
   const [cust, setCust] = useState("");
   const [menu, setMenu] = useState(false);
+  const [sc, setSc] = useState(false);
+  useEffect(() => { const f = () => setSc(window.scrollY > 600); f(); window.addEventListener("scroll", f, { passive: true }); return () => window.removeEventListener("scroll", f); }, []);
   const car = useRef<HTMLDivElement>(null);
   const days = useRef(nextDays()).current;
   const all = [...SERVICES.map((s) => ({ n: s.n, p: s.p })), ...EXTRA];
@@ -86,7 +88,8 @@ export function BarberFold({ client }: { client?: { name?: string; whatsapp?: st
         .bf .heroimg{position:absolute;top:0;right:0;bottom:0;width:66%;background:url(/barber-hero.webp) 60% center/cover}
         .bf .heroimg:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,${CREAM} 0%,rgba(250,248,244,.85) 12%,rgba(250,248,244,0) 42%)}
         .bf .herotxt{position:relative;z-index:2;padding:70px 0 80px;max-width:480px}
-        .bf .eyebrow{font-size:12.5px;letter-spacing:3px;text-transform:uppercase;color:${GOLD};font-weight:500}
+        .bf .eyebrow{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:${GOLD};font-weight:600}
+        .bf .trio .a .eyebrow{color:#dcbd88}
         .bf h1{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(50px,6.6vw,86px);line-height:1;margin:22px 0 0;letter-spacing:-1px}
         .bf h1 em{font-style:normal;color:${GOLD}}
         .bf .rule{width:42px;height:2px;background:${GOLD};margin:28px 0 24px}
@@ -99,8 +102,8 @@ export function BarberFold({ client }: { client?: { name?: string; whatsapp?: st
         .bf .featgrid{display:grid;grid-template-columns:repeat(4,1fr)}
         .bf .f{display:flex;gap:16px;align-items:center;padding:34px 26px;border-right:1px solid #ddd6ca}
         .bf .f:last-child{border:0}
-        .bf .f b{display:block;font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
-        .bf .f span.s{font-size:14px;line-height:1.5;color:#555}
+        .bf .f b{display:block;font-size:13.5px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;margin-bottom:5px}
+        .bf .f span.s{font-size:15px;line-height:1.5;color:#3a3a3a}
         .bf .sec{padding:84px 0}
         .bf h2{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(36px,4.4vw,52px);line-height:1.08;margin:14px 0 0}
         .bf h2 em{font-style:normal;color:${GOLD}}
@@ -113,7 +116,7 @@ export function BarberFold({ client }: { client?: { name?: string; whatsapp?: st
         .bf .sc .b{padding:18px 20px 20px;background:#f3f0ea}
         .bf .sc .b b{font-size:13.5px;letter-spacing:1.6px;text-transform:uppercase;font-weight:600;display:block}
         .bf .sc .b span{display:block;margin-top:8px;font-size:15px}
-        .bf .sc .b i{display:block;width:22px;height:2px;background:${GOLD};margin-top:12px}
+        .bf .sc .b .ag{display:block;margin-top:14px;padding-top:12px;border-top:1px solid #d6cfc1;font-size:12.5px;letter-spacing:1.6px;text-transform:uppercase;font-weight:600;text-decoration:none;color:${INK}}
         .bf .ar{width:44px;height:44px;border-radius:50%;border:1px solid ${INK};background:transparent;cursor:pointer;font-size:18px}
         .bf .ar:hover{background:${INK};color:#fff}
         .bf .trio{display:grid;grid-template-columns:.85fr 1.1fr 1fr}
@@ -132,7 +135,7 @@ export function BarberFold({ client }: { client?: { name?: string; whatsapp?: st
         .bf .row{display:flex;align-items:baseline;gap:12px;padding:20px 0;border-bottom:1px solid #ddd6ca;font-size:16px}
         .bf .row b{font-weight:500}
         .bf .row small{color:#777;font-size:13px}
-        .bf .row .dots{flex:1;border-bottom:1px dotted #bdb5a6;transform:translateY(-4px)}
+        .bf .row .dots{flex:1;border-bottom:2px dotted #8f8776;transform:translateY(-4px)}
         .bf .row .pr{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600}
         .bf footer{background:#fff;border-top:1px solid #e8e2d8;padding:60px 0 28px}
         .bf .fg{display:grid;grid-template-columns:1.1fr .8fr 1.1fr 1.2fr;gap:0}
@@ -200,7 +203,7 @@ export function BarberFold({ client }: { client?: { name?: string; whatsapp?: st
               <button type="button" className="btn o" onClick={() => go("servicos")}>Ver serviços</button>
             </div>
             <div className="happy">
-              <div className="avs">{[["#8a6a4a", "R"], ["#4a5a52", "M"], ["#6b4a3a", "J"], ["#3a3a3a", "P"]].map(([c, l]) => <span key={l} style={{ background: c }}>{l}</span>)}</div>
+              
               <div>1.200+ clientes<br /><span style={{ color: "#c9962e", letterSpacing: 2, fontSize: 14 }}>★★★★★</span></div>
             </div>
           </div>
@@ -208,8 +211,8 @@ export function BarberFold({ client }: { client?: { name?: string; whatsapp?: st
       </section>
 
       <section className="feat"><div className="wrap featgrid">
-        {[[I.chair, "Barbeiros experts", "Profissionais que cuidam de cada detalhe."], [I.razor, "Produtos premium", "Só usamos produtos de primeira linha."], [I.cal, "Agenda fácil", "Marque em segundos, sem fila de espera."], [I.shield, "Higiene em 1º lugar", "Material esterilizado a cada cliente."]].map(([d, t, s]) => (
-          <div className="f" key={t}><Ic d={d as string} s={34} /><div><b>{t}</b><span className="s">{s}</span></div></div>
+        {[[I.chair, "Barbeiros especialistas", "Profissionais que cuidam de cada detalhe."], [I.razor, "Produtos premium", "Só usamos produtos de primeira linha."], [I.cal, "Agenda fácil", "Marque em segundos, sem fila de espera."], [I.shield, "Higiene em 1º lugar", "Material esterilizado a cada cliente."]].map(([d, t, s]) => (
+          <div className="f" key={t}><Ic d={d as string} s={44} /><div><b>{t}</b><span className="s">{s}</span></div></div>
         ))}
       </div></section>
 
@@ -225,7 +228,7 @@ export function BarberFold({ client }: { client?: { name?: string; whatsapp?: st
             {SERVICES.map((s) => (
               <button type="button" className="sc" key={s.id} onClick={() => start(s.n)}>
                 <img src={s.img} alt={s.n} loading="lazy" />
-                <div className="b"><b>{s.n}</b><span>{brl(s.p)} · {s.min} min</span><i /></div>
+                <div className="b"><b>{s.n}</b><span>{brl(s.p)} · {s.min} min</span><u className="ag">Agendar →</u></div>
               </button>
             ))}
           </div>
@@ -284,7 +287,7 @@ export function BarberFold({ client }: { client?: { name?: string; whatsapp?: st
         <p style={{ textAlign: "center", color: "#8a8478", fontSize: 13, marginTop: 44, display: "block" }}>© 2026 {brand}. Todos os direitos reservados.</p>
       </div></footer>
 
-      <a className="wa" href={`https://wa.me/${num}`} target="_blank" rel="noreferrer" aria-label="WhatsApp"><svg width="30" height="30" viewBox="0 0 32 32" fill="#fff"><path d="M16 3a13 13 0 0 0-11 19.8L3 29l6.4-1.9A13 13 0 1 0 16 3zm0 2.4a10.6 10.6 0 1 1-5.6 19.6l-.4-.2-3.8 1.1 1.2-3.7-.3-.4A10.6 10.6 0 0 1 16 5.4zm-4 5.2c-.3 0-.7.1-1 .5-.4.4-1.300 1.300-1.300 3.100s1.400 3.600 1.500 3.800c.2.200 2.700 4.200 6.600 5.700 3.300 1.300 4 1 4.700.9.700-.1 2.300-.9 2.600-1.800.3-.9.300-1.600.2-1.800-.1-.2-.4-.3-.8-.5l-2.400-1.200c-.3-.1-.6-.2-.8.200-.2.300-.9 1.100-1.100 1.300-.2.200-.4.300-.7.100-.4-.2-1.500-.6-2.800-1.700-1-.9-1.700-2-1.900-2.400-.2-.4 0-.6.200-.8l.5-.6c.2-.2.200-.4.400-.6.100-.3.100-.5 0-.7l-1.100-2.700c-.3-.7-.6-.6-.8-.6z" /></svg></a>
+      {sc && <a className="wa" href={`https://wa.me/${num}`} target="_blank" rel="noreferrer" aria-label="WhatsApp"><svg width="30" height="30" viewBox="0 0 32 32" fill="#fff"><path d="M16 3a13 13 0 0 0-11 19.8L3 29l6.4-1.9A13 13 0 1 0 16 3zm0 2.4a10.6 10.6 0 1 1-5.6 19.6l-.4-.2-3.8 1.1 1.2-3.7-.3-.4A10.6 10.6 0 0 1 16 5.4zm-4 5.2c-.3 0-.7.1-1 .5-.4.4-1.300 1.300-1.300 3.100s1.400 3.600 1.500 3.800c.2.200 2.700 4.200 6.600 5.700 3.300 1.300 4 1 4.700.9.700-.1 2.300-.9 2.600-1.800.3-.9.300-1.600.2-1.800-.1-.2-.4-.3-.8-.5l-2.400-1.200c-.3-.1-.6-.2-.8.200-.2.300-.9 1.100-1.100 1.300-.2.200-.4.300-.7.100-.4-.2-1.500-.6-2.800-1.700-1-.9-1.700-2-1.900-2.400-.2-.4 0-.6.200-.8l.5-.6c.2-.2.200-.4.400-.6.100-.3.100-.5 0-.7l-1.100-2.700c-.3-.7-.6-.6-.8-.6z" /></svg></a>}
 
       {open && (
         <div className="ov" onClick={(e) => e.target === e.currentTarget && setOpen(false)} role="dialog" aria-modal="true" aria-label="Agendar horário">
