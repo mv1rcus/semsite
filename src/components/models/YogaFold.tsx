@@ -58,6 +58,10 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
           .yga .nav-c{display:none!important}
           .yga .sobre-foto{min-height:380px!important}
           .yga .hero-tt{font-size:clamp(44px,13vw,64px)!important}
+          .yga .hero-sec{min-height:100svh!important}
+          .yga .hero-img{object-position:60% 72%!important}
+          .yga .hero-ov{background:linear-gradient(180deg, ${CRM}fc 0%, ${CRM}f5 40%, ${CRM}d9 55%, ${CRM}8c 70%, ${CRM}4d 100%)!important}
+          .yga .hero-k{font-size:11px!important;letter-spacing:2px!important}
         }
         @media (max-width:560px){
           .yga .g4y{grid-template-columns:1fr!important}
@@ -78,11 +82,11 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
       </header>
 
       {/* HERO full-bleed */}
-      <section style={{ position: "relative", minHeight: "92vh", display: "flex", alignItems: "center", overflow: "hidden" }}>
-        <img src="/raiz-hero.jpg" alt={`Prática de yoga no ${brand}`} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "70% 30%" }} />
-        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(100deg, ${CRM}f2 0%, ${CRM}d9 30%, ${CRM}66 52%, transparent 70%)` }} />
+      <section className="hero-sec" style={{ position: "relative", minHeight: "92vh", display: "flex", alignItems: "center", overflow: "hidden" }}>
+        <img className="hero-img" src="/raiz-hero.jpg" alt={`Prática de yoga no ${brand}`} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "70% 30%" }} />
+        <div className="hero-ov" style={{ position: "absolute", inset: 0, background: `linear-gradient(100deg, ${CRM}f2 0%, ${CRM}d9 30%, ${CRM}66 52%, transparent 70%)` }} />
         <div className="wrap" style={{ position: "relative", zIndex: 2, width: "100%", paddingTop: 90, paddingBottom: 60 }}>
-          <p style={{ margin: "0 0 22px", fontWeight: 700, fontSize: 12, letterSpacing: 3, textTransform: "uppercase", color: DK }}>Corpo forte. Mente calma. Melhor você.</p>
+          <p className="hero-k" style={{ margin: "0 0 22px", fontWeight: 700, fontSize: 12, letterSpacing: 3, textTransform: "uppercase", color: DK }}>Corpo forte. Mente calma. Melhor você.</p>
           <h1 className="hero-tt" style={{ margin: 0, fontSize: "clamp(54px,7.2vw,102px)", color: DK }}>
             Mova.<br />Respire.<br />Torne-se.
           </h1>
