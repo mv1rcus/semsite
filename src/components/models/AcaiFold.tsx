@@ -9,12 +9,14 @@ const COMBOS = [
   { n: "Combo Tropical", s: "Açaí com manga, maracujá e coco", p: "R$ 20", img: "/acai-combo4.jpg", tag: "Refrescante" },
 ];
 const TOPS = [
-  { n: "Leite condensado", img: "/acai-top1.jpg" },
-  { n: "Nutella", img: "/acai-top2.jpg" },
-  { n: "Morango picado", img: "/acai-top3.jpg" },
-  { n: "Granola crocante", img: "/acai-top4.jpg" },
+  { img: "/acai-top1.jpg", alt: "Leite condensado cremoso", n: "Leite condensado" },
+  { img: "/acai-top5.jpg", alt: "Pote de leite em pó com colher de madeira", n: "Leite em pó" },
+  { img: "/acai-top2.jpg", alt: "Nutella sendo mexida", n: "Nutella" },
+  { img: "/acai-top3.jpg", alt: "Morangos frescos picados", n: "Morango picado" },
+  { img: "/acai-top6.jpg", alt: "Mousse de maracujá com sementes frescas", n: "Mousse de maracujá" },
+  { img: "/acai-top7.jpg", alt: "Calda de chocolate escorrendo no copo", n: "Calda de chocolate" },
 ];
-const EXTRA = ["Leite em pó", "Maracujá", "Banana", "Coco ralado", "Paçoca", "Ovomaltine", "Chantilly", "Calda de chocolate"];
+const EXTRA = ["Maracujá", "Banana", "Coco ralado", "Paçoca", "Ovomaltine", "Chantilly"];
 const CHECK = "M7 16l6 6L26 9";
 const Ic = ({ d, s = 22, c = "currentColor" }: { d: string; s?: number; c?: string }) => (
   <svg width={s} height={s} viewBox="0 0 32 32" fill="none" stroke={c} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d={d} /></svg>
@@ -49,6 +51,8 @@ export function AcaiFold({ client }: { client?: { name?: string; whatsapp?: stri
         .aca .hov:hover{transform:translateY(-4px);box-shadow:0 20px 44px -22px rgba(74,10,44,.5)}
         @media (max-width:900px){
           .aca .hero-sec{min-height:100svh!important}
+          .aca .tops-g{grid-template-columns:1fr 1fr!important}
+          .aca .promo-b{grid-template-columns:1fr!important}
           .aca .hero-img{object-position:66% 50%!important}
           .aca .hero-ov{background:linear-gradient(180deg, ${MAGD}fa 0%, ${MAG}ee 42%, ${MAG}c4 66%, ${MAG}77 100%)!important}
           .aca .g4{grid-template-columns:1fr 1fr!important}
@@ -60,6 +64,7 @@ export function AcaiFold({ client }: { client?: { name?: string; whatsapp?: stri
         @media (max-width:560px){
           .aca .g4{grid-template-columns:1fr!important}
           .aca .tops-g{grid-template-columns:1fr 1fr!important}
+          .aca .promo-b{grid-template-columns:1fr!important}
         }
       `}</style>
 
@@ -128,10 +133,8 @@ export function AcaiFold({ client }: { client?: { name?: string; whatsapp?: stri
 
       {/* promoções */}
       <section id="promos" style={{ padding: "70px 0", background: "#fff" }}>
-        <div className="wrap">
-          <span className="eyebrow" style={{ color: MAGL }}>Promoções</span>
-          <h2 style={{ marginTop: 12, fontSize: "clamp(32px,4vw,48px)", color: MAGD }}>Hmmm... nesse calor o que mais combina?</h2>
-          <div className="promo-g" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginTop: 36 }}>
+        <div className="wrap promo-g" style={{ display: "grid", gridTemplateColumns: "1.9fr 1fr", gap: 36, alignItems: "center" }}>
+          <div className="promo-b" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
             <figure className="hov" style={{ position: "relative", borderRadius: 22, overflow: "hidden", minHeight: 340 }}>
               <img src="/acai-promo1.jpg" alt="Copo gigante de açaí transbordando de toppings" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
               <div style={{ position: "absolute", inset: 0, background: "linear-gradient(10deg, rgba(74,10,44,.88) 20%, rgba(74,10,44,.15) 65%)" }} />
@@ -151,28 +154,33 @@ export function AcaiFold({ client }: { client?: { name?: string; whatsapp?: stri
               </figcaption>
             </figure>
           </div>
+          <div>
+            <span className="eyebrow" style={{ color: MAGL }}>Promoções</span>
+            <h2 style={{ marginTop: 12, fontSize: "clamp(30px,3.4vw,44px)", color: MAGD }}>Hmmm... nesse calor o que mais combina?</h2>
+            <a className="btn" style={{ marginTop: 24 }} href={wa("Olá! Quero aproveitar as promoções do " + brand + ".")}>Fazer pedido →</a>
+          </div>
         </div>
       </section>
 
       {/* monte seu açaí */}
-      <section id="monte" style={{ padding: "84px 0", background: `linear-gradient(120deg, ${MAGD} 0%, ${MAG} 100%)`, color: "#fff" }}>
+      <section id="monte" style={{ padding: "84px 0", background: CRM }}>
         <div className="wrap monte-g" style={{ display: "grid", gridTemplateColumns: ".9fr 1.1fr", gap: 48, alignItems: "center" }}>
           <div>
-            <span className="eyebrow">Monte seu açaí</span>
-            <h2 style={{ marginTop: 12, fontSize: "clamp(32px,4.2vw,52px)", color: YEL }}>Quem manda é você</h2>
-            <p style={{ marginTop: 16, fontSize: 16.5, lineHeight: 1.7, color: "rgba(255,246,248,.85)" }}>
+            <span className="eyebrow" style={{ color: MAGL }}>Monte seu açaí</span>
+            <h2 style={{ marginTop: 12, fontSize: "clamp(32px,4.2vw,52px)", color: MAGD }}>Quem manda é você</h2>
+            <p style={{ marginTop: 16, fontSize: 16.5, lineHeight: 1.7, color: MUT }}>
               Monte o seu açaí do jeito que quiser: escolha a base, os acompanhamentos e a calda. Confira a variedade que temos pra montar um açaí do seu jeito.
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 22 }}>
-              {EXTRA.map((e) => <span key={e} style={{ fontSize: 13, fontWeight: 700, color: "#fff", border: "1px solid rgba(255,255,255,.35)", borderRadius: 999, padding: "7px 14px" }}>{e}</span>)}
+              {EXTRA.map((e) => <span key={e} style={{ fontSize: 13, fontWeight: 700, color: MAG, border: "1px solid rgba(107,15,63,.3)", borderRadius: 999, padding: "7px 14px" }}>{e}</span>)}
             </div>
             <a className="btn" style={{ marginTop: 28 }} href={wa("Olá! Quero montar meu açaí no " + brand + ".")}>Montar o meu →</a>
           </div>
-          <div className="tops-g" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div className="tops-g" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16 }}>
             {TOPS.map((t) => (
-              <figure key={t.n} className="hov" style={{ borderRadius: 18, overflow: "hidden", background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.14)" }}>
-                <img src={t.img} alt={t.n} style={{ width: "100%", aspectRatio: "1/1", objectFit: "cover" }} />
-                <figcaption style={{ padding: "12px 14px", fontWeight: 700, fontSize: 14, color: "#fff" }}>{t.n}</figcaption>
+              <figure key={t.n} className="hov" style={{ borderRadius: 18, overflow: "hidden", background: "#fff", border: "1px solid rgba(107,15,63,.14)", boxShadow: "0 12px 28px -20px rgba(74,10,44,.35)" }}>
+                <img src={t.img} alt={t.alt || t.n} style={{ width: "100%", aspectRatio: "1/1", objectFit: "cover" }} />
+                <figcaption style={{ padding: "12px 14px", fontWeight: 700, fontSize: 14, color: MAGD }}>{t.n}</figcaption>
               </figure>
             ))}
           </div>
