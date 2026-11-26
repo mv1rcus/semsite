@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 /** Academia nova, construida do zero a partir de um pin escuro em preto e verde limao. Aula experimental em 3 passos que fecha no WhatsApp. */
-const L = "#c8f230", BK = "#0a0b0a", CARD = "#141614", LINE = "#262a26", MUT = "#a3aaa3";
+const L = "#c8f230", BK = "#0a0b0a", CARD = "#141614", LINE = "#262a26", MUT = "#c3c9c3";
 const CL = [
   { n: "Musculação", d: "Treino de força com acompanhamento.", img: "/gym-t1.webp" },
   { n: "Yoga e mobilidade", d: "Flexibilidade, postura e foco.", img: "/gym-t2.webp" },
@@ -14,7 +14,7 @@ const FEAT = [
   { t: "Planos flexíveis", d: "Sem fidelidade", ic: "M4 8h24v18H4zM4 14h24M10 4v6M22 4v6" },
   { t: "Comunidade", d: "Treine junto", ic: "M11 14a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM21 14a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM3 26c0-5 4-7 8-7s8 2 8 7M19 20c4 0 10 1 10 6" },
 ];
-const STATS = [["10 mil+", "Alunos ativos"], ["7", "Anos de história"], ["98%", "Satisfação"], ["50+", "Aulas por semana"]];
+const STATS = [["10 mil+", "Alunos ativos"], ["12", "Modalidades"], ["98%", "Satisfação"], ["50+", "Aulas por semana"]];
 const TR = [
   { n: "Rafael Souza", r: "Musculação e força", img: "/gym-c1.webp" },
   { n: "Carla Mendes", r: "Funcional e yoga", img: "/gym-c2.webp" },
@@ -103,7 +103,7 @@ export function GymFold({ client }: { client?: { name?: string; whatsapp?: strin
         .gf .cl:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.88))}
         .gf .cl div{position:absolute;left:18px;right:18px;bottom:16px;z-index:2}
         .gf .cl b{font-family:'Barlow Condensed',sans-serif;font-size:26px;text-transform:uppercase;display:block}
-        .gf .cl span{font-size:14px;color:#cfd5cf;display:block;margin:2px 0 8px}
+        .gf .cl span{font-size:14.5px;color:#e2e6e2;display:block;margin:2px 0 8px;min-height:44px}
         .gf .cl u{text-decoration:none;color:${L};font-weight:600;font-size:14px}
         .gf .aboutgrid{display:grid;grid-template-columns:1.05fr 1fr;gap:54px;align-items:center}
         .gf .aimg{position:relative}.gf .aimg img{width:100%;aspect-ratio:16/11;object-fit:cover;border-radius:20px;display:block;border:1px solid ${LINE}}
@@ -174,7 +174,7 @@ export function GymFold({ client }: { client?: { name?: string; whatsapp?: strin
             <div style={{ alignSelf: "center", paddingBottom: 30 }}>
               <span className="kick">Mais forte · Mais saudável · {city}</span>
               <h1>Seu corpo,<br /><em>nossa prioridade</em></h1>
-              <p className="lead">Treine com orientação de verdade, aparelhos modernos e um ambiente que te empurra para frente. Sua primeira aula é por nossa conta.</p>
+              <p className="lead">Treine com orientação de verdade, aparelhos modernos e um ambiente que te empurra para frente. Sua primeira aula é por nossa conta. Planos a partir de R$ 89/mês.</p>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
                 <button type="button" className="btn" onClick={() => start()}>Começar agora <span aria-hidden>→</span></button>
                 <button type="button" className="btn o" onClick={() => go("aulas")}>Ver aulas</button>
@@ -203,7 +203,7 @@ export function GymFold({ client }: { client?: { name?: string; whatsapp?: strin
 
       <section className="sec" id="sobre" style={{ paddingTop: 20 }}><div className="wrap">
         <div className="aboutgrid">
-          <div className="aimg"><img src="/gym-wide.webp" alt="Salão de musculação" loading="lazy" /><div className="chip2"><b>7 anos</b>de história</div></div>
+          <div className="aimg"><img src="/gym-wide.webp" alt="Salão de musculação" loading="lazy" /><div className="chip2"><b>1ª aula</b>grátis</div></div>
           <div>
             <div className="eyebrow">Sobre a {brand}</div>
             <h2>Construindo uma versão <em>mais forte</em> de você</h2>
@@ -236,7 +236,7 @@ export function GymFold({ client }: { client?: { name?: string; whatsapp?: strin
           </div>
           <div className="ctab">
             <h3>Pronto pra <em>transformar</em> seu corpo?</h3>
-            <p>Agende sua aula experimental e conheça a academia.</p>
+            <p>Agende sua aula experimental grátis. Planos a partir de <b style={{ color: L }}>R$ 89/mês</b>, sem fidelidade.</p>
             <div><button type="button" className="btn" onClick={() => start()}>Quero treinar <span aria-hidden>→</span></button></div>
           </div>
         </div>
