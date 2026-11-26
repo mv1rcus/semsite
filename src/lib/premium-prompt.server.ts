@@ -30,7 +30,7 @@ const SECTIONS: Record<PremiumKey, string> = {
   suco: "painéis coloridos empilhados com palavra gigante branca atrás da garrafa, seletor de tamanho com preço, passos, kits em cards e CTA final",
   adega: "hero creme com garrafa, uvas e taça, título serifado espaçado, bloco de boas-vindas com foto do salão, quatro pilares com ícones de traço, três cards escuros com fotos e faixa bordô de reserva",
   agritech: "hero escuro com foto de lavoura, título branco e lima, barra de números, painel de monitoramento ao vivo, quatro cards de soluções, dashboard de fazenda com mapa e faixa final com foto de mãos",
-  estetica: "clinica de estetica com hero editorial claro, tratamentos em cards e agendamento pelo WhatsApp",
+  drones: "hero escuro ciano com drone e título itálico, faixa de quatro diferenciais, cards inclinados de missões, quatro cards de acessórios, sistema de voo explodido e faixa de montagem do kit", estetica: "clinica de estetica com hero editorial claro, tratamentos em cards e agendamento pelo WhatsApp",
   bike: "hero branco com mancha amarela e ciclista em traço preto, título gigante, serviços em cards com sombra amarela, bikes em cards, tabela de oficina com pontilhado e faixa amarela de passeios",
   joalheria: "hero em duas colunas com foto de modelo, coleção em grade com abas, ateliê lado a lado, cesta com gravação",
   padaria: "hero com foto de pão e título grande em serifa, cards de pães, processo lado a lado, encomenda com retirada",
