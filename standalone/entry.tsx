@@ -1,4 +1,5 @@
 import { PneuNeon } from "@/components/models/PneuNeon";
+import { HoraExata } from "@/components/models/HoraExata";
 import { SorvGlassFold } from "@/components/models/SorvGlassFold";
 import { DancaFold } from "@/components/models/DancaFold";
 import { EspacoFold } from "@/components/models/EspacoFold";
@@ -97,6 +98,7 @@ declare const __MODEL__: string;
 const cfg = (window as unknown as { __SEMSITE__: { client: { name?: string; whatsapp?: string; city?: string } } }).__SEMSITE__;
 const root = createRoot(document.getElementById("root")!);
 if (__MODEL__ === "passo-alto") root.render(<PassoAltoFold client={cfg.client} />);
+else if (__MODEL__ === "hora-exata") root.render(<HoraExata client={cfg.client} />);
 else if (__MODEL__ === "lumina-odontologia") root.render(<LuminaFold client={cfg.client} />);
 else if (__MODEL__ === "voltar-pneus") root.render(<PneuNeon client={cfg.client} />);
 else if (__MODEL__ === "neve-doce") root.render(<SorvGlassFold client={cfg.client} />);
