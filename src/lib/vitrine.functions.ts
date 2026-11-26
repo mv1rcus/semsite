@@ -44,6 +44,7 @@ export const listVitrine = createServerFn({ method: "GET" })
   });
 
 const HTML_LOADERS: Record<string, () => Promise<{ default: string }>> = {
+  "neve-doce": () => import("./standalone-html/neve-doce.html?raw"),
   "fluxo-urbano": () => import("./standalone-html/fluxo-urbano.html?raw"),
   "recanto-verde": () => import("./standalone-html/recanto-verde.html?raw"),
   "aurora-lima": () => import("./standalone-html/aurora-lima.html?raw"),
