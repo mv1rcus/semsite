@@ -205,12 +205,12 @@ export function DentalFold({ client }: { client?: { name?: string; whatsapp?: st
         {[["Convênios", "Atendemos os principais planos. Consulte pelo WhatsApp."], ["Pagamento", "Pix, cartão e parcelamento em até 12x."], ["Horário", "Segunda a sexta, das 8h às 18h."]].map(([t, x]) => (<div key={t}><b>{t}</b><span>{x}</span></div>))}
       </div></div>
 
-      <section className="sec" id="clinica" style={{ paddingTop: 30 }}><div className="wrap aboutgrid" style={{ gridTemplateColumns: undefined }}>
+      <section className="sec" id="clinica" style={{ paddingTop: 30 }}><div className="wrap aboutgrid" style={{ gridTemplateColumns: ".8fr 1.2fr" }}>
         <div className="photo">
           <img className="p" src="/dent-clinic.webp" alt="Dentista atendendo paciente" loading="lazy" />
           <div className="safe"><Ic d="M16 3l11 4v8c0 7-5 12-11 14C10 27 5 22 5 15V7zM11 16l4 4 7-8" s={34} /><div><b>Seguro e confiável</b>Desde 2010</div></div>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 24, alignItems: "center" }} className="abwrap">
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, alignItems: "center" }} className="abwrap">
           <div className="abt">
             <span className="tag">Sobre a {brand}</span>
             <h2>Sua clínica de <em>confiança</em></h2>
