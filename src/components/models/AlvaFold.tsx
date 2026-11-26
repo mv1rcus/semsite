@@ -45,6 +45,8 @@ export function AlvaFold({ client }: { client?: { name?: string; whatsapp?: stri
         .alva .pill:hover{opacity:.88}
         .alva .pill-d{background:${INK};color:#f5f0ea}
         .alva .pill-c{background:${CRM};color:${INK}}
+        .alva .pill-g{background:${GOLD};color:#fff}
+        .alva .pill-o{background:transparent;color:${INK};border:1px solid rgba(43,33,24,.3)}
         .alva .navlink{background:none;border:none;color:${INK};font:400 12px 'Jost',sans-serif;letter-spacing:.12em;cursor:pointer;opacity:.75}
         .alva .navlink:hover{opacity:1}
         .alva .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
@@ -63,7 +65,7 @@ export function AlvaFold({ client }: { client?: { name?: string; whatsapp?: stri
           .alva .band > div:first-child{aspect-ratio:auto!important;min-height:560px}
           .alva .duo{grid-template-columns:1fr!important}
           .alva .serif-xl{font-size:42px!important}
-          .alva .hero-photo{max-width:440px;margin:0 auto}
+          .alva .hero-photo{max-width:440px;margin:0 auto;width:100%}
           .alva .seals{grid-template-columns:repeat(2,1fr)}
           .alva .seal + .seal{border-left:none}
           .alva .badge{right:0;bottom:-20px;width:104px;height:104px}
@@ -83,7 +85,7 @@ export function AlvaFold({ client }: { client?: { name?: string; whatsapp?: stri
               <button key={n} className="navlink">{n}</button>
             ))}
           </nav>
-          <button className="pill pill-d" style={{ padding: "12px 24px" }} onClick={() => book(`Olá! Quero agendar uma avaliação na ${brand}.`)}>AGENDAR</button>
+          <button className="pill pill-o" style={{ padding: "12px 24px" }} onClick={() => book(`Olá! Quero agendar uma avaliação na ${brand}.`)}>AGENDAR</button>
         </div>
       </header>
 
@@ -96,7 +98,7 @@ export function AlvaFold({ client }: { client?: { name?: string; whatsapp?: stri
             <div style={{ width: 44, height: 2, background: GOLD, margin: "30px 0" }} />
             <p style={{ fontSize: 15, lineHeight: 1.8, color: MUT, maxWidth: 420, margin: 0 }}>Tratamentos estéticos personalizados, desenhados para revelar a sua beleza natural e elevar a sua confiança.</p>
             <div style={{ marginTop: 36 }}>
-              <button className="pill pill-d" onClick={() => book(`Olá! Quero agendar uma avaliação na ${brand}.`)}>AGENDAR AVALIAÇÃO</button>
+              <button className="pill pill-g" onClick={() => book(`Olá! Quero agendar uma avaliação na ${brand}.`)}>AGENDAR AVALIAÇÃO</button>
             </div>
           </div>
           <div className="hero-photo" style={{ position: "relative" }}>
@@ -147,7 +149,7 @@ export function AlvaFold({ client }: { client?: { name?: string; whatsapp?: stri
             <p className="caps" style={{ color: "#efe7db" }}>BELEZA. CONFIANÇA. VOCÊ.</p>
             <h2 className="serif" style={{ fontSize: 46, lineHeight: 1.14, color: "#fff", margin: "20px 0 0" }}>A CONFIANÇA<br />COMEÇA<br />COM VOCÊ.</h2>
             <div style={{ width: 44, height: 2, background: "#fff", opacity: .7, margin: "26px 0" }} />
-            <button className="pill pill-c" onClick={() => book(`Olá! Quero agendar uma avaliação na ${brand}.`)}>AGENDE SUA AVALIAÇÃO →</button>
+            <button className="pill pill-g" onClick={() => book(`Olá! Quero agendar uma avaliação na ${brand}.`)}>AGENDE SUA AVALIAÇÃO →</button>
           </div>
         </div>
       </section>
