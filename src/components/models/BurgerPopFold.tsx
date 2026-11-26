@@ -208,8 +208,8 @@ export function BurgerPopFold({ client }: { client?: { name?: string; whatsapp?:
         .bp .torn.rr{top:calc(72% - 39px);z-index:1}.bp .torn.b{bottom:-1px}.bp .torn.t{top:-1px}.bp .torn.bo{bottom:-1px} .bp .torn{z-index:3}
         .bp .fresh{padding:6px 0 14px}
         .bp .fresh h2{font-weight:800}
-        .bp .orange{position:relative;background:#d9942a;padding:0}
-        .bp .trio{display:block;width:100%;max-width:1440px;aspect-ratio:3.15/1;object-fit:cover;object-position:50% 0%;margin:0 auto}
+        .bp .orange{position:relative;background:radial-gradient(ellipse 70% 90% at 50% 45%,#f0a840 0%,#e69a33 55%,#d58a28 100%);padding:0;min-height:44vw;display:flex;align-items:center;justify-content:center}
+        .bp .trio{display:block;width:86%;max-width:1240px;aspect-ratio:1370/430;object-fit:cover;object-position:50% 0%;margin:0 auto;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%),linear-gradient(180deg,transparent 0,#000 8%,#000 95%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%),linear-gradient(180deg,transparent 0,#000 8%,#000 95%,transparent 100%);mask-composite:intersect}
         .bp .trio-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
         .bp .chip{background:#fff;color:${INK};border:0;border-radius:999px;padding:11px 18px;font-weight:800;font-size:13.5px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.15)}
         .bp .chip:hover{background:${CR}}
@@ -231,15 +231,15 @@ export function BurgerPopFold({ client }: { client?: { name?: string; whatsapp?:
         @media(max-width:860px){
           .bp .hsh{background:linear-gradient(180deg,rgba(40,6,8,.7),rgba(40,6,8,.5) 60%,rgba(40,6,8,.55))}
           .bp .hin2{padding-bottom:90px}.bp .hcopy{padding:30px 0 10px}
-          .bp .orange{padding:0}
+          .bp .orange{min-height:70vw}.bp .trio{width:96%}
         }
         .bp .fresh,.bp .orange{overflow:hidden;position:relative}
         .bp .fl{position:absolute;pointer-events:none;z-index:1;filter:drop-shadow(0 10px 14px rgba(60,20,0,.25))}
         .bp .f1{width:120px;left:4%;top:36px;transform:rotate(-18deg)}
         .bp .f2{width:130px;right:7%;top:70px;transform:rotate(12deg)}
         .bp .f3{width:100px;right:19%;bottom:26px;transform:rotate(25deg)}
-        .bp .f4{width:90px;left:6%;bottom:90px;transform:rotate(-20deg)}
-        .bp .f5{width:105px;right:5%;top:100px;transform:rotate(30deg)}
+        .bp .f4{width:90px;left:12%;bottom:12%;transform:rotate(-20deg)}
+        .bp .f5{width:105px;right:11%;top:14%;transform:rotate(30deg)}
         .bp .orange .wrap,.bp .fresh .wrap{position:relative;z-index:2}
         @media(max-width:860px){.bp .f1{width:70px;left:-14px;top:14px}.bp .f2{width:80px;right:-10px;top:20px}.bp .f3{display:none}.bp .f4{width:60px;left:-8px;bottom:70px}.bp .f5{width:70px;right:-10px;top:40px}}
         @media(prefers-reduced-motion:reduce){.bp *{transition:none!important}}
@@ -283,7 +283,7 @@ export function BurgerPopFold({ client }: { client?: { name?: string; whatsapp?:
         <svg className="torn t" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden><path d="M0 0L0 29 L24 33 L48 29 L72 30 L96 30 L120 31 L144 31 L168 30 L192 34 L216 28 L240 34 L264 33 L288 28 L312 28 L336 33 L360 29 L384 30 L408 27 L432 27 L456 31 L480 27 L504 31 L528 28 L552 32 L576 30 L600 33 L624 32 L648 25 L672 33 L696 30 L720 27 L744 31 L768 30 L792 31 L816 34 L840 33 L864 26 L888 31 L912 32 L936 27 L960 31 L984 32 L1008 25 L1032 29 L1056 32 L1080 27 L1104 30 L1128 28 L1152 26 L1176 32 L1200 27 L1224 30 L1248 31 L1272 29 L1296 30 L1320 31 L1344 34 L1368 26 L1392 29 L1416 30 L1440 25 L1440 0Z" fill={CR} /></svg>
         <img className="fl f4" src="/bp-tomate.webp" alt="" aria-hidden loading="lazy" />
         <img className="fl f5" src="/bp-pimentao.webp" alt="" aria-hidden loading="lazy" />
-        <div style={{ position: "relative", zIndex: 2 }}>
+        <div style={{ position: "relative", zIndex: 2, width: "100%" }}>
           <img className="trio" src="/bp-trio.webp" alt="Três hambúrgueres suspensos sobre fundo laranja" loading="lazy" />
         </div>
         <svg className="torn bo" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden><path d="M0 40L0 11 L24 7 L48 11 L72 10 L96 10 L120 9 L144 9 L168 10 L192 6 L216 12 L240 6 L264 7 L288 12 L312 12 L336 7 L360 11 L384 10 L408 13 L432 13 L456 9 L480 13 L504 9 L528 12 L552 8 L576 10 L600 7 L624 8 L648 15 L672 7 L696 10 L720 13 L744 9 L768 10 L792 9 L816 6 L840 7 L864 14 L888 9 L912 8 L936 13 L960 9 L984 8 L1008 15 L1032 11 L1056 8 L1080 13 L1104 10 L1128 12 L1152 14 L1176 8 L1200 13 L1224 10 L1248 9 L1272 11 L1296 10 L1320 9 L1344 6 L1368 14 L1392 11 L1416 10 L1440 15 L1440 40Z" fill={CR} /></svg>
