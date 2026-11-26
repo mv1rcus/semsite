@@ -99,7 +99,7 @@ export function FarmaciaSaviaFold({ client }: { client?: { name?: string; whatsa
         .fa .grid{display:grid;grid-template-columns:240px 1fr;gap:12px;margin-top:16px}
         .fa .box{border:1px solid ${LN};margin-bottom:12px}
         .fa .bh{background:${LIME};color:#fff;font-size:13px;font-weight:500;letter-spacing:.02em;padding:11px 14px;text-transform:uppercase}
-        .fa .ct a{display:flex;justify-content:space-between;padding:9px 14px;font-size:12px;color:#666;border-bottom:1px solid #f0f0f0;cursor:pointer}
+        .fa .ct a{display:flex;justify-content:space-between;padding:11px 14px;font-size:12px;color:#666;border-bottom:1px solid #f0f0f0;cursor:pointer}
         .fa .ct a:last-child{border:0}
         .fa .soc2{display:flex;gap:8px;margin:18px 0 6px}.fa .soc2 a{width:26px;height:26px;border-radius:50%;background:#96d33f;display:flex;align-items:center;justify-content:center}
         .fa .bn{position:relative;aspect-ratio:2/1;background-color:#fff}
@@ -109,21 +109,21 @@ export function FarmaciaSaviaFold({ client }: { client?: { name?: string; whatsa
         .fa .pm h3{font-size:24px;font-weight:400;line-height:1.1}
         .fa .pm h2{font-size:46px;font-weight:500;line-height:1.05;letter-spacing:-.02em}
         .fa .pm p{margin:4px 0 0;font-size:11px;opacity:.95}
-        .fa .sl{display:grid;grid-template-columns:62px 1fr;gap:12px;align-items:center;padding:12px;border-bottom:1px solid #f0f0f0;font-size:12px}
-        .fa .sl img{width:62px;height:62px;object-fit:contain}
+        .fa .sl{display:grid;grid-template-columns:70px 1fr;gap:12px;align-items:center;padding:20px 12px;border-bottom:1px solid #f0f0f0;font-size:12px}
+        .fa .sl img{width:70px;height:70px;object-fit:contain}
         .fa .sl span{display:block;margin-bottom:3px}.fa .sl b{font-weight:700;font-size:13px;margin-right:6px}
         .fa .sl s,.fa .pr s{color:#aaa;font-size:10px}
-        .fa .va{padding:10px 12px;text-align:right}.fa .va a{display:inline-block;border:1px solid ${LN};padding:7px 12px;font-size:11px;color:#555;cursor:pointer}
+        .fa .va{padding:14px 12px;text-align:right}.fa .va a{display:inline-block;border:1px solid ${LN};padding:7px 12px;font-size:11px;color:#555;cursor:pointer}
         .fa .stars{display:block;font-size:11px;letter-spacing:1px;margin-top:3px}.fa .stars i{font-style:normal}
-        .fa .row{display:grid;grid-template-columns:42px 1fr;border:1px solid ${LN};margin-bottom:14px}
+        .fa .row{display:grid;grid-template-columns:42px 1fr;border:1px solid ${LN};margin-bottom:22px}
         .fa .vt{writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.04em;border-left:1px solid ${LN};background:#fafafa;padding:14px 0}
         .fa .tabs{display:flex;gap:16px;padding:12px 18px;border-bottom:1px solid ${LN};font-size:11px;color:#555}
         .fa .tabs b{font-weight:500;color:#222;cursor:pointer}.fa .tabs span{cursor:pointer}.fa .tabs .on{color:${LIME}}
         .fa .pcs{display:grid;grid-template-columns:repeat(3,1fr)}
-        .fa .pc{position:relative;padding:18px 14px 16px;text-align:center;border-right:1px solid #f0f0f0;font-size:11px}
+        .fa .pc{position:relative;padding:28px 14px 32px;text-align:center;border-right:1px solid #f0f0f0;font-size:11px}
         .fa .pc:last-child{border:0}
         .fa .sale{position:absolute;left:14px;top:14px;background:${BLUE};color:#fff;font-size:10px;padding:2px 6px;z-index:1}
-        .fa .pim{height:168px;display:flex;align-items:center;justify-content:center}.fa .pim img{max-height:168px;max-width:168px;object-fit:contain}
+        .fa .pim{height:196px;display:flex;align-items:center;justify-content:center}.fa .pim img{max-height:196px;max-width:196px;object-fit:contain}
         .fa .pc h4{font-size:11px;font-weight:500;color:#444;margin:10px 0 5px;line-height:1.35}
         .fa .pr b{font-size:13px;font-weight:700;margin-right:5px}
         .fa .add{margin:10px 0 8px;background:${LIME};color:#fff;border:0;padding:8px 18px;font:500 10px Ubuntu,system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase;cursor:pointer}
@@ -134,7 +134,7 @@ export function FarmaciaSaviaFold({ client }: { client?: { name?: string; whatsa
         .fa .bar .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
         .fa .bar h3{font-size:15px;font-weight:500;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:12px}
         .fa .bar p{margin:0;font-size:11px;line-height:1.55;opacity:.95}
-        .fa .ft{padding:34px 0 20px}
+        .fa .ft{padding:56px 0 40px}
         .fa .fg{display:grid;grid-template-columns:repeat(5,1fr);gap:24px;font-size:11px;color:#777}
         .fa .fg h4{font-size:12px;color:#222;font-weight:700;margin-bottom:14px}
         .fa .fg a{display:block;margin-bottom:9px;cursor:pointer}
