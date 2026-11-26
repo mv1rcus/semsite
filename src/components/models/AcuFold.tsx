@@ -99,12 +99,7 @@ export function AcuFold({ client }: { client?: { name?: string; whatsapp?: strin
           </div>
           {/* composicao CSS: arco com meridiano + card flutuante */}
           <div className="hero-art" style={{ position: "relative", minHeight: 430 }}>
-            <div style={{ position: "absolute", top: 0, right: 10, width: 300, height: 400, borderRadius: "150px 150px 18px 18px", background: "linear-gradient(170deg, rgba(247,243,234,.12), rgba(247,243,234,.04))", border: "1px solid rgba(201,164,92,.4)" }} />
-            <svg viewBox="0 0 200 320" style={{ position: "absolute", top: 46, right: 84, width: 150, height: 300, opacity: .9 }} aria-hidden>
-              <path d="M100 20 C100 90 100 200 100 300" fill="none" stroke="#c9a45c" strokeWidth="1.6" strokeDasharray="2 8" />
-              {[40, 90, 140, 190, 240].map((y, k) => <g key={k}><circle cx="100" cy={y} r="6" fill="none" stroke="#c9a45c" strokeWidth="1.6" /><circle cx="100" cy={y} r="2" fill="#c9a45c" /></g>)}
-              <path d="M100 90 C60 110 44 150 40 190 M100 140 C140 160 156 200 160 240" fill="none" stroke="#c9a45c" strokeWidth="1.2" strokeDasharray="2 7" opacity=".6" />
-            </svg>
+            <img src="/meridian-arco.webp" alt="Sessão de acupuntura na Clínica Meridian" style={{ position: "absolute", top: 0, right: 10, width: 300, height: 400, objectFit: "cover", borderRadius: "150px 150px 18px 18px", border: "1px solid rgba(201,164,92,.55)", boxShadow: "0 30px 60px -30px rgba(0,0,0,.55)" }} />
             <div style={{ position: "absolute", bottom: 0, left: 0, right: 60, background: "#fff", borderRadius: 16, padding: "22px 24px", color: INK, boxShadow: "0 26px 56px -26px rgba(0,0,0,.5)" }}>
               <span style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: 2, color: GD, textTransform: "uppercase" }}>Resultados dos pacientes</span>
               <div style={{ display: "flex", gap: 26, marginTop: 12 }}>
@@ -175,7 +170,7 @@ export function AcuFold({ client }: { client?: { name?: string; whatsapp?: strin
           <div style={{ background: NV, borderRadius: 18, padding: "34px 30px", color: "#fff", position: "relative", overflow: "hidden" }}>
             <div style={{ position: "absolute", inset: 0, background: "radial-gradient(420px 240px at 88% 0%, rgba(201,164,92,.18), transparent 60%)" }} />
             <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
-              <span style={{ width: 64, height: 64, borderRadius: "50%", background: GD, color: NV2, display: "grid", placeItems: "center", fontFamily: serif, fontStyle: "italic", fontSize: 26 }}>HV</span>
+              <img src="/meridian-helena.webp" alt="Dra. Helena Vaz, fundadora e acupunturista" style={{ width: 64, height: 64, borderRadius: "50%", objectFit: "cover", objectPosition: "center 20%", border: "2px solid rgba(201,164,92,.6)" }} />
               <span><strong style={{ fontSize: 17, display: "block" }}>Dra. Helena Vaz</strong><span style={{ fontSize: 13, color: GD, fontWeight: 600 }}>Fundadora e acupunturista</span></span>
             </div>
             <p style={{ position: "relative", fontFamily: serif, fontStyle: "italic", fontSize: 21, lineHeight: 1.5, color: "rgba(255,255,255,.88)", marginBottom: 20 }}>"Agulha nenhuma substitui escuta. O tratamento começa quando o paciente é ouvido de verdade."</p>
