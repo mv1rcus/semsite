@@ -75,7 +75,7 @@ export function getStripeErrorMessage(error: unknown): string {
   return 'Stripe request failed';
 }
 
-export async function verifyWebhook(req: Request, env: StripeEnv): Promise<{ type: string; data: { object: any } }> {
+export async function verifyWebhook(req: Request, env: StripeEnv): Promise<{ id: string; type: string; data: { object: any } }> {
   const signature = req.headers.get("stripe-signature");
   const body = await req.text();
   const secret = env === 'sandbox'
@@ -117,7 +117,13 @@ export async function verifyWebhook(req: Request, env: StripeEnv): Promise<{ typ
   );
   const expected = Array.from(new Uint8Array(signed)).map((b) => b.toString(16).padStart(2, "0")).join("");
 
-  if (!v1Signatures.includes(expected)) {
+  const { timingSafeEqual } = await import("node:crypto");
+  const expectedBuf = Buffer.from(expected, "utf8");
+  const matches = v1Signatures.some((sig) => {
+    const buf = Buffer.from(sig, "utf8");
+    return buf.length === expectedBuf.length && timingSafeEqual(buf, expectedBuf);
+  });
+  if (!matches) {
     throw new Error("Invalid webhook signature");
   }
 
