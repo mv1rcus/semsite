@@ -48,6 +48,7 @@ export function AcuFold({ client }: { client?: { name?: string; whatsapp?: strin
   return (
     <div className="acu" style={{ fontFamily: "'Jost', system-ui, sans-serif", color: INK, background: CRM, overflowX: "hidden" }}>
       <style>{`
+        body{background:#0c1d38}
         .acu h1,.acu h2,.acu h3{font-family:${serif}!important;font-weight:600;letter-spacing:0;text-decoration:none!important}
         .acu blockquote,.acu figure{margin:0}
         .acu .wrap{max-width:1140px;margin:0 auto;padding:0 28px}
@@ -99,7 +100,7 @@ export function AcuFold({ client }: { client?: { name?: string; whatsapp?: strin
           </div>
           {/* composicao CSS: arco com meridiano + card flutuante */}
           <div className="hero-art" style={{ position: "relative", minHeight: 430 }}>
-            <img src="/meridian-arco.webp" alt="Sessão de acupuntura na Clínica Meridian" style={{ position: "absolute", top: 0, right: 10, width: 300, height: 400, objectFit: "cover", borderRadius: "150px 150px 18px 18px", border: "1px solid rgba(201,164,92,.55)", boxShadow: "0 30px 60px -30px rgba(0,0,0,.55)" }} />
+            <img src="/meridian-arco.webp" alt="Sessão de acupuntura na Clínica Meridian" style={{ position: "absolute", top: 0, right: 10, width: 300, height: 400, objectFit: "cover", objectPosition: "center 28%", borderRadius: "150px 150px 18px 18px", border: "1px solid rgba(201,164,92,.55)", boxShadow: "0 30px 60px -30px rgba(0,0,0,.55)" }} />
             <div style={{ position: "absolute", bottom: 0, left: 0, right: 60, background: "#fff", borderRadius: 16, padding: "22px 24px", color: INK, boxShadow: "0 26px 56px -26px rgba(0,0,0,.5)" }}>
               <span style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: 2, color: GD, textTransform: "uppercase" }}>Resultados dos pacientes</span>
               <div style={{ display: "flex", gap: 26, marginTop: 12 }}>
@@ -232,7 +233,7 @@ export function AcuFold({ client }: { client?: { name?: string; whatsapp?: strin
       </section>
 
       {/* footer */}
-      <footer style={{ background: NV2, color: "rgba(255,255,255,.5)", borderTop: "1px solid rgba(201,164,92,.2)", padding: "34px 0" }}>
+      <footer style={{ background: NV2, color: "rgba(255,255,255,.72)", borderTop: "1px solid rgba(201,164,92,.2)", padding: "34px 0" }}>
         <div className="wrap" style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 14, fontSize: 13.5 }}>
           <span style={{ fontFamily: serif, fontSize: 21, color: "#fff" }}>{brand}<span style={{ color: GD }}>.</span></span>
           <span>{city} · Acupuntura e medicina tradicional chinesa</span>
