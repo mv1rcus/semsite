@@ -1,4 +1,4 @@
-export type PremiumKey = "poster" | "salao" | "pet" | "advocacia" | "oficina" | "imobiliaria" | "hamburgueria" | "pizzaria" | "barbearia" | "academia" | "restaurante" | "dentista" | "cafeteria" | "coworking" | "floricultura" | "tatuagem" | "psicologia" | "escola";
+export type PremiumKey = "poster" | "salao" | "pet" | "advocacia" | "oficina" | "imobiliaria" | "hamburgueria" | "pizzaria" | "barbearia" | "academia" | "restaurante" | "dentista" | "cafeteria" | "coworking" | "floricultura" | "tatuagem" | "psicologia" | "escola" | "otica";
 export type PremiumModel = { id: string; ramo: PremiumKey; ramoLabel: string; style: string; name: string; city: string; cover: string; accent: string; tags: string[] };
 
 export const img = (id: string, w = 1200, h?: number) => `https://images.unsplash.com/${id}?w=${w}${h ? `&h=${h}` : ""}&q=75&auto=format&fit=crop`;
@@ -12,7 +12,7 @@ export const PHOTO = {
   bread: "photo-1509440159596-0249088772ff", clinic: "photo-1519494026892-80bbd2d6fd0d",
 } as const;
 
-const LIVE_PREMIUM = ["brasa-e-pao", "focinho-feliz", "dom-navalha", "sorriso-verde", "forca-viva", "grao-e-prosa", "toledo-azevedo", "tinta-rara", "studio-era", "marina-costa", "casa-petala", "ponte-ingles", "fluxo-cowork"]; // modelos refeitos no padrao novo e liberados
+const LIVE_PREMIUM = ["brasa-e-pao", "focinho-feliz", "dom-navalha", "sorriso-verde", "forca-viva", "grao-e-prosa", "toledo-azevedo", "tinta-rara", "studio-era", "marina-costa", "casa-petala", "ponte-ingles", "fluxo-cowork", "otica-prisma"]; // modelos refeitos no padrao novo e liberados
 const ALL_PREMIUM: PremiumModel[] = [
   { id: "brasa-e-pao", ramo: "hamburgueria", ramoLabel: "Hamburgueria", style: "Escuro com tipo gigante atrás do burger recortado", name: "Brasa&Pão", city: "Campinas", cover: "/brasa-cover.jpg", accent: "#ff5a1f", tags: ["hamburguer", "burger", "lanchonete", "smash", "escuro", "delivery"] },
   { id: "focinho-feliz", ramo: "pet", ramoLabel: "Pet shop", style: "Claro e verde, loja com carrinho e ofertas", name: "Focinho Feliz", city: "Curitiba", cover: "/pet-cover.jpg", accent: "#16491c", tags: ["pet", "petshop", "racao", "cachorro", "loja", "verde", "claro", "ecommerce"] },
@@ -24,6 +24,7 @@ const ALL_PREMIUM: PremiumModel[] = [
   { id: "ponte-ingles", ramo: "escola", ramoLabel: "Escola de inglês", style: "Verde profundo com tipo gigante, adesivos coloridos e aula experimental", name: "Ponte Inglês", city: "Curitiba", cover: "/ingles-cover.jpg", accent: "#2a8a63", tags: ["escola", "ingles", "idiomas", "curso", "educacao", "verde", "colorido", "agendamento"] },
   { id: "toledo-azevedo", ramo: "advocacia", ramoLabel: "Advocacia", style: "Azul marinho e dourado, com consulta agendada", name: "Toledo & Azevedo", city: "Recife", cover: "/law-cover.jpg", accent: "#c9a24b", tags: ["advogado", "advocacia", "juridico", "escritorio", "azul", "dourado", "agendamento"] },
   { id: "tinta-rara", ramo: "tatuagem", ramoLabel: "Estúdio de tatuagem", style: "Escuro com turquesa, arco no hero e agendamento", name: "Tinta Rara", city: "Salvador", cover: "/tat-cover.jpg", accent: "#1dbb9a", tags: ["tatuagem", "tattoo", "tatuador", "estudio", "escuro", "turquesa", "agendamento", "piercing"] },
+  { id: "otica-prisma", ramo: "otica", ramoLabel: "Ótica", style: "Claro em creme com serifada e botão preto", name: "Ótica Prisma", city: "Fortaleza", cover: "/opt-cover.jpg", accent: "#1d1a16", tags: ["otica", "oculos", "grau", "sol", "lentes", "claro", "creme", "agendamento"] },
   { id: "studio-era", ramo: "salao", ramoLabel: "Salão de beleza", style: "Rosé claro com tipo gigante, cards escuros e antes e depois", name: "Studio Era", city: "Belo Horizonte", cover: "/salao-cover.jpg", accent: "#e8a0ab", tags: ["salao", "beleza", "cabelo", "cabeleireiro", "estetica", "claro", "rosa", "agendamento"] },
   { id: "marina-costa", ramo: "psicologia", ramoLabel: "Psicologia", style: "Claro em creme e marrom, consultório acolhedor com agendamento", name: "Marina Costa", city: "Santos", cover: "/psy-cover.jpg", accent: "#8a6a4e", tags: ["psicologa", "psicologia", "terapia", "infantil", "crianca", "claro", "marrom", "agendamento", "saude"] },
   { id: "casa-petala", ramo: "floricultura", ramoLabel: "Floricultura", style: "Claro em rosa, buquês e carrinho que fecha no WhatsApp", name: "Casa Pétala", city: "Recife", cover: "/flor-cover.jpg", accent: "#d94d78", tags: ["floricultura", "flores", "buque", "presente", "claro", "rosa", "ecommerce"] },
@@ -51,7 +52,7 @@ const SYN: Record<string, string> = {
   hamburgueria: "hamburgueria hamburguer hambúrguer burger lanche lanchonete smash", pizzaria: "pizzaria pizza pizzaiolo forno", barbearia: "barbearia barbeiro barba corte cabelo masculino",
   academia: "academia musculação treino fitness crossfit", restaurante: "restaurante comida almoço jantar gastronomia", dentista: "dentista odontologia odonto clínica sorriso saúde",
   floricultura: "floricultura flores florista buquê buque rosas presente",
-  coworking: "coworking cowork escritório compartilhado sala de reunião espaço de trabalho", cafeteria: "cafeteria café padaria confeitaria doceria", tatuagem: "tatuagem tattoo tatuador tatuadora estúdio piercing tinta", psicologia: "psicologia psicologa psicóloga terapia terapeuta infantil criança mental saúde consultório", poster: "hamburgueria hamburguer hambúrguer burger lanche smash pôster", salao: "salão beleza cabelo cabeleireiro estética manicure unhas",
+  coworking: "coworking cowork escritório compartilhado sala de reunião espaço de trabalho", cafeteria: "cafeteria café padaria confeitaria doceria", tatuagem: "tatuagem tattoo tatuador tatuadora estúdio piercing tinta", otica: "ótica otica óculos oculos grau sol armação armacao lente lentes contato", psicologia: "psicologia psicologa psicóloga terapia terapeuta infantil criança mental saúde consultório", poster: "hamburgueria hamburguer hambúrguer burger lanche smash pôster", salao: "salão beleza cabelo cabeleireiro estética manicure unhas",
   pet: "pet petshop pet shop cachorro gato veterinária banho tosa", advocacia: "advocacia advogado jurídico escritório direito", oficina: "oficina mecânica carro auto automotivo", imobiliaria: "imobiliária imóveis imóvel casa apartamento corretor aluguel",
 };
 const norm = (t: string) => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
