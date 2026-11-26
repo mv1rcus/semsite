@@ -64,6 +64,7 @@ const HTML_LOADERS: Record<string, () => Promise<{ default: string }>> = {
   "forca-viva": () => import("./standalone-html/forca-viva.html?raw"),
   "studio-era": () => import("./standalone-html/studio-era.html?raw"),
   "tinta-rara": () => import("./standalone-html/tinta-rara.html?raw"),
+  "ferro-e-tinta": () => import("./standalone-html/ferro-e-tinta.html?raw"),
   "marina-costa": () => import("./standalone-html/marina-costa.html?raw"),
   "otica-prisma": () => import("./standalone-html/otica-prisma.html?raw"),
   "serra-do-vento": () => import("./standalone-html/serra-do-vento.html?raw"),
