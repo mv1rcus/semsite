@@ -61,6 +61,7 @@ const HTML_LOADERS: Record<string, () => Promise<{ default: string }>> = {
   "tinta-rara": () => import("./standalone-html/tinta-rara.html?raw"),
   "marina-costa": () => import("./standalone-html/marina-costa.html?raw"),
   "otica-prisma": () => import("./standalone-html/otica-prisma.html?raw"),
+  "serra-do-vento": () => import("./standalone-html/serra-do-vento.html?raw"),
 };
 
 /** Codigo do modelo: um .html unico (JS, CSS e imagens dentro), montado so no servidor e so para quem tem o selo Verificado. */
