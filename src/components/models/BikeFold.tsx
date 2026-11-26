@@ -74,7 +74,7 @@ const Rider = () => (
     <circle cx="364" cy="98" r="3" fill={INK} />
     <path d="M372 108l8 3" stroke={INK} strokeWidth="4" strokeLinecap="round" fill="none" />
     {/* lenço */}
-    <path d="M330 108C300 88 272 100 242 82C212 64 190 78 150 58L142 84C190 98 212 88 242 108C272 128 300 118 326 134z" fill="#fff" stroke={INK} strokeWidth="5" strokeLinejoin="round" />
+    <path d="M330 108C300 88 272 100 242 82C212 64 190 78 150 58L142 84C190 98 212 88 242 108C272 128 300 118 326 134z" fill={Y} stroke={INK} strokeWidth="5" strokeLinejoin="round" />
     <path d="M150 58L142 84" stroke={INK} strokeWidth="5" />
     <path d="M30 160h18M50 224h26M14 270h22" stroke={INK} strokeWidth="5" strokeLinecap="round" />
   </svg>
@@ -122,7 +122,7 @@ export function BikeFold({ client }: { client?: { name?: string; whatsapp?: stri
         .bk0 .mmenu a{padding:14px 12px;font-weight:800;cursor:pointer}
         .bk0 .hero{position:relative;min-height:620px;display:grid;grid-template-columns:1.05fr 1fr;align-items:center;margin-top:-74px;padding:74px 40px 40px 0}
         .bk0 .blob{position:absolute;left:0;top:0;width:62%;height:100%;z-index:0}
-        .bk0 .rider{position:relative;z-index:1;width:100%;max-width:640px;height:auto;margin-left:30px}
+        .bk0 .rider{position:relative;z-index:1;width:100%;max-width:720px;height:auto;margin-left:-10px}
         .bk0 .ht{position:relative;z-index:2;padding-left:10px}
         .bk0 h1{font-family:'Montserrat',system-ui,sans-serif;font-weight:800;font-size:clamp(38px,5vw,66px);line-height:1.08;letter-spacing:-.02em;margin:0 0 26px;text-align:right}
         .bk0 .ht p{font-size:14.5px;line-height:1.75;color:${MUT};margin:0 0 30px;text-align:right;max-width:440px;margin-left:auto}
