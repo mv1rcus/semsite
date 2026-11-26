@@ -128,6 +128,7 @@ export function MotoFold({ client }: { client?: { name?: string; whatsapp?: stri
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap');
         .mt *{box-sizing:border-box}.mt a,.mt button,.mt select,.mt input{font-family:inherit}
+        .mt h1,.mt h2,.mt h3{font-family:Jost,system-ui,sans-serif!important;font-weight:600!important;letter-spacing:0!important}
         .mt .wrap{max-width:1160px;margin:0 auto;padding:0 28px}
         .mt .top{background:${CO};position:relative}
         .mt .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:78px}
