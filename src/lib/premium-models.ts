@@ -1,4 +1,4 @@
-export type PremiumKey = "poster" | "salao" | "pet" | "advocacia" | "oficina" | "imobiliaria" | "hamburgueria" | "pizzaria" | "barbearia" | "academia" | "restaurante" | "dentista" | "cafeteria" | "floricultura" | "tatuagem" | "psicologia";
+export type PremiumKey = "poster" | "salao" | "pet" | "advocacia" | "oficina" | "imobiliaria" | "hamburgueria" | "pizzaria" | "barbearia" | "academia" | "restaurante" | "dentista" | "cafeteria" | "floricultura" | "tatuagem" | "psicologia" | "escola";
 export type PremiumModel = { id: string; ramo: PremiumKey; ramoLabel: string; style: string; name: string; city: string; cover: string; accent: string; tags: string[] };
 
 export const img = (id: string, w = 1200, h?: number) => `https://images.unsplash.com/${id}?w=${w}${h ? `&h=${h}` : ""}&q=75&auto=format&fit=crop`;
@@ -12,7 +12,7 @@ export const PHOTO = {
   bread: "photo-1509440159596-0249088772ff", clinic: "photo-1519494026892-80bbd2d6fd0d",
 } as const;
 
-const LIVE_PREMIUM = ["brasa-e-pao", "focinho-feliz", "dom-navalha", "sorriso-verde", "forca-viva", "grao-e-prosa", "toledo-azevedo", "tinta-rara", "studio-era", "marina-costa", "casa-petala"]; // modelos refeitos no padrao novo e liberados
+const LIVE_PREMIUM = ["brasa-e-pao", "focinho-feliz", "dom-navalha", "sorriso-verde", "forca-viva", "grao-e-prosa", "toledo-azevedo", "tinta-rara", "studio-era", "marina-costa", "casa-petala", "ponte-ingles"]; // modelos refeitos no padrao novo e liberados
 const ALL_PREMIUM: PremiumModel[] = [
   { id: "brasa-e-pao", ramo: "hamburgueria", ramoLabel: "Hamburgueria", style: "Escuro com tipo gigante atrás do burger recortado", name: "Brasa&Pão", city: "Campinas", cover: "/brasa-cover.jpg", accent: "#ff5a1f", tags: ["hamburguer", "burger", "lanchonete", "smash", "escuro", "delivery"] },
   { id: "focinho-feliz", ramo: "pet", ramoLabel: "Pet shop", style: "Claro e verde, loja com carrinho e ofertas", name: "Focinho Feliz", city: "Curitiba", cover: "/pet-cover.jpg", accent: "#16491c", tags: ["pet", "petshop", "racao", "cachorro", "loja", "verde", "claro", "ecommerce"] },
@@ -20,6 +20,7 @@ const ALL_PREMIUM: PremiumModel[] = [
   { id: "sorriso-verde", ramo: "dentista", ramoLabel: "Odontologia", style: "Claro em verde menta, dente 3D e agendamento", name: "Sorriso Verde", city: "Florianópolis", cover: "/dental-cover.jpg", accent: "#12423a", tags: ["dentista", "odontologia", "clinica", "saude", "claro", "verde", "agendamento"] },
   { id: "forca-viva", ramo: "academia", ramoLabel: "Academia", style: "Escuro em preto e verde limão, com aula experimental", name: "Força Viva", city: "Goiânia", cover: "/gym-cover.jpg", accent: "#c8f230", tags: ["academia", "musculacao", "treino", "fitness", "escuro", "verde", "agendamento"] },
   { id: "grao-e-prosa", ramo: "cafeteria", ramoLabel: "Cafeteria", style: "Claro em creme e marrom, com reserva de mesa", name: "Grão & Prosa", city: "Belo Horizonte", cover: "/cafe-cover.jpg", accent: "#a4501f", tags: ["cafeteria", "cafe", "padaria", "claro", "marrom", "agendamento"] },
+  { id: "ponte-ingles", ramo: "escola", ramoLabel: "Escola de inglês", style: "Verde profundo com tipo gigante, adesivos coloridos e aula experimental", name: "Ponte Inglês", city: "Curitiba", cover: "/ingles-cover.jpg", accent: "#2a8a63", tags: ["escola", "ingles", "idiomas", "curso", "educacao", "verde", "colorido", "agendamento"] },
   { id: "toledo-azevedo", ramo: "advocacia", ramoLabel: "Advocacia", style: "Azul marinho e dourado, com consulta agendada", name: "Toledo & Azevedo", city: "Recife", cover: "/law-cover.jpg", accent: "#c9a24b", tags: ["advogado", "advocacia", "juridico", "escritorio", "azul", "dourado", "agendamento"] },
   { id: "tinta-rara", ramo: "tatuagem", ramoLabel: "Estúdio de tatuagem", style: "Escuro com turquesa, arco no hero e agendamento", name: "Tinta Rara", city: "Salvador", cover: "/tat-cover.jpg", accent: "#1dbb9a", tags: ["tatuagem", "tattoo", "tatuador", "estudio", "escuro", "turquesa", "agendamento", "piercing"] },
   { id: "studio-era", ramo: "salao", ramoLabel: "Salão de beleza", style: "Rosé claro com tipo gigante, cards escuros e antes e depois", name: "Studio Era", city: "Belo Horizonte", cover: "/salao-cover.jpg", accent: "#e8a0ab", tags: ["salao", "beleza", "cabelo", "cabeleireiro", "estetica", "claro", "rosa", "agendamento"] },
@@ -45,6 +46,7 @@ export const PREMIUM_MODELS: PremiumModel[] = ALL_PREMIUM.filter((m) => !HIDDEN_
 export const getPremium = (id: string) => PREMIUM_MODELS.find((m) => m.id === id);
 
 const SYN: Record<string, string> = {
+  escola: "escola inglês idiomas curso aula professor educação",
   hamburgueria: "hamburgueria hamburguer hambúrguer burger lanche lanchonete smash", pizzaria: "pizzaria pizza pizzaiolo forno", barbearia: "barbearia barbeiro barba corte cabelo masculino",
   academia: "academia musculação treino fitness crossfit", restaurante: "restaurante comida almoço jantar gastronomia", dentista: "dentista odontologia odonto clínica sorriso saúde",
   floricultura: "floricultura flores florista buquê buque rosas presente",
