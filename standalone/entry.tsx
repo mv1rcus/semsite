@@ -23,6 +23,7 @@ import { SorveteFold } from "@/components/models/SorveteFold";
 import { EletroFold } from "@/components/models/EletroFold";
 import { PapelFold } from "@/components/models/PapelFold";
 import { MovelFold } from "@/components/models/MovelFold";
+import { BrechoFold } from "@/components/models/BrechoFold";
 import { BakeFold } from "@/components/models/BakeFold";
 import { WashFold } from "@/components/models/WashFold";
 import { LaundryFold } from "@/components/models/LaundryFold";
@@ -92,6 +93,7 @@ else if (__MODEL__ === "doce-pomar") root.render(<SorveteFold client={cfg.client
 else if (__MODEL__ === "volt-e-som") root.render(<EletroFold client={cfg.client} />);
 else if (__MODEL__ === "risco-e-rabisco") root.render(<PapelFold client={cfg.client} />);
 else if (__MODEL__ === "formas-moles") root.render(<MovelFold client={cfg.client} />);
+else if (__MODEL__ === "remix") root.render(<BrechoFold client={cfg.client} />);
 else if (__MODEL__ === "massa-mae") root.render(<BakeFold client={cfg.client} />);
 else if (__MODEL__ === "jato-azul") root.render(<WashFold client={cfg.client} />);
 else if (__MODEL__ === "pano-limpo") root.render(<LaundryFold client={cfg.client} />);
