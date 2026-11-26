@@ -66,6 +66,7 @@ const HTML_LOADERS: Record<string, () => Promise<{ default: string }>> = {
   "otica-prisma": () => import("./standalone-html/otica-prisma.html?raw"),
   "serra-do-vento": () => import("./standalone-html/serra-do-vento.html?raw"),
   "burgeria-pop": () => import("./standalone-html/burgeria-pop.html?raw"),
+  "horizonte-prime": () => import("./standalone-html/horizonte-prime.html?raw"),
   "livia-prado": () => import("./standalone-html/livia-prado.html?raw"),
 };
 
