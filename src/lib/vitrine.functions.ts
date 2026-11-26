@@ -59,6 +59,7 @@ const HTML_LOADERS: Record<string, () => Promise<{ default: string }>> = {
   "folha-corrida": () => import("./standalone-html/folha-corrida.html?raw"),
   "alto-corte": () => import("./standalone-html/alto-corte.html?raw"),
   "doce-pomar": () => import("./standalone-html/doce-pomar.html?raw"),
+  "volt-e-som": () => import("./standalone-html/volt-e-som.html?raw"),
   "massa-mae": () => import("./standalone-html/massa-mae.html?raw"),
   "sorriso-verde": () => import("./standalone-html/sorriso-verde.html?raw"),
   "forca-viva": () => import("./standalone-html/forca-viva.html?raw"),

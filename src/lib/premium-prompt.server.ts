@@ -7,6 +7,7 @@ const SECTIONS: Record<PremiumKey, string> = {
   restaurante: "hero com foto em arco, pratos da casa em cards com foto, depoimento em citação", dentista: "hero com foto e cartão flutuante de avaliação, grade de tratamentos, faixa de números",
   lavanderia: "pilha de roupas coloridas no hero creme, cards coloridos de serviços, linha do tempo com fotos e processo em 4 passos",
   sorveteria: "titulo grande em sans, cards arredondados em bento, fotos de fruta e sorvete, sabores com formato, pedido no WhatsApp",
+  eletronicos: "tema escuro verde-menta, hero com produto em pódio, categorias, mais vendidos com carrinho no WhatsApp",
   roupas: "título gigante em sans, fotos P&B, novidades com tamanho, sacola no WhatsApp",
   livraria: "título gigante em sans, estante em destaque, cards escuros numerados, clube de leitura, reserva no WhatsApp",
   joalheria: "hero em duas colunas com foto de modelo, coleção em grade com abas, ateliê lado a lado, cesta com gravação",
