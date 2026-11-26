@@ -138,3 +138,17 @@ describe('large-city partitions', () => {
     } finally { vi.unstubAllEnvs(); vi.unstubAllGlobals(); }
   });
 });
+
+describe('looser category matching', () => {
+  const base = { cat: null, phones: ['+5532999998888'], websites: null, socials: null, emails: null, address: 'x', confidence: .9 };
+  it('finds physiotherapy by the real Overture subcategory', () => {
+    expect(filterRecords([{ ...base, id: '1', n: 'Clinica Vida', sub: 'physical_therapy' }], 'Fisioterapia').leads).toHaveLength(1);
+  });
+  it('also uses the business name when the subcategory is missing', () => {
+    expect(filterRecords([{ ...base, id: '2', n: 'Gesso Forro e Drywall JF', sub: null }], 'Gesseiro').leads).toHaveLength(1);
+    expect(filterRecords([{ ...base, id: '3', n: 'Buffet Alegria', sub: null }], 'Buffet').leads).toHaveLength(1);
+  });
+  it('does not match unrelated names', () => {
+    expect(filterRecords([{ ...base, id: '4', n: 'Padaria Pão Quente', sub: 'bakery' }], 'Eletricista').leads).toHaveLength(0);
+  });
+});

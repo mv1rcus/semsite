@@ -2,6 +2,8 @@ import { createHmac, timingSafeEqual } from 'node:crypto';
 import { gunzipSync } from 'node:zlib';
 import { z } from 'zod';
 import { categoryKeywords, filterRecords, normalize, resolveCity, type PlaceRecord } from './overture-leads';
+import { rankProspects, type Lead } from './leads';
+import coords from './municipios-coords.json';
 
 // Only open Overture extracts live here. No database imports or Google/OSM calls.
 const BASE = 'https://raw.githubusercontent.com/mv1rcus/overture-br-municipios/main/data/';
@@ -144,10 +146,49 @@ export async function checkCity(city: string) {
   resolveCity(city, data.cities);
 }
 
+const MIN_RESULTS = 15;
+const NEIGHBOR_RADIUS_KM = 100;
+const MAX_NEIGHBORS = 5;
+function km(a: number[], b: number[]) {
+  const rad = Math.PI / 180;
+  const h = Math.sin(((b[0]! - a[0]!) * rad) / 2) ** 2 + Math.cos(a[0]! * rad) * Math.cos(b[0]! * rad) * Math.sin(((b[1]! - a[1]!) * rad) / 2) ** 2;
+  return 12742 * Math.asin(Math.sqrt(h));
+}
+const coordTable = coords as Record<string, number[]>;
+function nearestMunicipalities(id: string, cities: z.infer<typeof manifestSchema>['cities']) {
+  const here = coordTable[id];
+  if (!here) return [];
+  return Object.keys(cities)
+    .filter((other) => other !== id && coordTable[other] && cities[other]!.count > 0)
+    .map((other) => ({ id: other, d: km(here, coordTable[other]!) }))
+    .filter((x) => x.d <= NEIGHBOR_RADIUS_KM)
+    .sort((a, b) => a.d - b.d)
+    .slice(0, 15);
+}
+
+// Quando a cidade tem poucos resultados, completa com os municípios mais próximos (até 100 km).
+async function withNeighbors(data: z.infer<typeof manifestSchema>, id: string, category: string, main: ReturnType<typeof filterRecords>) {
+  if (main.leads.length >= MIN_RESULTS) return { leads: main.leads, scanned: main.scanned, nearby: [] as string[] };
+  const extra: Lead[] = [];
+  const nearby: string[] = [];
+  let scanned = main.scanned;
+  for (const n of nearestMunicipalities(id, data.cities)) {
+    if (nearby.length >= MAX_NEIGHBORS || main.leads.length + extra.length >= MIN_RESULTS * 2) break;
+    const c = data.cities[n.id]!;
+    try {
+      const r = await queryCity(n.id, c.partitioned ?? false, data.release, category);
+      if (!r.leads.length) continue;
+      extra.push(...r.leads); scanned += r.scanned; nearby.push(`${c.name}, ${c.uf}`);
+    } catch { /* Vizinho grande demais ou indisponível: ignora. */ }
+  }
+  return { leads: [...main.leads, ...rankProspects(extra)], scanned, nearby };
+}
+
 export async function searchOverture(category: string, city: string, offset: number, userId: string) {
   const data = await getManifest();
   const municipality = resolveCity(city, data.cities);
-  const result = await queryCity(municipality.id, municipality.partitioned ?? false, data.release, category);
+  const base = await queryCity(municipality.id, municipality.partitioned ?? false, data.release, category);
+  const result = await withNeighbors(data, municipality.id, category, base);
   return {
     leads: result.leads.slice(offset, offset + PAGE_SIZE),
     scanned: offset === 0 ? result.scanned : 0,
@@ -157,5 +198,6 @@ export async function searchOverture(category: string, city: string, offset: num
     cityName: municipality.name,
     cityUf: municipality.uf,
     cityPlaces: municipality.count,
+    nearby: offset === 0 ? result.nearby : [],
   };
 }

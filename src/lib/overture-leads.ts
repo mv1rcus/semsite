@@ -93,18 +93,23 @@ export function recordToLead(p: PlaceRecord, category: string): Lead | null {
 export function filterRecords(rows: PlaceRecord[], category: string) {
   const term = normalize(category);
   const keywords = categoryKeywords(category);
+  const hints = categoryNameHints(category);
   const matching = rows.filter((r) => {
-    return keywords.length ? keywords.some((k) => (r.sub ?? '').includes(k)) : normalize(r.n).includes(term);
+    if (!keywords.length) return normalize(r.n).includes(term);
+    if (keywords.some((k) => (r.sub ?? '').includes(k))) return true;
+    if (!hints.length) return false;
+    const name = normalize(r.n);
+    return hints.some((h) => name.includes(h));
   });
   const leads = matching.map((r) => recordToLead(r, category)).filter((l): l is Lead => l !== null);
   return { leads: rankProspects(leads), scanned: matching.length };
 }
 
-const OVERTURE_KEYWORDS: [match: RegExp, keywords: string[]][] = [
+const OVERTURE_KEYWORDS: [match: RegExp, keywords: string[], nameHints?: string[]][] = [
   [/^medic/, ["doctor", "medical", "health_care", "clinic"]],
   [/dentist|odonto/, ["dent"]],
   [/clinic/, ["clinic", "health_care"]],
-  [/fisio/, ["physical_medicine", "rehabilitation"]],
+  [/fisio/, ["physical_therap", "physical_medicine", "rehabilitation"], ["fisio"]],
   [/psicolog/, ["mental_health", "psych"]],
   [/nutri/, ["nutrition"]],
   [/farmac|drogari/, ["pharmacy", "drug"]],
@@ -121,39 +126,45 @@ const OVERTURE_KEYWORDS: [match: RegExp, keywords: string[]][] = [
   [/salao|cabele/, ["hair", "beauty"]],
   [/manicure|unha|esmalte/, ["nail", "beauty"]],
   [/sobrancelh|cilio|lash|depilac|estetic/, ["beauty", "wellness"]],
-  [/tatuag|tattoo|piercing/, ["tattoo", "piercing"]],
-  [/lava ?jato|lava ?car/, ["car_wash"]],
-  [/borrach|pneu/, ["tire", "tyre"]],
+  [/tatuag|tattoo|piercing/, ["tattoo", "piercing"], ["tattoo", "tatuag", "piercing"]],
+  [/lava ?jato|lava ?car/, ["car_wash"], ["lava jato", "lavajato", "lava rapido", "lava car"]],
+  [/borrach|pneu/, ["tire", "tyre"], ["borrach", "pneu"]],
   [/auto ?eletric/, ["auto_electric", "automotive"]],
   [/auto ?pec/, ["auto_parts", "vehicle_parts"]],
   [/moto ?pec/, ["motorcycle"]],
   [/oficina|mecanic|funilari|estetica automotiva/, ["automotive", "car_repair", "auto_repair"]],
-  [/eletricist/, ["electric"]],
-  [/encanad|hidraul/, ["plumb"]],
-  [/marcenar/, ["carpent", "woodwork"]],
+  [/eletricist/, ["electric"], ["eletric"]],
+  [/encanad|hidraul/, ["plumb"], ["encanad", "hidraul", "desentup"]],
+  [/marcenar/, ["carpent", "woodwork"], ["marcen", "carpint"]],
   [/vidrac|vidro/, ["glaz", "glass"]],
-  [/serralh/, ["metal"]],
+  [/serralh/, ["metal"], ["serralh", "metalurg", "soldas"]],
   [/material.*constr|madeireira/, ["hardware", "construction"]],
-  [/pintor/, ["paint"]],
-  [/gesso|gesseir|drywall/, ["drywall", "plaster"]],
-  [/climatiz|ar condicionado|refrigera/, ["hvac", "air_condition"]],
+  [/pintor/, ["paint"], ["pintor", "pintura"]],
+  [/gesso|gesseir|drywall/, ["drywall", "plaster"], ["gesso", "gesseir", "drywall", "forro"]],
+  [/climatiz|ar condicionado|refrigera/, ["hvac", "air_condition"], ["ar condicionado", "climatiz", "refriger"]],
   [/banho e tosa/, ["pet_grooming", "animal_or_pet"]],
   [/veterin/, ["veterin"]],
   [/pet ?shop|\bpet\b/, ["pet", "animal"]],
-  [/adestra/, ["animal_train", "pet_train"]],
+  [/adestra/, ["animal_train", "pet_train", "pet_"], ["adestr", "canil"]],
   [/academ|crossfit|pilates|personal|fitness/, ["gym", "fitness"]],
   [/contab/, ["account"]],
   [/advog|advocac|juridic/, ["attorney", "law", "legal"]],
   [/imobili|corretor/, ["real_estate"]],
   [/assistencia tecnica|conserto|celular|informatica/, ["repair", "technical_service", "electronics"]],
-  [/costur|alfaiat/, ["tailor", "sew", "dressmak"]],
+  [/costur|alfaiat/, ["tailor", "sew", "dressmak"], ["costur", "alfaiat", "ajustes", "confec"]],
   [/grafic|copiadora|xerox|impress/, ["print", "copy"]],
-  [/fotograf/, ["photo"]],
+  [/fotograf/, ["photo"], ["foto"]],
   [/floricult|flores/, ["flower", "florist"]],
-  [/idioma|ingles/, ["language_school"]],
-  [/auto ?escola|cfc/, ["driving_school"]],
+  [/idioma|ingles/, ["language_school"], ["ingles", "idioma", "english", "espanhol"]],
+  [/buffet|festas?|eventos/, ["party", "event", "cater"], ["buffet", "festas", "eventos", "salao de festa"]],
+  [/auto ?escola|cfc/, ["driving_school"], ["auto escola", "autoescola", "cfc", "habilitac"]],
 ];
 
 export function categoryKeywords(category: string): string[] {
   return OVERTURE_KEYWORDS.find(([re]) => re.test(normalize(category)))?.[1] ?? [];
+}
+
+// Palavras no nome do negócio que também contam, porque o Overture nem sempre classifica o ramo.
+export function categoryNameHints(category: string): string[] {
+  return OVERTURE_KEYWORDS.find(([re]) => re.test(normalize(category)))?.[2] ?? [];
 }

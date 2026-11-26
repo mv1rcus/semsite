@@ -19,7 +19,7 @@ export const CITIES = [
   "Touros, RN", "São Miguel do Gostoso, RN",
   "Areia, PB", "Bananeiras, PB",
   "Novo Airão, AM", "Presidente Figueiredo, AM",
-  "Porto Velho, RO", "Alto Paraíso de Goiás, GO",
+  "Guajará-Mirim, RO", "Alto Paraíso de Goiás, GO",
   "Nobres, MT",
 ];
 export function nextSuggestedCity(previous: string | null) {
