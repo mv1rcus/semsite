@@ -55,6 +55,7 @@ const HTML_LOADERS: Record<string, () => Promise<{ default: string }>> = {
   "toledo-azevedo": () => import("./standalone-html/toledo-azevedo.html?raw"),
   "casa-petala": () => import("./standalone-html/casa-petala.html?raw"),
   "forno-lume": () => import("./standalone-html/forno-lume.html?raw"),
+  "garagem-74": () => import("./standalone-html/garagem-74.html?raw"),
   "atelie-seda": () => import("./standalone-html/atelie-seda.html?raw"),
   "folha-corrida": () => import("./standalone-html/folha-corrida.html?raw"),
   "alto-corte": () => import("./standalone-html/alto-corte.html?raw"),
