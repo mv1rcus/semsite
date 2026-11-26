@@ -6,7 +6,7 @@ const SECTIONS: Record<PremiumKey, string> = {
   restaurante: "hero com foto em arco, pratos da casa em cards com foto, depoimento em citação", dentista: "hero com foto e cartão flutuante de avaliação, grade de tratamentos, faixa de números",
   cafeteria: "mosaico de fotos, cartão escuro de apresentação, cardápio em lista ao lado de foto redonda", tatuagem: "foto do artista em arco no hero, lista de serviços com checks, grade de estilos com preços, passos numerados, equipe e depoimento", poster: "pôster com palavra gigante atrás do produto recortado e círculo, parallax em camadas, cards de produtos",
   salao: "cabeçalho centralizado, três fotos em arco, lista de serviços em rosa", pet: "pôster com a palavra PET gigante atrás do cachorro recortado, cards de serviços em azul", advocacia: "hero com foto escura em parallax, áreas de atuação em cartões com linha dourada",
-  oficina: "faixa amarela no topo, hero dividido com foto do motor, serviços numerados", imobiliaria: "hero em tela cheia com caixa de busca, imóveis em destaque com foto e preço",
+  oficina: "faixa amarela no topo, hero dividido com foto do motor, serviços numerados", imobiliaria: "hero em tela cheia com caixa de busca, imóveis em destaque com foto e preço", psicologia: "hero em tela cheia com foto acolhedora e título em serif itálica, lista de serviços em pílulas, sobre com foto em arco, depoimentos em cards escuros, CTA final",
 };
 export function buildModelPrompt(m: PremiumModel, c: { name?: string; whatsapp?: string; city?: string } = {}) {
   return `Crie um site de uma página (React + Tailwind, responsivo, mobile primeiro) para ${c.name || m.name}, ${m.ramoLabel.toLowerCase()}${c.city || m.city ? ` em ${c.city || m.city}` : ""}.

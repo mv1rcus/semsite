@@ -8,6 +8,7 @@ import { SiteModelView } from "@/components/SiteModelView";
 import { PremiumSite } from "@/components/PremiumSite";
 import { GymFold } from "@/components/models/GymFold";
 import { SalonFold } from "@/components/models/SalonFold";
+import { PsyFold } from "@/components/models/PsyFold";
 import { CafeFold } from "@/components/models/CafeFold";
 import { TattooFold } from "@/components/models/TattooFold";
 import { LawFold } from "@/components/models/LawFold";
@@ -80,7 +81,7 @@ function Viewer() {
           <button type="button" disabled title="Em breve" className={`${btn} px-2.5 opacity-50 sm:px-3`}><Plus className="size-4" />Em breve</button>
         </div>
       </div>
-      {premium?.id === "brasa-e-pao" ? <BurgerFold client={client} /> : premium?.id === "focinho-feliz" ? <PetFold client={client} /> : premium?.id === "dom-navalha" ? <BarberFold client={client} /> : premium?.id === "sorriso-verde" ? <DentalFold client={client} /> : premium?.id === "toledo-azevedo" ? <LawFold client={client} /> : premium?.id === "studio-era" ? <SalonFold client={client} /> : premium?.id === "grao-e-prosa" ? <CafeFold client={client} /> : premium?.id === "forca-viva" ? <GymFold client={client} /> : premium?.id === "tinta-rara" ? <TattooFold client={client} /> : premium ? <PremiumSite model={premium} client={client} /> : model ? <SiteModelView model={model} client={client} /> : null}
+      {premium?.id === "marina-costa" ? <PsyFold client={client} /> : premium?.id === "brasa-e-pao" ? <BurgerFold client={client} /> : premium?.id === "focinho-feliz" ? <PetFold client={client} /> : premium?.id === "dom-navalha" ? <BarberFold client={client} /> : premium?.id === "sorriso-verde" ? <DentalFold client={client} /> : premium?.id === "toledo-azevedo" ? <LawFold client={client} /> : premium?.id === "studio-era" ? <SalonFold client={client} /> : premium?.id === "grao-e-prosa" ? <CafeFold client={client} /> : premium?.id === "forca-viva" ? <GymFold client={client} /> : premium?.id === "tinta-rara" ? <TattooFold client={client} /> : premium ? <PremiumSite model={premium} client={client} /> : model ? <SiteModelView model={model} client={client} /> : null}
     </div>
   );
 }
