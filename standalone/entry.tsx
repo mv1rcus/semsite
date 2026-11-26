@@ -64,6 +64,7 @@ import { DarkroomFold } from "@/components/models/DarkroomFold";
 import { AdvMcFold } from "@/components/models/AdvMcFold";
 import { AquaGrowFold } from "@/components/models/AquaGrowFold";
 import { ArqFold } from "@/components/models/ArqFold";
+import { XaropeFold } from "@/components/models/XaropeFold";
 import { BolaPraFrenteFold } from "@/components/models/BolaPraFrenteFold";
 import { CardumeFold } from "@/components/models/CardumeFold";
 import { FolegoFold } from "@/components/models/FolegoFold";
@@ -91,6 +92,7 @@ else if (__MODEL__ === "sala-rubra") root.render(<DarkroomFold client={cfg.clien
 else if (__MODEL__ === "menezes-prado") root.render(<AdvMcFold client={cfg.client} />);
 else if (__MODEL__ === "aquagrow-eco") root.render(<AquaGrowFold client={cfg.client} />);
 else if (__MODEL__ === "vao-arquitetura") root.render(<ArqFold client={cfg.client} />);
+else if (__MODEL__ === "bar-lisse") root.render(<XaropeFold client={cfg.client} />);
 else if (__MODEL__ === "estudio-impeto") root.render(<ImpetoFold client={cfg.client} />);
 else if (__MODEL__ === "estudio-toque") root.render(<ToqueFold client={cfg.client} />);
 else if (__MODEL__ === "estudio-serena") root.render(<MedFold client={cfg.client} />);
