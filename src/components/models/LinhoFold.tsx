@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 /** Estudio de pilates novo, construido do zero a partir de um pin de site em verde sálvia e linho ("Lex Fish"): hero em cartao arredondado com cortina de linho, trio de paineis verdes, serifa leve. Sem foto: as figuras sao tracos desenhados em SVG. Aula experimental que fecha no WhatsApp. */
-const FOR = "#2f4a3c", SAGE = "#9aa89a", SAGE2 = "#7f907f", LIN = "#f1eee7", LIN2 = "#e6e1d6", INK = "#1f2b24", MU = "#55625a";
+const FOR = "#2f4a3c", SAGE = "#9aa89a", SAGE2 = "#667a69", LIN = "#f1eee7", LIN2 = "#e6e1d6", INK = "#1f2b24", MU = "#55625a";
 const MODS = [
   { t: "Reformer", d: "Aparelho com molas, para força e alinhamento. Turmas de até 5 pessoas." },
   { t: "Mat", d: "Solo, bola e faixa. Fundamentos do pilates para qualquer idade." },
@@ -23,6 +23,9 @@ function nextDays() {
 /** Figuras em traco com membros afinando: teaser (corpo em V) e alongamento lateral. */
 function Limb({ d, w, c = FOR }: { d: string; w: number; c?: string }) {
   return <path d={d} fill="none" stroke={c} strokeWidth={w} strokeLinecap="round" strokeLinejoin="round" />;
+}
+function Arcs() {
+  return <svg width="64" height="40" viewBox="0 0 64 40" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><path d="M2 38a30 30 0 0 1 60 0" /><path d="M14 38a18 18 0 0 1 36 0" /><path d="M26 38a6 6 0 0 1 12 0" /></svg>;
 }
 function Teaser() {
   return (
@@ -80,30 +83,31 @@ export function LinhoFold({ client }: { client?: { name?: string; whatsapp?: str
         .ln .tag{background:${SAGE};color:#fff;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;border-radius:4px;cursor:pointer;border:0}
         .ln .bar .sm{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
         .ln .logo{font-size:15px;font-weight:600;letter-spacing:.42em;text-transform:uppercase;color:${FOR};padding-left:.42em}
-        .ln .burger{justify-self:end;background:none;border:0;cursor:pointer;color:${FOR};font-size:26px}
+        .ln .dl{display:flex;gap:26px;justify-self:end}.ln .dl a{cursor:pointer;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:${FOR}}.ln .burger{display:none;justify-self:end;background:none;border:0;cursor:pointer;color:${FOR};font-size:26px}
         .ln .drop{background:#fff;border-radius:10px;margin:0 24px 12px;box-shadow:0 10px 30px rgba(31,43,36,.14);overflow:hidden}
         .ln .drop a{display:block;padding:16px 22px;cursor:pointer;border-top:1px solid ${LIN2};font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase}.ln .drop a:first-child{border:0}
         .ln .hero{position:relative;border-radius:14px;overflow:hidden;min-height:560px;margin-top:6px;background:
           linear-gradient(90deg,rgba(255,255,255,.0) 0,rgba(255,255,255,.55) 9%,rgba(0,0,0,.05) 15%,rgba(255,255,255,.35) 24%,rgba(0,0,0,.06) 33%,rgba(255,255,255,.5) 44%,rgba(0,0,0,.05) 52%,rgba(255,255,255,.4) 63%,rgba(0,0,0,.07) 72%,rgba(255,255,255,.5) 83%,rgba(0,0,0,.05) 92%,rgba(255,255,255,.2) 100%),
           linear-gradient(180deg,#e8e1d3 0%,#d9d0bf 70%,#cfc5b2 100%)}
-        .ln .hero .fig{position:absolute;right:5%;bottom:0;width:min(46%,470px)}
+        .ln .hero::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 78% 30%,rgba(255,255,255,.55),transparent 70%);pointer-events:none}
+        .ln .hero .fig{z-index:1;position:absolute;right:5%;bottom:0;width:min(46%,470px)}
         .ln .hero .in{position:relative;padding:110px 7% 0;max-width:640px}
         .ln .hero h1{font-size:clamp(34px,4.6vw,56px);line-height:1.12;color:${FOR};margin:0}
-        .ln .btn{display:inline-block;background:${FOR};color:#fff;text-decoration:none;font-weight:600;font-size:12px;letter-spacing:.16em;text-transform:uppercase;padding:15px 28px;border-radius:5px;border:0;cursor:pointer}
+        .ln .btn{display:inline-block;background:${FOR};color:#fff;text-decoration:none;font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:18px 32px;border-radius:5px;border:0;cursor:pointer}
         .ln .btn:hover{background:#243a2e}
         .ln .btn.lt{background:rgba(255,255,255,.92);color:${FOR}}
         .ln .hero .btn{margin-top:30px}
         .ln .about{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:96px 0 80px}
-        .ln .eyebrow{font-size:12px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:${MU}}
+        .ln .eyebrow{font-size:13px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:${FOR}}
         .ln .about h2{font-size:clamp(28px,3.4vw,40px);line-height:1.3;margin:22px 0 28px;color:${INK}}
         .ln .about h2 b{font-weight:600!important}
         .ln .arch{background:${LIN2};border-radius:200px 200px 14px 14px;padding:54px 30px 26px;position:relative}
-        .ln .arch .st{position:absolute;top:-6px;right:10px;color:${SAGE2};font-size:20px}
+        .ln .arch .st{display:none}
         .ln .trio{display:grid;grid-template-columns:repeat(3,1fr);min-height:340px}
         .ln .trio .c{padding:30px 28px;display:flex;flex-direction:column;justify-content:space-between;color:#fff;min-height:340px}
-        .ln .trio h3{font-size:30px;margin:0 0 10px}
-        .ln .trio p{margin:0;font-size:16px;line-height:1.5;max-width:300px;color:rgba(255,255,255,.95);font-weight:500}
-        .ln .c1{background:${FOR}}.ln .c2{background:${SAGE2}}.ln .c3{background:${SAGE}}.ln .c3 p,.ln .c3 h3{color:${INK}}
+        .ln .trio h3{font-size:36px;margin:14px 0 10px}
+        .ln .trio p{margin:0;font-size:18px;line-height:1.5;max-width:320px;color:#fff;font-weight:500}
+        .ln .c1{background:${FOR}}.ln .c2{background:${SAGE2}}.ln .c3{background:${SAGE}}.ln .c3 p,.ln .c3 h3{color:#13201a}.ln .c3{background:#a9b6a8}
         .ln .ghost{align-self:flex-start;background:#fff;color:${FOR};font-weight:600;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:11px 16px;border-radius:4px;cursor:pointer;border:0}
         .ln .book{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center;padding:100px 0 80px}
         .ln .book h2{font-size:clamp(30px,3.8vw,46px);line-height:1.2;margin:0}
@@ -128,7 +132,7 @@ export function LinhoFold({ client }: { client?: { name?: string; whatsapp?: str
         .ln footer nav{display:flex;gap:24px}.ln footer a{cursor:pointer;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#fff}
         .ln .wa{position:fixed;right:20px;bottom:20px;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 8px 22px rgba(0,0,0,.28);z-index:20}
         @media(max-width:820px){
-          .ln .wrap{padding:0 14px}.ln .bar .sm{display:none}
+          .ln .wrap{padding:0 14px}.ln .bar{grid-template-columns:1fr auto}.ln .bar .pill{display:none}.ln .logo{padding-left:0}.ln .bar .sm,.ln .dl{display:none}.ln .burger{display:block}
           .ln .hero{min-height:620px}.ln .hero .in{padding:60px 24px 0}.ln .hero .fig{width:86%;right:7%}
           .ln .about,.ln .book{grid-template-columns:1fr;gap:34px;padding:60px 0 50px}
           .ln .trio{grid-template-columns:1fr}.ln .trio .c{min-height:220px}
@@ -141,7 +145,7 @@ export function LinhoFold({ client }: { client?: { name?: string; whatsapp?: str
         <header className="bar">
           <div className="pill"><button className="tag" onClick={() => go("agendar")}>Aula experimental</button><span className="sm" onClick={() => go("modalidades")}>Aulas</span></div>
           <div className="logo">{brand.replace(/^Estúdio\s+/i, "Estúdio ")}</div>
-          <button className="burger" onClick={() => setMenu((v) => !v)} aria-label="Menu">{menu ? "×" : "≡"}</button>
+          <div className="dl"><a onClick={() => go("sobre")}>Sobre</a><a onClick={() => go("agendar")}>Agendar</a><a onClick={() => go("contato")}>Contato</a></div><button className="burger" onClick={() => setMenu((v) => !v)} aria-label="Menu">{menu ? "×" : "≡"}</button>
         </header>
         {menu && <div className="drop"><a onClick={() => go("sobre")}>Sobre</a><a onClick={() => go("modalidades")}>Modalidades</a><a onClick={() => go("agendar")}>Agendar</a><a onClick={() => go("contato")}>Contato</a></div>}
 
@@ -166,9 +170,9 @@ export function LinhoFold({ client }: { client?: { name?: string; whatsapp?: str
       </div>
 
       <section className="trio" id="modalidades">
-        <div className="c c1"><div><h3>Reformer</h3><p>Aparelho com molas e turmas de até cinco pessoas.</p></div><button className="ghost" onClick={() => { setMod(0); go("agendar"); }}>Marcar aula →</button></div>
-        <div className="c c2"><div><h3>Mat</h3><p>Solo, bola e faixa. Fundamentos para qualquer idade.</p></div><button className="ghost" onClick={() => { setMod(1); go("agendar"); }}>Marcar aula →</button></div>
-        <div className="c c3"><div><h3>Barre</h3><p>Postura, pés e coxas em ritmo contínuo, com música.</p></div><button className="ghost" onClick={() => { setMod(2); go("agendar"); }}>Marcar aula →</button></div>
+        <div className="c c1"><div><Arcs /><h3>Reformer</h3><p>Aparelho com molas e turmas de até cinco pessoas.</p></div><button className="ghost" onClick={() => { setMod(0); go("agendar"); }}>Marcar aula →</button></div>
+        <div className="c c2"><div><Arcs /><h3>Mat</h3><p>Solo, bola e faixa. Fundamentos para qualquer idade.</p></div><button className="ghost" onClick={() => { setMod(1); go("agendar"); }}>Marcar aula →</button></div>
+        <div className="c c3"><div><Arcs /><h3>Barre</h3><p>Postura, pés e coxas em ritmo contínuo, com música.</p></div><button className="ghost" onClick={() => { setMod(2); go("agendar"); }}>Marcar aula →</button></div>
       </section>
 
       <div className="wrap" id="agendar">
