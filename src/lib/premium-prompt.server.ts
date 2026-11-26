@@ -1,6 +1,7 @@
 import type { PremiumKey, PremiumModel } from "./premium-models";
 
 const SECTIONS: Record<PremiumKey, string> = {
+  buffet: "hero rosa com título serifado e colagem de fotos em losangos, faixa roxa de passos, cards de pacote com foto redonda, espaços, avaliações e orçamento em 4 passos",
   musica: "hero claro com título serifado e colagem de fotos em arco, cards de instrumentos, passos numerados e aula experimental em 4 passos",
   autoescola: "hero preto com faixa vermelha inclinada, números de aprovação, cards de categoria CNH, planos em tabela e matrícula em 3 passos",
   escola: "fundo verde profundo, título gigante em caixa alta, adesivos coloridos, cards de cursos e aula experimental em 3 passos",
