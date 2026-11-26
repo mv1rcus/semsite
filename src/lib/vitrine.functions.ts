@@ -42,3 +42,26 @@ export const listVitrine = createServerFn({ method: "GET" })
       models: PREMIUM_MODELS.map((m) => verified ? m : { ...m, name: "Modelo bloqueado", style: "Disponível para quem tem o selo Verificado", city: "", tags: [], accent: "#444", cover: `/cover-locked-${m.id}.jpg` }),
     };
   });
+
+const HTML_LOADERS: Record<string, () => Promise<{ default: string }>> = {
+  "focinho-feliz": () => import("./standalone-html/focinho-feliz.html?raw"),
+  "brasa-e-pao": () => import("./standalone-html/brasa-e-pao.html?raw"),
+};
+
+/** Codigo do modelo: um .html unico (JS, CSS e imagens dentro), montado so no servidor e so para quem tem o selo Verificado. */
+export const getModelCode = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) => promptSchema.parse(d))
+  .handler(async ({ data, context }) => {
+    const { assertVerified } = await import("./verified-guard.server");
+    await assertVerified(context.supabase, "O código do site");
+    const { getPremium } = await import("./premium-models");
+    const m = getPremium(data.id);
+    const load = HTML_LOADERS[data.id];
+    if (!m || !load) throw new Error("Modelo não encontrado.");
+    const { default: html } = await load();
+    const client = { ...(data.name ? { name: data.name } : {}), ...(data.whatsapp ? { whatsapp: data.whatsapp.replace(/\D/g, "") } : {}), ...(data.city ? { city: data.city } : {}) };
+    const json = JSON.stringify(client).replace(/</g, "\\u003c");
+    const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+    return { html: html.replace("/*__SEMSITE_CLIENT__*/{}", () => json).replace("__SEMSITE_TITLE__", () => esc(data.name || m.name)), filename: `${m.id}.html` };
+  });
