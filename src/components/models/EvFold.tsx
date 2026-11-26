@@ -45,7 +45,7 @@ export function EvFold({ client }: { client?: { name?: string; whatsapp?: string
         .ev0 .mm{position:absolute;top:78px;left:14px;right:14px;z-index:20;background:#17171a;border-radius:14px;padding:8px}.ev0 .mm a{display:block;padding:14px;font-weight:500}
         .ev0 .hc{position:relative;z-index:3;flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 0 110px}
         .ev0 .eb{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#d9d9db}
-        .ev0 h1{font-size:62px;line-height:.98;margin:22px 0 22px}.ev0 h1 em{font-style:normal;color:${OR};display:block}
+        .ev0 h1{font-size:76px;line-height:.96;margin:22px 0 22px}.ev0 h1 em{font-style:normal;color:${OR};display:block}
         .ev0 .sub{max-width:360px;font-size:13.500px;line-height:1.6;color:#d6d6d8;margin:0 0 30px}
         .ev0 .ghost{display:inline-flex;align-items:center;gap:10px;font-size:13px;margin-left:20px}.ev0 .ghost i{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center}
         .ev0 .stats{position:absolute;z-index:4;left:0;right:0;bottom:0;background:rgba(10,10,11,.88);border-top:1px solid rgba(255,255,255,.08)}
