@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { useFollowUp } from "@/lib/use-follow-up";
 import { senderIntro } from "@/lib/message";
-import { Check, Copy, Lock, Plus, Send, UserRound } from "lucide-react";
+import { Check, Download, Lock, Plus, Send, UserRound } from "lucide-react";
 import { useVerified } from "@/lib/use-verified";
 import { SiteModelView } from "@/components/SiteModelView";
 import { PremiumSite } from "@/components/PremiumSite";
@@ -58,18 +58,18 @@ function Viewer() {
       <div className="sticky top-0 z-50 border-b border-border bg-background/95 px-3 py-2 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center gap-2">
           <Link to="/vitrine" className="mr-auto whitespace-nowrap text-sm font-bold hover:underline">← Vitrine</Link>
-          {premium && !verified && <Link to="/verificado" className={primary} title="Só para quem tem o selo Verificado"><Lock className="size-4" />Copiar código<span className="hidden sm:inline"> · Verificado</span></Link>}
-          {premium && verified && <button type="button" onClick={async () => {
-            const job = getModelCode({ data: { id, name: client.name, whatsapp: client.whatsapp, city: client.city } });
+          {premium && !verified && <Link to="/verificado" className={primary} title="Só para quem tem o selo Verificado"><Lock className="size-4" />Baixar código<span className="hidden sm:inline"> · Verificado</span></Link>}
+          {premium && verified && <button type="button" disabled={done === "w"} onClick={async () => {
+            setDone("w");
             try {
-              if (typeof ClipboardItem !== "undefined" && navigator.clipboard?.write) await navigator.clipboard.write([new ClipboardItem({ "text/plain": job.then((r) => new Blob([r.html], { type: "text/plain" })) })]);
-              else await navigator.clipboard.writeText((await job).html);
-              setDone("p"); setTimeout(() => setDone(""), 2500);
-            } catch {
-              try { const r = await job; const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([r.html], { type: "text/html" })); a.download = r.filename; a.click(); setDone("dl"); } catch { setDone("err"); }
-              setTimeout(() => setDone(""), 3000);
-            }
-          }} className={primary}>{done === "p" ? <Check className="size-4" /> : <Copy className="size-4" />}{done === "p" ? "Código copiado!" : done === "dl" ? "Arquivo baixado" : done === "err" ? "Só para Verificado" : "Copiar código"}</button>}
+              const r = await getModelCode({ data: { id, name: client.name, whatsapp: client.whatsapp, city: client.city } });
+              const url = URL.createObjectURL(new Blob([r.html], { type: "text/html;charset=utf-8" }));
+              const a = document.createElement("a"); a.href = url; a.download = r.filename; document.body.appendChild(a); a.click(); a.remove();
+              setTimeout(() => URL.revokeObjectURL(url), 10000);
+              setDone("dl");
+            } catch { setDone("err"); }
+            setTimeout(() => setDone(""), 3500);
+          }} className={primary}>{done === "dl" ? <Check className="size-4" /> : <Download className="size-4" />}{done === "w" ? "Gerando…" : done === "dl" ? "Arquivo baixado" : done === "err" ? "Só para Verificado" : "Baixar código"}</button>}
           <button type="button" disabled title="Em breve" className={`${btn} px-2.5 opacity-50 sm:px-3`}><Plus className="size-4" />Em breve</button>
         </div>
       </div>
