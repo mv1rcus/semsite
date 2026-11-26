@@ -57,20 +57,24 @@ export function XaropeFold({ client }: { client?: { name?: string; whatsapp?: st
         .lisse .btn-o:hover{border-color:${RED};color:${WHITE}}
         .lisse .sec-t{font-size:30px;color:${TXT}}
         .lisse .sec-t em{font-style:normal;color:${RED}}
-        .lisse .flavor{position:relative;border-radius:6px;overflow:hidden;background:${CARD};border:1px solid ${LINE}}
+        .lisse .flavor{position:relative;border-radius:6px;overflow:hidden;background:${CARD};border:1px solid ${LINE};flex:0 0 auto}
         .lisse .flavor img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;transition:transform .5s}
+        .lisse .g6{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+        .lisse .flavor-tint{position:absolute;inset:0;mix-blend-mode:color;opacity:.62;pointerEvents:none}
         .lisse .flavor:hover img{transform:scale(1.05)}
         .lisse .hero-ovl{background:linear-gradient(90deg, rgba(12,9,13,.96) 0%, rgba(12,9,13,.88) 34%, rgba(12,9,13,.55) 58%, rgba(12,9,13,.15) 82%, rgba(12,9,13,.05) 100%)}
-        .lisse .hero-min{min-height:560px;display:flex;flex-direction:column;justify-content:center}
+        .lisse .hero-min{min-height:680px;display:flex;flex-direction:column;justify-content:center}
         .lisse .nav-a{cursor:pointer;transition:.2s}
         .lisse .nav-a:hover{color:${WHITE}}
         @media (max-width:900px){
+          .lisse .g6{display:flex!important;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;padding-bottom:10px}
+          .lisse .g6 .flavor{flex:0 0 62%;scroll-snap-align:start}
           .lisse .desk-nav{display:none!important}
           .lisse .hero-grid{grid-template-columns:1fr!important}
           .lisse .g5{grid-template-columns:repeat(2,1fr)!important}
           .lisse .g3{grid-template-columns:1fr!important}
           .lisse .g4{grid-template-columns:repeat(2,1fr)!important}
-          .lisse .hero-wm{font-size:84px!important}
+          .lisse .hero-wm{font-size:96px!important}
           .lisse .hero-sub{font-size:26px!important}
           .lisse .sobre-grid{grid-template-columns:1fr!important}
           .lisse .foot-grid{grid-template-columns:1fr 1fr!important}
@@ -95,9 +99,9 @@ export function XaropeFold({ client }: { client?: { name?: string; whatsapp?: st
         <img src="/bar-hero.jpg" alt={"Fileira de garrafas de xarope " + brand + " com respingos de frutas"} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
         <div className="hero-ovl" style={{ position: "absolute", inset: 0 }} />
         <div className="wrap hero-min" style={{ position: "relative", paddingTop: 92, paddingBottom: 92 }}>
-          <div style={{ maxWidth: 560 }}>
-            <div className="wordmark wm-under hero-wm" style={{ fontSize: 110, color: WHITE }}>Bar Lisse</div>
-            <h1 className="hero-sub" style={{ fontSize: 34, marginTop: 18, letterSpacing: ".02em", color: WHITE }}>Crie a sua<br />história de sabores!</h1>
+          <div style={{ maxWidth: 660 }}>
+            <div className="wordmark wm-under hero-wm" style={{ fontSize: 150, color: WHITE, whiteSpace: "nowrap" }}>Bar Lisse</div>
+            <h1 className="hero-sub" style={{ fontSize: 36, marginTop: 10, letterSpacing: ".02em", color: WHITE }}>Crie a sua<br />história de sabores!</h1>
             <p style={{ marginTop: 18, fontSize: 15, lineHeight: 1.65, color: TXT, maxWidth: 420 }}>Xaropes premium para coquetéis, limonadas, cafés e sobremesas. Sabor natural em cada gota.</p>
             <div style={{ marginTop: 30, display: "flex", gap: 14, flexWrap: "wrap" }}>
               <a href={wa("Olá! Quero escolher meus sabores de xarope da " + brand + ".")} className="btn">Escolher sabor →</a>
@@ -131,17 +135,16 @@ export function XaropeFold({ client }: { client?: { name?: string; whatsapp?: st
               <span style={{ width: 40, height: 40, border: `1px solid ${LINE}`, borderRadius: 3, display: "inline-flex", alignItems: "center", justifyContent: "center", color: TXT2, cursor: "pointer" }}>›</span>
             </div>
           </div>
-          <div className="g3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 22 }}>
+          <div className="g6">
             {SABORES.map((s) => (
               <div key={s.n} className="flavor">
-                <img src={s.img} alt={"Xarope sabor " + s.n + " da " + brand} loading="lazy" />
-                <div style={{ position: "absolute", inset: 0, background: s.cor, mixBlendMode: "color", opacity: .62, pointerEvents: "none" }} />
-                <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: "40px 18px 16px", background: "linear-gradient(180deg, transparent, rgba(12,9,13,.92) 55%)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
-                  <div>
-                    <div style={{ fontSize: 18, fontWeight: 800, textTransform: "uppercase", color: WHITE }}>{s.n}</div>
-                    <div style={{ fontSize: 12, color: TXT2, marginTop: 4 }}>{s.d}</div>
-                  </div>
-                  <a href={wa("Olá! Quero o xarope de " + s.n + " da " + brand + ".")} className="btn-o" style={{ whiteSpace: "nowrap" }}>Detalhes</a>
+                <div style={{ position: "relative" }}>
+                  <img src={s.img} alt={"Xarope sabor " + s.n + " da " + brand} loading="lazy" />
+                  <div style={{ position: "absolute", inset: 0, background: s.cor, mixBlendMode: "color", opacity: .62, pointerEvents: "none" }} />
+                </div>
+                <div style={{ padding: "14px 14px 16px", display: "flex", flexDirection: "column", gap: 10 }}>
+                  <div style={{ fontSize: 15, fontWeight: 800, textTransform: "uppercase", color: WHITE, letterSpacing: ".03em" }}>{s.n}</div>
+                  <a href={wa("Olá! Quero o xarope de " + s.n + " da " + brand + ".")} className="btn-o" style={{ whiteSpace: "nowrap", justifyContent: "center" }}>Detalhes</a>
                 </div>
               </div>
             ))}
@@ -199,7 +202,7 @@ export function XaropeFold({ client }: { client?: { name?: string; whatsapp?: st
 
       {/* rodapé */}
       <footer id="contato" style={{ background: BG2, borderTop: `1px solid ${LINE}`, padding: "64px 0 32px" }}>
-        <div className="wrap foot-grid" style={{ display: "grid", gridTemplateColumns: "1.2fr 1.4fr 1fr 1fr", gap: 40 }}>
+        <div className="wrap foot-grid" style={{ display: "grid", gridTemplateColumns: "1.2fr 1.4fr .9fr 1fr 1fr", gap: 40 }}>
           <div>
             <span className="wordmark wm-under" style={{ fontSize: 30, color: WHITE }}>Bar Lisse</span>
             <p style={{ marginTop: 16, fontSize: 13, lineHeight: 1.6, color: TXT2 }}>Crie a sua história de sabores com a {brand}.</p>
@@ -219,6 +222,12 @@ export function XaropeFold({ client }: { client?: { name?: string; whatsapp?: st
             <div style={{ fontSize: 13, fontWeight: 800, textTransform: "uppercase", color: TXT }}>Menu</div>
             {[["Sabores", "sabores"], ["Coquetéis", "coqueteis"], ["A marca", "marca"], ["Contato", "contato"]].map(([n, id]) => (
               <div key={n} style={{ marginTop: 12 }}><a className="nav-a" onClick={() => go(id ?? "")} style={{ fontSize: 13, color: TXT2, cursor: "pointer" }}>{n}</a></div>
+            ))}
+          </div>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 800, textTransform: "uppercase", color: TXT }}>Informações</div>
+            {["Entrega para todo o Brasil", "Pagamento seguro", "Trocas e devoluções", "Política de privacidade"].map((n) => (
+              <div key={n} style={{ marginTop: 12, fontSize: 13, color: TXT2 }}>{n}</div>
             ))}
           </div>
           <div>
