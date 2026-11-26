@@ -76,6 +76,7 @@ export function SalonFold({ client }: { client?: { name?: string; whatsapp?: str
         .sf .heroimg img{width:100%;height:100%;object-fit:cover;object-position:60% 22%;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 28%);mask-image:linear-gradient(90deg,transparent 0,#000 28%)}
         .sf .badge{position:absolute;right:6%;bottom:70px;width:150px;height:150px;border-radius:50%;border:1.5px solid rgba(255,255,255,.85);display:grid;place-items:center;color:#fff;z-index:2;backdrop-filter:blur(2px);background:rgba(40,20,20,.45)}
         .sf .badge i{position:absolute;inset:0;animation:sfspin 22s linear infinite}
+        .sf .badge svg{width:100%;height:100%;max-width:100%;overflow:visible}
         .sf .badge b{width:76px;height:76px;border-radius:50%;background:${PK};color:${INK};display:grid;place-items:center;text-align:center;font-family:Anton,sans-serif;font-weight:400;font-size:17px;line-height:1.05;letter-spacing:.5px}
         @keyframes sfspin{to{transform:rotate(360deg)}}
         .sf .sec{padding:70px 0 20px}
