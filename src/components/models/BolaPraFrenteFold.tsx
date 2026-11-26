@@ -55,8 +55,23 @@ const BlobBackB = () => (
 );
 const BlobFront = () => (
   <path
-    d="M-20 520 C 200 470, 400 545, 610 505 C 820 465, 990 540, 1100 515 L 1100 585 C 920 630, 730 555, 530 595 C 330 635, 120 570, -20 605 Z"
+    d="M-20 235 C 180 195, 400 260, 610 220 C 820 180, 990 250, 1100 225 L 1100 285 C 930 320, 730 255, 530 295 C 330 335, 120 275, -20 305 Z"
     fill={VM}
+  />
+);
+/** Segunda faixa por cima, cruzando o FRENTE na diagonal como a fita laranja sobre o ACTION do pin. */
+const BlobFront2 = () => (
+  <path
+    d="M1100 795 C 920 840, 770 790, 570 830 C 370 872, 190 812, -20 856 L -20 916 C 210 870, 410 934, 610 892 C 810 850, 950 908, 1100 866 Z"
+    fill={VM}
+  />
+);
+/** Eco cinza-azulado claro do pin, atrás das letras. */
+const BlobGray = () => (
+  <path
+    d="M118 418 C 58 378, 88 278, 188 283 C 288 288, 318 398, 238 438 C 178 468, 148 443, 118 418 Z"
+    fill={PL}
+    opacity="0.55"
   />
 );
 
@@ -127,6 +142,7 @@ export function BolaPraFrenteFold({ client }: { client?: { name?: string; whatsa
           <p className="eyebrow" style={{ color: VMT, marginBottom: 20, textWrap: "balance", maxWidth: 560, marginLeft: "auto", marginRight: "auto" }}>Todo sábado tem jogo. Toda semana tem evolução.</p>
           <h1 style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>{brand} Escolinha de Futebol em {city}: aulas de futebol infantil do sub-7 ao sub-15 com campeonato interno</h1>
           <svg viewBox="0 0 1080 1000" role="img" aria-label="Pôster com as palavras Bola pra Frente em letras gigantes de ponta a ponta, entremeadas por manchas vermelhas" style={{ width: "100%", height: "auto", display: "block", margin: "0 auto" }}>
+            <BlobGray />
             <BlobBackA />
             <BlobBackB />
             <g fontFamily={display} fontWeight="800" textAnchor="middle">
@@ -142,6 +158,7 @@ export function BolaPraFrenteFold({ client }: { client?: { name?: string; whatsa
               </g>
             </g>
             <BlobFront />
+            <BlobFront2 />
           </svg>
           <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap", marginTop: 26 }}>
             <a className="btn-v" href={wa(`Olá! Quero agendar uma aula experimental gratuita na escolinha ${brand}.`)} target="_blank" rel="noreferrer">Aula experimental grátis</a>
