@@ -26,6 +26,7 @@ import { LaundryFold } from "@/components/models/LaundryFold";
 import { GraficaFold } from "@/components/models/GraficaFold";
 import { CervejariaFold } from "@/components/models/CervejariaFold";
 import { SucoFold } from "@/components/models/SucoFold";
+import { WineFold } from "@/components/models/WineFold";
 import { BikeFold } from "@/components/models/BikeFold";
 import { CafeFold } from "@/components/models/CafeFold";
 import { TattooFold } from "@/components/models/TattooFold";
@@ -91,6 +92,7 @@ else if (__MODEL__ === "pano-limpo") root.render(<LaundryFold client={cfg.client
 else if (__MODEL__ === "cobalto-grafica") root.render(<GraficaFold client={cfg.client} />);
 else if (__MODEL__ === "caldeira-brava") root.render(<CervejariaFold client={cfg.client} />);
 else if (__MODEL__ === "gota-viva") root.render(<SucoFold client={cfg.client} />);
+else if (__MODEL__ === "casa-vinha") root.render(<WineFold client={cfg.client} />);
 else if (__MODEL__ === "roda-livre") root.render(<BikeFold client={cfg.client} />);
 else if (__MODEL__ === "grao-e-prosa") root.render(<CafeFold client={cfg.client} />);
 else if (__MODEL__ === "ponte-ingles") root.render(<InglesFold client={cfg.client} />);
