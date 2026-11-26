@@ -3,11 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ArrowRight, Lock, Search, MonitorSmartphone, MessageCircle, Eye, Star, FileText, X, Check, UserRound, Store, ReceiptText, ScanSearch, ChartNoAxesCombined } from "lucide-react";
 import presentation from "@/assets/semsite-apresentacao.mp4.asset.json";
-const barber = "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=1600&auto=format&fit=crop";
-import dentist from "@/assets/demo-dentist.jpg";
-import pizza from "@/assets/demo-pizzeria.jpg";
-import beauty from "@/assets/demo-beauty.jpg";
-import services from "@/assets/demo-services.jpg";
 import { lovable } from "@/integrations/lovable";
 import { supabase } from "@/integrations/supabase/client";
 import { FREE_DAILY_SEARCHES, VERIFIED_PLANS } from "@/lib/verified-plans";
@@ -299,11 +294,11 @@ function Login() {
 }
 
 const FAN = [
-  { name: "Barbearia", img: barber, slug: "bigodonbarbeariaebardemo" },
-  { name: "Dentista", img: dentist, slug: "draadeliaaraujoodontologiaespecializadademo" },
-  { name: "Pizzaria", img: pizza, slug: "serranapizzariaerestaurantedemo" },
-  { name: "Clínica de Estética", img: beauty, slug: "silstudiosfashiondemo" },
-  { name: "Serviços", img: services, slug: "mastervidrosvidracariaemuberlandiademo" },
+  { name: "Restaurante japonês", img: "/fan-mare-sushi.jpg", slug: "mare-sushi" },
+  { name: "Moda automobilística", img: "/fan-velocity-club.jpg", slug: "velocity-club" },
+  { name: "Hamburgueria", img: "/fan-brasa-e-pao.jpg", slug: "brasa-e-pao" },
+  { name: "Clínica de Estética", img: "/fan-alva-estetica.jpg", slug: "alva-estetica" },
+  { name: "Wine bar e adega", img: "/fan-casa-vinha.jpg", slug: "casa-vinha" },
 ];
 
 /** Ramos que também têm demonstração pronta, além dos 5 em destaque. */
@@ -375,9 +370,10 @@ function FanShowcase() {
         <div className="fixed inset-0 z-[100] flex flex-col bg-background/95 backdrop-blur" role="dialog" aria-label={`Prévia ${preview.name}`}>
           <div className="flex items-center justify-between border-b border-border px-4 py-3">
             <p className="font-display text-2xl">{preview.name}</p>
+            <a href={`/vitrine/${preview.slug}`} target="_blank" rel="noopener" className="ml-auto mr-3 text-sm font-semibold underline">Abrir página</a>
             <button type="button" onClick={() => setPreview(null)} aria-label="Fechar prévia" className="rounded-full border border-border p-2"><X className="size-5" /></button>
           </div>
-          <iframe title={`Prévia ${preview.name}`} src={`/${preview.slug}`} className="w-full flex-1 bg-card" />
+          <iframe title={`Prévia ${preview.name}`} src={`/vitrine/${preview.slug}`} className="w-full flex-1 bg-card" />
         </div>,
         document.body,
       )}

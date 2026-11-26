@@ -19,6 +19,7 @@ import { MotoFold } from "@/components/models/MotoFold";
 import { BlackFold } from "@/components/models/BlackFold";
 import { VelocityFold } from "@/components/models/VelocityFold";
 import { KitchenFold } from "@/components/models/KitchenFold";
+import { PulsoFold } from "@/components/models/PulsoFold";
 import { TechFold } from "@/components/models/TechFold";
 import { AgroFold } from "@/components/models/AgroFold";
 import { CinzaFold } from "@/components/models/CinzaFold";
@@ -146,6 +147,7 @@ else if (__MODEL__ === "formas-moles") root.render(<MovelFold client={cfg.client
 else if (__MODEL__ === "remix") root.render(<BrechoFold client={cfg.client} />);
 else if (__MODEL__ === "velocity-club") root.render(<VelocityFold client={cfg.client} />);
 else if (__MODEL__ === "kitchenlux") root.render(<KitchenFold client={cfg.client} />);
+else if (__MODEL__ === "pulso-scooters") root.render(<PulsoFold client={cfg.client} />);
 else if (__MODEL__ === "techmart") root.render(<TechFold client={cfg.client} />);
 else if (__MODEL__ === "fizzo") root.render(<FizzFold client={cfg.client} />);
 else if (__MODEL__ === "giro-bikes") root.render(<BikeMove client={cfg.client} />);
