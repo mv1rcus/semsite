@@ -38,11 +38,11 @@ const TOUCAS = ["#fbf8f0", "#ffd23f", "#3fae5a", "#17a2c0", "#10222b"];
 /** Onda de fitas que corta o pôster, estilo turbilhão do pin. */
 const Swirl = () => (
   <g fill="none" strokeLinecap="round">
-    <path d="M1180 250 C 900 330, 980 430, 640 480 S 240 600, 60 740" stroke={AZ2} strokeWidth="26" />
-    <path d="M1200 290 C 940 370, 1000 460, 680 505 S 300 630, 120 760" stroke={AZ} strokeWidth="16" />
-    <path d="M1160 215 C 860 300, 940 420, 600 465 S 180 570, 20 715" stroke={AZ3} strokeWidth="10" />
-    <path d="M1210 335 C 980 400, 1030 480, 740 530 S 380 660, 200 780" stroke={WH} strokeWidth="6" />
-    <path d="M1140 185 C 830 280, 910 400, 570 450 S 140 545, -10 690" stroke={AZ2} strokeWidth="8" />
+    <path d="M1180 285 C 900 375, 980 490, 640 545 S 240 680, 60 835" stroke={AZ2} strokeWidth="26" />
+    <path d="M1200 330 C 940 420, 1000 520, 680 575 S 300 715, 120 860" stroke={AZ} strokeWidth="16" />
+    <path d="M1160 245 C 860 340, 940 475, 600 530 S 180 645, 20 810" stroke={AZ3} strokeWidth="10" />
+    <path d="M1210 380 C 980 455, 1030 545, 740 600 S 380 750, 200 885" stroke={WH} strokeWidth="6" />
+    <path d="M1140 210 C 830 315, 910 455, 570 510 S 140 615, -10 780" stroke={AZ2} strokeWidth="8" />
   </g>
 );
 
@@ -100,31 +100,37 @@ export function CardumeFold({ client }: { client?: { name?: string; whatsapp?: s
         <div className="wrap" style={{ textAlign: "center", paddingTop: 34 }}>
           <p className="eyebrow" style={{ color: AZ2, marginBottom: 6, textWrap: "balance", maxWidth: 560, marginLeft: "auto", marginRight: "auto" }}>Do primeiro banho de piscina ao pódio</p>
           <h1 style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>{brand} Escola de Natação em {city}: aulas de natação para bebês, crianças, adultos e hidroginástica</h1>
-          <svg viewBox="0 0 1200 760" role="img" aria-label="Pôster com a palavra Cardume repetida em letras gigantes preenchidas com água" style={{ width: "100%", maxWidth: 980, height: "auto", display: "block", margin: "0 auto" }}>
+          <svg viewBox="0 0 1200 880" role="img" aria-label="Pôster com a palavra Cardume repetida em letras gigantes preenchidas com água" style={{ width: "100%", maxWidth: 980, height: "auto", display: "block", margin: "0 auto" }}>
             <defs>
               <linearGradient id="cd-water" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0" stopColor={AZ3} />
                 <stop offset=".45" stopColor={AZ} />
                 <stop offset="1" stopColor={AZ2} />
               </linearGradient>
-              <pattern id="cd-caustic" width="90" height="90" patternUnits="userSpaceOnUse">
-                <ellipse cx="22" cy="20" rx="16" ry="7" fill="#ffffff" opacity=".28" />
-                <ellipse cx="66" cy="52" rx="20" ry="8" fill="#ffffff" opacity=".2" />
-                <ellipse cx="30" cy="74" rx="12" ry="5" fill="#ffffff" opacity=".16" />
+              <filter id="cd-wf" x="0" y="0" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.028 0.042" numOctaves="3" seed="11" />
+                <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  3.2 3.2 3.2 0 -4.4" />
+              </filter>
+              <filter id="cd-wf2" x="0" y="0" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.016 0.026" numOctaves="3" seed="4" />
+                <feColorMatrix type="matrix" values="0 0 0 0 0.04  0 0 0 0 0.36  0 0 0 0 0.55  2.6 2.6 2.6 0 -3.6" />
+              </filter>
+              <pattern id="cd-caustic" width="340" height="340" patternUnits="userSpaceOnUse">
+                <rect width="340" height="340" filter="url(#cd-wf)" />
+              </pattern>
+              <pattern id="cd-depth" width="380" height="380" patternUnits="userSpaceOnUse">
+                <rect width="380" height="380" filter="url(#cd-wf2)" />
               </pattern>
             </defs>
             <Swirl />
-            <g fontFamily={display} fontWeight="800" fontSize="172" textAnchor="middle" letterSpacing="2">
-              <text x="600" y="150" fill="url(#cd-water)">CARDUME</text>
-              <text x="600" y="150" fill="url(#cd-caustic)">CARDUME</text>
-              <text x="600" y="300" fill="url(#cd-water)">CARDUME</text>
-              <text x="600" y="300" fill="url(#cd-caustic)">CARDUME</text>
-              <text x="600" y="450" fill="url(#cd-water)">CARDUME</text>
-              <text x="600" y="450" fill="url(#cd-caustic)">CARDUME</text>
-              <text x="600" y="600" fill="url(#cd-water)">CARDUME</text>
-              <text x="600" y="600" fill="url(#cd-caustic)">CARDUME</text>
-              <text x="600" y="742" fill="url(#cd-water)">CARDUME</text>
-              <text x="600" y="742" fill="url(#cd-caustic)">CARDUME</text>
+            <g fontFamily={display} fontWeight="800" fontSize="215" textAnchor="middle" letterSpacing="2">
+              {[175, 340, 505, 670, 825].map((y) => (
+                <g key={y}>
+                  <text x="600" y={y} fill="url(#cd-water)">CARDUME</text>
+                  <text x="600" y={y} fill="url(#cd-depth)">CARDUME</text>
+                  <text x="600" y={y} fill="url(#cd-caustic)">CARDUME</text>
+                </g>
+              ))}
             </g>
           </svg>
           <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap", marginTop: 30 }}>
