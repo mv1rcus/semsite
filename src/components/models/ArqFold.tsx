@@ -92,7 +92,7 @@ export function ArqFold({ client }: { client?: { name?: string; whatsapp?: strin
           .vao .hero-pad{padding-bottom:230px!important}
           .vao .hero-fade{background:linear-gradient(180deg, rgba(239,234,224,.96) 0%, rgba(239,234,224,.92) 44%, rgba(239,234,224,.55) 62%, rgba(239,234,224,0) 80%)!important}
         }
-        @media (max-width:560px){ .vao .g4{grid-template-columns:1fr!important} .vao .hero-wm{font-size:56px!important} .vao header .btn{display:none!important} }
+        @media (max-width:560px){ .vao .g4{grid-template-columns:1fr!important} .vao .hero-wm{font-size:56px!important} .vao header .btn{display:none!important} .vao h2{font-size:32px!important} .vao .btn{padding:15px 22px!important;letter-spacing:.13em!important;white-space:nowrap} }
       `}</style>
 
       {/* header */}
@@ -108,17 +108,17 @@ export function ArqFold({ client }: { client?: { name?: string; whatsapp?: strin
 
       {/* hero: foto full-bleed com a tipografia sobre o céu, como o pôster */}
       <section style={{ position: "relative", overflow: "hidden", background: CREAM }}>
-        <img src="/vao-hero.webp" alt={"Casa de arquitetura orgânica projetada pela " + brand + " na serra, concreto e madeira ao pôr do sol"} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 58%" }} />
-        <div className="hero-fade" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(239,234,224,.96) 0%, rgba(239,234,224,.9) 32%, rgba(239,234,224,.32) 55%, rgba(239,234,224,0) 68%)" }} />
+        <img src="/vao-hero.webp" alt={"Casa de arquitetura orgânica projetada pela " + brand + " na serra, concreto e madeira ao pôr do sol"} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 62%" }} />
+        <div className="hero-fade" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(239,234,224,.97) 0%, rgba(239,234,224,.94) 42%, rgba(239,234,224,.62) 60%, rgba(239,234,224,0) 78%)" }} />
         <div className="bp"><Blueprint pos="tl" /></div>
         <div className="bp"><Blueprint pos="tr" /></div>
-        <div className="vtext" style={{ position: "absolute", left: 26, top: "30%", zIndex: 3, textShadow: "0 0 14px " + CREAM + ", 0 0 4px " + CREAM }}>Projetamos espaços para uma vida extraordinária</div>
+        <div className="vtext" style={{ position: "absolute", left: 26, top: "30%", zIndex: 3, textShadow: "0 0 18px " + CREAM + ", 0 0 8px " + CREAM + ", 0 0 3px " + CREAM + ", 0 0 2px " + CREAM }}>Projetamos espaços para uma vida extraordinária</div>
         <div className="wrap hero-pad" style={{ position: "relative", zIndex: 2, textAlign: "center", paddingTop: 84, paddingBottom: 340 }}>
           <div className="wordmark hero-wm" style={{ fontSize: 128 }}>VÃO</div>
           <div className="hero-wm-sub" style={{ fontSize: 19, letterSpacing: ".62em", fontWeight: 500, marginTop: 6, textTransform: "lowercase" }}>arquitetura</div>
           <div style={{ width: 56, height: 1.5, background: INK, margin: "26px auto" }} />
           <h1 className="hero-h1" style={{ fontSize: 52, maxWidth: 760, margin: "0 auto" }}>Arquitetura que transcende</h1>
-          <div style={{ marginTop: 22, fontSize: 12, fontWeight: 600, letterSpacing: ".34em", textTransform: "uppercase", color: INK, textShadow: "0 1px 12px " + CREAM + ", 0 0 4px " + CREAM }}>Projeto<span style={{ color: AMBER_TXT, margin: "0 14px" }}>·</span>Visão<span style={{ color: AMBER_TXT, margin: "0 14px" }}>·</span>Território</div>
+          <div style={{ marginTop: 22, fontSize: 12, fontWeight: 600, letterSpacing: ".34em", textTransform: "uppercase", color: INK, textShadow: "0 1px 14px " + CREAM + ", 0 0 6px " + CREAM + ", 0 0 3px " + CREAM }}>Projeto<span style={{ color: AMBER_TXT, margin: "0 14px" }}>·</span>Visão<span style={{ color: AMBER_TXT, margin: "0 14px" }}>·</span>Território</div>
           <div style={{ display: "flex", gap: 16, justifyContent: "center", marginTop: 34, flexWrap: "wrap" }}>
             <a href={wa("Olá! Quero iniciar um projeto de arquitetura com a " + brand + ".")} className="btn">Iniciar meu projeto</a>
             <a onClick={() => go("projetos")} className="btn-o" style={{ background: "rgba(239,234,224,.62)", backdropFilter: "blur(5px)" }}>Ver projetos</a>
@@ -132,7 +132,7 @@ export function ArqFold({ client }: { client?: { name?: string; whatsapp?: strin
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 18, marginBottom: 46 }}>
             <div>
               <div className="eyebrow" style={{ color: AMBER_TXT }}>O que fazemos</div>
-              <h2 style={{ fontSize: 40, marginTop: 14 }}>Da primeira linha à chave na mão</h2>
+              <h2 style={{ fontSize: 40, marginTop: 14 }}>{"Da primeira\u00A0linha à chave na\u00A0mão"}</h2>
             </div>
             <p style={{ maxWidth: 380, fontSize: 15, lineHeight: 1.7, color: INK2 }}>Um escritório pequeno por escolha: cada projeto tem dedicação de autor e acompanhamento direto dos sócios.</p>
           </div>
@@ -210,7 +210,7 @@ export function ArqFold({ client }: { client?: { name?: string; whatsapp?: strin
             "Casa boa é a que some na paisagem e aparece na vida de quem mora. Desenhamos para o lugar, nunca contra ele."
           </p>
           <div style={{ marginTop: 26, fontSize: 12, fontWeight: 600, letterSpacing: ".28em", textTransform: "uppercase" }}>Helena Vão <span style={{ color: INK2 }}>· arquiteta fundadora, CAU RS</span></div>
-          <div style={{ marginTop: 34, fontSize: 12, fontWeight: 600, letterSpacing: ".26em", textTransform: "uppercase", color: INK2 }}>Projeto único por cliente<span style={{ color: AMBER_TXT, margin: "0 12px" }}>·</span>Obra acompanhada<span style={{ color: AMBER_TXT, margin: "0 12px" }}>·</span>Sem taxa escondida</div>
+          <div style={{ marginTop: 34, fontSize: 12, fontWeight: 600, letterSpacing: ".26em", textTransform: "uppercase", color: INK2, display: "flex", flexWrap: "wrap", justifyContent: "center", columnGap: 24, rowGap: 10 }}><span>Projeto único por cliente</span><span>Obra acompanhada</span><span>Sem taxa escondida</span></div>
         </div>
       </section>
 
@@ -220,7 +220,7 @@ export function ArqFold({ client }: { client?: { name?: string; whatsapp?: strin
         <div className="wrap" style={{ position: "relative", zIndex: 2 }}>
           <div style={{ textAlign: "center", maxWidth: 780, margin: "0 auto" }}>
             <div className="eyebrow" style={{ color: AMBER, justifyContent: "center" }}>Vamos desenhar?</div>
-            <h2 style={{ fontSize: 46, margin: "18px 0 16px", color: CREAM }}>Seu terreno tem um projeto esperando</h2>
+            <h2 style={{ fontSize: 46, margin: "18px 0 16px", color: CREAM }}>{"Seu terreno tem um\u00A0projeto esperando"}</h2>
             <p style={{ fontSize: 15, lineHeight: 1.7, color: GR, maxWidth: 520, margin: "0 auto" }}>A primeira conversa é gratuita e sem compromisso: você conta a ideia, a gente mostra o caminho.</p>
             <div style={{ display: "flex", gap: 16, justifyContent: "center", marginTop: 34, flexWrap: "wrap" }}>
               <a href={wa("Olá! Quero uma conversa gratuita sobre um projeto com a " + brand + ".")} className="btn" style={{ background: AMBER, color: INK }}>Agendar conversa gratuita</a>
