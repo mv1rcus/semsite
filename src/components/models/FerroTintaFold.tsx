@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-/** Estúdio de tatuagem escuro e artístico, partindo de um pin de site de estúdio (Tattoo Dominus: hero full-bleed com foto, faixa com frase-manifesto, grid de artistas, contadores) adaptado: marrom-sépia + laranja-ember, Bebas Neue, flash da semana em line-art e agendamento em 3 passos no WhatsApp. */
+/** Estúdio de tatuagem escuro e artístico, partindo de um pin de site de estúdio (Tattoo Dominus: hero full-bleed com foto, faixa com frase-manifesto, grid de artistas, contadores) adaptado: marrom-sépia + laranja-ember, Bebas Neue, galeria de trabalhos com fotos reais, flash da semana em line-art e agendamento em 3 passos no WhatsApp. */
 const BG = "#17100b", PN = "#211712", CD = "#1d1410", TX = "#f3e9dc", MU = "#d0c1b1", EM = "#e4572e", EMD = "#b03c1c", LN = "#3a2a20", EMT = "#f0683c";
 const ARTISTS = [
   { n: "Dante Ferreira", s: "Blackwork e old school pesado", img: "/ft-a1.webp", y: "12 anos de agulha" },
@@ -13,6 +13,14 @@ const FLASH = [
   { n: "Mão e lua", p: "R$ 380", d: "M15 3a8 8 0 1 0 6 13A9 9 0 0 1 15 3zM7 12h6" },
   { n: "Caveira chicana", p: "R$ 450", d: "M12 3a7 7 0 0 0-7 7c0 3 2 5 3 6v3h8v-3c1-1 3-3 3-6a7 7 0 0 0-7-7zM9 10h.01M15 10h.01M10 16h4" },
   { n: "Espada e flor", p: "R$ 320", d: "M12 2l2 4-2 12-2-12zM12 18v4M8 8c2 1 6 1 8 0" },
+];
+const WORKS = [
+  { img: "/ft-w1.webp", t: "Blackwork · rosa no antebraço" },
+  { img: "/ft-w2.webp", t: "Old school · adaga e serpente" },
+  { img: "/ft-w3.webp", t: "Fine line · botânica nas costas" },
+  { img: "/ft-w4.webp", t: "Old school · mariposa no peito" },
+  { img: "/ft-w5.webp", t: "Blackwork · geometria na mão" },
+  { img: "/ft-w6.webp", t: "Old school · pantera no braço" },
 ];
 const STEPS = [
   { t: "Conversa e referência", d: "Manda tua ideia, referências e região do corpo no WhatsApp. A gente devolve caminho e orçamento no mesmo dia." },
@@ -68,7 +76,7 @@ export function FerroTintaFold({ client }: { client?: { name?: string; whatsapp?
         .ft .hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(23,16,11,.66) 0%,rgba(23,16,11,.5) 40%,rgba(23,16,11,.97) 100%)}
         .ft .heroin{position:relative;z-index:2;width:100%;max-width:1160px;margin:0 auto;padding:210px 24px 72px}
         .ft .kick{display:inline-block;border:1px solid ${EMT};color:${EMT};font-weight:700;font-size:12px;letter-spacing:3px;text-transform:uppercase;padding:8px 14px}
-        .ft h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,8vw,110px);line-height:.95;margin:22px 0 0;color:${TX};letter-spacing:1px;max-width:700px}
+        .ft h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,8vw,110px);line-height:.95;margin:0;color:${TX};letter-spacing:1px;max-width:700px;text-wrap:balance}
         .ft h1 .hl{color:${EMT}}
         .ft .lead{font-size:17px;line-height:1.7;color:${MU};margin:22px 0 30px;max-width:480px}
         .ft .herometa{display:flex;gap:26px;flex-wrap:wrap;margin-top:34px;border-top:1px solid ${LN};padding-top:22px}
@@ -76,7 +84,7 @@ export function FerroTintaFold({ client }: { client?: { name?: string; whatsapp?
         .ft .herometa div span{font-size:12.5px;color:${MU};letter-spacing:1.5px;text-transform:uppercase}
         .ft .sec{padding:84px 0}
         .ft .kick2{color:${EMT};font-weight:700;font-size:12px;letter-spacing:3px;text-transform:uppercase}
-        .ft h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,4.6vw,58px);margin:12px 0 0;color:${TX};line-height:.98;letter-spacing:1px}
+        .ft h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,4.6vw,58px);margin:0;color:${TX};line-height:.98;letter-spacing:1px;text-wrap:balance}
         .ft .sub{color:${MU};font-size:16px;margin-top:14px;line-height:1.7}
         .ft .aboutg{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
         .ft .aboutg img{width:100%;display:block;border:1px solid ${LN}}
@@ -93,13 +101,19 @@ export function FerroTintaFold({ client }: { client?: { name?: string; whatsapp?
         .ft .agrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-top:44px}
         .ft .acard{position:relative;border:1px solid ${LN};overflow:hidden}
         .ft .acard img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;filter:saturate(.85)}
-        .ft .acard .lb{position:absolute;left:0;right:0;bottom:0;padding:44px 22px 20px;background:linear-gradient(180deg,transparent,rgba(23,16,11,.95))}
+        .ft .acard .lb{position:absolute;left:0;right:0;bottom:0;padding:52px 22px 20px;background:linear-gradient(180deg,transparent,rgba(23,16,11,.78) 45%,rgba(23,16,11,.97))}
         .ft .acard .lb b{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;display:block;color:${TX}}
         .ft .acard .lb small{color:${MU};font-size:13px;display:block;margin-top:2px}
-        .ft .acard .lb em{color:${EMT};font-style:normal;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;display:block;margin-top:8px}
+        .ft .acard .lb em{color:${EMT};font-style:normal;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;display:block;margin-top:8px;text-shadow:0 1px 8px rgba(23,16,11,.9)}
         .ft .atext{border:1px dashed ${LN};display:flex;flex-direction:column;justify-content:center;padding:32px;background:${CD}}
         .ft .atext b{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:1px;color:${TX};line-height:1}
         .ft .atext p{color:${MU};font-size:14.5px;line-height:1.7;margin:14px 0 20px}
+        .ft .works{padding:84px 0}
+        .ft .wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:44px}
+        .ft .wgrid .w{position:relative;overflow:hidden;border:1px solid #4a3328}
+        .ft .wgrid img{width:100%;aspect-ratio:1;object-fit:cover;display:block;filter:saturate(.9);transition:transform .4s}
+        .ft .wgrid .w:hover img{transform:scale(1.05)}
+        .ft .wgrid .w small{position:absolute;left:0;right:0;bottom:0;padding:30px 16px 12px;background:linear-gradient(180deg,transparent,rgba(23,16,11,.94));color:${TX};font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:1px}
         .ft .flash{background:${PN};padding:84px 0}
         .ft .fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px}
         .ft .fcard{background:${CD};border:1px solid #4a3328;padding:30px 26px;text-align:center;transition:border-color .2s}
@@ -162,6 +176,9 @@ export function FerroTintaFold({ client }: { client?: { name?: string; whatsapp?
           .ft .sec{padding:60px 0}
           .ft .flash{padding:60px 0}
           .ft .heroin{padding:170px 24px 52px}
+          .ft .works{padding:60px 0}
+          .ft .wgrid{grid-template-columns:repeat(2,1fr);gap:10px}
+          .ft .wgrid .w small{position:static;background:#17100b;padding:10px 12px;font-size:14px;letter-spacing:.5px;display:block}
         }
         @media (max-width:560px){
           .ft .fgrid{grid-template-columns:1fr 1fr;gap:10px}
@@ -180,11 +197,10 @@ export function FerroTintaFold({ client }: { client?: { name?: string; whatsapp?
       <header className="nav">
         <div className="logo">FERRO<em>&</em>TINTA</div>
         <nav className={menu ? "links open" : "links"}>
-          {["Artistas", "Flash", "Processo", "Avaliações"].map((t, i) => (
-            <a key={t} onClick={() => go(["artistas", "flash", "processo", "revs"][i] ?? "artistas")}>{t}</a>
+          {["Artistas", "Trabalhos", "Flash", "Processo", "Avaliações"].map((t, i) => (
+            <a key={t} onClick={() => go(["artistas", "trabalhos", "flash", "processo", "revs"][i] ?? "artistas")}>{t}</a>
           ))}
         </nav>
-        <button className="btn" onClick={() => start()}>Agendar sessão</button>
         <button className="burger" aria-label="Menu" onClick={() => setMenu(!menu)}>
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={TX} strokeWidth="1.8" strokeLinecap="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
         </button>
@@ -192,7 +208,6 @@ export function FerroTintaFold({ client }: { client?: { name?: string; whatsapp?
 
       <section className="hero" style={{ background: 'url("/ft-hero.webp") center 30%/cover no-repeat' }}>
         <div className="heroin">
-          <span className="kick">Estúdio de tatuagem · {city}</span>
           <h1>A nossa tinta <span className="hl">é a nossa marca</span></h1>
           <p className="lead">Blackwork, fine line e old school desenhados do zero pra tua pele. Estúdio autoral no coração de {city}, com biossegurança de clínica e alma de ateliê.</p>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
@@ -210,7 +225,6 @@ export function FerroTintaFold({ client }: { client?: { name?: string; whatsapp?
       <section className="sec">
         <div className="wrap aboutg">
           <div>
-            <span className="kick2">Desde 2013</span>
             <h2>Ateliê de pele, não linha de produção</h2>
             <p className="sub">Cada peça começa no sketchbook, não num catálogo. A gente estuda tua ideia, tua anatomia e teu tom de pele antes de encostar na agulha — e acompanha a cicatrização até o fim.</p>
             <div className="facts">
@@ -225,7 +239,6 @@ export function FerroTintaFold({ client }: { client?: { name?: string; whatsapp?
 
       <section className="band" style={{ background: 'url("/ft-feat.webp") center 35%/cover no-repeat' }}>
         <div className="bandin">
-          <span className="kick2">Artista da casa</span>
           <h2>Ravena Solla comanda a sexta de fine line</h2>
           <p className="sub">Toda sexta é dia de fine line com horário estendido até 22h. Orçamento na hora, desenho exclusivo e primeira sessão no mesmo dia pra peças pequenas.</p>
           <div style={{ marginTop: 28 }}>
@@ -236,7 +249,6 @@ export function FerroTintaFold({ client }: { client?: { name?: string; whatsapp?
 
       <section className="sec" id="artistas">
         <div className="wrap">
-          <span className="kick2">Quem tatua</span>
           <h2>Os artistas da casa</h2>
           <div className="agrid">
             {ARTISTS.map((a) => (
@@ -254,9 +266,23 @@ export function FerroTintaFold({ client }: { client?: { name?: string; whatsapp?
         </div>
       </section>
 
+      <section className="works" id="trabalhos">
+        <div className="wrap">
+          <h2>Trabalhos recentes</h2>
+          <p className="sub" style={{ maxWidth: 560 }}>Peças feitas aqui no estúdio, cicatrizadas e fotografadas. Cada uma nasceu de um desenho exclusivo — o teu também nasce.</p>
+          <div className="wgrid">
+            {WORKS.map((w) => (
+              <div className="w" key={w.img}>
+                <img src={w.img} alt={w.t} loading="lazy" />
+                <small>{w.t}</small>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="flash" id="flash">
         <div className="wrap">
-          <span className="kick2">Desenho pronto, preço fechado</span>
           <h2>Flash da semana</h2>
           <p className="sub" style={{ maxWidth: 560 }}>Peças autorais em line-art, disponíveis pra tatuar uma única vez cada. Gostou, chama no WhatsApp que a gente reserva por 48h.</p>
           <div className="fgrid">
@@ -274,7 +300,6 @@ export function FerroTintaFold({ client }: { client?: { name?: string; whatsapp?
 
       <section className="sec" id="processo">
         <div className="wrap">
-          <span className="kick2">Sem mistério</span>
           <h2>Como funciona</h2>
           <div className="steps">
             {STEPS.map((s, i) => (
@@ -290,7 +315,6 @@ export function FerroTintaFold({ client }: { client?: { name?: string; whatsapp?
 
       <section className="sec" id="revs" style={{ paddingTop: 0 }}>
         <div className="wrap">
-          <span className="kick2">Na pele e na palavra</span>
           <h2>Quem saiu da cadeira</h2>
           <div className="revs">
             {REVIEWS.map((r) => (
@@ -306,7 +330,6 @@ export function FerroTintaFold({ client }: { client?: { name?: string; whatsapp?
 
       <section className="cta">
         <div className="wrap">
-          <span className="kick2" style={{ color: "#3d0f04" }}>A ideia já tá na tua cabeça</span>
           <h2>Bora botar na pele</h2>
           <p className="sub" style={{ maxWidth: 480, margin: "14px auto 30px" }}>Manda a referência no WhatsApp e recebe caminho, orçamento e agenda no mesmo dia.</p>
           <button className="btn" onClick={() => start()}>Agendar sessão</button>
