@@ -1,6 +1,7 @@
 import type { PremiumKey, PremiumModel } from "./premium-models";
 
 const SECTIONS: Record<PremiumKey, string> = {
+  spahotel: "hero em moldura de vidro com casa na montanha, estatisticas, depoimento e servicos de suites, termas e massagens",
   sushi: "hero com prato de sushi ilustrado, sobre, menu especial de salmão, cardápio com abas e reserva de mesa",
   bikemove: "hero amarelo e azul com ciclista, linha de 4 bikes em cards inclinados, destaque numerado com comparativo, planejador de rotas, acessórios e revisão",
   pneuneon: "hero preto com pneu gigante e supercarro verde-limão, 4 cards de modelos, pneus em destaque, faixa de desempenho, benefícios e busca de encaixe pelo WhatsApp",
