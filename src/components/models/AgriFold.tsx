@@ -29,7 +29,7 @@ export function AgriFold({ client }: { client?: { name?: string; whatsapp?: stri
         .ag0 h1,.ag0 h2,.ag0 h3{font-family:'Plus Jakarta Sans',system-ui,sans-serif !important;font-weight:500 !important;letter-spacing:-.02em;text-transform:none;margin:0}
         .ag0 .wrap{max-width:1180px;margin:0 auto;padding:0 32px}
         .ag0 .hero{position:relative;min-height:760px;display:flex;flex-direction:column;background:#10230f}
-        .ag0 .hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% center}
+        .ag0 .hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% center}@media(max-width:760px){.ag0 .hero img.bg{object-position:84% center}}
         .ag0 .hero:before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(7,18,10,.82) 0%,rgba(7,18,10,.45) 45%,rgba(7,18,10,0) 70%),linear-gradient(180deg,rgba(7,18,10,.5) 0%,rgba(7,18,10,0) 22%,rgba(11,26,18,0) 78%,#0b1a12 100%)}
         .ag0 .nav{position:relative;z-index:3;height:84px;display:flex;align-items:center}
         .ag0 .nav .in{display:flex;align-items:center;width:100%}
@@ -65,7 +65,7 @@ export function AgriFold({ client }: { client?: { name?: string; whatsapp?: stri
         .ag0 .dash .rail{border-right:1px solid ${LINE};display:flex;flex-direction:column;gap:18px;align-items:center;padding-top:50px}.ag0 .dash .rail i{width:12px;height:12px;border:1.500px solid #5f7566;border-radius:3px}
         .ag0 .dm{padding:0 16px 16px}.ag0 .dm .top{font-size:12.500px;padding:16px 0 10px}
         .ag0 .g{display:grid;grid-template-columns:1fr 1fr 1fr 1.25fr;gap:10px}.ag0 .t{background:#13261b;border-radius:8px;padding:12px;font-size:10.500px;color:${MUT}}.ag0 .t b{display:block;font-size:24px;color:#fff;font-weight:500;margin-top:6px}
-        .ag0 .map{border-radius:8px;overflow:hidden;min-height:150px;background:#233d1c}.ag0 .map img{width:100%;height:100%;object-fit:cover;display:block}
+        .ag0 .map{position:relative;border-radius:8px;overflow:hidden;min-height:150px;background:#233d1c}.ag0 .pin{position:absolute;width:20px;height:20px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#9ccc4a;border:2px solid #0b1a12;box-shadow:0 2px 6px rgba(0,0,0,.5)}.ag0 .pin:after{content:"";position:absolute;inset:4px;border-radius:50%;background:#0b1a12}.ag0 .map img{width:100%;height:100%;object-fit:cover;display:block}
         .ag0 .cta{margin:60px 0 0;position:relative;border-radius:16px;overflow:hidden;background:${CARD};border:1px solid ${LINE};display:grid;grid-template-columns:.9fr 1.1fr 1.1fr;align-items:center;min-height:112px}
         .ag0 .cta img{width:100%;height:100%;object-fit:cover;position:absolute;left:0;top:0;width:36%;mask-image:linear-gradient(90deg,#000 60%,transparent)}
         .ag0 .cta h3{font-size:19px;font-weight:500 !important;margin-bottom:6px}.ag0 .cta p{font-size:12px;color:${MUT};margin:0;line-height:1.5}
@@ -141,7 +141,7 @@ export function AgriFold({ client }: { client?: { name?: string; whatsapp?: stri
                 <div className="t">Atividade recente<br /><br />● Irrigação concluída<br />● Adubação aplicada<br />● Controle de pragas</div>
               </div>
               <div className="g" style={{ marginTop: 10, gridTemplateColumns: "2.4fr 1fr" }}>
-                <div className="map"><img src="/agri-mapa.webp" alt="Mapa de talhões com índice de vigor da lavoura" /></div>
+                <div className="map"><img src="/agri-mapa.webp" alt="Mapa de talhões com índice de vigor da lavoura" />{[[22,28],[58,22],[40,62],[78,58]].map(([x,y]) => <span className="pin" key={x} style={{ left: `${x}%`, top: `${y}%` }} />)}</div>
                 <div className="t">Clima<b>24°C</b>Parcialmente nublado<br /><br />Vento 12 km/h<br />Umidade 60%</div>
               </div></div></div>
         </div>
