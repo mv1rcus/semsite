@@ -100,6 +100,9 @@ import { getModel, modelLink, type ModelClient } from "@/lib/site-models";
 
 type Search = { n?: string; w?: string; c?: string };
 
+/** Os 5 modelos da home: abertos para qualquer pessoa. Os demais exigem o selo Verificado. */
+const OPEN_VITRINE = new Set(["mare-sushi", "velocity-club", "brasa-e-pao", "alva-estetica", "casa-vinha"]);
+
 export const Route = createFileRoute("/vitrine/$id")({
   validateSearch: (s: Record<string, unknown>): Search => ({
     ...(typeof s["n"] === "string" ? { n: s["n"].slice(0, 80) } : {}),
@@ -126,7 +129,7 @@ function Viewer() {
   async function copy(kind: string, text: string) {
     try { await navigator.clipboard.writeText(text); setDone(kind); setTimeout(() => setDone(""), 2000); } catch { /* Clipboard blocked. */ }
   }
-  const { verified } = useVerified();
+  const { verified, loading: verifiedLoading } = useVerified();
   const { clients: all, update } = useFollowUp();
   const clients = all.filter((c) => c.stage === "contacted" || c.stage === "demo_sent");
   const shown = clients;
@@ -139,6 +142,18 @@ function Viewer() {
     if (c?.id) update(c.id, { stage: "demo_sent" });
     window.open(`https://wa.me/${digits}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
   }
+  if (!OPEN_VITRINE.has(id) && !verifiedLoading && !verified) {
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-background px-6 text-center text-foreground">
+        <Lock className="size-8" />
+        <h1 className="font-display text-3xl">Modelo para quem tem o selo Verificado</h1>
+        <p className="max-w-sm text-sm text-muted-foreground">Estes modelos abrem só para contas verificadas. Os 5 da página inicial seguem abertos para todo mundo.</p>
+        <Link to="/verificado" className="login-cta rounded-full px-5 py-2 text-sm font-bold">Obter o selo Verificado</Link>
+        <Link to="/" className="text-sm underline">Voltar para a página inicial</Link>
+      </main>
+    );
+  }
+  if (!OPEN_VITRINE.has(id) && verifiedLoading) return <div className="min-h-screen bg-background" aria-busy="true" />;
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="sticky top-0 z-50 border-b border-border bg-background/95 px-3 py-2 backdrop-blur">
