@@ -58,8 +58,16 @@ function Scene({ k }: { k: 1 | 2 | 3 | 4 }) {
   );
 }
 
+const PH: Record<number, { src: string; alt: string; pos: string }> = {
+  1: { src: "/nina-noiva.webp", alt: "Noiva de véu longo em rua de paralelepípedo, em preto e branco", pos: "50% 30%" },
+  2: { src: "/nina-noivo.webp", alt: "Noivo de casaco escuro olhando a rua, em preto e branco", pos: "55% 25%" },
+  3: { src: "/nina-retrato.webp", alt: "Retrato da fotógrafa com a câmera, em luz quente", pos: "50% 30%" },
+  4: { src: "/nina-maos.webp", alt: "Mãos do casal com alianças sobre o buquê bordô", pos: "50% 50%" },
+};
+
 function Frame({ k, style }: { k: 1 | 2 | 3 | 4; style?: React.CSSProperties }) {
-  return <div style={{ position: "relative", overflow: "hidden", background: "#222", ...style }}><Scene k={k} /><Grain /></div>;
+  const p = PH[k]!;
+  return <div style={{ position: "relative", overflow: "hidden", background: "#222", ...style }}><img src={p.src} alt={p.alt} loading={k <= 2 ? "eager" : "lazy"} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: p.pos }} /></div>;
 }
 
 export function FotoFold({ client }: { client?: { name?: string; whatsapp?: string; city?: string } }) {
@@ -87,10 +95,10 @@ export function FotoFold({ client }: { client?: { name?: string; whatsapp?: stri
         .ft2 .sc{font-family:'Mrs Saint Delafield',cursive}
         .ft2 .hero{position:relative;background:#1a1a1a;color:#fff;min-height:680px;overflow:hidden}
         .ft2 .hero .ph{position:absolute;top:0;bottom:0;width:50%}.ft2 .hero .ph.l{left:0}.ft2 .hero .ph.r{right:0}
-        .ft2 .hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,8,8,.5),rgba(10,8,8,.55))}
+        .ft2 .hero:after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(10,8,8,.62),rgba(10,8,8,.5))}
         .ft2 .hero>*{position:relative;z-index:2}
         .ft2 .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:76px;max-width:1160px;margin:0 auto;padding:0 28px}
-        .ft2 .logo{font-family:'Cormorant Garamond',serif;font-size:15px;letter-spacing:.34em;text-transform:uppercase;font-weight:400;padding-left:.34em;text-align:center}
+        .ft2 .logo{text-shadow:0 1px 10px #000;font-family:'Cormorant Garamond',serif;font-size:15px;letter-spacing:.34em;text-transform:uppercase;font-weight:400;padding-left:.34em;text-align:center}
         .ft2 .nl{display:flex;gap:26px}.ft2 .nl a{cursor:pointer;font-size:12px;text-shadow:0 1px 8px #000;letter-spacing:.2em;text-transform:uppercase;font-weight:500}
         .ft2 .nr{justify-self:end;display:flex;gap:22px;align-items:center}
         .ft2 .burger{display:none;background:none;border:0;color:inherit;font-size:26px;cursor:pointer}
@@ -144,7 +152,7 @@ export function FotoFold({ client }: { client?: { name?: string; whatsapp?: stri
           .ft2 .nav{grid-template-columns:1fr auto;padding:0 18px}.ft2 .nl,.ft2 .nr .btn{display:none}.ft2 .burger{display:block}.ft2 .logo{text-align:left;padding:0;font-size:13px}.ft2 .nr{justify-self:end}
           .ft2 .nav>.nl{display:none}
           .ft2 .mob{display:block;background:#fff;color:${INK};margin:0 16px;position:relative;z-index:6}.ft2 .mob a{display:block;padding:15px 20px;cursor:pointer;border-top:1px solid ${CR2};font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:500}.ft2 .mob a:first-child{border:0}
-          .ft2 .hero p.s{text-shadow:0 1px 10px #000,0 0 3px #000;font-weight:400}.ft2 .hero{min-height:600px}.ft2 .hero:after{background:rgba(10,8,8,.7)}.ft2 .hero h1{margin-top:50px}
+          .ft2 .hero p.s{text-shadow:0 1px 10px #000,0 0 3px #000;font-weight:400}.ft2 .hero{min-height:600px}.ft2 .hero:after{background:rgba(10,8,8,.68)}.ft2 .hero h1{margin-top:50px}
           .ft2 .logos{flex-direction:column;gap:14px;padding:24px 18px}.ft2 .logos small{border:0;padding:0}
           .ft2 .about{grid-template-columns:1fr;gap:34px;padding:60px 20px}.ft2 .col{height:380px;max-width:360px;margin:0 auto;width:100%}
           .ft2 .band{padding:90px 20px 100px}.ft2 .band .fa,.ft2 .band .fb{display:none}.ft2 .band .note{left:6%;top:30px;font-size:36px}
@@ -154,8 +162,8 @@ export function FotoFold({ client }: { client?: { name?: string; whatsapp?: stri
       `}</style>
 
       <section className="hero" id="top">
-        <Frame k={1} style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: "50%" }} />
-        <Frame k={2} style={{ position: "absolute", top: 0, bottom: 0, right: 0, width: "50%" }} />
+        <Frame k={1} style={{ zIndex: 0, position: "absolute", top: 0, bottom: 0, left: 0, width: "50%" }} />
+        <Frame k={2} style={{ zIndex: 0, position: "absolute", top: 0, bottom: 0, right: 0, width: "50%" }} />
         <header className="nav">
           <div className="nl"><a onClick={() => go("sobre")}>Sobre</a><a onClick={() => go("pacotes")}>Pacotes</a></div>
           <div className="logo">{brand}</div>
