@@ -9,14 +9,47 @@ export type PlaceRecord = {
   emails: string[] | null; address: string; confidence: number;
 };
 
+// Nomes conhecidos de distritos e vilas (não são municípios) apontando para o município oficial.
+const CITY_ALIASES: Record<string, string> = {
+  'monte verde,mg': 'camanducaia,mg', 'penedo,rj': 'itatiaia,rj', 'visconde de maua,rj': 'resende,rj',
+  'morro de sao paulo,ba': 'cairu,ba', 'alter do chao,pa': 'santarem,pa', 'jericoacoara,ce': 'jijoca de jericoacoara,ce',
+  'canoa quebrada,ce': 'aracati,ce', 'capao,ba': 'palmeiras,ba', 'vale do capao,ba': 'palmeiras,ba',
+  'anavilhanas,am': 'novo airao,am', 'chapada dos veadeiros,go': 'alto paraiso de goias,go', 'porto velho interior,ro': 'porto velho,ro',
+};
+
+function editDistance(a: string, b: string) {
+  const row = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    let prev = row[0]!; row[0] = i;
+    for (let j = 1; j <= b.length; j++) {
+      const tmp = row[j]!;
+      row[j] = Math.min(row[j]! + 1, row[j - 1]! + 1, prev + (a[i - 1] === b[j - 1] ? 0 : 1));
+      prev = tmp;
+    }
+  }
+  return row[b.length]!;
+}
+
 export function resolveCity(input: string, cities: Record<string, CityEntry>) {
-  const text = normalize(input).replace(/\s*[-/]\s*([a-z]{2})$/, ',$1').replace(/\s*,\s*/g, ',');
+  let text = normalize(input).replace(/\s*[-/]\s*([a-z]{2})$/, ',$1').replace(/\s*,\s*/g, ',');
   if (/^\d{7}$/.test(text) && cities[text]) return { id: text, ...cities[text]! };
+  text = CITY_ALIASES[text] ?? CITY_ALIASES[text.replace(/ ([a-z]{2})$/, ',$1')] ?? text;
   const candidates = Object.entries(cities).filter(([, c]) => {
     const name = normalize(c.name);
     return text === name || text === `${name},${c.uf.toLowerCase()}` || text === `${name} ${c.uf.toLowerCase()}`;
   });
-  if (!candidates.length) throw new Error('Não encontrei esse município. Use cidade e UF, por exemplo Juiz de Fora, MG.');
+  if (!candidates.length) {
+    const m = text.match(/^(.*?)(?:,| )([a-z]{2})$/);
+    const base = m ? m[1]! : text;
+    const uf = m ? m[2]! : null;
+    const near = Object.values(cities)
+      .filter((c) => !uf || c.uf.toLowerCase() === uf)
+      .map((c) => ({ c, d: editDistance(base, normalize(c.name)) }))
+      .filter(({ c, d }) => d <= Math.max(2, Math.floor(normalize(c.name).length / 6)))
+      .sort((x, y) => x.d - y.d).slice(0, 3);
+    const hint = near.length ? ` Você quis dizer ${near.map(({ c }) => `${c.name}, ${c.uf}`).join(' ou ')}?` : '';
+    throw new Error(`Não encontrei esse município.${hint} Use cidade e UF, por exemplo Juiz de Fora, MG.`);
+  }
   if (candidates.length > 1) throw new Error('Há mais de um município com esse nome. Informe também a UF.');
   const [id, city] = candidates[0]!;
   return { id, ...city };

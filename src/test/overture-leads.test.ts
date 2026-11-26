@@ -17,6 +17,20 @@ describe('city resolution', () => {
   });
 });
 
+describe('city aliases and suggestions', () => {
+  const cities = { '3110509': { name: 'Camanducaia', uf: 'MG', count: 1, bytes: 5 }, '3165206': { name: 'São Tomé das Letras', uf: 'MG', count: 1, bytes: 5 }, '2706703': { name: 'Penedo', uf: 'AL', count: 1, bytes: 5 } };
+  it('maps districts to their municipality', () => {
+    expect(resolveCity('Monte Verde, MG', cities).id).toBe('3110509');
+    expect(resolveCity('Monte Verde - MG', cities).id).toBe('3110509');
+  });
+  it('does not turn Penedo RJ into Penedo AL', () => {
+    expect(() => resolveCity('Penedo, RJ', cities)).toThrow('Não encontrei');
+  });
+  it('suggests the closest municipality in the same UF', () => {
+    expect(() => resolveCity('São Thomé das Letras, MG', cities)).toThrow('São Tomé das Letras, MG');
+  });
+});
+
 describe('website and contact evidence', () => {
   it('checks every website, not only the first value', () => {
     expect(hasRegisteredWebsite(['https://instagram.com/test', 'https://business.com'])).toBe(true);

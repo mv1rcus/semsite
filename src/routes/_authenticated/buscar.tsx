@@ -66,6 +66,7 @@ function Buscar() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [next, setNext] = useState<string | null>(null);
   const [scanned, setScanned] = useState(0);
+  const [cityInfo, setCityInfo] = useState<{ name: string; uf: string; places: number } | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [retryToken, setRetryToken] = useState<string | null>(null);
@@ -137,6 +138,7 @@ function Buscar() {
         if (r.searchesLeft >= 0 || !token) setSearchesLeft(r.searchesLeft);
         acc = rankProspects([...acc, ...r.leads]);
         total += r.scanned;
+        if (!token) setCityInfo({ name: r.cityName, uf: r.cityUf, places: r.cityPlaces });
         nextTok = r.nextPageToken;
         token = nextTok ?? undefined;
         pages++;
@@ -276,7 +278,7 @@ function Buscar() {
           <div className="glass mt-8 rounded-lg p-6 text-center">
             <SearchX className="mx-auto size-8 text-muted-foreground" />
             <p className="mt-3 font-semibold">{scanned === 0 ? "Nenhum registro encontrado nesse recorte da base." : `Os ${scanned} registros encontrados têm site cadastrado na base.`}</p>
-            <p className="mt-1 text-sm text-muted-foreground">{next ? "Busque mais resultados ou tente outra categoria ou cidade." : "A cobertura varia por município. Tente outra categoria ou cidade; isso não significa que não existam negócios na região."}</p>
+            <p className="mt-1 text-sm text-muted-foreground">{next ? "Busque mais resultados ou tente outra categoria ou cidade." : cityInfo && cityInfo.places < 100 ? `A base aberta tem só ${cityInfo.places} lugares com telefone em ${cityInfo.name}, ${cityInfo.uf}. Tente uma categoria mais ampla (ex.: restaurante, salão) ou uma cidade maior por perto; isso não significa que não existam negócios lá.` : "A cobertura varia por município. Tente outra categoria ou cidade; isso não significa que não existam negócios na região."}</p>
           </div>
         )}
         {scanned > 0 && (

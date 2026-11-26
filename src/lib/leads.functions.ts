@@ -7,9 +7,14 @@ export const searchLeads = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => searchInputSchema.parse(d))
   .handler(async ({ data, context }) => {
-    const { readCursor, searchOverture } = await import('./overture-search.server');
+    const { readCursor, searchOverture, checkCity } = await import('./overture-search.server');
     // Validate the signed, query-bound cursor before allowing a free extra page.
     const offset = readCursor(data.pageToken, data.category, data.city, context.userId);
+    // Cidade inválida não pode gastar uma das buscas do dia.
+    if (!data.pageToken) {
+      try { await checkCity(data.city); }
+      catch (e) { const m = e instanceof Error ? e.message : ''; if (/^(Não encontrei|Há mais)/.test(m)) throw new Error(m); }
+    }
     let searchesLeft = -1;
     if (!data.pageToken) {
       const { data: left, error } = await context.supabase.rpc('consume_search');
