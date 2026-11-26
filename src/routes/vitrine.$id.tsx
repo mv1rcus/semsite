@@ -41,9 +41,7 @@ function Viewer() {
   const { verified } = useVerified();
   const { clients: all, update } = useFollowUp();
   const clients = all.filter((c) => c.stage === "contacted" || c.stage === "demo_sent");
-  const [q, setQ] = useState("");
-  const norm = (t: string) => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-  const shown = clients.filter((c) => norm(`${c.name} ${c.address ?? ""}`).includes(norm(q))).slice(0, 30);
+  const shown = clients;
   async function sendTo(c: { id?: string; name: string; phone: string | null; intlPhone: string | null } | null) {
     try { await authorizeModelUse({ data: { id } }); } catch { setDone("err"); setTimeout(() => setDone(""), 2500); return; }
     const digits = c ? ((c.intlPhone ?? "").replace(/\D/g, "") || (c.phone ? `55${c.phone.replace(/\D/g, "")}` : "")) : "";
@@ -66,13 +64,11 @@ function Viewer() {
         </div>
         {verified && open && (
           <div className="mx-auto mt-2 max-w-5xl rounded-xl border border-border bg-card p-2">
-            <div className="flex items-center gap-2">
-              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar entre quem já recebeu mensagem" aria-label="Buscar cliente" className={field} />
-            </div>
-            <ul className="mt-2 max-h-56 overflow-auto">
+            <p className="px-2 pb-1 text-xs font-bold uppercase tracking-wide text-muted-foreground">Seus clientes contatados ({clients.length})</p>
+            <ul className="max-h-72 overflow-auto">
               {shown.length === 0 && <li className="px-2 py-3 text-sm text-muted-foreground">Nenhum cliente com mensagem enviada ainda. Marque como Contatado na aba Clientes.</li>}
               {shown.map((c) => (
-                <li key={c.id}><button type="button" onClick={() => sendTo(c)} className="flex w-full items-center justify-between gap-2 rounded-lg px-2 py-2 text-left text-sm hover:bg-muted"><span className="min-w-0 truncate font-bold">{c.name}</span><span className="inline-flex shrink-0 items-center gap-1 text-xs font-bold text-[#25D366]"><Send className="size-3.5" />Enviar</span></button></li>
+                <li key={c.id}><button type="button" onClick={() => sendTo(c)} className="flex w-full items-center justify-between gap-2 rounded-lg px-2 py-2.5 text-left text-sm hover:bg-muted"><span className="min-w-0"><span className="block truncate font-bold">{c.name}</span><span className="block text-xs text-muted-foreground">{c.stage === "demo_sent" ? "Demonstração enviada" : "Contatado"}</span></span><span className="inline-flex shrink-0 items-center gap-1 text-xs font-bold text-[#25D366]"><Send className="size-3.5" />Enviar</span></button></li>
               ))}
             </ul>
           </div>
