@@ -44,7 +44,7 @@ export function LivroFold({ client }: { client?: { name?: string; whatsapp?: str
         .lv .wrap{max-width:1200px;margin:0 auto;padding:0 28px}
         .lv .bg{font-family:'Bricolage Grotesque',system-ui,sans-serif}
         .lv .nav{display:flex;align-items:center;gap:30px;height:88px}
-        .lv .logo{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:26px;letter-spacing:-.5px;white-space:nowrap}
+        .lv .logo{font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:26px;letter-spacing:-.5px;white-space:nowrap}
         .lv .logo i{font-style:normal;color:${ORG}}
         .lv .srch{flex:1;max-width:520px;display:flex;align-items:center;background:${BG2};border-radius:10px;padding:0 16px;min-height:48px}
         .lv .srch input{flex:1;border:0;background:none;font-size:15px;min-width:0;color:${NAVY};outline:none}
@@ -56,14 +56,14 @@ export function LivroFold({ client }: { client?: { name?: string; whatsapp?: str
         .lv .btn.o{background:transparent;color:${NAVY};border:1.5px solid ${NAVY}}
         .lv .btn.or{background:${ORG}}
         .lv .hero{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;padding:40px 28px 60px;min-height:620px}
-        .lv .hero h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:clamp(58px,8vw,112px);line-height:.96;letter-spacing:-3px;margin:0}
+        .lv .hero h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:clamp(58px,8vw,112px);line-height:.96;letter-spacing:-3px;margin:0;text-wrap:balance}
         .lv .hero p{font-size:17px;line-height:1.6;color:${MUT};margin:26px 0 34px;max-width:420px}
         .lv .hero .im{position:relative;display:flex;justify-content:center}
         .lv .hero .im img{width:min(100%,460px);aspect-ratio:4/5;object-fit:cover;border-radius:24px;display:block}
         .lv .hero .im .tag{position:absolute;left:0;bottom:30px;background:${NAVY};color:#fff;border-radius:14px;padding:16px 20px;font-size:13.5px}.lv .hero .im .tag b{display:block;font-family:'Bricolage Grotesque',sans-serif;font-size:24px;margin-bottom:2px}
         .lv .sec{padding:100px 0}
         .lv .sec.d{background:${NAVY};color:#fff}
-        .lv h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:clamp(32px,3.6vw,48px);letter-spacing:-1.2px;margin:0;line-height:1.05}
+        .lv h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:clamp(32px,3.6vw,48px);letter-spacing:-1.2px;margin:0;line-height:1.05;text-wrap:balance}
         .lv .head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:34px}
         .lv .chips{display:flex;gap:8px;flex-wrap:wrap}
         .lv .chip{border:1.5px solid ${NAVY};background:none;border-radius:999px;padding:0 18px;min-height:44px;font-size:14.5px;font-weight:500;cursor:pointer;color:${NAVY}}
@@ -99,7 +99,7 @@ export function LivroFold({ client }: { client?: { name?: string; whatsapp?: str
         .lv .mob{display:none}
         @media(max-width:860px){
           .lv .srch,.lv .links{display:none}.lv .burger{display:block;margin-left:auto}.lv .nav{height:72px;gap:12px}.lv .logo{font-size:23px}
-          .lv .hero{grid-template-columns:1fr;gap:30px;padding:24px 22px 50px;min-height:0}.lv .hero h1{letter-spacing:-2px}.lv .hero .im .tag{left:10px}
+          .lv .hero{grid-template-columns:1fr;gap:30px;padding:24px 22px 50px;min-height:0}.lv .hero h1{letter-spacing:-2px}.lv .chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.lv .chip{flex:none}.lv .hero .im .tag{left:10px}
           .lv .sec{padding:56px 0}.lv .grid{grid-template-columns:repeat(2,1fr);gap:14px}.lv .bk h3{font-size:17px}.lv .bk .ad{margin:10px 14px 16px}.lv .bk .tx{padding:14px 14px 4px}
           .lv .split{grid-template-columns:1fr;gap:30px}.lv .split img{height:280px}.lv .tabs3{grid-template-columns:1fr}.lv .fg{grid-template-columns:1fr 1fr}
           .lv .mob{display:block;background:${BG2};margin:0 16px 10px;border-radius:12px;box-shadow:0 8px 24px rgba(27,32,48,.15)}.lv .mob a{display:block;padding:15px 20px;font-size:16px;cursor:pointer;border-top:1px solid #dcd9d2}
@@ -124,7 +124,7 @@ export function LivroFold({ client }: { client?: { name?: string; whatsapp?: str
             <button type="button" className="btn o" onClick={() => go("clube")}>Clube de leitura</button>
           </div>
         </div>
-        <div className="im"><img src="/livro-hero.webp" alt="Estante de madeira com livros de capas coloridas" /><div className="tag"><b>+1.200</b>títulos na casa</div></div>
+        <div className="im"><img src="/livro-hero.webp" alt="Estante de madeira com livros de capas coloridas" /></div>
       </div>
 
       <section className="sec" id="livros"><div className="wrap">
