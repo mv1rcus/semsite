@@ -52,19 +52,19 @@ export function FizzFold({ client }: { client?: { name?: string; whatsapp?: stri
         .fz .badge{position:absolute;right:2%;top:12%;width:96px;height:96px;border-radius:50%;border:1.5px solid ${PUR};display:grid;place-items:center;text-align:center;font-size:9.5px;font-weight:600;line-height:1.25;color:${PUR};text-transform:uppercase;background:rgba(255,255,255,.55)}
         .fz .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
         .fz .panel{background:#fff;border-radius:22px;padding:26px 24px 28px;box-shadow:0 20px 50px rgba(80,50,200,.08)}
-        .fz .ph{font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin:0 0 18px}
+        .fz .ph{font-family:'Bebas Neue',Impact,sans-serif;font-size:34px;font-weight:400;letter-spacing:.01em;margin:0 0 20px}
         .fz .fl{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
         .fz .fc{border-radius:16px;overflow:hidden;background:#fff;border:1px solid #ece7ff}.fz .fc .im{aspect-ratio:1;display:grid;place-items:end center;position:relative}.fz .fc .im img{width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply}
         .fz .fc .b{padding:12px 12px 14px;text-align:left}.fz .fc h3{font-family:'Plus Jakarta Sans',sans-serif;text-transform:uppercase;font-size:11.5px;font-weight:600;letter-spacing:.03em;margin:0 0 4px}.fz .fc .pr{font-size:12px;opacity:.7;margin-bottom:10px}
         .fz .fc button{width:100%;background:#fff;color:${PUR};border:1.5px solid ${PUR};border-radius:9px;padding:9px;font-weight:600;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;cursor:pointer}
-        .fz .row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+        .fz .row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:56px}
         .fz .why4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-content:center}.fz .why4 div{background:#f6f3ff;border-radius:14px;padding:22px 10px;text-align:center;font-size:11.5px;font-weight:600;line-height:1.3;display:flex;flex-direction:column;align-items:center;gap:10px;text-transform:uppercase}.fz .why4 span{display:block;font-weight:400;opacity:.65;text-transform:none;font-size:11px}
         .fz .vibe{position:relative;border-radius:22px;overflow:hidden;min-height:250px;background:#2a2a6e;color:#fff;display:flex;align-items:center}.fz .vibe img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.fz .vibe:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,8,50,.55),transparent 62%)}
         .fz .vibe .t{position:relative;z-index:2;padding:30px}.fz .vibe h2{font-size:clamp(46px,5vw,66px);line-height:.92;margin-bottom:16px}
         .fz .club{background:linear-gradient(140deg,#7c4dff,#4b23d6);color:#fff;border-radius:22px;padding:30px 30px;display:grid;grid-template-columns:.9fr 1.4fr;gap:20px;align-items:center}
-        .fz .club h2{font-size:clamp(44px,5vw,64px);line-height:.92}.fz .club p{font-size:13px;opacity:.9;margin:14px 0 0;line-height:1.5}
+        .fz .club h2{font-size:clamp(44px,5vw,64px);line-height:.92}.fz .club p{font-size:13px;opacity:1;margin:14px 0 0;line-height:1.5}
         .fz .bar{background:rgba(255,255,255,.14);border-radius:14px;padding:18px 18px 16px;font-size:12px;font-weight:600}.fz .bar .tr{height:10px;border-radius:99px;background:rgba(255,255,255,.2);margin:10px 0 12px;overflow:hidden}.fz .bar .tr i{display:block;height:100%;width:60%;background:linear-gradient(90deg,#ffd23c,${LIME});border-radius:99px}
-        .fz .perks{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:10px;text-align:center;font-weight:500;opacity:.95;margin-top:6px}
+        .fz .perks{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:11px;text-align:center;font-weight:500;opacity:1;margin-top:6px}
         .fz .pts{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.fz .pts div{border-radius:18px;padding:22px 16px;color:#fff;text-align:center;min-height:210px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
         .fz .pts b{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:46px;line-height:1}.fz .pts span{font-size:11.5px;opacity:.95;margin-top:4px}
         .fz footer{margin-top:60px;background:${NAVY};color:#fff;padding:48px 0 32px}.fz .fg{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:30px;font-size:13.5px}.fz .fg h5{font-family:'Plus Jakarta Sans',sans-serif;text-transform:uppercase;font-size:12px;font-weight:600;letter-spacing:.06em;margin-bottom:12px;color:#c9b8ff}.fz .fg a{display:block;margin:8px 0;opacity:.85;cursor:pointer;color:#fff;text-decoration:none}
@@ -78,7 +78,7 @@ export function FizzFold({ client }: { client?: { name?: string; whatsapp?: stri
         @media(max-width:900px){
           .fz .nav{padding:18px;gap:10px}.fz .nav .m{display:none}.fz .burger{display:grid;margin-left:auto}.fz .nav .ib.cart{margin-left:0}
           .fz .hg{grid-template-columns:1fr;padding:0 20px;min-height:0}.fz .can{justify-self:center;width:112%;margin:-10px -6% 0}
-          .fz .ben{gap:18px}.fz .badge{width:76px;height:76px;font-size:8px;top:6%}
+          .fz .ben{gap:18px}.fz .badge{width:76px;height:76px;font-size:8px;top:4%;right:4%}.fz .fc:last-child{grid-column:1/-1;max-width:calc(50% - 8px);justify-self:center;width:100%}
           .fz .btn{padding:13px 20px}.fz .btn.o{margin-left:8px}
           .fz .wrap{padding:0 16px}.fz .fl{grid-template-columns:repeat(2,1fr)}.fz .row{grid-template-columns:1fr}.fz .club{grid-template-columns:1fr}.fz .pts{grid-template-columns:1fr 1fr}.fz .pts div{min-height:170px}.fz .fg{grid-template-columns:1fr 1fr}
           .fz .mob{display:block;background:#fff;border-radius:16px;margin:0 16px 10px;box-shadow:0 10px 30px rgba(80,50,200,.12)}.fz .mob a{display:block;padding:14px 20px;font-weight:600;cursor:pointer}
@@ -109,12 +109,12 @@ export function FizzFold({ client }: { client?: { name?: string; whatsapp?: stri
             <div className="panel why4"><div><Ic d="M5 5l14 14M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Z" />Sem açúcar<span>Zero culpa</span></div><div><Ic d="M5 19c8 0 14-6 14-14C11 5 5 11 5 19Z" />Sabor natural<span>Extratos de fruta</span></div><div><Ic d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm-3 9 2 2 4-4" />Sem conservantes<span>Limpo e honesto</span></div><div><Ic d="M12 20c-5-3-8-6-8-10a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 4-3 7-8 10Z" />Baixa caloria<span>Leve e fresco</span></div></div>
             <div className="vibe"><img src="/fizz-vibe.webp" alt="Amigos na pista de skate com uma lata roxa" loading="lazy" /><div className="t"><h2>Refresque<br />o seu astral.</h2><button type="button" className="btn" onClick={() => go("sabores")}>Ver os sabores</button></div></div>
           </div>
-          <div className="club" id="clube" style={{ marginTop: 20 }}>
+          <div className="club" id="clube" style={{ marginTop: 56 }}>
             <div><h2>Entre pro<br />clube.</h2><p>Mais pontos. Mais vantagens. Mais sabor.</p></div>
             <div className="bar">Ganhe pontos a cada compra · Nível 2<div className="tr"><i /></div><div className="perks"><span>Ofertas<br />exclusivas</span><span>Brinde de<br />aniversário</span><span>Acesso<br />antecipado</span><span>Eventos<br />do clube</span></div></div>
           </div>
-          <div style={{ margin: "34px 0 6px", fontFamily: "'Bebas Neue',sans-serif", fontSize: 34, letterSpacing: ".01em" }}>POR QUE O {brand.toUpperCase()}?</div>
-          <div className="pts">{[["200+", "Pontos pelo cadastro", "linear-gradient(160deg,#ff7b86,#e9475a)"], ["500+", "Pontos por pedido", "linear-gradient(160deg,#8a5bff,#5b2fe0)"], ["1000+", "Pontos por indicação", "linear-gradient(160deg,#ffc83a,#f5a60f)"], ["1500+", "Pontos nos marcos", "linear-gradient(160deg,#6cc6ff,#3d8fe8)"]].map(([b, s, g]) => (<div key={b} style={{ background: g }}><b>{b}</b><span>{s}</span></div>))}</div>
+          <div style={{ margin: "64px 0 16px", fontFamily: "'Bebas Neue',sans-serif", fontSize: 34, letterSpacing: ".01em" }}>POR QUE O {brand.toUpperCase()}?</div>
+          <div className="pts">{[["200+", "Pontos pelo cadastro", "linear-gradient(160deg,#ef5668,#c52d45)"], ["500+", "Pontos por pedido", "linear-gradient(160deg,#8a5bff,#5b2fe0)"], ["1000+", "Pontos por indicação", "linear-gradient(160deg,#e59a00,#b86f00)"], ["1500+", "Pontos nos marcos", "linear-gradient(160deg,#3d9cf0,#1f64c8)"]].map(([b, s, g]) => (<div key={b} style={{ background: g }}><b>{b}</b><span>{s}</span></div>))}</div>
         </div>
       </div>
       <footer id="contato"><div className="wrap"><div className="fg">
