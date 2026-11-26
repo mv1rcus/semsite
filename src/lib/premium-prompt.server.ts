@@ -1,6 +1,7 @@
 import type { PremiumKey, PremiumModel } from "./premium-models";
 
 const SECTIONS: Record<PremiumKey, string> = {
+  sushi: "hero com prato de sushi ilustrado, sobre, menu especial de salmão, cardápio com abas e reserva de mesa",
   bikemove: "hero amarelo e azul com ciclista, linha de 4 bikes em cards inclinados, destaque numerado com comparativo, planejador de rotas, acessórios e revisão",
   pneuneon: "hero preto com pneu gigante e supercarro verde-limão, 4 cards de modelos, pneus em destaque, faixa de desempenho, benefícios e busca de encaixe pelo WhatsApp",
   sorvglass: "hero menta em vidro fosco com pote em foto recortada, faixa rosa com história e 4 cards de vidro, faixa creme com 3 sabores em casquinha, faixa vinho com carrinho em vidro e pedido no WhatsApp",
@@ -16,7 +17,7 @@ const SECTIONS: Record<PremiumKey, string> = {
   restaurante: "hero com foto em arco, pratos da casa em cards com foto, depoimento em citação", dentista: "hero com foto e cartão flutuante de avaliação, grade de tratamentos, faixa de números",
   lavanderia: "pilha de roupas coloridas no hero creme, cards coloridos de serviços, linha do tempo com fotos e processo em 4 passos",
   sorveteria: "titulo grande em sans, cards arredondados em bento, fotos de fruta e sorvete, sabores com formato, pedido no WhatsApp",
-  scooters: "três telas em verde escuro: hero com ano gigante e scooter, sobre a marca com piloto e fábrica, detalhes em carrossel com abas",
+  cozinha: "hero escuro com air fryer, categorias redondas, banners, produtos em alta com desconto, casal na cozinha com depoimento", scooters: "três telas em verde escuro: hero com ano gigante e scooter, sobre a marca com piloto e fábrica, detalhes em carrossel com abas", motorsport: "hero preto e vermelho com piloto na arquibancada, faixas diagonais, peças em destaque, tecido, coleção de pista e newsletter",
   eletronicos: "tema escuro verde-menta, hero com produto em pódio, categorias, mais vendidos com carrinho no WhatsApp",
   papelaria: "pastel rosa/amarelo/lavanda, título desenhado à mão, faixas onduladas, categorias em cartões coloridos, produtos em destaque com sacola no WhatsApp",
   moveis: "verde-sálvia e creme, título gigante arredondado sobre a poltrona, cartões de categoria, coleção em faixa escura, catálogo com carrinho no WhatsApp",
