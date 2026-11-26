@@ -73,6 +73,7 @@ export function CerimonialFold({ client }: { client?: { name?: string; whatsapp?
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Jost:wght@400;500;600&display=swap');
         .ce *{box-sizing:border-box}
+        .ce h1,.ce h2,.ce h3{font-family:inherit}
         .ce a,.ce button{font-family:inherit}
         .ce .wrap{max-width:1160px;margin:0 auto;padding:0 28px}
         .ce .sans{font-family:'Jost',system-ui,sans-serif}
@@ -175,7 +176,7 @@ export function CerimonialFold({ client }: { client?: { name?: string; whatsapp?
             <img className="main" src="/ce-h1.webp" alt="Mesa de casamento ao ar livre iluminada ao entardecer" />
             <div className="card">
               <span className="eb">Peça informações</span>
-              <div className="row"><label className="lb">Nome<input className="fld" readOnly placeholder="Seu nome" onFocus={() => start()} onClick={() => start()} /></label><label className="lb">Telefone<input className="fld" readOnly placeholder="(31) 90000-0000" onFocus={() => start()} onClick={() => start()} /></label><button type="button" className="btn" onClick={() => start()}>Enviar pedido</button></div>
+              <div className="row"><label className="lb">Nome<input className="fld" readOnly placeholder="Seu nome" onFocus={() => start()} onClick={() => start()} /></label><label className="lb">Telefone<input className="fld" readOnly placeholder="(31) 9" onFocus={() => start()} onClick={() => start()} /></label><button type="button" className="btn" onClick={() => start()}>Enviar pedido</button></div>
             </div>
           </div>
         </div>
