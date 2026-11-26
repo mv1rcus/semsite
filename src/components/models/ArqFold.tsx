@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 /** Escritório de arquitetura, construído a partir de um pin de pôster "BACS arquitectura": wordmark geométrica gigante + tagline espaçada, título serifado em caixa alta, foto full-bleed de casa orgânica na montanha, desenhos de planta em traço fino nos cantos, texto vertical na lateral e fileira de serviços com ícones de linha. */
-const CREAM = "#EFEAE0", CREAM2 = "#E6DFD2", INK = "#171512", INK2 = "#3A362F", GR = "#8C867C", AMBER = "#B97F45", WHITE = "#F8F5EE";
+const CREAM = "#EFEAE0", CREAM2 = "#E6DFD2", INK = "#171512", INK2 = "#3A362F", GR = "#8C867C", AMBER = "#B97F45", AMBER_TXT = "#8A5A28", AMBER_NUM = "#96662F", WHITE = "#F8F5EE";
 const SERVICOS = [
   { t: "Arquitetura de autor", d: "Projetos residenciais exclusivos, desenhados do zero para o seu terreno e o seu modo de viver.", ic: "M6 26 L16 6 L26 26 Z M11 26 V18 h10 v8" },
   { t: "Projetos integrais", d: "Do estudo de viabilidade ao projeto executivo: arquitetura, interiores e paisagismo em uma mão só.", ic: "M7 7 h18 v18 H7 Z M7 16 h18 M16 7 v18" },
@@ -62,8 +62,8 @@ export function ArqFold({ client }: { client?: { name?: string; whatsapp?: strin
   return (
     <div className="vao" style={{ fontFamily: geo, color: INK, background: CREAM, overflowX: "hidden" }}>
       <style>{`
-        body{background:${INK}}
-        .vao h1,.vao h2,.vao h3{font-family:${serifa}!important;font-weight:500;letter-spacing:.02em;text-decoration:none!important;text-transform:uppercase;line-height:1.05}
+        html,body{background:${INK}!important}
+        .vao h1,.vao h2,.vao h3{font-family:${serifa}!important;font-weight:500;letter-spacing:.02em;text-decoration:none!important;text-transform:uppercase;line-height:1.05;text-wrap:balance}
         .vao blockquote,.vao figure{margin:0}
         .vao .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
         .vao .wordmark{font-family:${geo};font-weight:900;letter-spacing:-.02em;text-transform:uppercase;line-height:.9}
@@ -89,9 +89,10 @@ export function ArqFold({ client }: { client?: { name?: string; whatsapp?: strin
           .vao .g4{grid-template-columns:1fr 1fr!important}
           .vao .g2{grid-template-columns:1fr!important}
           .vao .proj{min-height:260px!important}
-          .vao .hero-photo{margin-top:-30px!important}
+          .vao .hero-pad{padding-bottom:230px!important}
+          .vao .hero-fade{background:linear-gradient(180deg, rgba(239,234,224,.96) 0%, rgba(239,234,224,.92) 44%, rgba(239,234,224,.55) 62%, rgba(239,234,224,0) 80%)!important}
         }
-        @media (max-width:560px){ .vao .g4{grid-template-columns:1fr!important} .vao .hero-wm{font-size:56px!important} }
+        @media (max-width:560px){ .vao .g4{grid-template-columns:1fr!important} .vao .hero-wm{font-size:56px!important} .vao header .btn{display:none!important} }
       `}</style>
 
       {/* header */}
@@ -105,25 +106,23 @@ export function ArqFold({ client }: { client?: { name?: string; whatsapp?: strin
         </div>
       </header>
 
-      {/* hero: céu creme com tipografia + foto full-bleed, como o pôster */}
-      <section style={{ position: "relative", background: CREAM, paddingTop: 72, overflow: "hidden" }}>
+      {/* hero: foto full-bleed com a tipografia sobre o céu, como o pôster */}
+      <section style={{ position: "relative", overflow: "hidden", background: CREAM }}>
+        <img src="/vao-hero.webp" alt={"Casa de arquitetura orgânica projetada pela " + brand + " na serra, concreto e madeira ao pôr do sol"} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 74%" }} />
+        <div className="hero-fade" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(239,234,224,.96) 0%, rgba(239,234,224,.9) 32%, rgba(239,234,224,.32) 55%, rgba(239,234,224,0) 68%)" }} />
         <div className="bp"><Blueprint pos="tl" /></div>
         <div className="bp"><Blueprint pos="tr" /></div>
-        <div className="vtext" style={{ position: "absolute", left: 26, top: "34%", zIndex: 3 }}>Projetamos espaços para uma vida extraordinária</div>
-        <div className="wrap" style={{ position: "relative", zIndex: 2, textAlign: "center" }}>
+        <div className="vtext" style={{ position: "absolute", left: 26, top: "30%", zIndex: 3, textShadow: "0 0 14px " + CREAM + ", 0 0 4px " + CREAM }}>Projetamos espaços para uma vida extraordinária</div>
+        <div className="wrap hero-pad" style={{ position: "relative", zIndex: 2, textAlign: "center", paddingTop: 84, paddingBottom: 340 }}>
           <div className="wordmark hero-wm" style={{ fontSize: 128 }}>VÃO</div>
           <div className="hero-wm-sub" style={{ fontSize: 19, letterSpacing: ".62em", fontWeight: 500, marginTop: 6, textTransform: "lowercase" }}>arquitetura</div>
           <div style={{ width: 56, height: 1.5, background: INK, margin: "26px auto" }} />
           <h1 className="hero-h1" style={{ fontSize: 52, maxWidth: 760, margin: "0 auto" }}>Arquitetura que transcende</h1>
-          <div style={{ marginTop: 22, fontSize: 12, fontWeight: 600, letterSpacing: ".34em", textTransform: "uppercase", color: INK2 }}>Projeto<span style={{ color: AMBER, margin: "0 14px" }}>·</span>Visão<span style={{ color: AMBER, margin: "0 14px" }}>·</span>Território</div>
+          <div style={{ marginTop: 22, fontSize: 12, fontWeight: 600, letterSpacing: ".34em", textTransform: "uppercase", color: INK2 }}>Projeto<span style={{ color: AMBER_TXT, margin: "0 14px" }}>·</span>Visão<span style={{ color: AMBER_TXT, margin: "0 14px" }}>·</span>Território</div>
           <div style={{ display: "flex", gap: 16, justifyContent: "center", marginTop: 34, flexWrap: "wrap" }}>
             <a href={wa("Olá! Quero iniciar um projeto de arquitetura com a " + brand + ".")} className="btn">Iniciar meu projeto</a>
             <a onClick={() => go("projetos")} className="btn-o">Ver projetos</a>
           </div>
-        </div>
-        <div className="hero-photo" style={{ position: "relative", marginTop: -44, zIndex: 1 }}>
-          <img src="/vao-hero.webp" alt={"Casa de arquitetura orgânica projetada pela " + brand + " na serra, concreto e madeira ao pôr do sol"} style={{ display: "block", width: "100%", height: "auto" }} />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, " + CREAM + " 0%, rgba(239,234,224,0) 22%)" }} />
         </div>
       </section>
 
@@ -132,8 +131,8 @@ export function ArqFold({ client }: { client?: { name?: string; whatsapp?: strin
         <div className="wrap">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 18, marginBottom: 46 }}>
             <div>
-              <div className="eyebrow" style={{ color: AMBER }}>O que fazemos</div>
-              <h2 style={{ fontSize: 40, marginTop: 14 }}>Da primeira linha<br />à chave na mão</h2>
+              <div className="eyebrow" style={{ color: AMBER_TXT }}>O que fazemos</div>
+              <h2 style={{ fontSize: 40, marginTop: 14 }}>Da primeira linha à chave na mão</h2>
             </div>
             <p style={{ maxWidth: 380, fontSize: 15, lineHeight: 1.7, color: INK2 }}>Um escritório pequeno por escolha: cada projeto tem dedicação de autor e acompanhamento direto dos sócios.</p>
           </div>
@@ -181,12 +180,12 @@ export function ArqFold({ client }: { client?: { name?: string; whatsapp?: strin
       {/* processo */}
       <section id="processo" style={{ background: CREAM, padding: "84px 0" }}>
         <div className="wrap">
-          <div className="eyebrow" style={{ color: AMBER }}>Como trabalhamos</div>
+          <div className="eyebrow" style={{ color: AMBER_TXT }}>Como trabalhamos</div>
           <h2 style={{ fontSize: 40, margin: "14px 0 48px" }}>Três passos, nenhuma surpresa</h2>
           <div className="g4" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 34 }}>
             {PASSOS.map((p) => (
               <div key={p.n} style={{ borderTop: `3px solid ${INK}`, paddingTop: 22 }}>
-                <div style={{ fontFamily: serifa, fontSize: 46, color: AMBER }}>{p.n}</div>
+                <div style={{ fontFamily: serifa, fontSize: 46, color: AMBER_NUM }}>{p.n}</div>
                 <h3 style={{ fontSize: 20, margin: "12px 0 10px", fontFamily: `${geo}!important`, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".04em" }}>{p.t}</h3>
                 <p style={{ fontSize: 14, lineHeight: 1.7, color: INK2 }}>{p.d}</p>
               </div>
@@ -206,18 +205,12 @@ export function ArqFold({ client }: { client?: { name?: string; whatsapp?: strin
       {/* escritório / citação */}
       <section id="escritorio" style={{ background: CREAM2, padding: "84px 0", borderTop: `1.5px solid ${INK}` }}>
         <div className="wrap" style={{ textAlign: "center", maxWidth: 820 }}>
-          <div className="eyebrow" style={{ color: AMBER, justifyContent: "center" }}>O escritório</div>
+          <div className="eyebrow" style={{ color: AMBER_TXT, justifyContent: "center" }}>O escritório</div>
           <p style={{ fontFamily: serifa, fontSize: 34, lineHeight: 1.35, marginTop: 26, textTransform: "none" }}>
             "Casa boa é a que some na paisagem e aparece na vida de quem mora. Desenhamos para o lugar, nunca contra ele."
           </p>
-          <div style={{ marginTop: 26, fontSize: 12, fontWeight: 600, letterSpacing: ".28em", textTransform: "uppercase" }}>Helena Vão <span style={{ color: GR }}>· arquiteta fundadora, CAU RS</span></div>
-          <div style={{ display: "flex", gap: 10, justifyContent: "center", marginTop: 34, flexWrap: "wrap" }}>
-            {["Projeto único por cliente", "Obra acompanhada semanalmente", "Sem taxa escondida"].map((f) => (
-              <span key={f} style={{ display: "inline-flex", alignItems: "center", gap: 8, border: `1.5px solid ${INK}`, padding: "10px 18px", fontSize: 12, fontWeight: 600, letterSpacing: ".12em", textTransform: "uppercase" }}>
-                <svg width="14" height="14" viewBox="0 0 32 32" fill="none" stroke={AMBER} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d={CHECK} /></svg>{f}
-              </span>
-            ))}
-          </div>
+          <div style={{ marginTop: 26, fontSize: 12, fontWeight: 600, letterSpacing: ".28em", textTransform: "uppercase" }}>Helena Vão <span style={{ color: INK2 }}>· arquiteta fundadora, CAU RS</span></div>
+          <div style={{ marginTop: 34, fontSize: 12, fontWeight: 600, letterSpacing: ".26em", textTransform: "uppercase", color: INK2 }}>Projeto único por cliente<span style={{ color: AMBER_TXT, margin: "0 12px" }}>·</span>Obra acompanhada<span style={{ color: AMBER_TXT, margin: "0 12px" }}>·</span>Sem taxa escondida</div>
         </div>
       </section>
 
