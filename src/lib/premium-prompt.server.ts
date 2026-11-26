@@ -19,7 +19,6 @@ const SECTIONS: Record<PremiumKey, string> = {
   papelaria: "pastel rosa/amarelo/lavanda, título desenhado à mão, faixas onduladas, categorias em cartões coloridos, produtos em destaque com sacola no WhatsApp",
   moveis: "verde-sálvia e creme, título gigante arredondado sobre a poltrona, cartões de categoria, coleção em faixa escura, catálogo com carrinho no WhatsApp",
   brecho: "creme, rosa e verde-limão, título gigante em sans larga com pílulas, fotos recortadas sobre manchas de cor, catálogo com carrinho no WhatsApp",
-  refrigerante: "claro com degradê lilás, lata roxa e verde-limão gigante, título condensado azul-marinho, cards de sabores, clube de pontos roxo, carrinho no WhatsApp",
   milkshake: "roxo escuro e rosa lúdico, milkshake gigante recortado, manchas orgânicas, tiles coloridos, faixa de combo, carrinho no WhatsApp",
   petshop: "amarelo vivo, cachorro recortado, faixa de categorias coloridas, produtos em círculos, carrinho no WhatsApp",
   roupas: "título gigante em sans, fotos P&B, novidades com tamanho, sacola no WhatsApp",
