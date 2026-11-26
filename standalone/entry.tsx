@@ -38,6 +38,7 @@ import { BrechoFold } from "@/components/models/BrechoFold";
 import { FizzFold } from "@/components/models/FizzFold";
 import { BikeMove } from "@/components/models/BikeMove";
 import { MareSushi } from "@/components/models/MareSushi";
+import { PequenoPasso } from "@/components/models/PequenoPasso";
 import { MilkFold } from "@/components/models/MilkFold";
 import { PatasFold } from "@/components/models/PatasFold";
 import { BakeFold } from "@/components/models/BakeFold";
@@ -151,6 +152,7 @@ else if (__MODEL__ === "techmart") root.render(<TechFold client={cfg.client} />)
 else if (__MODEL__ === "fizzo") root.render(<FizzFold client={cfg.client} />);
 else if (__MODEL__ === "giro-bikes") root.render(<BikeMove client={cfg.client} />);
 else if (__MODEL__ === "mare-sushi") root.render(<MareSushi client={cfg.client} />);
+else if (__MODEL__ === "pequeno-passo") root.render(<PequenoPasso client={cfg.client} />);
 else if (__MODEL__ === "milky-mix") root.render(<MilkFold client={cfg.client} />);
 else if (__MODEL__ === "patas-e-cores") root.render(<PatasFold client={cfg.client} />);
 else if (__MODEL__ === "massa-mae") root.render(<BakeFold client={cfg.client} />);

@@ -1,6 +1,7 @@
 import type { PremiumKey, PremiumModel } from "./premium-models";
 
 const SECTIONS: Record<PremiumKey, string> = {
+  pequeno: "hero com criança aviadora, boas-vindas com fotos, lista de diferenciais e programas em cards com foto",
   sushi: "hero com prato de sushi ilustrado, sobre, menu especial de salmão, cardápio com abas e reserva de mesa",
   bikemove: "hero amarelo e azul com ciclista, linha de 4 bikes em cards inclinados, destaque numerado com comparativo, planejador de rotas, acessórios e revisão",
   pneuneon: "hero preto com pneu gigante e supercarro verde-limão, 4 cards de modelos, pneus em destaque, faixa de desempenho, benefícios e busca de encaixe pelo WhatsApp",
