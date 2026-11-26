@@ -19,7 +19,10 @@ const REV = [
 ];
 const brl = (v: number) => `R$ ${v.toFixed(2).replace(".", ",")}`;
 
-export function BurgerFold() {
+export function BurgerFold({ client }: { client?: { name?: string; whatsapp?: string; city?: string } }) {
+  const brand = client?.name?.trim() || "";
+  const phone = (client?.whatsapp ?? "").replace(/\D/g, "");
+  const num = phone ? (phone.startsWith("55") ? phone : `55${phone}`) : "5500000000000";
   const [tab, setTab] = useState<"Burgers" | "Acompanhamentos" | "Bebidas">("Burgers");
   const [cart, setCart] = useState<Record<string, number>>({});
   const [b, setB] = useState(0), [s, setS] = useState(0), [dk, setDk] = useState(0);
@@ -29,7 +32,7 @@ export function BurgerFold() {
   const burgers = ITEMS.filter((i) => i.cat === "Burgers"), sides = ITEMS.filter((i) => i.cat === "Acompanhamentos"), drinks = ITEMS.filter((i) => i.cat === "Bebidas");
   const combo = (burgers[b]?.p ?? 0) + (sides[s]?.p ?? 0) + (drinks[dk]?.p ?? 0) - 6;
   const add = (n: string) => setCart((c) => ({ ...c, [n]: (c[n] ?? 0) + 1 }));
-  const wa = (text: string) => `https://wa.me/5500000000000?text=${encodeURIComponent(text)}`;
+  const wa = (text: string) => `https://wa.me/${num}?text=${encodeURIComponent(text)}`;
   const btn = { background: OR, color: BG, fontWeight: 800, padding: "13px 24px", borderRadius: 999, border: 0, cursor: "pointer", display: "inline-block" } as const;
   return (
     <div className="bf" style={{ background: BG, color: FG, fontFamily: "Inter, system-ui, sans-serif", overflowX: "hidden" }}>
@@ -64,7 +67,7 @@ export function BurgerFold() {
       `}</style>
 
       <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "22px 5vw", position: "relative", zIndex: 5 }}>
-        <div style={{ fontFamily: F, fontSize: 30, letterSpacing: 2 }}>BRASA<span style={{ color: OR }}>&amp;</span>PÃO</div>
+        <div style={{ fontFamily: F, fontSize: 30, letterSpacing: 2 }}>{brand ? brand.toUpperCase() : <>BRASA<span style={{ color: OR }}>&amp;</span>PÃO</>}</div>
         <nav className="bf-nav"><a href="#cardapio">Cardápio</a><a href="#combo">Monte seu combo</a><a href="#chapa">Nossa chapa</a><a href="#onde">Onde estamos</a></nav>
         <a href="#cardapio" style={{ ...btn, padding: "11px 20px", fontSize: 14 }}>Pedir agora{count ? ` · ${count}` : ""}</a>
       </header>
@@ -161,7 +164,7 @@ export function BurgerFold() {
           </div>
         </div>
       </section>
-      <footer style={{ padding: "26px 5vw", fontSize: 13, opacity: 0.6, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}><span>© Brasa&amp;Pão · Modelo ilustrativo</span><span>@brasaepao</span></footer>
+      <footer style={{ padding: "26px 5vw", fontSize: 13, opacity: 0.6, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}><span>© {brand || "Brasa&Pão"} · Modelo ilustrativo</span><span>@brasaepao</span></footer>
     </div>
   );
 }

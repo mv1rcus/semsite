@@ -29,7 +29,6 @@ import { Route as AuthenticatedReciboRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedVerificadoRouteImport } from './routes/_authenticated/verificado'
 import { Route as AuthenticatedVitrineRouteImport } from './routes/_authenticated/vitrine'
 import { Route as DemoIdRouteImport } from './routes/demo.$id'
-import { Route as LabBurgerRouteImport } from './routes/lab.burger'
 import { Route as PortfolioUsernameRouteImport } from './routes/portfolio.$username'
 import { Route as VitrineIdRouteImport } from './routes/vitrine.$id'
 import { Route as AuthenticatedMensagensIndexRouteImport } from './routes/_authenticated/mensagens.index'
@@ -142,11 +141,6 @@ const DemoIdRoute = DemoIdRouteImport.update({
   path: '/demo/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LabBurgerRoute = LabBurgerRouteImport.update({
-  id: '/lab/burger',
-  path: '/lab/burger',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PortfolioUsernameRoute = PortfolioUsernameRouteImport.update({
   id: '/portfolio/$username',
   path: '/portfolio/$username',
@@ -222,7 +216,6 @@ export interface FileRoutesByFullPath {
   '/verificado': typeof AuthenticatedVerificadoRoute
   '/vitrine': typeof AuthenticatedVitrineRoute
   '/demo/$id': typeof DemoIdRoute
-  '/lab/burger': typeof LabBurgerRoute
   '/portfolio/$username': typeof PortfolioUsernameRoute
   '/vitrine/$id': typeof VitrineIdRoute
   '/mensagens/$username': typeof AuthenticatedMensagensUsernameRoute
@@ -254,7 +247,6 @@ export interface FileRoutesByTo {
   '/verificado': typeof AuthenticatedVerificadoRoute
   '/vitrine': typeof AuthenticatedVitrineRoute
   '/demo/$id': typeof DemoIdRoute
-  '/lab/burger': typeof LabBurgerRoute
   '/portfolio/$username': typeof PortfolioUsernameRoute
   '/vitrine/$id': typeof VitrineIdRoute
   '/mensagens/$username': typeof AuthenticatedMensagensUsernameRoute
@@ -288,7 +280,6 @@ export interface FileRoutesById {
   '/_authenticated/verificado': typeof AuthenticatedVerificadoRoute
   '/_authenticated/vitrine': typeof AuthenticatedVitrineRoute
   '/demo/$id': typeof DemoIdRoute
-  '/lab/burger': typeof LabBurgerRoute
   '/portfolio/$username': typeof PortfolioUsernameRoute
   '/vitrine/$id': typeof VitrineIdRoute
   '/_authenticated/mensagens/$username': typeof AuthenticatedMensagensUsernameRoute
@@ -322,7 +313,6 @@ export interface FileRouteTypes {
     | '/verificado'
     | '/vitrine'
     | '/demo/$id'
-    | '/lab/burger'
     | '/portfolio/$username'
     | '/vitrine/$id'
     | '/mensagens/$username'
@@ -354,7 +344,6 @@ export interface FileRouteTypes {
     | '/verificado'
     | '/vitrine'
     | '/demo/$id'
-    | '/lab/burger'
     | '/portfolio/$username'
     | '/vitrine/$id'
     | '/mensagens/$username'
@@ -387,7 +376,6 @@ export interface FileRouteTypes {
     | '/_authenticated/verificado'
     | '/_authenticated/vitrine'
     | '/demo/$id'
-    | '/lab/burger'
     | '/portfolio/$username'
     | '/vitrine/$id'
     | '/_authenticated/mensagens/$username'
@@ -407,7 +395,6 @@ export interface RootRouteChildren {
   PrivacidadeRoute: typeof PrivacidadeRoute
   TermosRoute: typeof TermosRoute
   DemoIdRoute: typeof DemoIdRoute
-  LabBurgerRoute: typeof LabBurgerRoute
   PortfolioUsernameRoute: typeof PortfolioUsernameRoute
   VitrineIdRoute: typeof VitrineIdRoute
   SiteSlugCodeRoute: typeof SiteSlugCodeRoute
@@ -557,13 +544,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/lab/burger': {
-      id: '/lab/burger'
-      path: '/lab/burger'
-      fullPath: '/lab/burger'
-      preLoaderRoute: typeof LabBurgerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/portfolio/$username': {
       id: '/portfolio/$username'
       path: '/portfolio/$username'
@@ -691,7 +671,6 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacidadeRoute: PrivacidadeRoute,
   TermosRoute: TermosRoute,
   DemoIdRoute: DemoIdRoute,
-  LabBurgerRoute: LabBurgerRoute,
   PortfolioUsernameRoute: PortfolioUsernameRoute,
   VitrineIdRoute: VitrineIdRoute,
   SiteSlugCodeRoute: SiteSlugCodeRoute,

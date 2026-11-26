@@ -6,6 +6,7 @@ import { Check, Copy, Lock, Plus, Send, UserRound } from "lucide-react";
 import { useVerified } from "@/lib/use-verified";
 import { SiteModelView } from "@/components/SiteModelView";
 import { PremiumSite } from "@/components/PremiumSite";
+import { BurgerFold } from "@/components/models/BurgerFold";
 import { getPremium } from "@/lib/premium-models";
 import { authorizeModelUse, getModelPrompt } from "@/lib/vitrine.functions";
 import { getModel, modelLink, type ModelClient } from "@/lib/site-models";
@@ -77,7 +78,7 @@ function Viewer() {
           </div>
         )}
       </div>
-      {premium ? <PremiumSite model={premium} client={client} /> : model ? <SiteModelView model={model} client={client} /> : null}
+      {premium?.id === "brasa-e-pao" ? <BurgerFold client={client} /> : premium ? <PremiumSite model={premium} client={client} /> : model ? <SiteModelView model={model} client={client} /> : null}
     </div>
   );
 }
