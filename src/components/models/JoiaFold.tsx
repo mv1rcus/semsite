@@ -40,28 +40,30 @@ export function JoiaFold({ client }: { client?: { name?: string; whatsapp?: stri
   return (
     <div className="jo" style={{ fontFamily: "Jost, system-ui, sans-serif", color: INK, background: BG, overflowX: "hidden" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Gilda+Display&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Gilda+Display&family=Cormorant+Garamond:wght@400;500&display=swap');
         .jo *{box-sizing:border-box}.jo a,.jo button{font-family:inherit}
         .jo .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
         .jo .gd{font-family:'Gilda Display',Georgia,serif;font-weight:400}
         .jo .bar{position:sticky;top:0;z-index:30;background:rgba(236,228,221,.94);backdrop-filter:blur(8px);border-bottom:1px solid ${DK}}
         .jo .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:84px}
-        .jo .nav .l,.jo .nav .r{display:flex;gap:30px;font-size:13.5px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500}.jo .nav .r{justify-content:flex-end;align-items:center}
+        .jo .nav .l,.jo .nav .r{display:flex;gap:26px;font-size:11px;letter-spacing:2.2px;text-transform:uppercase;font-weight:500}.jo .nav .r{justify-content:flex-end;align-items:center}
         .jo .nav a{cursor:pointer}
-        .jo .logo{font-family:'Gilda Display',serif;font-size:30px;letter-spacing:5px;text-transform:uppercase;text-align:center;line-height:1;display:flex;flex-direction:column;align-items:center;gap:6px}
+        .jo .logo{font-family:'Cormorant Garamond','Gilda Display',serif;font-weight:500;font-size:27px;letter-spacing:2px;text-transform:uppercase;text-align:center;line-height:.98;display:flex;flex-direction:column;align-items:center;gap:0}
         .jo .burger{display:none;background:none;border:0;width:44px;height:44px;cursor:pointer}
         .jo .cartb{position:relative;background:none;border:0;cursor:pointer;min-width:44px;min-height:44px;display:grid;place-items:center}
         .jo .cartb b{position:absolute;right:2px;top:4px;min-width:19px;height:19px;border-radius:10px;background:${GOLD};color:#fff;font-size:11px;display:grid;place-items:center;padding:0 5px}
         .jo .btn{background:${INK};color:#fff;border:0;padding:0 34px;min-height:52px;font-size:13px;letter-spacing:3px;text-transform:uppercase;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;text-decoration:none}
         .jo .btn.o{background:transparent;color:${INK};border:1px solid ${INK}}
         .jo .btn.s{background:${DK};color:${INK};min-height:46px;padding:0 26px}
-        .jo .hero{display:grid;grid-template-columns:1fr 1.15fr;gap:60px;align-items:center;padding:70px 28px 90px}
-        .jo .hero h1{font-family:'Gilda Display',serif;font-weight:400;font-size:clamp(40px,4.6vw,62px);line-height:1.12;margin:0 0 28px;letter-spacing:-.5px}
-        .jo .hero p{font-size:18px;line-height:1.75;color:#3f342d;max-width:430px;margin:0 0 36px;font-weight:300}
-        .jo .hero .ph{position:relative}
-        .jo .hero .ph img{width:100%;height:540px;object-fit:cover;object-position:40% 30%;display:block}
-        .jo .hero .tag{position:absolute;left:-28px;bottom:36px;background:${BG2};padding:20px 26px;font-size:13px;letter-spacing:2px;text-transform:uppercase}
-        .jo .hero .tag b{display:block;font-family:'Gilda Display',serif;font-size:22px;letter-spacing:0;text-transform:none;margin-top:4px;font-weight:400}
+        .jo .hero{background:#f4ece8;max-width:none;padding:0}
+        .jo .hg{max-width:1100px;margin:0 auto;padding:28px 40px 110px;display:grid;grid-template-columns:1fr 1.3fr;column-gap:60px;grid-template-areas:"ph tx" "pt im"}
+        .jo .hg .ph{grid-area:ph}.jo .hg .ph img{width:100%;aspect-ratio:.68;object-fit:cover;object-position:35% 25%;display:block}
+        .jo .hg .tx{grid-area:tx;align-self:center;font-family:'Cormorant Garamond',serif;font-size:clamp(26px,2.7vw,34px);line-height:1.22;color:#3a312b;padding-bottom:20px}
+        .jo .hg .pt{grid-area:pt;align-self:center;font-family:'Cormorant Garamond',serif;font-size:18px;line-height:1.6;color:#3a312b;padding-top:24px}
+        .jo .hg .pt p{margin:0 0 54px}
+        .jo .hg .im{grid-area:im}.jo .hg .im img{width:100%;aspect-ratio:1.04;object-fit:cover;display:block}
+        .jo .tg{display:inline-block;background:#e9dfd9;padding:11px 20px;border:1px solid #c9bbb2;font-size:10.5px;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;cursor:pointer;color:#3a312b;font-family:Jost,sans-serif}
+        .jo .hero2{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
         .jo .sec{padding:100px 0}
         .jo .sec.w{background:${BG2}}.jo .sec+.sec{border-top:1px solid rgba(90,74,63,.14)}
         .jo h2{font-family:'Gilda Display',serif;font-weight:400;font-size:clamp(32px,3.6vw,46px);margin:0;text-align:center;letter-spacing:-.3px}
@@ -102,7 +104,7 @@ export function JoiaFold({ client }: { client?: { name?: string; whatsapp?: stri
         .jo .mob{display:none}
         @media(max-width:860px){
           .jo .nav .l,.jo .nav .r a{display:none}.jo .burger{display:block}.jo .nav{height:72px;grid-template-columns:44px 1fr auto}.jo .logo{font-size:24px}
-          .jo .hero{grid-template-columns:1fr;gap:36px;padding:40px 22px 60px}.jo .hero .ph img{height:360px}.jo .hero .tag{left:12px;bottom:-22px}
+          .jo .hg{grid-template-columns:1fr;grid-template-areas:"tx" "ph" "pt" "im";padding:20px 22px 60px;row-gap:26px}.jo .hg .tx{padding-bottom:0;font-size:26px}.jo .hg .pt{padding-top:0}.jo .hg .pt p{margin-bottom:22px}
           .jo .sec{padding:64px 0}.jo .grid{grid-template-columns:repeat(2,1fr);gap:36px 16px}.jo .pc h3{font-size:18px}
           .jo .split{grid-template-columns:1fr;gap:34px}.jo .split img{height:300px}.jo .vals{grid-template-columns:1fr;gap:30px}.jo .fg{grid-template-columns:1fr 1fr}
           .jo .mob{display:block;background:${BG2};border-bottom:1px solid ${DK}}.jo .mob a{display:block;padding:15px 24px;font-size:14px;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;border-top:1px solid ${DK}}
@@ -112,7 +114,7 @@ export function JoiaFold({ client }: { client?: { name?: string; whatsapp?: stri
         <div className="wrap nav">
           <nav className="l"><a onClick={() => go("colecao")}>Coleção</a><a onClick={() => go("atelie")}>Ateliê</a></nav>
           <button type="button" className="burger" aria-label="Menu" onClick={() => setMenu((m) => !m)}><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.6"><path d="M4 8h16M4 16h16" /></svg></button>
-          <div className="logo"><Mark />{brand}</div>
+          <div className="logo">{brand.split(" ").length > 1 ? (<><span>{brand.split(" ")[0]}</span><span>{brand.split(" ").slice(1).join(" ")}</span></>) : brand}</div>
           <div className="r"><a onClick={() => go("visita")}>Visite</a><a onClick={() => go("contato")}>Contato</a>
             <button type="button" className="cartb" aria-label="Abrir cesta" onClick={() => setOpen(true)}>
               <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke={INK} strokeWidth="1.5" strokeLinecap="round"><path d="M5 9h16l-1.500 13h-13zM9 9V7a4 4 0 0 1 8 0v2" /></svg>{count > 0 && <b>{count}</b>}</button></div>
@@ -120,17 +122,13 @@ export function JoiaFold({ client }: { client?: { name?: string; whatsapp?: stri
         {menu && <div className="mob"><a onClick={() => go("colecao")}>Coleção</a><a onClick={() => go("atelie")}>Ateliê</a><a onClick={() => go("visita")}>Visite</a><a onClick={() => go("contato")}>Contato</a></div>}
       </div>
 
-      <div className="wrap hero">
-        <div>
-          <h1>Joias para quem quer se sentir bonita todos os dias.</h1>
-          <p>Peças autorais em ouro 18k e prata, feitas à mão em {city}. Linhas finas, desenho simples e acabamento que dura.</p>
-          <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <button type="button" className="btn" onClick={() => go("colecao")}>Ver coleção</button>
-            <button type="button" className="btn o" onClick={() => setOpen(true)}>Minha cesta</button>
-          </div>
-        </div>
-        <div className="ph"><img src="/joia-hero.webp" alt="Mulher com joias de ouro delicadas" /><div className="tag">Nova coleção<b>Fio de Ouro</b></div></div>
-      </div>
+      <div className="hero"><div className="hg">
+        <div className="ph"><img src="/joia-hero.webp" alt="Mulher com joias de ouro delicadas" /></div>
+        <h1 className="tx" style={{ margin: 0, fontWeight: 400 }}>Joias para quem quer se sentir bonita todos os dias. Peças autorais em ouro 18k e prata, feitas à mão em {city}.</h1>
+        <div className="pt"><p>O {brand} cria peças únicas com técnicas tradicionais de ourivesaria e materiais sustentáveis. Cada peça é feita à mão, uma a uma.</p>
+          <div className="hero2"><button type="button" className="tg" onClick={() => go("colecao")}>Ver coleção</button><button type="button" className="tg" onClick={() => setOpen(true)}>Minha cesta</button></div></div>
+        <div className="im"><img src="/joia-proc.webp" alt="Ourives trabalhando um fio de ouro" /></div>
+      </div></div>
 
       <section className="sec w" id="colecao"><div className="wrap">
         <h2>A coleção</h2><p className="sub">Peças finas para usar sozinhas ou em camadas.</p>
