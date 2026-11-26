@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 /** Loja Black Friday nova, construida do zero a partir de um pin preto e amarelo-limao ("Nuvora"): hero com BLACK FRIDAY gigante (segunda linha em amarelo), sacola em foto sobre rochas, contagem regressiva real, banner 70% off em cunha amarela, cartoes de categoria, destaques com selo de desconto e faixa de confianca. Fotos reais (Gemini); todo texto e HTML. Compra fecha no WhatsApp. */
-const Y = "#e8ff2a", BG = "#050505", CD = "#0f0f0f", LN = "#1d1d1d", MU = "#a3a3a3";
+const Y = "#e8ff2a", BG = "#050505", CD = "#0f0f0f", LN = "#1d1d1d", MU = "#b8b8b8";
 const DEALS = [
   { n: "Fone com cancelamento de ruído", p: "R$ 299", o: "R$ 999", d: "70%", img: "/nuv-fone2.webp" },
   { n: "Smartwatch Pro", p: "R$ 399", o: "R$ 999", d: "60%", img: "/nuv-watch.webp" },
@@ -55,7 +55,7 @@ export function BlackFold({ client }: { client?: { name?: string; whatsapp?: str
         .bf .bagw:after{content:"";position:absolute;left:0;right:0;bottom:0;height:12%;background:linear-gradient(0deg,#000,transparent)}
         .bf .nuv{position:absolute;left:36%;top:57%;font-size:4.6cqw;letter-spacing:.34em;font-weight:500;color:#d9d9d9;transform:rotate(-1deg) skewY(-3deg);z-index:2}
         .bf .hero .w{position:relative;z-index:2}
-        .bf .kick{margin-top:34px;font-size:10px;letter-spacing:.3em;color:#cfcfcf;text-transform:uppercase}
+        .bf .kick{margin-top:34px;font-size:11px;letter-spacing:.24em;color:#cfcfcf;text-transform:uppercase}
         .bf .hero h1{font-size:clamp(64px,10.4vw,128px);line-height:.9;letter-spacing:-.05em!important;margin-top:18px;font-weight:800!important}.bf .hero h1 span{display:block}.bf .hero h1 span+span{color:${Y}}
         .bf .hero p{font-size:16px;line-height:1.55;color:#e4e4e4;margin:26px 0 28px;max-width:300px}
         .bf .tag{position:absolute;z-index:3;left:21.5%;top:31.5%;width:21%;height:23%;background:${Y};color:#000;clip-path:polygon(0 0,100% 0,100% 100%,0 100%);transform:rotate(-14deg);transform-origin:50% 50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:700;line-height:.95;text-align:center;padding-top:8%}
@@ -64,9 +64,9 @@ export function BlackFold({ client }: { client?: { name?: string; whatsapp?: str
         .bf .strip{display:grid;grid-template-columns:1fr 1.15fr;gap:14px;margin-top:18px}
         .bf .box{background:${CD};border:1px solid ${LN};border-radius:16px;padding:20px 26px}
         .bf .cd{display:flex;align-items:center;gap:26px}.bf .cd .l{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:#cfcfcf;display:block;margin-bottom:12px}
-        .bf .cd .g{display:flex}.bf .cd .g div{padding:0 22px;border-left:1px solid ${LN};text-align:center}.bf .cd .g div:first-child{border:0;padding-left:0}.bf .cd b{display:block;font-size:30px;font-weight:700;font-variant-numeric:tabular-nums}.bf .cd small{font-size:11px;color:${MU}}
+        .bf .cd .g{display:flex}.bf .cd .g div{padding:0 22px;border-left:1px solid ${LN};text-align:center}.bf .cd .g div:first-child{border:0;padding-left:0}.bf .cd b{display:block;font-size:30px;font-weight:700;font-variant-numeric:tabular-nums}.bf .cd small{font-size:12px;color:#c4c4c4}
         .bf .tr{display:flex;align-items:center;gap:30px}.bf .tr div{display:flex;align-items:center;gap:14px;font-size:11px;color:${MU};line-height:1.4}.bf .tr b{display:block;color:#fff;font-size:10px;letter-spacing:.06em;text-transform:uppercase}
-        .bf .mid{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-top:14px}
+        .bf .mid{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-top:34px}
         .bf .big{position:relative;border-radius:20px;overflow:hidden;background:#000 url(/nuv-fone.webp) right center/auto 112% no-repeat;min-height:340px}
         .bf .big .y{position:absolute;left:0;top:0;bottom:0;width:62%;background:${Y};clip-path:polygon(0 0,100% 0,78% 100%,0 100%);padding:34px 30px;color:#000}
         .bf .big .y small{font-weight:700;font-size:16px;display:block}.bf .big .y h2{font-size:clamp(60px,7.6vw,92px);line-height:.88;letter-spacing:-.05em!important;margin:8px 0 0;font-weight:800!important}
@@ -83,7 +83,7 @@ export function BlackFold({ client }: { client?: { name?: string; whatsapp?: str
         .bf .pd .off{position:absolute;left:10px;top:10px;background:${Y};color:#000;border-radius:7px;font-size:10px;font-weight:700;padding:5px 9px;z-index:2}
         .bf .pd .hr{position:absolute;right:12px;top:10px;font-size:15px;cursor:pointer;z-index:2}.bf .pd .hr.on{color:${Y}}
         .bf .pd .im{height:230px;background-size:cover;background-position:center;border-radius:10px;margin-bottom:12px}
-        .bf .pd h3{font-size:13px;font-weight:400!important;color:#d6d6d6}.bf .pd .pr{margin:6px 0 14px;font-size:19px;font-weight:500}.bf .pd .pr s{font-size:11px;color:#6d6d6d;margin-left:8px;font-weight:500}
+        .bf .pd h3{font-size:13px;font-weight:400!important;color:#d6d6d6}.bf .pd .pr{margin:6px 0 14px;font-size:19px;font-weight:500}.bf .pd .pr s{font-size:11px;color:#8c8c8c;margin-left:8px;font-weight:500}
         .bf .pd button{width:100%;background:${Y};color:#000;border:0;border-radius:99px;padding:12px;font-weight:500;font-size:12px;cursor:pointer}.bf .pd button.on{background:#2a2e05;color:${Y}}
         .bf .bar{margin-top:36px;border-top:1px solid ${LN};padding:26px 0 40px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
         .bf .bar .st{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#cfcfcf}.bf .bar .st div{margin-top:8px;font-size:12px;letter-spacing:0;text-transform:none;color:${MU}}.bf .bar .st b{color:${Y};font-size:14px;letter-spacing:2px}
@@ -105,7 +105,7 @@ export function BlackFold({ client }: { client?: { name?: string; whatsapp?: str
           <div className="nav">
             <div className="lg">{brand}</div>
             <nav className="lk"><a className="on" onClick={() => go("top")}>Loja</a><a onClick={() => go("ofertas")}>Categorias</a><a onClick={() => go("destaques")}>Ofertas</a><a href={base} target="_blank" rel="noreferrer">Sobre</a></nav>
-            <div className="rt"><span style={{ fontSize: 17 }}>⌕</span><a className="pill" href={order} target="_blank" rel="noreferrer">Ver ofertas →</a><button className="burger" aria-label="Menu" onClick={() => setMenu(true)}>≡</button></div>
+            <div className="rt"><span style={{ fontSize: 17 }}>⌕</span><button aria-label="Carrinho" onClick={() => window.open(order, "_blank")} style={{ background: "none", border: 0, color: "#fff", cursor: "pointer", position: "relative", padding: 0, display: "inline-flex" }}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 8h14l-1.200 12H6.200zM9 8V6a3 3 0 0 1 6 0v2" /></svg><span style={{ position: "absolute", top: -7, right: -9, background: Y, color: "#000", borderRadius: 99, fontSize: 9, fontWeight: 500, minWidth: 14, height: 14, display: "flex", alignItems: "center", justifyContent: "center" }}>{cart.length}</span></button><a className="pill" href={order} target="_blank" rel="noreferrer">Ver ofertas →</a><button className="burger" aria-label="Menu" onClick={() => setMenu(true)}>≡</button></div>
           </div>
           <div className="kick">A maior liquidação do ano</div>
           <h1 aria-label="Black Friday"><span>BLACK</span><span>FRIDAY</span></h1>
@@ -121,10 +121,10 @@ export function BlackFold({ client }: { client?: { name?: string; whatsapp?: str
         </div>
 
         <div className="mid" id="ofertas">
-          <div className="big"><div className="y"><small>ATÉ</small><h2>70%<br />OFF</h2><p>Grandes marcas. Estoque limitado.</p></div><span className="go" onClick={() => go("destaques")}>→</span></div>
+          <div className="big"><div className="y"><small>ATÉ</small><h2>70%<br />OFF</h2><p>Grandes marcas. Estoque limitado.</p></div></div>
           <div className="cats">
-            <div className="ct" style={{ backgroundImage: "url(/nuv-watch.webp)" }}><h3>Tech e gadgets</h3><small>Até 70% off</small><i>→</i></div>
-            <div className="ct" style={{ backgroundImage: "url(/nuv-tenis.webp)" }}><h3>Estilo e acessórios</h3><small>Até 50% off</small><i>→</i></div>
+            <div className="ct" style={{ backgroundImage: "url(/nuv-watch.webp)" }}><h3>Tech e gadgets</h3><small>Até 70% off</small></div>
+            <div className="ct" style={{ backgroundImage: "url(/nuv-tenis.webp)" }}><h3>Estilo e acessórios</h3><small>Até 50% off</small></div>
           </div>
         </div>
 
