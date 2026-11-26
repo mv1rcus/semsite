@@ -83,6 +83,7 @@ const HTML_LOADERS: Record<string, () => Promise<{ default: string }>> = {
   "formas-moles": () => import("./standalone-html/formas-moles.html?raw"),
   "remix": () => import("./standalone-html/remix.html?raw"),
   "patas-e-cores": () => import("./standalone-html/remix.html?raw"),
+  "milky-mix": () => import("./standalone-html/milky-mix.html?raw"),
   "massa-mae": () => import("./standalone-html/massa-mae.html?raw"),
   "sorriso-verde": () => import("./standalone-html/sorriso-verde.html?raw"),
   "forca-viva": () => import("./standalone-html/forca-viva.html?raw"),
