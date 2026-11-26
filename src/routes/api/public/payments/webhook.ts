@@ -39,14 +39,25 @@ async function upsertSubscription(sub: any, env: StripeEnv, statusOverride?: str
 const isUuid = (v: unknown): v is string =>
   typeof v === "string" && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v);
 
-/** Pagamento à vista confirmado: concede os meses de selo que foram comprados. */
-async function grantPurchasedMonths(session: any) {
+/**
+ * Pagamento à vista confirmado: concede os meses de selo que foram comprados.
+ * Usa grant_paid_months_once (uma concessão por evento do Stripe, então reenvio não soma de novo).
+ * Se a concessão falhar, lança o erro: o webhook responde 500 e o Stripe tenta de novo.
+ */
+async function grantPurchasedMonths(session: any, eventId: string) {
   const userId = session?.metadata?.userId;
   const months = Number(session?.metadata?.paid_months || 0);
   if (!isUuid(userId) || !Number.isInteger(months) || months < 1 || months > 60) return;
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const { error } = await supabaseAdmin.rpc("grant_paid_months", { p_profile: userId, p_months: months });
-  if (error) console.error("grant_paid_months failed:", error.message);
+  const once = await supabaseAdmin.rpc("grant_paid_months_once" as any, { p_event: eventId, p_profile: userId, p_months: months } as any);
+  if (!once.error) return;
+  // Migration ainda não rodou: cai na concessão antiga (sem dedupe) em vez de perder o selo.
+  if (once.error.code === "PGRST202" || /does not exist|schema cache/i.test(once.error.message)) {
+    const { error } = await supabaseAdmin.rpc("grant_paid_months", { p_profile: userId, p_months: months });
+    if (!error) return;
+    throw new Error(`grant_paid_months failed: ${error.message}`);
+  }
+  throw new Error(`grant_paid_months_once failed: ${once.error.message}`);
 }
 
 /** Devolução do dinheiro: o selo comprado à vista sai do ar na hora. */
@@ -81,10 +92,10 @@ export const Route = createFileRoute("/api/public/payments/webhook")({
             case "checkout.session.completed":
               // Boleto e Pix avulso avisam antes de o dinheiro cair: só entrega o selo
               // quando o pagamento não está mais pendente.
-              if (obj.mode === "payment" && obj.payment_status !== "unpaid") await grantPurchasedMonths(obj);
+              if (obj.mode === "payment" && obj.payment_status !== "unpaid") await grantPurchasedMonths(obj, event.id);
               break;
             case "checkout.session.async_payment_succeeded":
-              if (obj.mode === "payment") await grantPurchasedMonths(obj);
+              if (obj.mode === "payment") await grantPurchasedMonths(obj, event.id);
               break;
             case "charge.refunded":
               await revokePurchasedBadge(obj);
