@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 /** Oficina de motos classicas, construida do zero a partir de um pin de site coral e branco ("Vintage Moto"): titulo gigante em capitulares, moto recortada cruzando a divisa entre o bloco coral e o branco. Sem foto: a moto e um desenho SVG proprio. Agendamento de revisao que fecha no WhatsApp. */
-const INK = "#161413", CO = "#f4625f", CO2 = "#dd4a47", BG = "#ffffff", SOFT = "#fdeceb", MU = "#6b6361";
+const INK = "#161413", CO = "#e4514d", CO2 = "#c93e3a", BG = "#ffffff", SOFT = "#fdeceb", MU = "#6b6361";
 const SERV = [
   { t: "Revisão completa", d: "Óleo, velas, folgas de válvula, corrente, cabos, freios e uma lista escrita de tudo que foi visto, moto por moto.", p: "a partir de R$ 380" },
   { t: "Motor e câmbio", d: "Abertura, retífica e remontagem de motores boxer, monocilíndricos e dois tempos, com peças medidas e originais quando existem.", p: "sob orçamento" },
@@ -69,7 +69,7 @@ function Moto() {
       <rect x="300" y="236" width="44" height="12" rx="4" fill="#161413" />
       {/* tanque e banco */}
       <path d="M232 132 Q250 78 330 80 L420 90 Q440 100 428 122 Q400 142 340 142 L242 148Z" fill="#161413" />
-      <path d="M262 100 Q300 90 350 96" stroke="#f4625f" strokeWidth="6" fill="none" strokeLinecap="round" />
+      <path d="M262 100 Q300 90 350 96" stroke="#e4514d" strokeWidth="6" fill="none" strokeLinecap="round" />
       <path d="M150 154 Q168 130 232 138 L240 160 Q190 168 150 164Z" fill="#161413" />
       <path d="M172 143 Q196 136 224 140" stroke="#4a4644" strokeWidth="3" fill="none" />
       {/* escape */}
@@ -100,7 +100,7 @@ function MotoFront() {
       {[0, 1, 2, 3, 4, 5].map((i) => <line key={i} x1={32 + i * 12} y1={236} x2={32 + i * 12} y2={288} stroke="#161413" strokeWidth="2" />)}
       {[0, 1, 2, 3, 4, 5].map((i) => <line key={i} x1={168 + i * 12} y1={236} x2={168 + i * 12} y2={288} stroke="#161413" strokeWidth="2" />)}
       <rect x="104" y="150" width="52" height="86" rx="20" fill="#161413" />
-      <path d="M118 158 Q130 150 142 158" stroke={CO} strokeWidth="5" fill="none" strokeLinecap="round" />
+      <path d="M118 158 Q130 150 142 158" stroke="#f4625f" strokeWidth="5" fill="none" strokeLinecap="round" />
     </svg>
   );
 }
@@ -133,26 +133,26 @@ export function MotoFold({ client }: { client?: { name?: string; whatsapp?: stri
         .mt .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:78px}
         .mt .logo{font-weight:700;font-size:22px;letter-spacing:.04em;color:#fff;text-transform:uppercase}
         .mt .links{display:flex;gap:34px}
-        .mt .links a{cursor:pointer;color:#fff;font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:6px 0;border-bottom:2px solid transparent}
+        .mt .links a{cursor:pointer;color:#fff;font-size:14px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 0;border-bottom:2px solid transparent}
         .mt .links a:hover{border-color:#fff}
         .mt .navcta{justify-self:end;background:#fff;color:${CO2};font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;padding:12px 22px;text-decoration:none}
         .mt .burger{display:none;justify-self:end;background:none;border:0;color:#fff;font-size:28px;cursor:pointer}
         .mt .big{font-weight:600;color:#fff;text-align:center;font-size:clamp(54px,11.5vw,148px);line-height:.95;letter-spacing:-.01em;margin:18px 0 0}
         .mt .big .c{font-size:1.16em}
         .mt .big .s{font-size:.82em;text-transform:uppercase}
-        .mt .sub{text-align:center;color:#fff;font-size:16px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;margin-top:14px;padding-bottom:6px}
+        .mt .sub{text-align:center;color:#fff;font-size:17px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-top:14px;padding-bottom:34px}
         .mt .stage{position:relative;margin-top:-30px}
         .mt .stage .half{position:absolute;left:0;right:0;bottom:0;height:40%;background:#fff}
         .mt .stage .m{position:relative;max-width:1020px;margin:0 auto;padding:0 20px}
         .mt .cta{display:inline-flex;align-items:center;gap:10px;background:${INK};color:#fff;text-decoration:none;font-weight:600;font-size:14px;letter-spacing:.12em;text-transform:uppercase;padding:16px 30px;border:0;cursor:pointer}
         .mt .cta:hover{background:${CO2}}
         .mt .strip{display:flex;justify-content:center;gap:56px;flex-wrap:wrap;padding:34px 20px 8px;text-align:center}
-        .mt .strip b{display:block;font-size:30px;font-weight:600}.mt .strip span{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:${MU}}
+        .mt .strip b{display:block;font-size:30px;font-weight:600}.mt .strip span{font-size:14px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#4a4543}
         .mt h2{font-weight:600;font-size:clamp(34px,4.4vw,52px);letter-spacing:.01em;margin:0;line-height:1.05}
         .mt h2 .c{font-size:1.18em}
-        .mt .story{padding:96px 0 40px;display:grid;grid-template-columns:1fr 280px;gap:90px;align-items:center;max-width:900px;margin:0 auto}
-        .mt .story p{font-size:18px;line-height:1.7;margin:20px 0 0;color:#2b2625}
-        .mt .link{display:inline-block;margin-top:24px;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;border-bottom:2px solid ${CO};padding-bottom:4px;color:${INK};text-decoration:none;cursor:pointer}
+        .mt .story{padding:96px 0 40px;display:grid;grid-template-columns:1fr 340px;gap:70px;align-items:center;max-width:900px;margin:0 auto}
+        .mt .story p{font-size:19px;font-weight:500;line-height:1.7;margin:20px 0 0;color:#2b2625}
+        .mt .link{display:inline-block;margin-top:24px;font-weight:700;font-size:14px;letter-spacing:.16em;text-transform:uppercase;border-bottom:2px solid ${CO};padding-bottom:4px;color:${INK};text-decoration:none;cursor:pointer}
         .mt .serv{padding:84px 0 40px}
         .mt .row{border-top:2px solid ${INK};cursor:pointer}
         .mt .row:last-child{border-bottom:2px solid ${INK}}
@@ -161,7 +161,7 @@ export function MotoFold({ client }: { client?: { name?: string; whatsapp?: stri
         .mt .rh .t{font-size:clamp(24px,3vw,34px);font-weight:600}
         .mt .rh .p{font-size:14px;color:${MU};letter-spacing:.06em}
         .mt .rh .pl{width:34px;height:34px;border:2px solid ${INK};border-radius:50%;display:grid;place-items:center;font-size:22px;line-height:1;transition:.2s}
-        .mt .row.on .pl{background:${CO};border-color:${CO};color:#fff;transform:rotate(45deg)}
+        .mt .row.on .pl{background:${INK};border-color:${INK};color:#fff}
         .mt .rb{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s}
         .mt .row.on .rb{grid-template-rows:1fr}
         .mt .rb>div{overflow:hidden}.mt .rb p{margin:0 0 28px 88px;max-width:620px;font-size:17px;line-height:1.65;color:#2b2625}
@@ -178,7 +178,7 @@ export function MotoFold({ client }: { client?: { name?: string; whatsapp?: stri
         .mt .form .go{grid-column:span 2;justify-content:center;white-space:nowrap}
         .mt .unit{display:grid;grid-template-columns:repeat(3,1fr);gap:0;max-width:900px;margin:0 auto;padding:74px 0 20px;text-align:left}
         .mt .unit div{padding:0 26px;border-left:2px solid ${CO}}
-        .mt .unit b{display:block;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:${CO2};margin-bottom:8px}
+        .mt .unit b{display:block;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:${CO2};margin-bottom:8px}
         .mt .unit span{font-size:17px;line-height:1.6}
         .mt footer{background:${INK};color:#fff;margin-top:80px;padding:44px 0;font-size:14px}
         .mt footer .fr{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
@@ -190,7 +190,7 @@ export function MotoFold({ client }: { client?: { name?: string; whatsapp?: stri
           .mt .wrap{padding:0 20px}
           .mt .nav{grid-template-columns:1fr auto;height:68px}.mt .links,.mt .navcta{display:none}.mt .burger{display:block}
           .mt .mob{display:block;background:#fff;margin:0 16px 14px;box-shadow:0 8px 24px rgba(0,0,0,.2);position:relative;z-index:6}.mt .mob a{display:block;padding:15px 20px;cursor:pointer;border-top:1px solid #f1e3e2;font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:13px}.mt .mob a:first-child{border:0}
-          .mt .story{grid-template-columns:1fr;gap:30px;padding-top:60px}.mt .story .fr{max-width:180px;margin:0 auto}
+          .mt .story{grid-template-columns:1fr;gap:30px;padding-top:60px}.mt .story .fr{max-width:220px;margin:0 auto}
           .mt .rh{grid-template-columns:34px 1fr 38px;gap:12px}.mt .rh .p{display:none}.mt .rb p{margin-left:46px}
           .mt .form{grid-template-columns:1fr;padding:24px 20px}.mt .chips,.mt .form .go{grid-column:span 1}.mt .form .go{justify-self:stretch;padding:16px 12px}
           .mt .unit{grid-template-columns:1fr;gap:26px}
@@ -239,7 +239,7 @@ export function MotoFold({ client }: { client?: { name?: string; whatsapp?: stri
         <h2 style={{ marginBottom: 36 }}><span className="c">S</span>erviços</h2>
         {SERV.map((s, i) => (
           <div key={s.t} className={`row${open === i ? " on" : ""}`} onClick={() => setOpen(open === i ? -1 : i)}>
-            <div className="rh"><span className="n">0{i + 1}</span><span className="t">{s.t}</span><span className="p">{s.p}</span><span className="pl">+</span></div>
+            <div className="rh"><span className="n">0{i + 1}</span><span className="t">{s.t}</span><span className="p">{s.p}</span><span className="pl">{open === i ? "−" : "+"}</span></div>
             <div className="rb"><div><p>{s.d}</p></div></div>
           </div>
         ))}
