@@ -4,6 +4,7 @@ import { BurgerFold } from "@/components/models/BurgerFold";
 import { BarberFold } from "@/components/models/BarberFold";
 import { GymFold } from "@/components/models/GymFold";
 import { CafeFold } from "@/components/models/CafeFold";
+import { TattooFold } from "@/components/models/TattooFold";
 import { LawFold } from "@/components/models/LawFold";
 import { DentalFold } from "@/components/models/DentalFold";
 declare const __MODEL__: string;
@@ -15,4 +16,5 @@ else if (__MODEL__ === "grao-e-prosa") root.render(<CafeFold client={cfg.client}
 else if (__MODEL__ === "toledo-azevedo") root.render(<LawFold client={cfg.client} />);
 else if (__MODEL__ === "sorriso-verde") root.render(<DentalFold client={cfg.client} />);
 else if (__MODEL__ === "dom-navalha") root.render(<BarberFold client={cfg.client} />);
+else if (__MODEL__ === "tinta-rara") root.render(<TattooFold client={cfg.client} />);
 else if (__MODEL__ === "brasa-e-pao") root.render(<BurgerFold client={cfg.client} />);

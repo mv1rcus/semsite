@@ -51,6 +51,7 @@ const HTML_LOADERS: Record<string, () => Promise<{ default: string }>> = {
   "toledo-azevedo": () => import("./standalone-html/toledo-azevedo.html?raw"),
   "sorriso-verde": () => import("./standalone-html/sorriso-verde.html?raw"),
   "forca-viva": () => import("./standalone-html/forca-viva.html?raw"),
+  "tinta-rara": () => import("./standalone-html/tinta-rara.html?raw"),
 };
 
 /** Codigo do modelo: um .html unico (JS, CSS e imagens dentro), montado so no servidor e so para quem tem o selo Verificado. */
