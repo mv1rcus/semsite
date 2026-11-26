@@ -54,40 +54,9 @@ function Guitar({ rot = 58, sc = 0.82, tx = 230, ty = 340 }: { rot?: number; sc?
 }
 
 function Scene({ variant }: { variant: "hero" | "desk" | "band" }) {
-  const common = { preserveAspectRatio: "xMaxYMid slice" as const, style: { position: "absolute" as const, inset: 0, width: "100%", height: "100%" }, "aria-hidden": true };
-  const defs = (
-    <defs>
-      <linearGradient id="bgh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#0c0806" /><stop offset="1" stopColor="#21160f" /></linearGradient>
-      <radialGradient id="lamp" cx=".5" cy=".5" r=".5"><stop offset="0" stopColor="#ffb55a" stopOpacity=".95" /><stop offset=".35" stopColor="#e8731f" stopOpacity=".35" /><stop offset="1" stopColor="#e8731f" stopOpacity="0" /></radialGradient>
-      <radialGradient id="wood" cx=".5" cy=".6" r=".7"><stop offset="0" stopColor="#d1883a" /><stop offset=".6" stopColor="#a35a1e" /><stop offset="1" stopColor="#5a2c0e" /></radialGradient>
-    </defs>
-  );
-  if (variant === "hero")
-    return (
-      <svg {...common} viewBox="0 0 640 560">{defs}
-        <rect width="640" height="560" fill="url(#bgh)" />
-        <circle cx="560" cy="110" r="220" fill="url(#lamp)" />
-        <circle cx="560" cy="110" r="26" fill="#ffd9a0" /><path d="M560 136v60M534 196h52" stroke="#3a2a20" strokeWidth="6" />
-        <rect x="0" y="470" width="640" height="90" fill="#0b0705" opacity=".8" />
-        <Guitar />
-      </svg>
-    );
-  if (variant === "desk")
-    return (
-      <svg {...common} viewBox="0 0 400 440">{defs}
-        <rect width="400" height="440" fill="url(#bgh)" /><circle cx="330" cy="70" r="150" fill="url(#lamp)" opacity=".7" />
-        <rect x="0" y="330" width="400" height="110" fill="#2a1a10" />
-        <rect x="60" y="300" width="190" height="120" rx="4" fill="#efe4d0" transform="rotate(-6 60 300)" /><path d="M80 330h140M80 350h140M80 370h120" stroke="#b7a68b" strokeWidth="2" transform="rotate(-6 60 300)" />
-        <Guitar rot={80} sc={0.62} tx={110} ty={190} />
-      </svg>
-    );
-  return (
-    <svg {...common} viewBox="0 0 400 200">{defs}
-      <rect width="400" height="200" fill="#241911" /><rect y="120" width="400" height="80" fill="#1a110b" />
-      <Guitar rot={78} sc={0.4} tx={250} ty={110} />
-      <rect x="300" y="60" width="80" height="100" rx="3" fill="#eadfca" transform="rotate(5 300 60)" /><path d="M312 84h56M312 98h56M312 112h44" stroke="#a8977c" strokeWidth="2" transform="rotate(5 300 60)" />
-    </svg>
-  );
+  const src = variant === "desk" ? "/tommaior-estudo.webp" : "/tommaior-banner.webp";
+  const alt = variant === "desk" ? "Professor de violão anotando em um caderno" : "Violão e caderno de partituras sobre a mesa";
+  return <img src={src} alt={alt} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: variant === "desk" ? "50% 30%" : "30% 50%", display: "block" }} />;
 }
 
 export function ViolaoFold({ client }: { client?: { name?: string; whatsapp?: string; city?: string } }) {
@@ -172,7 +141,7 @@ export function ViolaoFold({ client }: { client?: { name?: string; whatsapp?: st
       `}</style>
 
       <section className="hero" id="top">
-        <div className="ph"><img src="/tommaior-violao.webp" alt="Pessoa tocando violão de nylon à luz da janela" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 35%", display: "block" }} /></div>
+        <div className="ph"><img src="/tommaior-violao.webp" alt="Homem tocando violão à luz de um abajur" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 25%", display: "block" }} /></div>
         <header className="nav">
           <Logo a={a} b={b} />
           <nav className="nl"><a onClick={() => go("topo")}>Início</a><a onClick={() => go("metodo")}>Método</a><a onClick={() => go("sobre")}>Sobre</a><a onClick={() => go("alunos")}>Alunos</a><a onClick={() => go("aula")}>Aulas</a></nav>
