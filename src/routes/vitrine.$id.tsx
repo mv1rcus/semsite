@@ -6,6 +6,7 @@ import { Check, Download, Lock, Plus, Send, UserRound } from "lucide-react";
 import { useVerified } from "@/lib/use-verified";
 import { SiteModelView } from "@/components/SiteModelView";
 import { PremiumSite } from "@/components/PremiumSite";
+import { GymFold } from "@/components/models/GymFold";
 import { DentalFold } from "@/components/models/DentalFold";
 import { BarberFold } from "@/components/models/BarberFold";
 import { PetFold } from "@/components/models/PetFold";
@@ -75,7 +76,7 @@ function Viewer() {
           <button type="button" disabled title="Em breve" className={`${btn} px-2.5 opacity-50 sm:px-3`}><Plus className="size-4" />Em breve</button>
         </div>
       </div>
-      {premium?.id === "brasa-e-pao" ? <BurgerFold client={client} /> : premium?.id === "focinho-feliz" ? <PetFold client={client} /> : premium?.id === "dom-navalha" ? <BarberFold client={client} /> : premium?.id === "sorriso-verde" ? <DentalFold client={client} /> : premium ? <PremiumSite model={premium} client={client} /> : model ? <SiteModelView model={model} client={client} /> : null}
+      {premium?.id === "brasa-e-pao" ? <BurgerFold client={client} /> : premium?.id === "focinho-feliz" ? <PetFold client={client} /> : premium?.id === "dom-navalha" ? <BarberFold client={client} /> : premium?.id === "sorriso-verde" ? <DentalFold client={client} /> : premium?.id === "forca-viva" ? <GymFold client={client} /> : premium ? <PremiumSite model={premium} client={client} /> : model ? <SiteModelView model={model} client={client} /> : null}
     </div>
   );
 }

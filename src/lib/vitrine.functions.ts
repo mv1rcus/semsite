@@ -48,6 +48,7 @@ const HTML_LOADERS: Record<string, () => Promise<{ default: string }>> = {
   "brasa-e-pao": () => import("./standalone-html/brasa-e-pao.html?raw"),
   "dom-navalha": () => import("./standalone-html/dom-navalha.html?raw"),
   "sorriso-verde": () => import("./standalone-html/sorriso-verde.html?raw"),
+  "forca-viva": () => import("./standalone-html/forca-viva.html?raw"),
 };
 
 /** Codigo do modelo: um .html unico (JS, CSS e imagens dentro), montado so no servidor e so para quem tem o selo Verificado. */
