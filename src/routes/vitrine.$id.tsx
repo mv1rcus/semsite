@@ -31,6 +31,7 @@ import { FloraFold } from "@/components/models/FloraFold";
 import { InglesFold } from "@/components/models/InglesFold";
 import { CoworkFold } from "@/components/models/CoworkFold";
 import { MotoFold } from "@/components/models/MotoFold";
+import { BlackFold } from "@/components/models/BlackFold";
 import { CinzaFold } from "@/components/models/CinzaFold";
 import { ViolaoFold } from "@/components/models/ViolaoFold";
 import { FotoFold } from "@/components/models/FotoFold";
