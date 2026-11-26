@@ -117,8 +117,8 @@ export function ViolaoFold({ client }: { client?: { name?: string; whatsapp?: st
         .vl *{box-sizing:border-box}.vl a,.vl button,.vl input{font-family:inherit}
         .vl h1,.vl h2,.vl h3{font-family:'Source Serif 4',Georgia,serif!important;font-weight:700!important;letter-spacing:0!important;text-transform:none!important}
         .vl .hero{position:relative;background:${BG};color:#fff;min-height:720px;overflow:hidden;padding-bottom:150px}
-        .vl .hero .ph{position:absolute;top:0;right:0;bottom:0;width:62%}
-        .vl .hero:before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,${BG} 32%,rgba(18,13,10,.55) 55%,rgba(18,13,10,0) 80%)}
+        .vl .hero .ph{position:absolute;top:0;right:0;bottom:0;width:62%;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 28%);mask-image:linear-gradient(90deg,transparent 0,#000 28%)}
+        .vl .hero:before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,${BG} 38.5%,rgba(18,13,10,.6) 52%,rgba(18,13,10,.15) 78%,rgba(18,13,10,0) 100%)}
         .vl .hero>*:not(.ph){position:relative;z-index:2}
         .vl .nav{display:flex;align-items:center;gap:34px;padding:22px 5vw;max-width:1280px;margin:0 auto}
         .vl .lg{display:flex;align-items:center;gap:10px}.vl .lg span{display:flex;flex-direction:column;line-height:1}.vl .lg b{font-family:'Source Serif 4',serif;font-size:21px;font-weight:600;color:#fff}.vl .lg b.o{color:${OR}}
