@@ -10,6 +10,7 @@ import { CoworkFold } from "@/components/models/CoworkFold";
 import { PizzaFold } from "@/components/models/PizzaFold";
 import { JoiaFold } from "@/components/models/JoiaFold";
 import { LivroFold } from "@/components/models/LivroFold";
+import { ModaFold } from "@/components/models/ModaFold";
 import { BakeFold } from "@/components/models/BakeFold";
 import { WashFold } from "@/components/models/WashFold";
 import { LaundryFold } from "@/components/models/LaundryFold";
@@ -36,6 +37,7 @@ else if (__MODEL__ === "fluxo-cowork") root.render(<CoworkFold client={cfg.clien
 else if (__MODEL__ === "forno-lume") root.render(<PizzaFold client={cfg.client} />);
 else if (__MODEL__ === "atelie-seda") root.render(<JoiaFold client={cfg.client} />);
 else if (__MODEL__ === "folha-corrida") root.render(<LivroFold client={cfg.client} />);
+else if (__MODEL__ === "alto-corte") root.render(<ModaFold client={cfg.client} />);
 else if (__MODEL__ === "massa-mae") root.render(<BakeFold client={cfg.client} />);
 else if (__MODEL__ === "jato-azul") root.render(<WashFold client={cfg.client} />);
 else if (__MODEL__ === "pano-limpo") root.render(<LaundryFold client={cfg.client} />);
