@@ -5,7 +5,7 @@ const OL = "#4a5230", DK = "#2e3320", CRM = "#f5f1e6", CRM2 = "#ede7d6", SAND = 
 const CARDS = [
   { img: "/raiz-c1.jpg", t: "Yoga", d: "Encontre equilíbrio, mais flexibilidade e uma mente calma.", ic: "lotus" },
   { img: "/raiz-c2.jpg", t: "Mobilidade", d: "Mova-se melhor, sinta-se melhor e destrave todo o seu potencial.", ic: "move" },
-  { img: "/raiz-c3.jpg", t: "Treino Personal", d: "Treino sob medida para construir força, confiança e constância.", ic: "heart" },
+  { img: "/raiz-dupla.jpg", t: "Treino Personal", d: "Treino sob medida para construir força, confiança e constância.", ic: "heart" },
 ];
 const BENEFITS = [
   { t: "Abordagem holística", d: "Corpo, mente e alma em perfeito equilíbrio.", ic: "lotus" },
