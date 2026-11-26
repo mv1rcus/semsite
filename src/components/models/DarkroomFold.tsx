@@ -24,6 +24,12 @@ const KITS = [
     items: ["Ampliador de precisão (35mm / 120)", "Química completa (capacidade 5 L)", "Bandejas e pinças premium", "Focador de grão e timer", "Guia avançado de ampliação e técnicas"],
   },
 ];
+const COMM = [
+  { img: "/drk-com1.jpg", alt: "Montanhas com névoa em P&B" },
+  { img: "/drk-com2.jpg", alt: "Bonde em rua europeia em P&B" },
+  { img: "/drk-com3.jpg", alt: "Retrato feminino na janela em P&B" },
+  { img: "/drk-com4.jpg", alt: "Farol com ondas em P&B" },
+];
 const STEPS = [
   { n: "1", t: "Carregar", d: "Coloque o filme exposto no tanque de revelação, no escuro total.", img: "/drk-step1.jpg" },
   { n: "2", t: "Revelar", d: "Processe com revelador, stop e fixador (tempos precisos inclusos).", img: "/drk-step2.jpg" },
@@ -60,8 +66,9 @@ export function DarkroomFold({ client }: { client?: { name?: string; whatsapp?: 
         .drk .btn-o:hover{background:rgba(242,239,233,.08)}
         .drk .eyebrow{display:inline-flex;align-items:center;gap:10px;color:${REDL};font-weight:700;font-size:11.5px;letter-spacing:3px;text-transform:uppercase}
         .drk .eyebrow::before{content:"";width:22px;height:1.5px;background:${RED}}
-        .drk .cat-card{position:relative;border-radius:10px;overflow:hidden;background:${PN1};border:1px solid ${LIN};cursor:pointer;transition:.2s}
-        .drk .cat-card:hover{transform:translateY(-3px);border-color:rgba(217,43,43,.55)}
+        .drk .cat-card{position:relative;cursor:pointer;transition:.2s}
+        .drk .cat-card:hover{transform:translateY(-3px)}
+        .drk .cat-card:hover .cat-arrow{color:${RED}}
         .drk .hov{transition:transform .2s,box-shadow .2s}
         .drk .hov:hover{transform:translateY(-4px);box-shadow:0 22px 48px -24px rgba(0,0,0,.8)}
         @media (max-width:900px){
@@ -125,10 +132,10 @@ export function DarkroomFold({ client }: { client?: { name?: string; whatsapp?: 
           <div className="g6" style={{ display: "grid", gridTemplateColumns: "repeat(6,1fr)", gap: 16 }}>
             {CATS.map((c) => (
               <div key={c.t} className="cat-card" onClick={() => go("kits")}>
-                <img src={c.img} alt={c.t} style={{ width: "100%", aspectRatio: "1", objectFit: "cover", display: "block" }} />
-                <div style={{ padding: "12px 14px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+                <img src={c.img} alt={c.t} style={{ width: "100%", aspectRatio: "1", objectFit: "cover", display: "block", borderRadius: 10, border: "1px solid rgba(23,23,26,.1)" }} />
+                <div style={{ padding: "11px 2px 0", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
                   <span style={{ fontSize: 13, fontWeight: 700 }}>{c.t}</span>
-                  <span style={{ color: RED, fontWeight: 800 }}>→</span>
+                  <span className="cat-arrow" style={{ color: "#8a8a92", fontWeight: 800, transition: ".2s" }}>→</span>
                 </div>
               </div>
             ))}
@@ -211,8 +218,8 @@ export function DarkroomFold({ client }: { client?: { name?: string; whatsapp?: 
             Trabalho real de fotógrafos que criam, revelam e ampliam com a {brand}.
           </p>
           <div className="g4" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14 }}>
-            {[1, 2, 3, 4].map((n) => (
-              <img key={n} src={`/drk-com${n}.jpg`} alt={`Fotografia P&B da comunidade ${n}`} style={{ width: "100%", aspectRatio: "1", objectFit: "cover", borderRadius: 10, display: "block", filter: "grayscale(1)" }} />
+            {COMM.map((c) => (
+              <img key={c.img} src={c.img} alt={c.alt} style={{ width: "100%", aspectRatio: "1", objectFit: "cover", borderRadius: 10, display: "block", filter: "grayscale(1)" }} />
             ))}
           </div>
         </div>
