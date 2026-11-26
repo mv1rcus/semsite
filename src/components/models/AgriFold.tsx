@@ -44,6 +44,7 @@ export function AgriFold({ client }: { client?: { name?: string; whatsapp?: stri
         .ag0 h1{font-size:54px;line-height:1.05;margin:26px 0 22px}.ag0 h1 em{font-style:normal;color:${LIME}}
         .ag0 .sub{max-width:480px;font-size:15.500px;line-height:1.65;color:#e1eae3;margin:0 0 34px}
         .ag0 .ghost{display:inline-flex;align-items:center;gap:12px;font-weight:600;font-size:14px;margin-left:18px}.ag0 .ghost i{width:44px;height:44px;border:1px solid rgba(255,255,255,.4);border-radius:50%;display:grid;place-items:center}
+        .ag0 .scr{position:absolute;z-index:4;left:50%;bottom:8px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:#c9d4cc}@media(max-width:900px){.ag0 .scr{display:none}}
         .ag0 .stats{position:absolute;z-index:4;left:32px;bottom:60px;display:flex;gap:44px;background:rgba(16,31,23,.78);border:1px solid ${LINE};backdrop-filter:blur(8px);border-radius:16px;padding:22px 34px}
         .ag0 .stats div{display:flex;align-items:center;gap:12px}.ag0 .stats b{display:block;font-size:19px;font-weight:700}.ag0 .stats small{font-size:11.500px;color:${MUT}}
         .ag0 .live{position:absolute;z-index:4;right:32px;bottom:60px;width:310px;background:rgba(14,28,20,.85);border:1px solid ${LINE};backdrop-filter:blur(10px);border-radius:14px;padding:18px 20px}
@@ -104,6 +105,7 @@ export function AgriFold({ client }: { client?: { name?: string; whatsapp?: stri
           <div><a className="btn" href="#sol" style={{ padding: "15px 26px" }}>Conhecer soluções <Ic d="M5 12h14M13 6l6 6-6 6" c="#10230f" s={15} /></a>
             <a className="ghost" href={wa("ver a história")}><i><Ic d="M8 5l11 7-11 7z" s={14} /></i>Ver história</a></div>
         </div>
+        <div className="scr"><svg width="22" height="34" viewBox="0 0 22 34" fill="none" stroke="#e8efe9" strokeWidth="1.5"><rect x="1" y="1" width="20" height="32" rx="10" /><path d="M11 8v7" strokeLinecap="round" /></svg><span>Role para explorar</span></div>
         <div className="stats">
           {([["25 mil+", "Produtores atendidos", "M16 11a3 3 0 1 0 0-6M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM2 20c0-3 3-5 6-5s6 2 6 5M16 15c3 0 6 2 6 5"], ["1,2 mi+", "Hectares monitorados", "M12 3l9 5v2H3V8zM5 12v6M10 12v6M14 12v6M19 12v6M3 20h18"], ["40%", "Ganho médio de produtividade", "M4 18l5-6 4 3 7-9M15 6h5v5"], ["30%", "Economia de água", "M12 3s6 6.500 6 11a6 6 0 0 1-12 0c0-4.500 6-11 6-11z"]] as [string, string, string][]).map(([a, b, d]) => (
             <div key={b}><Ic d={d} c={LIME} s={24} /><span><b>{a}</b><small>{b}</small></span></div>
