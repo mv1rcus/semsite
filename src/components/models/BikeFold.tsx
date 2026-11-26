@@ -29,40 +29,53 @@ const Wheel = ({ cx, cy, r }: { cx: number; cy: number; r: number }) => (
     <circle cx={cx} cy={cy} r="8" fill="#fff" />
   </g>
 );
+const Limb = ({ d, w = 22 }: { d: string; w?: number }) => (
+  <g fill="none" strokeLinecap="round" strokeLinejoin="round">
+    <path d={d} stroke={INK} strokeWidth={w + 8} />
+    <path d={d} stroke={Y} strokeWidth={w} />
+  </g>
+);
 const Rider = () => (
   <svg viewBox="0 0 520 430" className="rider" role="img" aria-label="Ilustração de um ciclista de lenço amarelo ao vento">
     <ellipse cx="260" cy="402" rx="230" ry="7" fill={INK} opacity=".85" />
-    <g stroke={INK} strokeWidth="6" strokeLinejoin="round" strokeLinecap="round">
-      <Wheel cx={112} cy={304} r={92} />
-      <Wheel cx={408} cy={304} r={92} />
-      <path d="M112 304L246 310 232 206 354 212 246 310M354 212L342 250 408 304M342 250L246 310" fill="none" />
-      <path d="M352 206l-6-24 32-10" fill="none" />
-      <path d="M206 192h46" strokeWidth="9" />
-      <circle cx="246" cy="310" r="14" fill="#fff" />
-      <path d="M246 310l-16 32M246 310l22-34" />
-      <path d="M214 342h34" strokeWidth="9" />
-      {/* leg back */}
-      <path d="M232 214c10 40 24 76 18 126" fill={Y} />
-      {/* leg front */}
-      <path d="M236 214c34 8 58 22 74 44l-6 24" fill={Y} />
-      <path d="M296 270l-28 36 6 10 34-30z" fill={Y} />
-      {/* shorts */}
-      <path d="M170 164c-8 24 2 56 40 60 30 2 48-14 50-34l-34-22z" fill={INK} />
-      {/* torso */}
-      <path d="M178 156c-6-24 18-40 44-38 36 2 74 8 94 24l-18 44c-14 4-30 6-44 6-28 4-62 10-76-36z" fill="#fff" />
-      <path d="M230 128c14 6 40 20 54 44" fill="none" strokeWidth="3" />
-      {/* arm */}
-      <path d="M290 146c26 6 42 20 76 36l8 8" fill="none" strokeWidth="14" stroke={INK} />
-      <path d="M290 146c26 6 42 20 76 36l8 8" fill="none" strokeWidth="6" stroke={Y} />
-      {/* head */}
-      <circle cx="338" cy="104" r="26" fill={Y} />
-      <path d="M312 98c-4-26 18-40 36-32 12 4 20 18 14 30" fill="#fff" strokeWidth="5" />
-      <g fill={INK} stroke="none">{[[322, 72], [336, 66], [350, 70], [362, 82], [316, 84]].map(([x, y], i) => (<circle key={i} cx={x} cy={y} r="9" />))}</g>
-      <circle cx="350" cy="106" r="2.500" fill={INK} stroke="none" />
-      <path d="M362 114l8 3" fill="none" strokeWidth="4" />
+    <Wheel cx={112} cy={304} r={92} />
+    <Wheel cx={408} cy={304} r={92} />
+    <g stroke={INK} strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" fill="none">
+      {/* quadro: tubo do selim, tubo superior, tubo diagonal, bainhas */}
+      <path d="M250 304L222 204M222 204L352 200M352 200L250 304M222 204L112 304M250 304L112 304" />
+      {/* garfo e mesa */}
+      <path d="M352 196L366 236L408 304M352 196L350 178L384 172" />
+      {/* canote e selim */}
+      <path d="M222 204L216 184" />
+      <path d="M192 182h50" strokeWidth="11" />
+      {/* pedivela */}
+      <circle cx="250" cy="304" r="15" fill="#fff" />
+      <path d="M250 304L280 332M250 304L220 276" />
+      <path d="M268 336h26M208 272h26" strokeWidth="10" />
     </g>
-    {/* scarf */}
-    <path d="M312 122C270 104 220 96 150 84l-4 20c50 2 100 12 150 32z" fill={Y} stroke={INK} strokeWidth="5" strokeLinejoin="round" />
+    {/* perna de tras */}
+    <Limb d="M226 186L238 246L224 280" />
+    {/* bermuda */}
+    <path d="M206 168c-10 20-6 44 20 52 26 8 46-6 52-26l-28-30z" fill={INK} stroke={INK} strokeWidth="4" strokeLinejoin="round" />
+    {/* perna da frente */}
+    <Limb d="M236 190L296 246L282 330" />
+    {/* tronco */}
+    <g fill="none" strokeLinecap="round">
+      <path d="M222 180L318 132" stroke={INK} strokeWidth="58" />
+      <path d="M222 180L318 132" stroke="#fff" strokeWidth="50" />
+      <path d="M252 148l40 10" stroke={INK} strokeWidth="3" />
+    </g>
+    {/* braco */}
+    <Limb d="M316 138L346 164L382 174" w={14} />
+    {/* cabeca */}
+    <circle cx="352" cy="92" r="27" fill={Y} stroke={INK} strokeWidth="6" />
+    <path d="M326 86c-2-26 22-40 40-30 12 6 18 20 12 32z" fill="#fff" stroke={INK} strokeWidth="5" strokeLinejoin="round" />
+    <g fill={INK}>{[[330, 62], [346, 54], [362, 56], [374, 66], [324, 74]].map(([x, y], i) => (<circle key={i} cx={x} cy={y} r="10" />))}</g>
+    <circle cx="364" cy="98" r="3" fill={INK} />
+    <path d="M372 108l8 3" stroke={INK} strokeWidth="4" strokeLinecap="round" fill="none" />
+    {/* lenço */}
+    <path d="M330 108C300 88 272 100 242 82C212 64 190 78 150 58L142 84C190 98 212 88 242 108C272 128 300 118 326 134z" fill={Y} stroke={INK} strokeWidth="5" strokeLinejoin="round" />
+    <path d="M150 58L142 84" stroke={INK} strokeWidth="5" />
     <path d="M30 160h18M50 224h26M14 270h22" stroke={INK} strokeWidth="5" strokeLinecap="round" />
   </svg>
 );
@@ -109,7 +122,7 @@ export function BikeFold({ client }: { client?: { name?: string; whatsapp?: stri
         .bk0 .mmenu a{padding:14px 12px;font-weight:800;cursor:pointer}
         .bk0 .hero{position:relative;min-height:620px;display:grid;grid-template-columns:1.05fr 1fr;align-items:center;margin-top:-74px;padding:74px 40px 40px 0}
         .bk0 .blob{position:absolute;left:0;top:0;width:62%;height:100%;z-index:0}
-        .bk0 .rider{position:relative;z-index:1;width:100%;max-width:640px;height:auto;margin-left:30px}
+        .bk0 .rider{position:relative;z-index:1;width:100%;max-width:720px;height:auto;margin-left:-10px}
         .bk0 .ht{position:relative;z-index:2;padding-left:10px}
         .bk0 h1{font-family:'Montserrat',system-ui,sans-serif;font-weight:800;font-size:clamp(38px,5vw,66px);line-height:1.08;letter-spacing:-.02em;margin:0 0 26px;text-align:right}
         .bk0 .ht p{font-size:14.5px;line-height:1.75;color:${MUT};margin:0 0 30px;text-align:right;max-width:440px;margin-left:auto}
