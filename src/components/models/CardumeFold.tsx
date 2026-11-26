@@ -102,36 +102,16 @@ export function CardumeFold({ client }: { client?: { name?: string; whatsapp?: s
           <h1 style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>{brand} Escola de Natação em {city}: aulas de natação para bebês, crianças, adultos e hidroginástica</h1>
           <svg viewBox="0 0 1200 880" role="img" aria-label="Pôster com a palavra Cardume repetida em letras gigantes preenchidas com água" style={{ width: "100%", maxWidth: 980, height: "auto", display: "block", margin: "0 auto" }}>
             <defs>
-              <linearGradient id="cd-water" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stopColor={AZ3} />
-                <stop offset=".45" stopColor={AZ} />
-                <stop offset="1" stopColor={AZ2} />
-              </linearGradient>
-              <filter id="cd-wf" x="0" y="0" width="100%" height="100%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.028 0.042" numOctaves="3" seed="11" />
-                <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  3.2 3.2 3.2 0 -4.4" />
-              </filter>
-              <filter id="cd-wf2" x="0" y="0" width="100%" height="100%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.016 0.026" numOctaves="3" seed="4" />
-                <feColorMatrix type="matrix" values="0 0 0 0 0.04  0 0 0 0 0.36  0 0 0 0 0.55  2.6 2.6 2.6 0 -3.6" />
-              </filter>
-              <pattern id="cd-caustic" width="340" height="340" patternUnits="userSpaceOnUse">
-                <rect width="340" height="340" filter="url(#cd-wf)" />
-              </pattern>
-              <pattern id="cd-depth" width="380" height="380" patternUnits="userSpaceOnUse">
-                <rect width="380" height="380" filter="url(#cd-wf2)" />
+              <pattern id="cd-foto" width="720" height="720" patternUnits="userSpaceOnUse">
+                <image href="/cardume-agua.webp" width="720" height="720" preserveAspectRatio="xMidYMid slice" />
               </pattern>
             </defs>
-            <Swirl />
             <g fontFamily={display} fontWeight="800" fontSize="215" textAnchor="middle" letterSpacing="2">
               {[175, 340, 505, 670, 825].map((y) => (
-                <g key={y}>
-                  <text x="600" y={y} fill="url(#cd-water)">CARDUME</text>
-                  <text x="600" y={y} fill="url(#cd-depth)">CARDUME</text>
-                  <text x="600" y={y} fill="url(#cd-caustic)">CARDUME</text>
-                </g>
+                <text key={y} x="600" y={y} fill="url(#cd-foto)" stroke={AZ2} strokeWidth="2" paintOrder="stroke">CARDUME</text>
               ))}
             </g>
+            <image href="/cardume-nadador.webp" x="290" y="230" width="620" height="443" preserveAspectRatio="xMidYMid meet" />
           </svg>
           <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap", marginTop: 30 }}>
             <a className="btn" href={wa(`Olá! Quero agendar uma aula experimental de natação na ${brand}.`)} target="_blank" rel="noreferrer">Aula experimental grátis</a>
