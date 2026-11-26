@@ -139,6 +139,11 @@ async function queryCity(id: string, partitioned: boolean, release: string, cate
   return job;
 }
 
+export async function checkCity(city: string) {
+  const data = await getManifest();
+  resolveCity(city, data.cities);
+}
+
 export async function searchOverture(category: string, city: string, offset: number, userId: string) {
   const data = await getManifest();
   const municipality = resolveCity(city, data.cities);
@@ -149,5 +154,8 @@ export async function searchOverture(category: string, city: string, offset: num
     nextPageToken: offset + PAGE_SIZE < result.leads.length ? cursor(offset + PAGE_SIZE, category, city, userId) : null,
     totalMatches: result.leads.length,
     dataRelease: data.release,
+    cityName: municipality.name,
+    cityUf: municipality.uf,
+    cityPlaces: municipality.count,
   };
 }
