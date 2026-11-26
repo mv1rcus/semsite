@@ -22,6 +22,14 @@ function Ic({ k }: { k: string }) {
   return <svg {...p}><rect x="2.5" y="7" width="19" height="10" rx="5" /><path d="M7 10v4M5 12h4M16 11h.01M18 13h.01" /></svg>;
 }
 
+function DIcon({ k }: { k: string }) {
+  const p = { width: 28, height: 28, viewBox: "0 0 24 24", fill: "none", stroke: "#b06cff", strokeWidth: 1.5, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  if (/Frete/.test(k)) return <svg {...p}><path d="M2 6h12v10H2zM14 9h4l3 3v4h-7" /><circle cx="7" cy="17.5" r="1.8" /><circle cx="17" cy="17.5" r="1.8" /></svg>;
+  if (/Pagamento/.test(k)) return <svg {...p}><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" /><path d="M8.5 12l2.5 2.5 4.5-5" /></svg>;
+  if (/Suporte/.test(k)) return <svg {...p}><path d="M4 14v-2a8 8 0 0116 0v2" /><rect x="3" y="13" width="4" height="6" rx="1.5" /><rect x="17" y="13" width="4" height="6" rx="1.5" /><path d="M19 19c0 1.5-2 2.5-5 2.5" /></svg>;
+  return <svg {...p}><path d="M6 3h12l4 6-10 12L2 9z" /><path d="M2 9h20M9 3l3 6 3-6M12 21L9 9M12 21l3-12" /></svg>;
+}
+
 export function TechFold({ client }: { client?: { name?: string; whatsapp?: string; city?: string } }) {
   const brand = client?.name?.trim() || "TechMart";
   const b1 = brand.length > 4 ? brand.slice(0, brand.length - 4) : brand;
@@ -52,16 +60,17 @@ export function TechFold({ client }: { client?: { name?: string; whatsapp?: stri
         .tm .lk{display:flex;gap:30px}.tm .lk a{color:#e6e3f0;text-decoration:none;cursor:pointer;padding-bottom:6px;border-bottom:2px solid transparent}.tm .lk a.on{border-color:${PU};color:#fff}
         .tm .ic{display:flex;gap:18px;align-items:center}.tm .ic button{background:none;border:0;color:#fff;cursor:pointer;position:relative;padding:0}.tm .ic .n{position:absolute;top:-8px;right:-9px;background:${PU};border-radius:99px;font-size:9px;padding:1px 5px}
         .tm .burger{display:none}
-        .tm .hero{position:relative;min-height:600px;overflow:hidden;background:radial-gradient(ellipse 50% 50% at 75% 40%,rgba(120,50,255,.28),transparent 70%),${BG}}
-        .tm .hero .tx{position:relative;z-index:3;padding-top:40px;max-width:560px}
+        .tm .hero{position:relative;min-height:640px;padding-bottom:70px;overflow:hidden;background:radial-gradient(ellipse 50% 50% at 75% 40%,rgba(120,50,255,.28),transparent 70%),${BG}}
+        .tm .hero:after{content:"";position:absolute;left:0;right:0;bottom:0;height:110px;background:linear-gradient(180deg,transparent,${BG});z-index:2;pointer-events:none}
+        .tm .hero .tx{position:relative;z-index:3;padding-top:40px;max-width:640px}
         .tm .kick{display:flex;align-items:center;gap:14px;font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase}.tm .kick:after{content:"";width:60px;border-top:1px solid ${PU}}
-        .tm .hero h1{font-size:clamp(40px,5.4vw,70px);line-height:1.04;margin-top:26px}.tm .hero h1 em{font-style:normal;background:linear-gradient(90deg,#c55cff,#8b3dff);-webkit-background-clip:text;background-clip:text;color:transparent}
+        .tm .hero h1{font-size:clamp(34px,4.3vw,58px);line-height:1.04;margin-top:26px}.tm .hero h1 em{white-space:nowrap}.tm .hero h1 em{font-style:normal;background:linear-gradient(90deg,#c55cff,#8b3dff);-webkit-background-clip:text;background-clip:text;color:transparent}
         .tm .hero p{font-size:16px;line-height:1.55;color:#d9d6e6;margin:22px 0 30px;max-width:380px}
         .tm .row{display:flex;gap:16px;align-items:center}
         .tm .bt{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,#9a4dff,#7a2fe8);color:#fff;border:0;border-radius:99px;padding:14px 26px;font-weight:700;font-size:14px;text-decoration:none;cursor:pointer;box-shadow:0 8px 28px rgba(139,61,255,.45)}
         .tm .vd{display:inline-flex;align-items:center;gap:10px;border:1px solid #3a3550;background:rgba(255,255,255,.04);border-radius:99px;padding:13px 24px;font-weight:600;font-size:14px;color:#fff;text-decoration:none;cursor:pointer}.tm .vd i{width:26px;height:26px;border-radius:50%;border:1px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-style:normal}
         .tm .stage{position:absolute;right:0;top:0;bottom:0;width:58%;z-index:1;background:url(/tech-hero.webp) right bottom/contain no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%);mask-image:linear-gradient(90deg,transparent 0,#000 30%)}
-        .tm .cats{position:relative;z-index:4;display:grid;grid-template-columns:repeat(6,1fr);background:#0d0b14;border:1px solid ${LN};border-radius:20px;padding:22px 0;margin-top:-6px}
+        .tm .cats{position:relative;z-index:4;display:grid;grid-template-columns:repeat(6,1fr);background:#0d0b14;border:1px solid ${LN};border-radius:20px;padding:22px 0;margin-top:0}
         .tm .cats div{display:flex;flex-direction:column;align-items:center;gap:10px;font-size:13px;font-weight:500;border-left:1px solid ${LN};cursor:pointer}.tm .cats div:first-child{border-left:0}
         .tm section{padding:54px 0 0}
         .tm .hd{display:flex;justify-content:space-between;align-items:flex-end;gap:16px}.tm .lab{display:flex;align-items:center;gap:12px;font-size:10px;letter-spacing:.22em;font-weight:700;text-transform:uppercase;margin-bottom:10px}.tm .lab:before{content:"";width:34px;border-top:1px solid ${PU}}
@@ -69,16 +78,16 @@ export function TechFold({ client }: { client?: { name?: string; whatsapp?: stri
         .tm .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:22px}
         .tm .pd{background:${CARD};border:1px solid ${LN};border-radius:18px;padding:14px 14px 16px;position:relative}
         .tm .pd .hr{position:absolute;right:12px;top:12px;width:30px;height:30px;border-radius:50%;background:#0b0911;border:1px solid ${LN};display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;z-index:2;font-size:13px}.tm .pd .hr.on{color:${PU2}}
-        .tm .pd .im{height:170px;background-size:contain;background-position:center;background-repeat:no-repeat;margin-bottom:12px}
-        .tm .pd h3{font-size:14px;font-weight:700!important;letter-spacing:0!important}.tm .pd .pr{margin-top:8px;font-weight:800;font-size:20px}.tm .pd .pr s{font-weight:500;font-size:12px;color:#716c82;margin-left:8px}
+        .tm .pd .im{mix-blend-mode:screen;height:170px;background-size:contain;background-position:center;background-repeat:no-repeat;margin-bottom:12px}
+        .tm .pd h3{font-size:14px;font-weight:700!important;letter-spacing:0!important}.tm .pd .pr{margin-top:8px;font-weight:800;font-size:20px}.tm .pd .pr s{white-space:nowrap;font-weight:500;font-size:12px;color:#716c82;margin-left:8px}
         .tm .pd .st{font-size:11px;color:${MU};margin:6px 0 12px}.tm .pd .st b{color:#ffc933}
         .tm .pd button{background:${PU};color:#fff;border:0;border-radius:9px;padding:9px 16px;font-size:12px;font-weight:700;cursor:pointer}.tm .pd button.on{background:#2b1d4a;color:#d9bfff}
         .tm .ban{margin-top:42px;border-radius:22px;border:1px solid #3a2a66;background:linear-gradient(110deg,#150f2a 0,#4a1fa8 60%,#6a2fe0 100%);display:grid;grid-template-columns:1.1fr 1fr;align-items:center;overflow:hidden;min-height:150px}
         .tm .ban .l{padding:26px 34px}.tm .ban .tg{display:inline-block;background:${PU};border-radius:99px;font-size:11px;font-weight:700;padding:6px 14px;margin-bottom:12px}
         .tm .ban h2{font-size:clamp(22px,2.6vw,32px)}.tm .ban h2 em{color:#c9a0ff}.tm .ban .wh{display:inline-block;margin-top:16px;background:#fff;color:#0b0911;border-radius:99px;padding:11px 22px;font-size:13px;font-weight:700;text-decoration:none;cursor:pointer}
-        .tm .ban .r{height:100%;min-height:150px;background:url(/tech-banner.webp) right center/contain no-repeat}
+        .tm .ban .r{height:100%;min-height:150px;background:url(/tech-banner.webp) right center/cover no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 38%);mask-image:linear-gradient(90deg,transparent 0,#000 38%)}
         .tm .why{display:grid;grid-template-columns:1fr 1.5fr;gap:40px;align-items:center}.tm .why p{font-size:13px;color:${MU};line-height:1.6;margin:10px 0 18px;max-width:260px}
-        .tm .dg{display:grid;grid-template-columns:repeat(4,1fr)}.tm .dg div{border-left:1px solid ${LN};padding:6px 18px;font-size:13px;font-weight:600;display:flex;flex-direction:column;gap:10px}.tm .dg small{font-weight:400;color:${MU};font-size:11px;line-height:1.5}
+        .tm .dg{display:grid;grid-template-columns:repeat(4,1fr)}.tm .dg div{border-left:1px solid ${LN};padding:6px 18px;align-items:flex-start;font-size:13px;font-weight:600;display:flex;flex-direction:column;gap:10px}.tm .dg small{font-weight:400;color:${MU};font-size:11px;line-height:1.5}
         .tm .bl{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
         .tm .bp{background:${CARD};border:1px solid ${LN};border-radius:16px;overflow:hidden}.tm .bp .im{height:120px;background-size:cover;background-position:center;position:relative}.tm .bp .im span{position:absolute;right:10px;top:10px;background:rgba(10,8,16,.85);border-radius:9px;font-size:10px;padding:5px 10px}
         .tm .bp div.t{padding:12px 14px 14px;font-size:13px;font-weight:600}.tm .bp div.t a{display:block;color:${PU2};font-size:11px;margin-top:8px}
@@ -89,9 +98,9 @@ export function TechFold({ client }: { client?: { name?: string; whatsapp?: stri
         .tm .wa{position:fixed;right:20px;bottom:20px;width:56px;height:56px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;z-index:15;box-shadow:0 8px 22px rgba(0,0,0,.5)}
         @media(max-width:900px){
           .tm .w{padding:0 18px}.tm .lk,.tm .ic .hide{display:none}.tm .burger{display:block;font-size:24px}
-          .tm .hero{min-height:760px}.tm .hero .tx{padding-top:24px}.tm .stage{width:100%;top:auto;height:50%;background-position:center bottom}
+          .tm .hero{min-height:760px;background:${BG}}.tm .hero .tx{padding-top:24px}.tm .stage{width:100%;top:auto;height:50%;background-position:center bottom;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 30%);mask-image:linear-gradient(180deg,transparent 0,#000 30%)}.tm .pd .pr{font-size:17px}.tm .pd .pr s{margin-left:5px}
           .tm .cats{grid-template-columns:repeat(3,1fr);row-gap:20px}.tm .cats div:nth-child(4){border-left:0}
-          .tm .grid{grid-template-columns:1fr 1fr;gap:10px}.tm .pd .im{height:130px}.tm .ban{grid-template-columns:1fr}.tm .ban .r{min-height:140px}
+          .tm .grid{grid-template-columns:1fr 1fr;gap:10px}.tm .pd .im{height:130px}.tm .ban{grid-template-columns:1fr}.tm .ban .r{min-height:150px;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 35%);mask-image:linear-gradient(180deg,transparent 0,#000 35%)}
           .tm .why{grid-template-columns:1fr}.tm .dg{grid-template-columns:1fr 1fr;row-gap:20px}.tm .bl{grid-template-columns:1fr}.tm .nl{grid-template-columns:1fr;padding:22px 18px}
         }
       `}</style>
@@ -137,7 +146,7 @@ export function TechFold({ client }: { client?: { name?: string; whatsapp?: stri
 
       <section id="why"><div className="w why">
         <div><div className="lab">Por que nós</div><h2>Sua loja de gadgets de confiança</h2><p>Tecnologia de qualidade com atendimento que resolve.</p><a className="bt" href={base} target="_blank" rel="noreferrer">Saiba mais →</a></div>
-        <div className="dg">{DIF.map(([t, d]) => <div key={t}><span style={{ color: PU2, fontSize: 22 }}>◆</span>{t}<small>{d}</small></div>)}</div>
+        <div className="dg">{DIF.map(([t, d]) => <div key={t}><DIcon k={t ?? ""} />{t}</div>)}</div>
       </div></section>
 
       <section id="blog"><div className="w">
