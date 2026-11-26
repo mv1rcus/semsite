@@ -68,7 +68,8 @@ export function MotoFold({ client }: { client?: { name?: string; whatsapp?: stri
         .mt .strip b{display:block;font-size:30px;font-weight:600}.mt .strip span{font-size:14px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#4a4543}
         .mt h2{font-weight:600;font-size:clamp(34px,4.4vw,52px);letter-spacing:.01em;margin:0;line-height:1.05}
         .mt h2 .c{font-size:1.18em}
-        .mt .story{padding:96px 0 40px;display:grid;grid-template-columns:1fr 250px;gap:90px;align-items:center;max-width:900px;margin:0 auto}
+        .mt .hist{background:linear-gradient(#fff calc(100% - 80px),${CO} calc(100% - 80px));margin-bottom:60px}
+        .mt .story>div:first-child{padding-bottom:110px}.mt .story .fr{margin-bottom:-14px}.mt .story{padding:96px 0 0;display:grid;grid-template-columns:1fr 250px;gap:90px;align-items:end;max-width:900px;margin:0 auto}
         .mt .story h2{font-size:clamp(26px,2.8vw,38px)}.mt .story p{font-size:16px;font-weight:500;line-height:1.7;margin:20px 0 0;color:#2b2625}
         .mt .link{display:inline-block;margin-top:24px;font-weight:700;font-size:14px;letter-spacing:.16em;text-transform:uppercase;border-bottom:2px solid ${CO};padding-bottom:4px;color:${INK};text-decoration:none;cursor:pointer}
         .mt .serv{padding:84px 0 40px}
@@ -108,7 +109,7 @@ export function MotoFold({ client }: { client?: { name?: string; whatsapp?: stri
           .mt .wrap{padding:0 20px}
           .mt .nav{grid-template-columns:1fr auto;height:68px}.mt .links,.mt .navcta{display:none}.mt .burger{display:block}
           .mt .mob{display:block;background:#fff;margin:0 16px 14px;box-shadow:0 8px 24px rgba(0,0,0,.2);position:relative;z-index:6}.mt .mob a{display:block;padding:15px 20px;cursor:pointer;border-top:1px solid #f1e3e2;font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:13px}.mt .mob a:first-child{border:0}
-          .mt .story{grid-template-columns:1fr;gap:30px;padding-top:60px}.mt .story .fr{max-width:220px;margin:0 auto}
+          .mt .story{grid-template-columns:1fr;gap:30px;padding-top:60px}.mt .story>div:first-child{padding-bottom:0}.mt .story .fr{max-width:220px;margin:0 auto}
           .mt .rh{grid-template-columns:34px 1fr 38px;gap:12px}.mt .rh .p{display:none}.mt .rb p{margin-left:46px}
           .mt .form{grid-template-columns:1fr;padding:24px 20px}.mt .chips,.mt .form .go{grid-column:span 1}.mt .form .go{justify-self:stretch;padding:16px 12px}
           .mt .unit{grid-template-columns:1fr;gap:26px}
@@ -141,7 +142,7 @@ export function MotoFold({ client }: { client?: { name?: string; whatsapp?: stri
         <div><b>Laudo escrito</b><span>Em toda revisão</span></div>
       </div>
 
-      <div className="wrap" id="historia">
+      <div className="hist" id="historia"><div className="wrap">
         <div className="story">
           <div>
             <h2><span className="c">N</span>ossa <span className="c">H</span>istória</h2>
@@ -151,7 +152,7 @@ export function MotoFold({ client }: { client?: { name?: string; whatsapp?: stri
           </div>
           <div className="fr"><div className="fsh" /><img src="/garagem-frente.webp" alt="Moto clássica boxer vista de frente" style={{ width: "100%", height: "auto", display: "block" }} /></div>
         </div>
-      </div>
+      </div></div>
 
       <div className="wrap serv" id="servicos">
         <h2 style={{ marginBottom: 36 }}><span className="c">S</span>erviços</h2>
