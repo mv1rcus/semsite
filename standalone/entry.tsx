@@ -1,3 +1,4 @@
+import { DancaFold } from "@/components/models/DancaFold";
 import { EspacoFold } from "@/components/models/EspacoFold";
 import { CerimonialFold } from "@/components/models/CerimonialFold";
 import { BuffetFold } from "@/components/models/BuffetFold";
@@ -61,7 +62,8 @@ import { DentalFold } from "@/components/models/DentalFold";
 declare const __MODEL__: string;
 const cfg = (window as unknown as { __SEMSITE__: { client: { name?: string; whatsapp?: string; city?: string } } }).__SEMSITE__;
 const root = createRoot(document.getElementById("root")!);
-if (__MODEL__ === "recanto-verde") root.render(<EspacoFold client={cfg.client} />);
+if (__MODEL__ === "fluxo-urbano") root.render(<DancaFold client={cfg.client} />);
+else if (__MODEL__ === "recanto-verde") root.render(<EspacoFold client={cfg.client} />);
 else if (__MODEL__ === "aurora-lima") root.render(<CerimonialFold client={cfg.client} />);
 else if (__MODEL__ === "casa-ameixa") root.render(<BuffetFold client={cfg.client} />);
 else if (__MODEL__ === "escola-compasso") root.render(<MusicaFold client={cfg.client} />);

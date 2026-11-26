@@ -1,6 +1,7 @@
 import type { PremiumKey, PremiumModel } from "./premium-models";
 
 const SECTIONS: Record<PremiumKey, string> = {
+  dancaest: "hero preto com título itálico gigante e dançarina recortada na frente, cards de próximas aulas, grade semanal em caixas, vídeos e rodapé cinza-claro com aula experimental em 4 passos",
   espaco: "coluna lateral fixa com logo empilhado, hero em foto cheia com título serifado, bloco de visita, faixa de pista, três ambientes, depoimento sobre foto escura e contato com pedido em 4 passos",
   cerimonial: "hero bege com título serifado e foto grande com cartão de consulta, tiles de serviço com foto, passos em ícones, faixa rosa de consulta de data e pedido em 4 passos",
   buffet: "hero rosa com título serifado e colagem de fotos em losangos, faixa roxa de passos, cards de pacote com foto redonda, espaços, avaliações e orçamento em 4 passos",
