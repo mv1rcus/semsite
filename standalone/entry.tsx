@@ -69,6 +69,7 @@ import { DarkroomFold } from "@/components/models/DarkroomFold";
 import { EixoFold } from "../src/components/models/EixoFold";
 import { AticoFold } from "../src/components/models/AticoFold";
 import { AlvaFold } from "../src/components/models/AlvaFold";
+import { HelenaFold } from "../src/components/models/HelenaFold";
 import { AdvMcFold } from "@/components/models/AdvMcFold";
 import { AquaGrowFold } from "@/components/models/AquaGrowFold";
 import { ArqFold } from "@/components/models/ArqFold";
@@ -100,6 +101,7 @@ else if (__MODEL__ === "sala-rubra") root.render(<DarkroomFold client={cfg.clien
 else if (__MODEL__ === "eixo-pilates") root.render(<EixoFold client={cfg.client} />);
 else if (__MODEL__ === "atico-pilates") root.render(<AticoFold client={cfg.client} />);
 else if (__MODEL__ === "alva-estetica") root.render(<AlvaFold client={cfg.client} />);
+else if (__MODEL__ === "helena-duarte") root.render(<HelenaFold client={cfg.client} />);
 else if (__MODEL__ === "menezes-prado") root.render(<AdvMcFold client={cfg.client} />);
 else if (__MODEL__ === "aquagrow-eco") root.render(<AquaGrowFold client={cfg.client} />);
 else if (__MODEL__ === "vao-arquitetura") root.render(<ArqFold client={cfg.client} />);
