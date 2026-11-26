@@ -60,7 +60,7 @@ export function MilkFold({ client }: { client?: { name?: string; whatsapp?: stri
         .mx .rate{display:inline-flex;align-items:center;gap:10px;margin-left:22px;vertical-align:middle;font-family:'Fredoka',sans-serif;font-weight:600;font-size:26px}.mx .rate small{display:block;font-family:'Nunito',sans-serif;font-size:12px;font-weight:500;opacity:.95;line-height:1}
         .mx .pk{background:#df3f78;color:#fff;border:0;border-radius:99px;padding:13px 26px;font-weight:700;font-size:14px;cursor:pointer;text-decoration:none;display:inline-block}
         .mx .cup{position:relative;justify-self:end;width:min(110%,600px);align-self:end;margin-bottom:-70px;margin-right:-30px}.mx .cup>img{width:100%;display:block;position:relative;z-index:2;filter:drop-shadow(0 24px 30px rgba(20,8,60,.35))}
-        .mx .logo{position:absolute;z-index:3;left:34%;top:54%;width:27%;aspect-ratio:1;border-radius:50%;background:linear-gradient(145deg,#5a2fb8,#2b1a63);border:4px solid #fff;display:grid;place-items:center;text-align:center;font-family:'Fredoka',sans-serif;font-weight:700;line-height:.95;color:#fff;font-size:clamp(14px,1.7vw,22px);transform:rotate(-6deg);box-shadow:0 6px 16px rgba(0,0,0,.25)}.mx .logo span{color:${PINK};display:block}
+        .mx .logo{position:absolute;z-index:3;left:30%;top:52%;width:36%;transform:rotate(-6deg);filter:drop-shadow(0 6px 12px rgba(20,8,60,.3))}.mx .logo svg{display:block;width:100%;height:auto;overflow:visible}
         .mx .card{position:absolute;z-index:4;background:#fff;color:${NAVY};border-radius:18px;padding:12px 16px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:13px;line-height:1.2;box-shadow:0 12px 28px rgba(20,8,60,.25);display:flex;align-items:center;gap:10px;width:152px}.mx .card b{display:block;font-size:17px;font-weight:700}
         .mx .card em{width:34px;height:34px;border-radius:10px;background:${LIL};flex:none;display:grid;place-items:center;font-style:normal;color:#fff}
         .mx .c1{right:-4%;top:52%}.mx .c2{right:-2%;top:72%}
@@ -119,7 +119,7 @@ export function MilkFold({ client }: { client?: { name?: string; whatsapp?: stri
             <p>Milkshakes cremosos e cheios de graça, feitos com amor e com os melhores ingredientes.</p>
             <button type="button" className="pk" onClick={() => go("cardapio")}>Ver cardápio</button><span className="rate"><svg width="26" height="26" viewBox="0 0 24 24" fill={YEL}><path d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.300 5.800 21l1.600-7L2 9.200l7.100-.6z" /></svg><span>4,9<small>(1.023 avaliações)</small></span></span></div>
           <div className="cup"><img src="/milk-hero.webp" alt="Milkshake de morango com chantilly, calda e um morango no topo" />
-            <span className="logo"><span style={{ color: "#fff" }}>Milky<span>Mix</span></span></span>
+            <span className="logo" role="img" aria-label={brand}><svg viewBox="0 0 200 120" aria-hidden><rect x="6" y="6" width="188" height="108" rx="54" fill="#3a1f8a" stroke="#fff" strokeWidth="6" /><g fontFamily="'Fredoka',sans-serif" fontWeight="700" textAnchor="middle" fontSize="46" strokeLinejoin="round" paintOrder="stroke"><text x="100" y="62" fill="#fff" stroke="#241257" strokeWidth="5">Milky</text><text x="100" y="102" fill={PINK} stroke="#241257" strokeWidth="5" fontSize="48">Mix</text></g></svg></span>
             <div className="card c1"><em>♥</em><div><b>100%</b>ingredientes reais</div></div>
             <div className="card c2"><em>★</em><div><b>Fresco</b>feito todo dia</div></div></div>
         </div>
