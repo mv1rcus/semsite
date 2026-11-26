@@ -79,7 +79,7 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
         .gb .hero:before{content:"";position:absolute;inset:0;z-index:1;background:${Y};clip-path:polygon(0 0,36% 0,25% 100%,0 100%)}
         .gb .hero:after{content:"";position:absolute;z-index:1;right:0;top:0;bottom:0;width:22%;background:linear-gradient(90deg,rgba(27,47,214,0),rgba(27,47,214,.85));}
         .gb .hc{position:relative;z-index:3;padding:34px 0 40px;width:min(94%,1200px);margin:0 auto;min-height:480px}
-        .gb .hc h1{font-size:clamp(64px,9vw,118px);max-width:5.2em;margin:0 0 22px;line-height:.86}
+        .gb .hc h1{font-size:clamp(60px,8.2vw,104px);max-width:5.2em;margin:0 0 22px;line-height:.86}
         .gb .hc p{font-size:15px;line-height:1.5;max-width:23ch;margin:0 0 22px;font-weight:500}
         .gb .btn{display:inline-flex;align-items:center;gap:10px;min-height:46px;padding:0 22px;border-radius:2px;font-size:13px;font-weight:700;text-decoration:none;cursor:pointer;border:0;background:${K};color:#fff}
         .gb .btn.y{background:${Y};color:${K}}
@@ -89,8 +89,8 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
         .gb .nc{position:absolute;z-index:3;right:3%;bottom:7%;text-align:right;color:#fff;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
         .gb .nc b{display:block;font-family:'Barlow Condensed',sans-serif;font-style:italic;font-weight:800;font-size:34px;color:${Y};letter-spacing:0;margin-top:2px}
         .gb .nc i{display:block;color:${Y};margin:0 0 12px auto;width:max-content;font-style:normal;font-size:22px}
-        .gb .rg{display:grid;grid-template-columns:320px 1fr;gap:30px;align-items:center;padding:40px 0}
-        .gb .rg h2{font-size:clamp(40px,5vw,56px)}
+        .gb .rg{display:grid;grid-template-columns:320px 1fr;gap:30px;align-items:center;padding:68px 0}
+        .gb h2{text-wrap:balance}.gb .rg h2,.gb .plan h2,.gb .gg h2,.gb .svc h2{font-size:clamp(38px,4.2vw,50px);line-height:.9}.gb .svc h2{font-size:clamp(34px,3.2vw,42px)}
         .gb .rg p{font-size:14px;font-weight:600;text-transform:uppercase;margin:20px 0 0;line-height:1.35;max-width:14ch}
         .gb .rg .ln{height:1px;background:${K};width:130px;margin-top:20px;position:relative}
         .gb .rc{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
@@ -123,17 +123,17 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
         .gb .ct .h{border:0;font-weight:700;font-size:12px;line-height:1.3}
         .gb .ct .hy{background:${Y};font-weight:800}
         .gb .ct b{font-weight:700}
-        .gb .plan{position:relative;display:grid;grid-template-columns:.9fr 1fr;min-height:320px;background:#0f1013;overflow:hidden;color:#fff}
-        .gb .plan .mp{position:relative;padding:36px 3% 36px max(3%,calc((100vw - 1200px)/2));z-index:2}
-        .gb .plan h2{font-size:clamp(44px,5.4vw,64px);line-height:.88}
+        .gb .plan{position:relative;display:grid;grid-template-columns:.9fr 1fr;min-height:360px;background:#0f1013;overflow:hidden;color:#fff}
+        .gb .plan .mp{position:relative;padding:56px 3% 36px max(3%,calc((100vw - 1200px)/2));z-index:2}
+        
         .gb .plan p{font-size:12px;line-height:1.5;max-width:24ch;color:#cfd1d6;margin:14px 0 18px}
         .gb .plan svg.map{position:absolute;inset:0;width:62%;height:100%;opacity:.95}
         .gb .plan .ph{position:absolute;right:0;top:0;bottom:0;width:60%;object-fit:cover;object-position:60% 50%;clip-path:polygon(14% 0,100% 0,100% 100%,0 100%)}
         .gb .plan .rts{position:absolute;right:4%;top:50%;transform:translateY(-50%);z-index:3;display:grid;gap:10px}
         .gb .plan .rt{display:flex;gap:12px;align-items:center;background:#fff;color:${K};padding:10px 14px;min-width:160px;font-size:12px;font-weight:700}
         .gb .plan .rt small{display:block;font-weight:500;color:#555;font-size:11px}
-        .gb .gear{display:grid;grid-template-columns:1.35fr 1fr;gap:20px;padding:36px 0}
-        .gb .gg h2{font-size:clamp(34px,4vw,46px);margin-bottom:6px}
+        .gb .gear{display:grid;grid-template-columns:1.35fr 1fr;gap:20px;padding:68px 0}
+        .gb .gg h2{margin-bottom:6px}
         .gb .gl{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}
         .gb .gc{background:#f1f1f4;padding:12px;display:flex;flex-direction:column}
         .gb .gc img{width:100%;aspect-ratio:1;object-fit:contain;mix-blend-mode:multiply}
@@ -141,7 +141,7 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
         .gb .gc div{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:14px;font-weight:700}
         .gb .gc button{width:44px;height:44px;border-radius:50%;background:${Y};border:0;display:grid;place-items:center;cursor:pointer;color:${K}}
         .gb .svc{background:${B};color:#fff;padding:26px 28px;display:grid;grid-template-columns:1fr 1.1fr;gap:20px;position:relative}
-        .gb .svc h2{font-size:34px}
+        
         .gb .svc p{font-size:12px;line-height:1.5;margin:10px 0 16px;color:#dfe3ff;max-width:22ch}
         .gb .sl{display:grid;gap:0}
         .gb .sl a{display:flex;align-items:center;gap:12px;min-height:48px;border-bottom:1px solid rgba(255,255,255,.2);color:#fff;font-size:12px;text-decoration:none;cursor:pointer}
@@ -160,7 +160,7 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
           .gb .top:after{width:40%}.gb .nl{display:none}.gb .burger{display:grid}.gb .nav{justify-content:space-between}.gb .ibs{margin-left:auto}
           .gb .mob{display:grid;background:#fff;padding:6px 5%;border-bottom:1px solid #ddd}.gb .mob a{min-height:48px;display:flex;align-items:center;border-bottom:1px solid #eee;font-size:15px;font-weight:600;color:${K};cursor:pointer}
           .gb .hero{min-height:0;display:flex;flex-direction:column}.gb .hero>img{position:relative;width:100%;height:260px;order:2}.gb .hero:before{clip-path:polygon(0 0,100% 0,100% 100%,0 100%);height:auto;bottom:260px}.gb .hero:after{display:none}
-          .gb .hc{min-height:0;padding:28px 0 30px;order:1}.gb .hc h1{font-size:68px}.gb .big,.gb .vl{display:none}.gb .nc{bottom:10px}
+          .gb .hc{min-height:0;padding:28px 0 30px;order:1}.gb .hc h1{font-size:68px}.gb .big,.gb .vl{display:none}.gb .nc{bottom:10px}.gb .hero>img+.nc{}.gb .rk .t{padding:30px 14px 10px 14px;flex-direction:column;align-items:flex-start}.gb .rk .t i{position:absolute;right:10px;top:10px}.gb .rk .t{padding:30px 12px 12px 14px}.gb .nc{left:0;right:0;bottom:0;padding:40px 5% 12px;background:linear-gradient(0deg,rgba(10,12,40,.85),rgba(10,12,40,0))}.gb .nc i{display:none}.gb .wa{right:10px;bottom:10px}
           .gb .rg{grid-template-columns:1fr;gap:20px}.gb .rc{grid-template-columns:1fr 1fr;gap:8px}.gb .rk{margin:0;clip-path:none;height:170px}
           .gb .pr .in{grid-template-columns:1fr}.gb .pl{grid-template-columns:1fr;padding:20px 0}.gb .pl .n2{font-size:150px}.gb .pl img{margin-top:70px}.gb .cm{border-left:0}
           .gb .plan{grid-template-columns:1fr}.gb .plan .mp{padding:30px 5%}.gb .plan svg.map{position:relative;width:100%;height:200px}.gb .plan .ph{position:relative;width:100%;height:240px;clip-path:none}.gb .plan .rts{position:relative;right:auto;top:auto;transform:none;padding:14px 5%;background:#0f1013}
