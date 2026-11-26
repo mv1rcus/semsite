@@ -167,7 +167,7 @@ export function MareSushi({ client }: { client?: { name?: string; whatsapp?: str
         .ms .toast{position:fixed;left:50%;bottom:76px;transform:translateX(-50%);background:${NAVY};color:#fff;padding:10px 18px;border-radius:30px;font-size:13px;z-index:40}
         @media(max-width:900px){
           .ms .links{display:none}.ms .burger{display:block}.ms .links.open{display:flex;position:absolute;left:0;right:0;top:76px;background:#fdfcfb;flex-direction:column;gap:16px;padding:18px 28px;box-shadow:0 14px 24px rgba(0,0,0,.08);align-items:flex-start}
-          .ms nav .in>.cta{display:none}.ms .hero{padding:20px 0 40px}.ms .hero .in{grid-template-columns:1fr;min-height:0}.ms .hero h1{font-size:30px}.ms .hero p{margin:22px 0 26px}.ms .art{justify-self:center;max-width:420px;margin-top:20px}
+          .ms nav .in>.cta,.ms .fl{display:none}.ms .hero{padding:20px 0 40px}.ms .hero .in{grid-template-columns:1fr;min-height:0}.ms .hero h1{font-size:30px}.ms .hero p{margin:22px 0 26px}.ms .art{justify-self:center;max-width:420px;margin-top:20px}
           .ms .about .in{grid-template-columns:1fr;gap:30px}.ms .rc{max-width:340px;margin:0 auto;width:100%}.ms .about h2,.ms .smenu h2,.ms .disc h2{font-size:25px}
           .ms .smenu .in{grid-template-columns:1fr;gap:30px}.ms .smenu .rc{order:-1;max-width:340px;margin:0 auto;width:100%}
           .ms .mg{grid-template-columns:1fr;gap:20px}.ms .tabs{flex-direction:row;overflow-x:auto;gap:22px;padding:0 0 14px}.ms .tabs button{white-space:nowrap;font-size:15px}.ms .tabs button.on:after{right:0}
