@@ -172,7 +172,7 @@ export function ViolaoFold({ client }: { client?: { name?: string; whatsapp?: st
       `}</style>
 
       <section className="hero" id="top">
-        <div className="ph"><Scene variant="hero" /></div>
+        <div className="ph"><img src="/tommaior-violao.webp" alt="Pessoa tocando violão de nylon à luz da janela" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 35%", display: "block" }} /></div>
         <header className="nav">
           <Logo a={a} b={b} />
           <nav className="nl"><a onClick={() => go("topo")}>Início</a><a onClick={() => go("metodo")}>Método</a><a onClick={() => go("sobre")}>Sobre</a><a onClick={() => go("alunos")}>Alunos</a><a onClick={() => go("aula")}>Aulas</a></nav>
