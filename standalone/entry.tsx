@@ -11,6 +11,7 @@ import { PizzaFold } from "@/components/models/PizzaFold";
 import { JoiaFold } from "@/components/models/JoiaFold";
 import { BakeFold } from "@/components/models/BakeFold";
 import { WashFold } from "@/components/models/WashFold";
+import { LaundryFold } from "@/components/models/LaundryFold";
 import { CafeFold } from "@/components/models/CafeFold";
 import { TattooFold } from "@/components/models/TattooFold";
 import { OpticFold } from "@/components/models/OpticFold";
@@ -33,6 +34,7 @@ else if (__MODEL__ === "forno-lume") root.render(<PizzaFold client={cfg.client} 
 else if (__MODEL__ === "atelie-seda") root.render(<JoiaFold client={cfg.client} />);
 else if (__MODEL__ === "massa-mae") root.render(<BakeFold client={cfg.client} />);
 else if (__MODEL__ === "jato-azul") root.render(<WashFold client={cfg.client} />);
+else if (__MODEL__ === "pano-limpo") root.render(<LaundryFold client={cfg.client} />);
 else if (__MODEL__ === "grao-e-prosa") root.render(<CafeFold client={cfg.client} />);
 else if (__MODEL__ === "ponte-ingles") root.render(<InglesFold client={cfg.client} />);
 else if (__MODEL__ === "toledo-azevedo") root.render(<LawFold client={cfg.client} />);
