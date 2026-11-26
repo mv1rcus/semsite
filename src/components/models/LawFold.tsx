@@ -76,7 +76,7 @@ export function LawFold({ client }: { client?: { name?: string; whatsapp?: strin
         .lf .heroOuter{padding:14px 14px 0}
         .lf .hero{background:radial-gradient(ellipse at 80% 30%,${NV2},${NV} 65%);border-radius:28px;color:#fff;position:relative;overflow:hidden}
         .lf .herogrid{display:grid;grid-template-columns:1.1fr 1fr;gap:10px;align-items:end;min-height:560px}
-        .lf .kick{display:inline-flex;gap:8px;align-items:center;font-size:12.5px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;color:${GD}}
+        .lf .kick{display:inline-flex;gap:8px;align-items:center;font-size:12.5px;letter-spacing:2.5px;text-transform:uppercase;font-weight:700;color:#8a6a22}.lf .dark .eb,.lf .hero .eb,.lf .heroc .eb{color:${GD}}
         .lf h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(40px,5.2vw,68px);line-height:1.06;margin:18px 0 0}
         .lf h1 em{font-style:italic;color:${GD}}
         .lf .lead{font-size:17.5px;line-height:1.65;color:#cdd9e2;margin:22px 0 30px;max-width:480px}
@@ -86,19 +86,19 @@ export function LawFold({ client }: { client?: { name?: string; whatsapp?: strin
         .lf .stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(255,255,255,.14);position:relative;z-index:2}
         .lf .stats div{padding:22px 24px;border-right:1px solid rgba(255,255,255,.14)}.lf .stats div:last-child{border:0}
         .lf .stats b{font-family:'Playfair Display',serif;font-size:34px;color:${GD};display:block;line-height:1}
-        .lf .stats span{font-size:13.5px;color:#cdd9e2}
-        .lf .sec{padding:76px 0}
-        .lf .eb{font-size:12.5px;letter-spacing:3px;text-transform:uppercase;font-weight:600;color:${GD}}
+        .lf .stats span{font-size:16px;display:block;margin-top:10px;color:#cdd9e2}
+        .lf .sec{padding:88px 0}
+        .lf .eb{font-size:13.5px;letter-spacing:3px;text-transform:uppercase;font-weight:700;color:#8a6a22}.lf .dark .eb,.lf .hero .eb,.lf .heroc .eb{color:${GD}}
         .lf h2{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(30px,3.8vw,46px);line-height:1.1;margin:12px 0 0;color:${NV}}
         .lf h2 em{font-style:italic;color:#a8832f}
         .lf .aboutgrid{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center}
         .lf .office{position:relative}.lf .office img{width:100%;aspect-ratio:16/11;object-fit:cover;border-radius:22px;display:block;box-shadow:0 22px 46px rgba(15,42,59,.22)}
-        .lf .badge{position:absolute;left:-14px;bottom:-20px;background:${GD};color:#10202b;border-radius:14px;padding:14px 20px;font-weight:700;line-height:1.2}
+        .lf .badge{position:absolute;left:0;bottom:-20px;background:${GD};color:#10202b;border-radius:14px;padding:14px 20px;font-weight:700;line-height:1.2}
         .lf .badge b{font-family:'Playfair Display',serif;font-size:30px;display:block}
         .lf .vals{display:flex;flex-direction:column;gap:14px;margin:26px 0 30px}
         .lf .val{display:flex;gap:14px;align-items:center;font-weight:600;font-size:16px}
         .lf .val i{width:46px;height:46px;border-radius:50%;background:${NV};display:grid;place-items:center;flex:none}
-        .lf .dark{background:${NV};border-radius:28px;color:#fff;margin:0 14px;padding:70px 0}
+        .lf .dark{background:${NV};border-radius:28px;color:#fff;margin:0 14px;padding:88px 0}
         .lf .dark h2{color:#fff}.lf .dark h2 em{color:${GD}}
         .lf .ah{display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
         .lf .arr{width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(255,255,255,.35);background:transparent;color:#fff;cursor:pointer;font-size:17px}
@@ -109,7 +109,7 @@ export function LawFold({ client }: { client?: { name?: string; whatsapp?: strin
         .lf .card div{padding:20px 22px 22px;display:flex;flex-direction:column;gap:8px;flex:1}
         .lf .card b{font-family:'Playfair Display',serif;font-size:21px}
         .lf .card p{margin:0;font-size:15px;line-height:1.55;color:${MUT};flex:1}
-        .lf .card u{text-decoration:none;color:#a8832f;font-weight:600;font-size:14.5px}
+        .lf .card u{text-decoration:none;color:#8a6a22;font-weight:600;font-size:14.5px}
         .lf .tm{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
         .lf .tc{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 10px 26px rgba(15,42,59,.1)}
         .lf .tc img{width:100%;aspect-ratio:4/4.4;object-fit:cover;object-position:top;display:block}
