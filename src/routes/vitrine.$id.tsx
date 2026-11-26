@@ -66,15 +66,14 @@ function Viewer() {
         </div>
         {verified && open && (
           <div className="mx-auto mt-2 max-w-5xl rounded-xl border border-border bg-card p-2">
-            <div className="flex items-center gap-2">
-              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar entre quem já recebeu mensagem" aria-label="Buscar cliente" className={field} />
-            </div>
-            <ul className="mt-2 max-h-56 overflow-auto">
-              {shown.length === 0 && <li className="px-2 py-3 text-sm text-muted-foreground">Nenhum cliente com mensagem enviada ainda. Marque como Contatado na aba Clientes.</li>}
+            <p className="px-2 pb-1 text-xs font-bold uppercase tracking-wide text-muted-foreground">Seus clientes contatados ({clients.length})</p>
+            <ul className="max-h-72 overflow-auto">
+              {shown.length === 0 && <li className="px-2 py-3 text-sm text-muted-foreground">{clients.length === 0 ? "Nenhum cliente com mensagem enviada ainda. Marque como Contatado na aba Clientes." : "Nenhum cliente com esse nome."}</li>}
               {shown.map((c) => (
-                <li key={c.id}><button type="button" onClick={() => sendTo(c)} className="flex w-full items-center justify-between gap-2 rounded-lg px-2 py-2 text-left text-sm hover:bg-muted"><span className="min-w-0 truncate font-bold">{c.name}</span><span className="inline-flex shrink-0 items-center gap-1 text-xs font-bold text-[#25D366]"><Send className="size-3.5" />Enviar</span></button></li>
+                <li key={c.id}><button type="button" onClick={() => sendTo(c)} className="flex w-full items-center justify-between gap-2 rounded-lg px-2 py-2.5 text-left text-sm hover:bg-muted"><span className="min-w-0"><span className="block truncate font-bold">{c.name}</span><span className="block text-xs text-muted-foreground">{c.stage === "demo_sent" ? "Demonstração enviada" : "Contatado"}</span></span><span className="inline-flex shrink-0 items-center gap-1 text-xs font-bold text-[#25D366]"><Send className="size-3.5" />Enviar</span></button></li>
               ))}
             </ul>
+            {clients.length > 5 && <div className="mt-2 flex items-center gap-2 border-t border-border pt-2"><input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Filtrar por nome" aria-label="Filtrar cliente" className={field} /></div>}
           </div>
         )}
       </div>
