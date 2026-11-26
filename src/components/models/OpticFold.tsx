@@ -71,7 +71,7 @@ export function OpticFold({ client }: { client?: { name?: string; whatsapp?: str
         .of .btn.o{background:transparent;color:${INK};border:1.5px solid #c9bda9;box-shadow:none}
         .of .btn.o:hover{border-color:${INK}}
         .of .burger{display:none;background:none;border:0;width:44px;height:44px;cursor:pointer}
-        .of .hero{position:relative;overflow:hidden;background:${BG}}.of .hero header{position:relative;z-index:2}.of .hero section{position:static}.of .herogrid>div:first-child{position:relative;z-index:2}.of .hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,${BG} 0%,${BG}e6 30%,${BG}00 62%);pointer-events:none}
+        .of .hero{position:relative;overflow:hidden;background:${BG}}.of .hero header{position:relative;z-index:2}.of .hero section{position:static}.of .herogrid>div:first-child{position:relative;z-index:2}.of .hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,${BG} 0%,${BG}e6 42%,${BG}00 74%);pointer-events:none}
         .of .herogrid{display:grid;grid-template-columns:minmax(0,560px) 1fr;align-items:center;gap:20px;min-height:600px}
         .of .himg{position:absolute;left:0;right:0;top:0;bottom:0;z-index:0}
         .of .himg .arch{display:none}
@@ -144,7 +144,7 @@ export function OpticFold({ client }: { client?: { name?: string; whatsapp?: str
           .of .links,.of .navbtn{display:none}.of .burger{display:block}.of .nav{height:68px}.of .logo{font-size:19px;white-space:nowrap}
           .of .cta-m{display:inline-flex;min-height:44px;padding:0 18px;margin-left:auto;margin-right:4px;font-size:14px}
           .of .herogrid{grid-template-columns:1fr;min-height:0;gap:0;padding-top:4px}
-          .of .himg{order:2;min-height:430px;margin-top:26px}.of .himg .arch{inset:10% 6% 0}
+          .of .hero::after{display:none}.of .himg{position:relative;left:auto;right:auto;top:auto;bottom:auto;order:2;height:430px;margin:26px -24px 0}.of .himg .arch{inset:10% 6% 0}
           .of .himg .script{font-size:26px;right:3%;bottom:4%}
           .of .feats{gap:18px}
           .of .grid4{grid-template-columns:1fr 1fr;gap:12px}.of .band{grid-template-columns:1fr 1fr}.of .band .in{grid-column:1/-1;order:-1;align-items:center;text-align:center}
