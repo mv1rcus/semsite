@@ -40,39 +40,34 @@ const TESTI = [
   { n: "Patrícia Gomes", r: "Mãe do Davi, Sub-7", t: "Meu filho sai de cada treino contando o que aprendeu. E eu fico tranquila: espaço fechado, água, primeiro socorro e professor que conhece cada criança pelo nome." },
 ];
 
-/** Manchas orgânicas do pin: duas atrás das letras, uma faixa que cruza POR CIMA do wordmark (entrelaçamento). */
+/** Manchas orgânicas GRANDES do pin, curvas e irregulares: três atrás das letras e três lobos que passam POR CIMA, alternando a sobreposição (ora mancha na frente, ora letra na frente). */
 const BlobBackA = () => (
-  <path
-    d="M830 50 C 990 30, 1065 170, 1005 295 C 955 400, 770 380, 725 480 C 680 580, 905 615, 965 715 C 1025 825, 885 950, 705 930 C 565 915, 605 800, 465 770 C 325 740, 145 800, 92 690 C 40 580, 195 520, 225 430 C 255 340, 125 300, 155 200 C 185 100, 430 80, 575 60 Z"
-    fill={VM}
-  />
+  <path d="M560 40 C 700 10, 900 30, 1000 120 C 1090 200, 1050 330, 940 380 C 830 430, 700 400, 620 340 C 540 280, 480 160, 560 40 Z" fill={VM} />
 );
 const BlobBackB = () => (
-  <path
-    d="M70 130 C 50 60, 190 25, 275 65 C 360 105, 320 215, 215 235 C 110 255, 90 195, 70 130 Z"
-    fill={VM}
-  />
+  <path d="M-40 800 C 120 750, 340 770, 460 870 C 580 970, 560 1120, 420 1160 C 280 1200, 60 1170, -40 1100 Z" fill={VM} />
 );
-const BlobFront = () => (
-  <path
-    d="M-20 235 C 180 195, 400 260, 610 220 C 820 180, 990 250, 1100 225 L 1100 285 C 930 320, 730 255, 530 295 C 330 335, 120 275, -20 305 Z"
-    fill={VM}
-  />
+const BlobBackC = () => (
+  <path d="M-40 420 C 80 370, 260 390, 340 480 C 420 570, 380 690, 260 720 C 140 750, 0 700, -40 620 Z" fill={VM} />
 );
-/** Segunda faixa por cima, cruzando o FRENTE na diagonal como a fita laranja sobre o ACTION do pin. */
-const BlobFront2 = () => (
-  <path
-    d="M1100 795 C 920 840, 770 790, 570 830 C 370 872, 190 812, -20 856 L -20 916 C 210 870, 410 934, 610 892 C 810 850, 950 908, 1100 866 Z"
-    fill={VM}
-  />
-);
-/** Eco cinza-azulado claro do pin, atrás das letras. */
 const BlobGray = () => (
-  <path
-    d="M118 418 C 58 378, 88 278, 188 283 C 288 288, 318 398, 238 438 C 178 468, 148 443, 118 418 Z"
-    fill={PL}
-    opacity="0.55"
-  />
+  <path d="M120 130 C 200 100, 280 140, 270 210 C 260 280, 160 300, 110 250 C 60 200, 60 160, 120 130 Z" fill={PL} opacity="0.55" />
+);
+/** Canais creme sinuosos entre as linhas de letras, como o rio claro que flui pelo pin. */
+const CremeFlow1 = () => (
+  <path d="M-20 380 C 200 350, 420 420, 640 385 C 860 350, 1000 410, 1100 385 L 1100 460 C 900 490, 700 425, 480 460 C 260 495, 80 430, -20 460 Z" fill={CR} />
+);
+const CremeFlow2 = () => (
+  <path d="M-20 725 C 220 695, 460 765, 700 730 C 940 695, 1060 760, 1100 740 L 1100 810 C 880 840, 660 775, 430 810 C 200 845, 60 780, -20 800 Z" fill={CR} />
+);
+const LobeBOLA = () => (
+  <path d="M855 180 C 945 145, 1065 185, 1085 270 C 1105 355, 1035 425, 940 410 C 845 395, 795 305, 822 235 C 833 208, 842 190, 855 180 Z" fill={VM} />
+);
+const LobePRA = () => (
+  <path d="M385 655 C 455 625, 535 650, 555 710 C 575 770, 505 800, 435 790 C 365 780, 340 710, 360 675 C 370 662, 377 658, 385 655 Z" fill={VM} />
+);
+const LobeFRENTE = () => (
+  <path d="M580 920 C 670 885, 790 905, 825 990 C 860 1075, 800 1150, 705 1145 C 610 1140, 545 1060, 558 985 C 565 955, 570 932, 580 920 Z" fill={VM} />
 );
 
 export function BolaPraFrenteFold({ client }: { client?: { name?: string; whatsapp?: string; city?: string } }) {
@@ -141,24 +136,30 @@ export function BolaPraFrenteFold({ client }: { client?: { name?: string; whatsa
         <div className="wrap" style={{ textAlign: "center", paddingTop: 30 }}>
           <p className="eyebrow" style={{ color: VMT, marginBottom: 20, textWrap: "balance", maxWidth: 560, marginLeft: "auto", marginRight: "auto" }}>Todo sábado tem jogo. Toda semana tem evolução.</p>
           <h1 style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>{brand} Escolinha de Futebol em {city}: aulas de futebol infantil do sub-7 ao sub-15 com campeonato interno</h1>
-          <svg viewBox="0 0 1080 1000" role="img" aria-label="Pôster com as palavras Bola pra Frente em letras gigantes de ponta a ponta, entremeadas por manchas vermelhas" style={{ width: "100%", height: "auto", display: "block", margin: "0 auto" }}>
+          <svg viewBox="0 0 1080 1180" role="img" aria-label="Pôster com as palavras Bola pra Frente em letras gigantes condensadas de ponta a ponta, entremeadas por manchas orgânicas vermelhas" style={{ width: "100%", height: "auto", display: "block", margin: "0 auto" }}>
             <BlobGray />
             <BlobBackA />
+            <BlobBackC />
             <BlobBackB />
+            <CremeFlow1 />
+            <CremeFlow2 />
             <g fontFamily={display} fontWeight="800" textAnchor="middle">
-              <g fill={PL} transform="translate(14,16)">
-                <text x="540" y="300" fontSize="360" textLength="1020" lengthAdjust="spacingAndGlyphs">BOLA</text>
-                <text x="540" y="640" fontSize="360" textLength="1020" lengthAdjust="spacingAndGlyphs">PRA</text>
-                <text x="540" y="975" fontSize="360" textLength="1020" lengthAdjust="spacingAndGlyphs">FRENTE</text>
-              </g>
-              <g fill={NV}>
-                <text x="540" y="300" fontSize="360" textLength="1020" lengthAdjust="spacingAndGlyphs">BOLA</text>
-                <text x="540" y="640" fontSize="360" textLength="1020" lengthAdjust="spacingAndGlyphs">PRA</text>
-                <text x="540" y="975" fontSize="360" textLength="1020" lengthAdjust="spacingAndGlyphs">FRENTE</text>
+              <g transform="scale(1,1.32)">
+                <g fill={PL} transform="translate(13,15)">
+                  <text x="540" y="273" fontSize="420" textLength="1000" lengthAdjust="spacingAndGlyphs">BOLA</text>
+                  <text x="700" y="530" fontSize="300" textLength="560" lengthAdjust="spacingAndGlyphs">PRA</text>
+                  <text x="540" y="856" fontSize="400" textLength="1010" lengthAdjust="spacingAndGlyphs">FRENTE</text>
+                </g>
+                <g fill={NV}>
+                  <text x="540" y="273" fontSize="420" textLength="1000" lengthAdjust="spacingAndGlyphs">BOLA</text>
+                  <text x="700" y="530" fontSize="300" textLength="560" lengthAdjust="spacingAndGlyphs">PRA</text>
+                  <text x="540" y="856" fontSize="400" textLength="1010" lengthAdjust="spacingAndGlyphs">FRENTE</text>
+                </g>
               </g>
             </g>
-            <BlobFront />
-            <BlobFront2 />
+            <LobeBOLA />
+            <LobePRA />
+            <LobeFRENTE />
           </svg>
           <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap", marginTop: 26 }}>
             <a className="btn-v" href={wa(`Olá! Quero agendar uma aula experimental gratuita na escolinha ${brand}.`)} target="_blank" rel="noreferrer">Aula experimental grátis</a>
