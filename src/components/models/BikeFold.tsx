@@ -81,7 +81,8 @@ export function BikeFold({ client }: { client?: { name?: string; whatsapp?: stri
         .bk0 .mmenu a{padding:14px 12px;font-weight:800;cursor:pointer}
         .bk0 .hero{position:relative;min-height:620px;display:grid;grid-template-columns:1.05fr 1fr;align-items:center;margin-top:-74px;padding:74px 40px 40px 0}
         .bk0 .blob{position:absolute;left:0;top:0;width:62%;height:100%;z-index:0}
-        .bk0 .rider{position:relative;z-index:1;width:112%;max-width:960px;height:auto;margin-left:8px;margin-top:20px}
+        .bk0 .rider{position:relative;z-index:1;width:106%;max-width:920px;height:auto;margin-left:46px;margin-top:20px}
+        .bk0 .spd{position:absolute;z-index:1;left:1%;top:44%;width:150px;height:90px;pointer-events:none}
         .bk0 .ht{position:relative;z-index:2;padding-left:10px}
         .bk0 h1{font-family:'Montserrat',system-ui,sans-serif;font-weight:800;font-size:clamp(38px,5vw,66px);line-height:1.08;letter-spacing:-.02em;margin:0 0 26px;text-align:right}
         .bk0 .ht p{font-size:14.5px;line-height:1.75;color:${MUT};margin:0 0 30px;text-align:right;max-width:440px;margin-left:auto}
@@ -123,7 +124,7 @@ export function BikeFold({ client }: { client?: { name?: string; whatsapp?: stri
         .bk0 .foot{background:${INK};color:#d4d0c4;display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:26px;padding:38px 40px;font-size:14px;line-height:1.7}
         .bk0 .foot b{color:#fff}
         .bk0 .wa{position:fixed;right:18px;bottom:18px;z-index:40;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.3)}
-        @media(max-width:960px){.bk0 .hero{grid-template-columns:1fr;padding:74px 20px 30px;min-height:0}.bk0 .blob{width:100%;height:62%}.bk0 .rider{margin:20px auto 24px;display:block;width:100%;max-width:480px}.bk0 h1,.bk0 .ht p{text-align:left}.bk0 .ht p{margin-left:0}.bk0 .acts,.bk0 .dots{justify-content:flex-start}.bk0 .sv,.bk0 .bg,.bk0 .of{grid-template-columns:1fr}.bk0 .of{gap:30px}}
+        @media(max-width:960px){.bk0 .hero{grid-template-columns:1fr;padding:74px 20px 30px;min-height:0}.bk0 .blob{width:100%;height:76%}.bk0 .spd{display:none}.bk0 .rider{margin:20px auto 24px;display:block;width:100%;max-width:480px}.bk0 h1,.bk0 .ht p{text-align:left}.bk0 .ht p{margin-left:0}.bk0 .acts,.bk0 .dots{justify-content:flex-start}.bk0 .sv,.bk0 .bg,.bk0 .of{grid-template-columns:1fr}.bk0 .of{gap:30px}}
         @media(max-width:760px){
           .bk0 .links,.bk0 .ico .btn,.bk0 .ico span{display:none}.bk0 .burger{display:block}.bk0 .nav{padding:0 12px 0 20px}
           .bk0 .wrap{padding:0 20px}.bk0 .sec{padding-top:70px}.bk0 .rd{margin-top:70px;padding:60px 0}
@@ -142,7 +143,8 @@ export function BikeFold({ client }: { client?: { name?: string; whatsapp?: stri
       </div>
 
       <div className="hero">
-        <svg className="blob" viewBox="0 0 700 640" preserveAspectRatio="none" aria-hidden><path d="M0 0H470c120 70 150 190 90 290-24 40-10 90 40 120 80 30 110 150 60 220-20 8-80 10-230 10H0z" fill={Y} /></svg>
+        <svg className="blob" viewBox="0 0 700 640" preserveAspectRatio="none" aria-hidden><path d="M0 0H400c150 30 190 150 140 270-24 40-10 90 40 120 80 30 110 150 60 220-20 8-80 10-230 10H0z" fill={Y} /></svg>
+        <svg className="spd" viewBox="0 0 150 90" aria-hidden><g stroke={INK} strokeWidth="3" strokeLinecap="round" fill="none"><path d="M6 12h70M30 36h92M2 60h58M36 82h60" /></g></svg>
         <Rider />
         <div className="ht">
           <h1>O mundo é seu.<br />Pedala!</h1>
