@@ -17,6 +17,7 @@ import { WashFold } from "@/components/models/WashFold";
 import { LaundryFold } from "@/components/models/LaundryFold";
 import { CafeFold } from "@/components/models/CafeFold";
 import { TattooFold } from "@/components/models/TattooFold";
+import { FerroTintaFold } from "@/components/models/FerroTintaFold";
 import { OpticFold } from "@/components/models/OpticFold";
 import { PousadaFold } from "@/components/models/PousadaFold";
 import { BurgerPopFold } from "@/components/models/BurgerPopFold";
@@ -52,6 +53,7 @@ else if (__MODEL__ === "toledo-azevedo") root.render(<LawFold client={cfg.client
 else if (__MODEL__ === "sorriso-verde") root.render(<DentalFold client={cfg.client} />);
 else if (__MODEL__ === "dom-navalha") root.render(<BarberFold client={cfg.client} />);
 else if (__MODEL__ === "tinta-rara") root.render(<TattooFold client={cfg.client} />);
+else if (__MODEL__ === "ferro-e-tinta") root.render(<FerroTintaFold client={cfg.client} />);
 else if (__MODEL__ === "otica-prisma") root.render(<OpticFold client={cfg.client} />);
 else if (__MODEL__ === "serra-do-vento") root.render(<PousadaFold client={cfg.client} />);
 else if (__MODEL__ === "burgeria-pop") root.render(<BurgerPopFold client={cfg.client} />);
