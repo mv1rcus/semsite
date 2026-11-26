@@ -48,6 +48,9 @@ export function AcaiFold({ client }: { client?: { name?: string; whatsapp?: stri
         .aca .hov{transition:transform .2s,box-shadow .2s}
         .aca .hov:hover{transform:translateY(-4px);box-shadow:0 20px 44px -22px rgba(74,10,44,.5)}
         @media (max-width:900px){
+          .aca .hero-sec{min-height:100svh!important}
+          .aca .hero-img{object-position:66% 50%!important}
+          .aca .hero-ov{background:linear-gradient(180deg, ${MAGD}fa 0%, ${MAG}ee 42%, ${MAG}c4 66%, ${MAG}77 100%)!important}
           .aca .g4{grid-template-columns:1fr 1fr!important}
           .aca .hero-g{grid-template-columns:1fr!important}
           .aca .monte-g{grid-template-columns:1fr!important}
@@ -61,7 +64,7 @@ export function AcaiFold({ client }: { client?: { name?: string; whatsapp?: stri
       `}</style>
 
       {/* header */}
-      <header style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(74,10,44,.94)", backdropFilter: "blur(10px)" }}>
+      <header style={{ position: "absolute", top: 0, left: 0, right: 0, zIndex: 50 }}>
         <div className="wrap" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 28px" }}>
           <span style={{ fontFamily: script, fontSize: 30, color: "#fff", lineHeight: 1 }}>{brand}</span>
           <nav style={{ display: "flex", gap: 24, fontSize: 13, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", color: "rgba(255,246,248,.8)" }} className="desk-nav">
@@ -71,9 +74,11 @@ export function AcaiFold({ client }: { client?: { name?: string; whatsapp?: stri
         </div>
       </header>
 
-      {/* hero — à risca do pin: magenta escuro, JÁ TOMOU amarelo gigante, copos com splash à direita */}
-      <section style={{ background: `radial-gradient(900px 520px at 82% 30%, ${MAGL} 0%, ${MAG} 55%, ${MAGD} 100%)`, color: "#fff", overflow: "hidden" }}>
-        <div className="wrap hero-g" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 44, alignItems: "center", padding: "76px 28px 70px" }}>
+      {/* hero — à risca do pin: foto dos copos full-bleed, JÁ TOMOU amarelo gigante sobre a foto */}
+      <section className="hero-sec" style={{ position: "relative", minHeight: "88vh", display: "flex", alignItems: "center", color: "#fff", overflow: "hidden" }}>
+        <img src="/acai-hero.jpg" alt="Três copos de açaí com toppings e respingos" className="hero-img" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "68% 42%" }} />
+        <div className="hero-ov" style={{ position: "absolute", inset: 0, background: `linear-gradient(95deg, ${MAGD}f2 0%, ${MAG}e0 32%, ${MAG}99 52%, ${MAG}26 72%, transparent 88%)` }} />
+        <div className="wrap hero-g" style={{ position: "relative", zIndex: 2, display: "grid", gridTemplateColumns: "minmax(0,560px) 1fr", gap: 44, alignItems: "center", padding: "130px 28px 80px", width: "100%" }}>
           <div>
             <span className="eyebrow">Açaiteria · {city}</span>
             <h1 style={{ margin: "16px 0 8px", fontSize: "clamp(56px,8.5vw,110px)", color: YEL }}>Já tomou</h1>
@@ -89,7 +94,6 @@ export function AcaiFold({ client }: { client?: { name?: string; whatsapp?: stri
               {["Delivery em ~30 min", "4 acompanhamentos grátis", "500ml e 700ml"].map((b) => <span key={b} style={{ display: "inline-flex", gap: 7, alignItems: "center" }}><Ic d={CHECK} s={14} c={YEL} />{b}</span>)}
             </div>
           </div>
-          <img src="/acai-hero.jpg" alt="Três copos de açaí com toppings e respingos" style={{ width: "100%", aspectRatio: "16/11", objectFit: "cover", borderRadius: 24, boxShadow: "0 32px 64px -28px rgba(0,0,0,.55)" }} />
         </div>
       </section>
 
