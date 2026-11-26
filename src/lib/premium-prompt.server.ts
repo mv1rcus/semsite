@@ -1,6 +1,7 @@
 import type { PremiumKey, PremiumModel } from "./premium-models";
 
 const SECTIONS: Record<PremiumKey, string> = {
+  relojoaria: "hero preto com relógio em destaque e anéis de medidas, corte diagonal com card branco, faixa de oficina, promoções com foto sobreposta e assinatura de voucher",
   viagens: "hero de paisagem com mochileira, destinos em cards com foto, tipos de viagem, newsletter e selos de confiança",
   sup: "hero de foto arredondado com remadores, motivos numerados, galeria em mosaico, depoimentos, pranchas e roteiros com preço",
   spahotel: "hero em moldura de vidro com casa na montanha, estatisticas, depoimento e servicos de suites, termas e massagens", pequeno: "hero com criança aviadora, boas-vindas com fotos, lista de diferenciais e programas em cards com foto",
