@@ -208,8 +208,8 @@ export function BurgerPopFold({ client }: { client?: { name?: string; whatsapp?:
         .bp .torn.rr{top:calc(72% - 39px);z-index:1}.bp .torn.b{bottom:-1px}.bp .torn.t{top:-1px}.bp .torn.bo{bottom:-1px} .bp .torn{z-index:3}
         .bp .fresh{padding:6px 0 14px}
         .bp .fresh h2{font-weight:800}
-        .bp .orange{position:relative;background:#f3a124;padding:0;min-height:44vw;display:flex;align-items:center;justify-content:center}
-        .bp .trio{display:block;width:84%;max-width:1220px;aspect-ratio:1400/494;object-fit:cover;margin:0 auto;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 94%,transparent 100%),linear-gradient(180deg,transparent 0,#000 14%,#000 86%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 94%,transparent 100%),linear-gradient(180deg,transparent 0,#000 14%,#000 86%,transparent 100%);mask-composite:intersect}
+        .bp .orange{position:relative;background:#f09f34;padding:0;min-height:44vw;display:flex;align-items:center;justify-content:center}
+        .bp .trio{display:block;width:100%;max-width:1440px;aspect-ratio:1376/560;object-fit:cover;margin:0 auto;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%),linear-gradient(180deg,transparent 0,#000 14%,#000 86%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%),linear-gradient(180deg,transparent 0,#000 14%,#000 94%,transparent 100%);mask-composite:intersect}
         .bp .trio-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
         .bp .chip{background:#fff;color:${INK};border:0;border-radius:999px;padding:11px 18px;font-weight:800;font-size:13.5px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.15)}
         .bp .chip:hover{background:${CR}}
