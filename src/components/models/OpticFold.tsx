@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 /** Otica, construida do zero a partir de um pin claro em creme com serifada e botao preto. Agendamento de exame em 3 passos que fecha no WhatsApp. */
 const BG = "#f6f1e9", CR = "#efe7da", INK = "#1d1a16", MU = "#5d554b", OL = "#5c6650";
 const FRAMES = [
-  { n: "Armação de acetato", d: "Clássica e marcante", p: "a partir de R$ 299", img: "/opt-s1.webp" },
-  { n: "Armação de metal", d: "Leve e discreta", p: "a partir de R$ 349", img: "/opt-s2.webp" },
-  { n: "Óculos de sol", d: "Proteção com estilo", p: "a partir de R$ 259", img: "/opt-s3.webp" },
-  { n: "Infantil", d: "Resistente pra brincar", p: "a partir de R$ 199", img: "/opt-s4.webp" },
+  { n: "Armação de metal", d: "Leve e discreta", img: "/opt-macro.webp", pos: "12% 60%" },
+  { n: "Óculos de sol", d: "Proteção com estilo", img: "/opt-sol.webp", pos: "35% 75%" },
+  { n: "Armação de acetato", d: "Clássica e marcante", img: "/opt-acetato.webp" },
+  { n: "Lentes de luz azul", d: "Proteção pra telas", img: "/opt-luz.webp", pos: "50% 55%" },
 ];
 const PERKS = [
   { t: "Exame de vista na loja", d: "Com optometrista, sem custo na compra", ic: "M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7zM12 12m-3 0a3 3 0 1 0 6 0 3 3 0 1 0-6 0" },
@@ -15,8 +15,8 @@ const PERKS = [
   { t: "Troca em 7 dias", d: "Não amou? Troca sem burocracia", ic: "M3 12a9 9 0 0 1 15.5-6.4L21 8M21 12a9 9 0 0 1-15.5 6.4L3 16M21 3v5h-5M3 21v-5h5" },
 ];
 const REVIEWS = [
-  { q: "Exame cuidadoso e o óculos ficou pronto na hora do almoço. Nunca fui tão bem atendida.", n: "Marília T.", img: "/opt-guest.webp" },
-  { q: "Me ajudaram a escolher a armação certa pro meu rosto, sem empurrar a mais cara.", n: "João P.", img: "/opt-guest.webp" },
+  { q: "Exame cuidadoso e o óculos ficou pronto na hora do almoço. Nunca fui tão bem atendida.", n: "Marília T.", img: "/opt-av1.webp" },
+  { q: "Me ajudaram a escolher a armação certa pro meu rosto, sem empurrar a mais cara.", n: "João P.", img: "/opt-hero.webp" },
   { q: "Levei minha filha e saímos os dois de óculos novos. Preço justo e lente fina de verdade.", n: "Renata S.", img: "/opt-guest.webp" },
 ];
 const TIMES = ["09:00", "10:30", "13:30", "15:00", "16:30", "18:00"];
@@ -71,12 +71,12 @@ export function OpticFold({ client }: { client?: { name?: string; whatsapp?: str
         .of .btn.o{background:transparent;color:${INK};border:1.5px solid #c9bda9;box-shadow:none}
         .of .btn.o:hover{border-color:${INK}}
         .of .burger{display:none;background:none;border:0;width:44px;height:44px;cursor:pointer}
-        .of .hero{background:linear-gradient(180deg,${BG},${CR})}
-        .of .herogrid{display:grid;grid-template-columns:1fr 1.1fr;align-items:center;gap:20px;min-height:600px}
-        .of .himg{position:relative;align-self:stretch;display:flex;align-items:flex-end;justify-content:center}
-        .of .himg .arch{position:absolute;inset:9% 10% 0;background:#e6dcc9;border-radius:280px 280px 0 0}
-        .of .himg img{position:relative;z-index:2;width:min(80%,430px);filter:drop-shadow(0 18px 34px rgba(60,50,35,.28))}
-        .of .himg .script{position:absolute;z-index:3;right:4%;top:12%;font-family:Caveat,cursive;font-size:40px;line-height:1.05;color:${INK};transform:rotate(3deg);text-align:center}
+        .of .hero{position:relative;overflow:hidden;background:${BG}}.of .hero header{position:relative;z-index:2}.of .hero .links{background:rgba(246,241,233,.88);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);padding:11px 26px;border-radius:999px;gap:26px}.of .hero section{position:static}.of .herogrid>div:first-child{position:relative;z-index:2}.of .hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,${BG} 0%,${BG}e6 42%,${BG}00 74%);pointer-events:none}
+        .of .herogrid{display:grid;grid-template-columns:minmax(0,560px) 1fr;align-items:center;gap:20px;min-height:600px}
+        .of .himg{position:absolute;left:0;right:0;top:0;bottom:0;z-index:0}
+        .of .himg .arch{display:none}
+        .of .himg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:75% 40%}
+        .of .himg .script{position:absolute;z-index:3;right:3%;bottom:8%;font-family:Caveat,cursive;font-size:40px;line-height:1.05;color:#fff;transform:rotate(3deg);text-align:center}
         .of .kick{font-size:12.5px;letter-spacing:3.5px;text-transform:uppercase;font-weight:600;color:${OL}}
         .of h1{font-family:Fraunces,serif;font-weight:600;font-size:clamp(42px,5.4vw,72px);line-height:1.05;margin:16px 0 0;color:${INK};letter-spacing:-1px}
         .of h1 em{font-style:italic;font-weight:500}
@@ -89,16 +89,17 @@ export function OpticFold({ client }: { client?: { name?: string; whatsapp?: str
         .of h2 em{font-style:italic}
         .of .sub{color:${MU};font-size:16px;margin-top:12px;line-height:1.6}
         .of .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:38px}
-        .of .card{background:#fff;border:1px solid #e7ddcb;border-radius:16px;overflow:hidden;transition:transform .3s,box-shadow .3s;cursor:pointer;display:flex;flex-direction:column}
+        .of .card{position:relative;background:#fff;border-radius:12px;overflow:hidden;transition:transform .3s,box-shadow .3s;cursor:pointer;display:flex;flex-direction:column}
         .of .card .lb{margin-top:auto}
         .of .card .pr2{color:${INK};font-weight:600;font-size:13px;display:block;margin-top:3px}
         .of .card:hover{transform:translateY(-6px);box-shadow:0 16px 34px rgba(60,50,35,.14)}
-        .of .card img{width:100%;aspect-ratio:1/1.02;object-fit:cover;display:block}
+        .of .card img{width:100%;aspect-ratio:1/1.12;object-fit:cover;display:block}.of .card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(10,8,6,.72));pointer-events:none}.of .card .lb{position:absolute;left:0;right:0;bottom:0;z-index:2;color:#fff}.of .card .lb small{color:#e8e1d6}.of .card .go{background:transparent;color:#fff}
         .of .card .lb{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:13px 15px}
         .of .card b{font-family:Fraunces,serif;font-size:17px;font-weight:600;display:block;text-align:left}
         .of .card small{color:${MU};font-size:12.5px;display:block;margin-top:2px;text-align:left}
         .of .card .go{width:30px;height:30px;border-radius:50%;background:${INK};color:#f6f1e9;display:grid;place-items:center;font-size:14px;flex:none}
         .of .split{display:grid;grid-template-columns:1.05fr 1fr;gap:52px;align-items:center}
+        .of .about{position:relative;overflow:hidden}.of .about .abg{position:absolute;left:0;top:0;width:62%;height:100%;object-fit:cover;object-position:0 50%}.of .about .tag{position:absolute;left:5%;bottom:34px;z-index:2;color:#fff;font-size:12.5px;letter-spacing:3px;text-transform:uppercase;font-weight:600;text-shadow:0 2px 12px rgba(0,0,0,.6)}.of .about .wrap{position:relative;z-index:1}.of .about .split{grid-template-columns:.8fr 1.2fr;gap:30px;padding:84px 0}.of .about .abtxt{padding:8px 0 8px 36px}.of .about::after{content:"";position:absolute;left:0;top:0;bottom:0;width:62%;background:linear-gradient(90deg,transparent 60%,#e9e1d3);pointer-events:none}
         .of .bigimg{position:relative;border-radius:20px;overflow:hidden}
         .of .bigimg img{width:100%;aspect-ratio:4/4.4;object-fit:cover;display:block}
         .of .bigimg .tag{position:absolute;left:20px;bottom:18px;color:#fff;font-size:12.5px;letter-spacing:3px;text-transform:uppercase;font-weight:600;text-shadow:0 2px 12px rgba(0,0,0,.6)}
@@ -110,13 +111,13 @@ export function OpticFold({ client }: { client?: { name?: string; whatsapp?: str
         .of .revs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:38px}
         .of .rev{background:#faf5ec;border:1px solid #e7ddcb;border-radius:16px;padding:24px}
         .of .rev .hd{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-        .of .rev img{width:46px;height:46px;border-radius:50%;object-fit:cover}
+        .of .rev img{width:46px;height:46px;border-radius:50%;object-fit:cover;object-position:50% 12%;background:#e6dcc9}
         .of .rev b{font-family:Fraunces,serif;font-size:16px;display:block}
         .of .rev .st{color:#c9a227;letter-spacing:2px;font-size:12px}
         .of .rev p{margin:0;font-size:14.5px;line-height:1.6;color:#4a443c}
-        .of .band{position:relative;border-radius:24px;overflow:hidden;margin:10px 0 64px}
-        .of .band img{width:100%;height:320px;object-fit:cover;display:block;filter:brightness(.45)}
-        .of .band .in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;color:#fff;padding:20px}
+        .of .band{position:relative;border-radius:0;overflow:hidden;margin:10px 0 0}.of .wrap:has(>.band){max-width:none;padding:0}
+        .of .band{background:#121a16;display:grid;grid-template-columns:1fr 1.3fr 1fr;align-items:stretch;min-height:240px;border-radius:0;margin:10px 0 0}.of .band img{width:100%;height:100%;min-height:240px;object-fit:cover;display:block}.of .band .pic2{border-left:1px solid #2c3a33}
+        .of .band .in{position:static;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:14px;text-align:left;color:#fff;padding:24px 20px}
         .of .band h3{font-family:Fraunces,serif;font-weight:600;font-size:clamp(26px,3.2vw,40px);margin:0}
         .of .band .script2{font-family:Caveat,cursive;font-size:34px;color:#ffe9b8;transform:rotate(-2deg)}
         .of .band .btn{background:#f6f1e9;color:${INK}}
@@ -144,12 +145,12 @@ export function OpticFold({ client }: { client?: { name?: string; whatsapp?: str
           .of .links,.of .navbtn{display:none}.of .burger{display:block}.of .nav{height:68px}.of .logo{font-size:19px;white-space:nowrap}
           .of .cta-m{display:inline-flex;min-height:44px;padding:0 18px;margin-left:auto;margin-right:4px;font-size:14px}
           .of .herogrid{grid-template-columns:1fr;min-height:0;gap:0;padding-top:4px}
-          .of .himg{order:2;min-height:430px;margin-top:26px}.of .himg .arch{inset:10% 6% 0}
-          .of .himg .script{font-size:30px;right:2%;top:8%}
+          .of .hero::after{display:none}.of .himg{position:relative;left:auto;right:auto;top:auto;bottom:auto;order:2;height:430px;margin:26px -24px 0}.of .himg .arch{inset:10% 6% 0}
+          .of .himg .script{font-size:26px;right:3%;bottom:4%}
           .of .feats{gap:18px}
-          .of .grid4{grid-template-columns:1fr 1fr;gap:12px}
+          .of .grid4{grid-template-columns:1fr 1fr;gap:12px}.of .band{grid-template-columns:1fr 1fr}.of .band .in{grid-column:1/-1;order:-1;align-items:center;text-align:center}
           .of .card b{font-size:16px}.of .card small{font-size:13px}
-          .of .split{grid-template-columns:1fr;gap:30px}
+          .of .split{grid-template-columns:1fr;gap:30px}.of .about .abg{position:relative;width:100%;height:260px;display:block}.of .about .tag{bottom:auto;top:220px;left:24px}.of .about .abspace{display:none}.of .about .split{padding:36px 0 56px}.of .about .abtxt{padding:0}.of .about::after{display:none}.of .card .go{display:none}.of .card::after{background:linear-gradient(180deg,transparent 35%,rgba(10,8,6,.82))}.of .card .lb b{font-size:15px}
           .of .plist{grid-template-columns:1fr}
           .of .revs{grid-template-columns:1fr;gap:12px}
           .of .rev p{font-size:15.5px}
@@ -191,7 +192,7 @@ export function OpticFold({ client }: { client?: { name?: string; whatsapp?: str
                 <div><Ic d={PERKS[3]!.ic} s={34} />Troca em 7 dias</div>
               </div>
             </div>
-            <div className="himg"><div className="arch" /><img src="/opt-hero.webp" alt={`Cliente da ${brand} usando óculos novos`} /><span className="script">Visão clara,<br />estilo melhor</span></div>
+            <div className="himg"><div className="arch" /><img src="/opt-hero2.webp" alt={`Cliente da ${brand} usando óculos novos`} /><span className="script">Visão clara,<br />estilo melhor</span></div>
           </div>
         </section>
       </div>
@@ -205,17 +206,19 @@ export function OpticFold({ client }: { client?: { name?: string; whatsapp?: str
         <div className="grid4">
           {FRAMES.map((f) => (
             <div className="card" key={f.n} onClick={start} role="button" tabIndex={0}>
-              <img src={f.img} alt={f.n} loading="lazy" />
-              <div className="lb"><span><b>{f.n}</b><small>{f.d}</small><small className="pr2">{f.p}</small></span><span className="go" aria-hidden>→</span></div>
+              <img src={f.img} alt={f.n} loading="lazy" style={{ objectPosition: (f as { pos?: string }).pos }} />
+              <div className="lb"><span><b style={{ color: "#fff" }}>{f.n}</b><small>{f.d}</small></span><span className="go" aria-hidden>→</span></div>
             </div>
           ))}
         </div>
       </div></section>
 
-      <section className="sec" id="sobre" style={{ paddingTop: 6, background: CR }}><div className="wrap">
+      <section className="sec about" id="sobre" style={{ paddingTop: 0, paddingBottom: 0, background: "#e9e1d3" }}>
+        <img className="abg" src="/opt-macro.webp" alt="Armação de metal sobre mesa de madeira" loading="lazy" /><span className="tag">Feita pra conforto</span>
+        <div className="wrap">
         <div className="split">
-          <div className="bigimg"><img src="/opt-store.webp" alt={`Interior da loja ${brand}`} loading="lazy" /><span className="tag">Feita pra durar</span></div>
-          <div>
+          <div className="abspace" />
+          <div className="abtxt">
             <span className="kick">Sobre a {brand}</span>
             <h2 style={{ margin: "12px 0 0" }}>Mais que <em>óculos</em></h2>
             <p className="sub" style={{ marginBottom: 0 }}>A gente acredita que óculos bom é o que você esquece que está usando: leve, certeiro e com a sua cara.</p>
@@ -245,12 +248,13 @@ export function OpticFold({ client }: { client?: { name?: string; whatsapp?: str
       </div></section>
 
       <div className="wrap"><div className="band">
-        <img src="/opt-exam.webp" alt="Equipamento de exame de vista" loading="lazy" />
+        <img src="/opt-acetato.webp" alt="Cliente com óculos novos" loading="lazy" style={{ objectPosition: "50% 30%" }} />
         <div className="in">
           <span className="script2">Sua próxima lente</span>
           <h3>Seu próximo par está<br />a uma visita de distância</h3>
           <button type="button" className="btn" onClick={start}>Agendar visita <span aria-hidden>→</span></button>
         </div>
+        <img className="pic2" src="/opt-s1.webp" alt="Armação de acetato sobre a bancada" loading="lazy" />
       </div></div>
 
       <footer id="contato"><div className="wrap">

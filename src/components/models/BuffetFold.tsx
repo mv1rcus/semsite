@@ -53,6 +53,10 @@ export function BuffetFold({ client }: { client?: { name?: string; whatsapp?: st
   const [sc, setSc] = useState(false);
   useEffect(() => { const f = () => setSc(window.scrollY > 600); f(); window.addEventListener("scroll", f, { passive: true }); return () => window.removeEventListener("scroll", f); }, []);
   const mdRef = useRef<HTMLDivElement>(null);
+  const pgRef = useRef<HTMLDivElement>(null);
+  const scrollPg = (d: number) => pgRef.current?.scrollBy({ left: d * 300, behavior: "smooth" });
+  const [mail, setMail] = useState("");
+  const subNews = (e: { preventDefault(): void }) => { e.preventDefault(); window.open(`https://wa.me/${num}?text=${encodeURIComponent(`Oi! Quero o cupom de 50% OFF da newsletter da ${brand}${mail ? ` (meu e-mail: ${mail})` : ""}.`)}`, "_blank", "noopener"); };
   const lastFocus = useRef<HTMLElement | null>(null);
   useEffect(() => {
     if (!open) return;
@@ -117,8 +121,14 @@ export function BuffetFold({ client }: { client?: { name?: string; whatsapp?: st
         .bf h2{font-size:clamp(26px,3vw,34px);text-align:center;margin:0;font-weight:700}
         .bf h2 em{font-style:normal;color:${PU}}
         .bf .sub{font-family:'Mulish',sans-serif;text-align:center;font-size:14.5px;color:${MU};max-width:560px;margin:10px auto 0;line-height:1.55}
-        .bf .pg{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:70px}
-        .bf .pc{background:#fff;border-radius:12px;padding:0 14px 18px;text-align:center;box-shadow:0 8px 24px rgba(28,10,34,.07);display:flex;flex-direction:column;align-items:center}
+        .bf .pcar{position:relative}
+        .bf .pg{display:flex;gap:20px;margin-top:12px;padding:64px 6px 12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+        .bf .pg::-webkit-scrollbar{display:none}
+        .bf .arr{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:46px;height:46px;border-radius:50%;border:0;background:${PU};color:#fff;font-size:24px;line-height:1;cursor:pointer;display:grid;place-items:center;box-shadow:0 8px 20px rgba(28,10,34,.28)}
+        .bf .arr:hover{background:${PD}}
+        .bf .arr.l{left:-10px}
+        .bf .arr.r{right:-10px}
+        .bf .pc{flex:0 0 272px;scroll-snap-align:start;background:#fff;border-radius:12px;padding:0 14px 18px;text-align:center;box-shadow:0 8px 24px rgba(28,10,34,.07);display:flex;flex-direction:column;align-items:center}
         .bf .pc img{width:150px;height:150px;border-radius:50%;object-fit:cover;margin-top:-50px;border:4px solid #fff;box-shadow:0 6px 18px rgba(28,10,34,.15)}
         .bf .pc b{font-size:16px;margin-top:12px}.bf .pc small{font-family:'Mulish',sans-serif;font-size:13.5px;color:${MU};margin-top:4px}
         .bf .pc .pr{font-size:22px;font-weight:700;margin:8px 0 12px;color:${DK}}.bf .pc .pr span{font-family:'Mulish',sans-serif;font-size:13px;font-weight:600;color:${MU}}
@@ -146,6 +156,13 @@ export function BuffetFold({ client }: { client?: { name?: string; whatsapp?: st
         .bf .rc .st{color:${OR};letter-spacing:2px;font-size:15px}
         .bf .cta{background:#4a1c54;border-radius:12px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;padding:30px 34px;margin:70px 0 60px}
         .bf .cta h3{margin:0;font-size:26px}.bf .cta p{font-family:'Mulish',sans-serif;margin:6px 0 0;font-size:15px;color:#f1d9f5}
+        .bf .news{background:${DK};margin-top:80px}
+        .bf .news-in{display:grid;grid-template-columns:1fr auto;gap:34px;align-items:center;padding:52px 24px}
+        .bf .news h3{margin:0 0 8px;font-size:clamp(26px,3vw,36px);color:#fff;letter-spacing:.04em}
+        .bf .news p{font-family:'Mulish',sans-serif;font-size:15px;color:#e9d4f2;margin:0 0 18px;max-width:520px;line-height:1.6}
+        .bf .nform{display:flex;gap:10px;flex-wrap:wrap;max-width:520px}
+        .bf .nform input{flex:1;min-width:200px;padding:0 16px;min-height:52px;border-radius:6px;border:0;font-size:15px;font-family:'Mulish',sans-serif;color:${DK}}
+        .bf .nimg{width:190px;height:190px;border-radius:50%;object-fit:cover;border:6px solid ${PU};box-shadow:0 10px 28px rgba(0,0,0,.35)}
         .bf footer{background:#1c0a22;color:#e9d7ee;padding:44px 0 26px;border-radius:24px 24px 0 0;font-family:'Mulish',sans-serif}
         .bf .fr{display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;font-size:14.5px;line-height:1.8}
         .bf .fr nav{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start}.bf .fr nav a{cursor:pointer;color:#e9d7ee;padding:8px 0}
@@ -165,10 +182,11 @@ export function BuffetFold({ client }: { client?: { name?: string; whatsapp?: st
           .bf .links{display:none}.bf .burger{display:grid;place-items:center;margin-left:auto}.bf .nav{height:68px;gap:10px}.bf .navbtn{display:none}
           .bf .hg{grid-template-columns:1fr;padding:6px 0 60px}.bf .dia{margin:0 auto;max-width:380px}
           .bf .bg3{grid-template-columns:1fr;gap:18px}
-          .bf .sec{padding-top:56px}.bf .pg{grid-template-columns:1fr 1fr;gap:64px 14px}.bf .pc img{width:110px;height:110px;margin-top:-40px}
+          .bf .sec{padding-top:56px}.bf .pc{flex:0 0 74%}.bf .pc img{width:110px;height:110px;margin-top:-40px}.bf .arr{width:40px;height:40px}.bf .arr.l{left:0}.bf .arr.r{right:0}
           .bf .sg{grid-template-columns:1fr 1fr;gap:12px}.bf .how{grid-template-columns:1fr;gap:26px}.bf .hs{grid-template-columns:1fr}
           .bf .ban div{padding:22px 24px}.bf .ban b{font-size:26px}.bf .tiles{grid-template-columns:1fr}.bf .tiles button{min-height:130px;font-size:22px}
           .bf .rg{grid-template-columns:1fr}.bf .cta{padding:26px 22px;margin:50px 0 40px}
+          .bf .news{margin-top:56px}.bf .news-in{grid-template-columns:1fr;padding:40px 24px;text-align:center}.bf .news p{margin-left:auto;margin-right:auto}.bf .nform{justify-content:center;margin:0 auto}.bf .nimg{margin:6px auto 0;width:150px;height:150px}
           .bf .mob{display:block;background:#fff;border-radius:12px;margin:0 0 12px;box-shadow:0 8px 24px rgba(28,10,34,.15)}.bf .mob a{display:block;padding:15px 20px;font-family:'Mulish',sans-serif;font-size:15px;font-weight:700;cursor:pointer;border-top:1px solid ${LN}}.bf .mob a:first-child{border:0}
           .bf .md{padding:26px 20px}
         }
@@ -206,7 +224,10 @@ export function BuffetFold({ client }: { client?: { name?: string; whatsapp?: st
       <section className="sec" id="pacotes"><div className="wrap">
         <h2><Ar />Pacotes de <em>buffet</em><Al /></h2>
         <p className="sub">Quatro formatos prontos, todos com equipe, louça e reposição durante a festa.</p>
-        <div className="pg">
+        <div className="pcar">
+          <button type="button" className="arr l" aria-label="Pacotes anteriores" onClick={() => scrollPg(-1)}>‹</button>
+          <button type="button" className="arr r" aria-label="Próximos pacotes" onClick={() => scrollPg(1)}>›</button>
+          <div className="pg" ref={pgRef}>
           {PKGS.map((c) => (
             <div className="pc" key={c.k}>
               <img src={c.img} alt={c.k} loading="lazy" />
@@ -215,6 +236,7 @@ export function BuffetFold({ client }: { client?: { name?: string; whatsapp?: st
               <button type="button" className="btn sm" onClick={() => start()}>Pedir orçamento</button>
             </div>
           ))}
+          </div>
         </div>
       </div></section>
 
@@ -261,6 +283,18 @@ export function BuffetFold({ client }: { client?: { name?: string; whatsapp?: st
           <button type="button" className="btn" style={{ background: "#fff", color: PD, borderColor: "#fff" }} onClick={() => start()}>Pedir orçamento</button>
         </div>
       </div></section>
+
+      <div className="news"><div className="wrap news-in">
+        <div>
+          <h3>GANHE 50% OFF</h3>
+          <p>Deixe seu e-mail e receba o cupom de 50% de desconto para a primeira festa, além de novidades do cardápio da estação.</p>
+          <form className="nform" onSubmit={subNews}>
+            <input type="email" required value={mail} onChange={(e) => setMail(e.target.value)} placeholder="Seu melhor e-mail" aria-label="Seu e-mail" />
+            <button type="submit" className="btn">Assinar</button>
+          </form>
+        </div>
+        <img className="nimg" src="/bf-d2.webp" alt="Prato servido do buffet da casa" loading="lazy" />
+      </div></div>
 
       <footer><div className="wrap fr">
         <div><span style={{ fontFamily: "Lora,serif", fontWeight: 700, fontSize: 22, color: "#fff" }}>{brand}</span><div style={{ marginTop: 8 }}>Av. Presidente Vargas, 1250, {city}<br />Seg a sáb, 9h às 19h</div></div>

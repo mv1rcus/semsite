@@ -8,6 +8,12 @@ const BURGERS = [
   { n: "Frango Crunch", d: "Frango empanado crocante, coleslaw e picles", p: 29, img: "/bg-b3.webp" },
   { n: "Veggie da Hora", d: "Grão de bico, queijo coalho, abacate e rúcula", p: 28, img: "/bg-b4.webp" },
 ];
+const FAVS = [
+  { n: "Fritas crocantes", d: "Sal grosso e cesta de arame", p: 14, img: "/bp-card-fritas.webp", b: "Smash Clássico" },
+  { n: "Smash Clássico", d: "2 carnes, cheddar e molho pop", p: 27, img: "/bp-card-burger.webp", b: "Smash Clássico" },
+  { n: "Fritas com cheddar", d: "Bacon, cheddar e cebolinha", p: 14, img: "/bp-card-fritas2.webp", b: "Bacon Explosão" },
+  { n: "Pizza da casa", d: "Massa fina, mussarela e manjericão", p: 34, img: "/bp-card-pizza.webp", b: "Frango Crunch" },
+];
 const EXTRAS = [
   { n: "Fritas com cheddar", p: 14, img: "/bg-fries.webp" },
   { n: "Milkshake da casa", p: 16, img: "/bg-shake.webp" },
@@ -115,7 +121,7 @@ export function BurgerPopFold({ client }: { client?: { name?: string; whatsapp?:
         .bp .rev .star{color:${YEL};letter-spacing:3px;font-size:15px}
         .bp .rev p{font-size:15px;line-height:1.65;color:#4a3226;margin:14px 0 16px;font-weight:600}
         .bp .rev b{font-size:13px;font-weight:800;letter-spacing:.4px;color:${INK};display:block}
-        .bp .cta{background:${RED};color:#fff;padding:76px 0;position:relative;overflow:hidden;text-align:center}
+        .bp .cta{background:#a51f1b;color:#fff;padding:76px 0;position:relative;overflow:hidden;text-align:center}
         .bp .cta h2{color:#fff}
         .bp .cta .sub{color:#ffd9d2}
         .bp .btn.w{background:#fff;color:${INK};box-shadow:0 4px 0 #e3d3c2;margin-top:26px}
@@ -186,101 +192,127 @@ export function BurgerPopFold({ client }: { client?: { name?: string; whatsapp?:
           .bp .sec{padding:56px 0}
         }
         @media(min-width:861px){.bp .mnav{display:none}}
+
+        .bp .hero2{position:relative;background:#3b0b0e;color:#fff;overflow:hidden;min-height:clamp(560px,58vw,860px)}
+        .bp .hbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:0% 50%}
+        .bp .hsh{position:absolute;inset:0;background:linear-gradient(90deg,rgba(40,6,8,.82) 0%,rgba(40,6,8,.45) 40%,rgba(40,6,8,0) 70%),linear-gradient(180deg,rgba(40,6,8,.4),rgba(40,6,8,0) 30%)}
+        .bp .hin2{position:relative;z-index:2;padding-bottom:140px}
+        .bp .hero2 .logo{color:#fff}
+        .bp .hero2 .links a{color:#f3e4d6}.bp .hero2 .links a:hover{color:${YEL}}
+        .bp .btn.y{background:${YEL};color:${INK};box-shadow:0 4px 0 #b57b00;min-height:46px;font-size:14.5px}
+        .bp .hcopy{padding:70px 0 20px;max-width:520px}
+        .bp .hero2 h1{color:#fff;margin:0;line-height:.98;letter-spacing:-.5px;font-size:clamp(52px,6.6vw,92px);font-weight:800;display:flex;flex-direction:column}
+        .bp .hero2 h1 .y1{color:${YEL}}
+        .bp .hero2 .lead{color:#f3e4d6;max-width:430px;font-size:16.5px;margin:22px 0 26px;font-weight:600}
+        .bp .torn{position:absolute;left:0;width:100%;height:40px;display:block}
+        .bp .torn.rr{top:calc(72% - 39px);z-index:1}.bp .torn.b{bottom:-1px}.bp .torn.t{top:-1px}.bp .torn.bo{bottom:-1px} .bp .torn{z-index:3}
+        .bp .fresh{padding:6px 0 14px}
+        .bp .fresh h2{font-weight:800}
+        .bp .orange{position:relative;background:#f09f34;padding:0;min-height:44vw;display:flex;align-items:center;justify-content:center}
+        .bp .trio{display:block;width:100%;max-width:1440px;aspect-ratio:1376/560;object-fit:cover;margin:0 auto;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%),linear-gradient(180deg,transparent 0,#000 14%,#000 86%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%),linear-gradient(180deg,transparent 0,#000 14%,#000 94%,transparent 100%);mask-composite:intersect}
+        .bp .trio-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+        .bp .chip{background:#fff;color:${INK};border:0;border-radius:999px;padding:11px 18px;font-weight:800;font-size:13.5px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.15)}
+        .bp .chip:hover{background:${CR}}
+        .bp .favs{position:relative;padding-bottom:60px;background:linear-gradient(180deg,${CR} 0%,${CR} 72%,#c8281f 72%,#c8281f 100%)}
+        .bp .fh{display:flex;align-items:center;justify-content:space-between;gap:16px}
+        .bp .fh h2{font-weight:800;margin:0}
+        .bp .dots{display:flex;gap:6px}.bp .dots i{width:9px;height:9px;border-radius:50%;background:${YEL};display:block}.bp .dots i:nth-child(3){background:${RED}}.bp .dots i:nth-child(n+4){background:#6b3a1d}
+        .bp .fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:34px}
+        .bp .fcard{background:#fff;border:0;border-radius:18px;padding:22px 16px 18px;text-align:center;cursor:pointer;box-shadow:0 14px 30px rgba(90,20,10,.2);transition:transform .25s;display:flex;flex-direction:column;align-items:center}
+        .bp .fcard:hover{transform:translateY(-5px)}
+        .bp .fcard img{width:min(100%,176px);height:auto;aspect-ratio:1/1;border-radius:50%;object-fit:cover;display:block;margin-bottom:14px}
+        .bp .fcard b{font-family:'Baloo 2',cursive;font-size:17px;font-weight:700;color:${INK}}
+        .bp .fcard small{font-size:12.5px;color:${MU};font-weight:600;margin-top:2px}
+        .bp .fcard .fp{margin-top:12px;color:${RED};font-weight:800;font-size:14.5px}.bp .fcard .fp i{font-style:normal}
+        .bp .favs .wrap{position:relative;z-index:2}
+        .bp .revsec{background:#c8281f;padding:0 0 70px;margin-top:-1px}
+        .bp .fresh h2,.bp .fh h2{text-wrap:balance}
+        @media(max-width:1024px){.bp .fgrid{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:860px){
+          .bp .hsh{background:linear-gradient(180deg,rgba(40,6,8,.7),rgba(40,6,8,.5) 60%,rgba(40,6,8,.55))}
+          .bp .hin2{padding-bottom:90px}.bp .hcopy{padding:30px 0 10px}
+          .bp .orange{min-height:70vw}.bp .trio{width:100%}
+        }
+        .bp .fresh,.bp .orange{overflow:hidden;position:relative}
+        .bp .fl{position:absolute;pointer-events:none;z-index:1;filter:drop-shadow(0 10px 14px rgba(60,20,0,.25))}
+        .bp .f1{width:120px;left:4%;top:36px;transform:rotate(-18deg)}
+        .bp .f2{width:130px;right:7%;top:70px;transform:rotate(12deg)}
+        .bp .f3{width:100px;right:19%;bottom:26px;transform:rotate(25deg)}
+        .bp .f4{width:240px;left:1%;bottom:6%;transform:rotate(-10deg)}
+        .bp .f6{width:230px;right:3%;bottom:4%;transform:rotate(20deg)}
+        .bp .f5{width:200px;right:2%;top:6%;transform:rotate(160deg)}
+        .bp .orange .wrap,.bp .fresh .wrap{position:relative;z-index:2}
+        @media(max-width:860px){.bp .f1{width:70px;left:-14px;top:14px}.bp .f2{width:80px;right:-10px;top:20px}.bp .f3{display:none}.bp .f4{width:60px;left:-8px;bottom:70px}.bp .f5{width:90px;right:-10px;top:6%}.bp .f4{width:110px}.bp .f6{width:100px;right:-8px;bottom:4%}}
         @media(prefers-reduced-motion:reduce){.bp *{transition:none!important}}
       `}</style>
 
-      <header className="hero" id="topo">
-        <div className="wrap">
+      <header className="hero2" id="topo">
+        <img className="hbg" src="/bp-hero.webp" alt="Hambúrguer duplo com cheddar sobre uma pizza na tábua de madeira" />
+        <div className="hsh" />
+        <div className="wrap hin2">
           <nav className="nav">
             <span className="logo"><span className="mark"><Ic d={FLAME} s={22} c="#fff" /></span>{brand}</span>
             <div className="links">
-              <a onClick={() => go("cardapio")}>Cardápio</a><a onClick={() => go("casa")}>A casa</a><a onClick={() => go("avaliacoes")}>Avaliações</a><a onClick={() => go("contato")}>Contato</a>
+              <a onClick={() => go("cardapio")}>Cardápio</a><a onClick={() => go("fresco")}>Destaques</a><a onClick={() => go("avaliacoes")}>Avaliações</a><a onClick={() => go("contato")}>Contato</a>
             </div>
-            <button className="btn ctanav" onClick={() => start()}>Pedir no WhatsApp</button>
+            <button className="btn y ctanav" onClick={() => start()}>Pedir agora</button>
             <button className="burger" onClick={() => setMenu(!menu)} aria-label="Abrir menu">
-              <Ic d={menu ? "M6 6l12 12M18 6L6 18" : "M4 7h16M4 12h16M4 17h16"} s={26} />
+              <Ic d={menu ? "M6 6l12 12M18 6L6 18" : "M4 7h16M4 12h16M4 17h16"} s={26} c="#fff" />
             </button>
           </nav>
-        </div>
-        <div className="wrap herogrid">
-          <div>
-            <span className="sticker">Smash na chapa · {city}</span>
-            <h1>O burger mais <span className="hl">colorido</span> da cidade</h1>
-            <p className="lead">Carnes prensadas na hora, cheddar derretido de verdade, pão brioche da casa e um cardápio que parece uma festa. Pede no WhatsApp e chega quentinho em 40 minutos.</p>
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <button className="btn" onClick={() => start()}>Montar meu pedido</button>
-              <button className="btn o" onClick={() => go("cardapio")}>Ver o cardápio</button>
-            </div>
-          </div>
-          <div className="himg">
-            <img src="/bg-hero.webp" alt="Smash burgers do Burgeria Pop sobre fundo laranja" width={1600} height={900} />
-            <span className="off">combo do dia −20%</span>
+          <div className="hcopy">
+            <h1><span className="y1">PIZZA &amp;</span><span className="w1">BURGER</span></h1>
+            <p className="lead">Carnes prensadas na hora, cheddar derretido de verdade, pão brioche da casa e pizza de massa fina. Pede no WhatsApp e chega quentinho em 40 minutos em {city}.</p>
+            <button className="btn" onClick={() => start()}>Pedir agora</button>
           </div>
         </div>
-        <div className="marq"><div className="in">
-          <span>SMASH</span><span>·</span><span>CHEDDAR DE VERDADE</span><span>·</span><span>BRIOCHE DA CASA</span><span>·</span><span>FRITAS CROCANTES</span><span>·</span><span>MILKSHAKE</span><span>·</span><span>SMASH</span><span>·</span><span>CHEDDAR DE VERDADE</span><span>·</span><span>BRIOCHE DA CASA</span><span>·</span><span>FRITAS CROCANTES</span><span>·</span><span>MILKSHAKE</span><span>·</span>
-        </div></div>
+        <svg className="torn b" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden><path d="M0 40L0 11 L24 7 L48 11 L72 10 L96 10 L120 9 L144 9 L168 10 L192 6 L216 12 L240 6 L264 7 L288 12 L312 12 L336 7 L360 11 L384 10 L408 13 L432 13 L456 9 L480 13 L504 9 L528 12 L552 8 L576 10 L600 7 L624 8 L648 15 L672 7 L696 10 L720 13 L744 9 L768 10 L792 9 L816 6 L840 7 L864 14 L888 9 L912 8 L936 13 L960 9 L984 8 L1008 15 L1032 11 L1056 8 L1080 13 L1104 10 L1128 12 L1152 14 L1176 8 L1200 13 L1224 10 L1248 9 L1272 11 L1296 10 L1320 9 L1344 6 L1368 14 L1392 11 L1416 10 L1440 15 L1440 40Z" fill={CR} /></svg>
       </header>
 
-      <section className="sec" id="cardapio">
+      <section className="sec fresh" id="fresco">
+        <img className="fl f1" src="/bp-pimentao.webp" alt="" aria-hidden loading="lazy" />
+        <img className="fl f2" src="/bp-fritas-solta.webp" alt="" aria-hidden loading="lazy" />
+        <img className="fl f3" src="/bp-manjericao.webp" alt="" aria-hidden loading="lazy" />
+        <div className="wrap center">
+          <h2>Fresco, quente &amp; feito na hora</h2>
+          <p className="sub">Cada burger vai pra chapa quando o pedido chega. Pão brioche assado de manhã, cheddar de verdade e molho da casa. Sem cadastro, sem app: o pedido fecha no nosso WhatsApp.</p>
+          <button className="btn" style={{ marginTop: 24 }} onClick={() => start()}>Pedir agora</button>
+        </div>
+      </section>
+
+      <section className="orange" id="cardapio">
+        <svg className="torn t" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden><path d="M0 0L0 29 L24 33 L48 29 L72 30 L96 30 L120 31 L144 31 L168 30 L192 34 L216 28 L240 34 L264 33 L288 28 L312 28 L336 33 L360 29 L384 30 L408 27 L432 27 L456 31 L480 27 L504 31 L528 28 L552 32 L576 30 L600 33 L624 32 L648 25 L672 33 L696 30 L720 27 L744 31 L768 30 L792 31 L816 34 L840 33 L864 26 L888 31 L912 32 L936 27 L960 31 L984 32 L1008 25 L1032 29 L1056 32 L1080 27 L1104 30 L1128 28 L1152 26 L1176 32 L1200 27 L1224 30 L1248 31 L1272 29 L1296 30 L1320 31 L1344 34 L1368 26 L1392 29 L1416 30 L1440 25 L1440 0Z" fill={CR} /></svg>
+        <img className="fl f4" src="/bp-veg.webp" alt="" aria-hidden loading="lazy" />
+        <img className="fl f5" src="/bp-veg.webp" alt="" aria-hidden loading="lazy" />
+        <img className="fl f6" src="/bp-fries.webp" alt="" aria-hidden loading="lazy" />
+        <div style={{ position: "relative", zIndex: 2, width: "100%" }}>
+          <img className="trio" src="/bp-trio.webp" alt="Três hambúrgueres suspensos sobre fundo laranja" loading="lazy" />
+        </div>
+        <svg className="torn bo" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden><path d="M0 40L0 11 L24 7 L48 11 L72 10 L96 10 L120 9 L144 9 L168 10 L192 6 L216 12 L240 6 L264 7 L288 12 L312 12 L336 7 L360 11 L384 10 L408 13 L432 13 L456 9 L480 13 L504 9 L528 12 L552 8 L576 10 L600 7 L624 8 L648 15 L672 7 L696 10 L720 13 L744 9 L768 10 L792 9 L816 6 L840 7 L864 14 L888 9 L912 8 L936 13 L960 9 L984 8 L1008 15 L1032 11 L1056 8 L1080 13 L1104 10 L1128 12 L1152 14 L1176 8 L1200 13 L1224 10 L1248 9 L1272 11 L1296 10 L1320 9 L1344 6 L1368 14 L1392 11 L1416 10 L1440 15 L1440 40Z" fill={CR} /></svg>
+      </section>
+
+      <section className="sec favs">
+        <svg className="torn rr" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden><path d="M0 0L0 29 L24 33 L48 29 L72 30 L96 30 L120 31 L144 31 L168 30 L192 34 L216 28 L240 34 L264 33 L288 28 L312 28 L336 33 L360 29 L384 30 L408 27 L432 27 L456 31 L480 27 L504 31 L528 28 L552 32 L576 30 L600 33 L624 32 L648 25 L672 33 L696 30 L720 27 L744 31 L768 30 L792 31 L816 34 L840 33 L864 26 L888 31 L912 32 L936 27 L960 31 L984 32 L1008 25 L1032 29 L1056 32 L1080 27 L1104 30 L1128 28 L1152 26 L1176 32 L1200 27 L1224 30 L1248 31 L1272 29 L1296 30 L1320 31 L1344 34 L1368 26 L1392 29 L1416 30 L1440 25 L1440 0Z" fill={CR} /></svg>
         <div className="wrap">
-          <div className="center">
-            <span className="kick">Cardápio</span>
-            <h2>Escolhe o seu e já pede no WhatsApp</h2>
-            <p className="sub">Quatro burgers, todos na chapa, todos com personalidade. Toca em um card para montar o pedido em menos de um minuto.</p>
-          </div>
-          <div className="grid4">
-            {BURGERS.map((b) => (
-              <button key={b.n} className="card" style={{ border: "3px solid transparent", textAlign: "left", padding: 0 }} onClick={() => start(b)}>
-                <img src={b.img} alt={b.n} width={800} height={800} loading="lazy" />
-                <span className="lb">
-                  <b>{b.n}</b><small>{b.d}</small>
-                  <span className="pr"><span>{money(b.p)}</span><span className="go">+</span></span>
-                </span>
-              </button>
-            ))}
-          </div>
-          <div className="sides">
-            {EXTRAS.map((x) => (
-              <button key={x.n} className="side" style={{ border: 0, padding: 0, textAlign: "left" }} onClick={() => start()}>
-                <img src={x.img} alt={x.n} width={800} height={800} loading="lazy" />
-                <span className="ov"><span><b>{x.n}</b><small>pra acompanhar</small></span><span style={{ fontWeight: 800, fontSize: 16, color: "#ffd166" }}>{money(x.p)}</span></span>
+          <p className="sub center" style={{ maxWidth: 640, margin: "0 auto 44px", textAlign: "center" }}>Smash de 120 g na chapa bem quente, cheddar derretido e molho da casa. Fritas crocantes e pizza de massa fina saem junto, tudo fresco, direto pro seu WhatsApp.</p>
+          <div className="fh"><h2>Favoritos da casa</h2><span className="dots" aria-hidden><i /><i /><i /><i /><i /></span></div>
+          <p className="sub" style={{ maxWidth: 520 }}>Toca em um card para montar o pedido em menos de um minuto.</p>
+          <div className="fgrid">
+            {FAVS.map((f) => (
+              <button key={f.n} className="fcard" onClick={() => start(BURGERS.find((x) => x.n === f.b) ?? undefined)}>
+                <img src={f.img} alt={f.n} loading="lazy" />
+                <b>{f.n}</b>
+                <small>{f.d}</small>
+                <span className="fp">{money(f.p)} <i>→</i></span>
               </button>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="sec" id="casa" style={{ background: "#ffe3b3" }}>
-        <div className="wrap split">
-          <div className="pic">
-            <img src="/bg-store.webp" alt={`Salão da ${brand} com mesas retrô`} width={1200} height={900} loading="lazy" />
-            <span className="tag">desde 2021 em {city}</span>
-          </div>
-          <div>
-            <span className="kick">A casa</span>
-            <h2>Um pedacinho de lanchonete americana, com cara de {city}</h2>
-            <p className="sub">A {brand} nasceu de um trailer numa feira de rua. Hoje é o point dos smash burgers da cidade: mesas coloridas, playlist animada e aquela chapa que não para. Tudo feito na hora, na sua frente.</p>
-            <div className="perks">
-              {PERKS.map((p) => (
-                <div key={p.t} className="perk">
-                  <span className="ic"><Ic d={p.ic} s={24} c={RED} /></span>
-                  <span><b>{p.t}</b><small>{p.d}</small></span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="sec" id="avaliacoes">
+      <section className="sec revsec" id="avaliacoes">
         <div className="wrap">
-          <div className="center">
-            <span className="kick">Avaliações</span>
-            <h2>Quem pediu, voltou</h2>
-            <p className="sub">4,9 de média nos apps de entrega, com centenas de avaliações cinco estrelas.</p>
-          </div>
-          <div className="g3">
+          <div className="g3" style={{ marginTop: 0 }}>
             {REVIEWS.map((r) => (
               <div key={r.n} className="rev">
                 <span className="star">★★★★★</span>
@@ -320,7 +352,7 @@ export function BurgerPopFold({ client }: { client?: { name?: string; whatsapp?:
             </div>
             <nav>
               <a onClick={() => go("cardapio")}>Cardápio</a>
-              <a onClick={() => go("casa")}>A casa</a>
+              <a onClick={() => go("fresco")}>Destaques</a>
               <a onClick={() => go("avaliacoes")}>Avaliações</a>
               <a onClick={() => start()}>Pedir agora</a>
             </nav>
@@ -334,7 +366,7 @@ export function BurgerPopFold({ client }: { client?: { name?: string; whatsapp?:
           <div className="overlay" style={{ background: "rgba(43,26,18,.4)" }} onClick={() => setMenu(false)} />
           <aside className={`mnav ${menu ? "on" : ""}`}>
             <a onClick={() => go("cardapio")}>Cardápio</a>
-            <a onClick={() => go("casa")}>A casa</a>
+            <a onClick={() => go("fresco")}>Destaques</a>
             <a onClick={() => go("avaliacoes")}>Avaliações</a>
             <a onClick={() => go("contato")}>Contato</a>
             <button className="btn" style={{ marginTop: 18, justifyContent: "center" }} onClick={() => start()}>Pedir no WhatsApp</button>
