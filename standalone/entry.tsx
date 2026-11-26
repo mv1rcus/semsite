@@ -5,6 +5,7 @@ import { BarberFold } from "@/components/models/BarberFold";
 import { GymFold } from "@/components/models/GymFold";
 import { SalonFold } from "@/components/models/SalonFold";
 import { FloraFold } from "@/components/models/FloraFold";
+import { InglesFold } from "@/components/models/InglesFold";
 import { CafeFold } from "@/components/models/CafeFold";
 import { TattooFold } from "@/components/models/TattooFold";
 import { LawFold } from "@/components/models/LawFold";
@@ -19,6 +20,7 @@ else if (__MODEL__ === "forca-viva") root.render(<GymFold client={cfg.client} />
 else if (__MODEL__ === "studio-era") root.render(<SalonFold client={cfg.client} />);
 else if (__MODEL__ === "casa-petala") root.render(<FloraFold client={cfg.client} />);
 else if (__MODEL__ === "grao-e-prosa") root.render(<CafeFold client={cfg.client} />);
+else if (__MODEL__ === "ponte-ingles") root.render(<InglesFold client={cfg.client} />);
 else if (__MODEL__ === "toledo-azevedo") root.render(<LawFold client={cfg.client} />);
 else if (__MODEL__ === "sorriso-verde") root.render(<DentalFold client={cfg.client} />);
 else if (__MODEL__ === "dom-navalha") root.render(<BarberFold client={cfg.client} />);
