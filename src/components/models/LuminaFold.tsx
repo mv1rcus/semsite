@@ -76,7 +76,8 @@ export function LuminaFold({ client }: { client?: { name?: string; whatsapp?: st
 
   return (
     <div className="lumina" style={{ background: BG, color: "#eaf6f6", fontFamily: sans }}>
-      <style>{`
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+        
         .lumina .wrap{max-width:1240px;margin:0 auto;padding:0 28px}
         .lumina .kick{color:${TEAL};font-size:12.5px;letter-spacing:.32em;font-weight:600}
         .lumina .pill-g{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,${TEAL},${TEALD});color:#052b28;font-weight:700;font-size:15px;letter-spacing:.04em;padding:16px 34px;border-radius:999px;border:0;cursor:pointer;text-decoration:none;box-shadow:0 12px 32px rgba(34,211,190,.28)}
