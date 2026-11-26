@@ -2,7 +2,6 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ArrowRight, Lock, Search, MonitorSmartphone, MessageCircle, Eye, Star, FileText, X, Check, UserRound, Store, ReceiptText, ScanSearch, ChartNoAxesCombined } from "lucide-react";
-import presentation from "@/assets/semsite-apresentacao.mp4.asset.json";
 import { lovable } from "@/integrations/lovable";
 import { supabase } from "@/integrations/supabase/client";
 import { FREE_DAILY_SEARCHES, VERIFIED_PLANS } from "@/lib/verified-plans";
@@ -105,7 +104,7 @@ function Login() {
             </div>
             <div className="devframe">
               <div className="devbar" aria-hidden="true"><i /><i /><i /><em>semsite.lovable.app</em></div>
-              <video src={presentation.url} poster={videoPoster} controls playsInline preload="metadata" aria-label="Vídeo de apresentação do SemSite" className="aspect-video w-full object-contain" />
+              <video src="/semsite-apresentacao.mp4" poster={videoPoster} controls playsInline preload="metadata" aria-label="Vídeo de apresentação do SemSite" className="aspect-video w-full object-contain" />
             </div>
           </section>
         </div>
