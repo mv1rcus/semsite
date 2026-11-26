@@ -80,13 +80,14 @@ export function GymFold({ client }: { client?: { name?: string; whatsapp?: strin
         .gf .btn.o:hover{border-color:${L}}
         .gf .burger{display:none;background:none;border:0;width:44px;height:44px;cursor:pointer}
         .gf .hero{position:relative;overflow:hidden;background:radial-gradient(ellipse at 75% 40%,#1f2a12 0,#0a0b0a 62%)}
-        .gf .herogrid{display:grid;grid-template-columns:1.1fr 1fr;align-items:end;gap:10px;min-height:600px}
+        .gf .herogrid{display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:10px;min-height:640px}
         .gf .kick{display:inline-flex;align-items:center;gap:8px;font-size:13px;letter-spacing:3px;text-transform:uppercase;font-weight:600;color:${L}}
         .gf h1{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:clamp(54px,7.4vw,100px);line-height:.95;margin:18px 0 0;text-transform:uppercase;letter-spacing:-.5px}
         .gf h1 em{font-style:normal;color:${L}}
         .gf .lead{font-size:18px;line-height:1.6;color:#c5cbc5;margin:24px 0 32px;max-width:470px}
-        .gf .herophoto{position:relative;display:flex;justify-content:center;align-items:flex-end;align-self:stretch;min-height:520px}
-        .gf .herophoto img{height:560px;width:auto;max-width:100%;object-fit:contain;position:relative;z-index:2;filter:drop-shadow(0 0 40px rgba(200,242,48,.18))}
+        .gf .herophoto{position:relative;overflow:visible;display:flex;justify-content:center;align-items:flex-end;align-self:stretch;min-height:520px}
+        .gf .slash{position:absolute;right:-40px;top:70px;bottom:0;width:62%;background:linear-gradient(160deg,#c8f230 0,#9cc21a 100%);clip-path:polygon(38% 0,100% 0,100% 100%,0 100%);opacity:.92;z-index:0}
+        .gf .herophoto img{height:660px;margin-bottom:-10px;width:auto;max-width:100%;object-fit:contain;position:relative;z-index:2;filter:drop-shadow(0 0 40px rgba(200,242,48,.18))}
         .gf .glow{position:absolute;bottom:40px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(200,242,48,.28),rgba(200,242,48,0) 68%);z-index:1}
         .gf .feats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:-2px;position:relative;z-index:3;padding-bottom:30px}
         .gf .feat{background:rgba(20,22,20,.92);border:1px solid ${LINE};border-radius:14px;padding:18px;display:flex;gap:14px;align-items:center}
@@ -146,7 +147,7 @@ export function GymFold({ client }: { client?: { name?: string; whatsapp?: strin
         .gf .mob{display:none}
         @media(max-width:900px){
           .gf .links,.gf .navbtn{display:none}.gf .burger{display:block}.gf .nav{height:68px}.gf .logo{font-size:24px}
-          .gf .herogrid{grid-template-columns:1fr;min-height:0;gap:0;padding-top:20px}.gf .herophoto{min-height:380px;margin-top:10px}.gf .herophoto img{height:400px}.gf .glow{width:300px;height:300px}
+          .gf .herogrid{grid-template-columns:1fr;min-height:0;gap:0;padding-top:20px}.gf .herophoto{min-height:380px;margin-top:10px}.gf .herophoto img{height:430px}.gf .glow{width:300px;height:300px}.gf .slash{width:80%}
           .gf .feats{grid-template-columns:1fr 1fr;gap:10px}.gf .feat{padding:14px;flex-direction:column;align-items:flex-start;gap:10px}
           .gf .cls{grid-template-columns:1fr 1fr;gap:12px}.gf .cl b{font-size:22px}
           .gf .aboutgrid{grid-template-columns:1fr;gap:40px}.gf .ck{grid-template-columns:1fr}.gf .stats{grid-template-columns:1fr 1fr}
@@ -180,7 +181,7 @@ export function GymFold({ client }: { client?: { name?: string; whatsapp?: strin
                 <button type="button" className="btn o" onClick={() => go("aulas")}>Ver aulas</button>
               </div>
             </div>
-            <div className="herophoto"><div className="glow" /><img src="/gym-hero.webp" alt="Atleta treinando com halteres" /></div>
+            <div className="herophoto"><div className="slash" /><div className="glow" /><img src="/gym-hero.webp" alt="Atleta treinando com halteres" /></div>
           </div>
           <div className="wrap feats">
             {FEAT.map((f) => (<div className="feat" key={f.t}><i><Ic d={f.ic} s={24} /></i><div><b>{f.t}</b><span>{f.d}</span></div></div>))}
