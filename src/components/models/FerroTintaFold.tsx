@@ -126,7 +126,10 @@ export function FerroTintaFold({ client }: { client?: { name?: string; whatsapp?
         .ft .tst .tint{background:linear-gradient(180deg,rgba(34,28,58,.55),rgba(34,28,58,.72))}
         .ft .tst .wrap{position:relative;z-index:2}
         .ft .tst h2{color:#fff}
-        .ft .tq{margin:56px auto 0;max-width:640px;text-align:center}
+        .ft .tg{display:grid;grid-template-columns:1fr 1.6fr;gap:48px;align-items:center}.ft .tqs{display:grid;grid-template-columns:1fr 1fr;gap:32px}.ft .tqs .tq{text-align:left}
+        .ft .soc{display:flex;gap:12px;justify-content:center;margin-top:28px}.ft .soc a{width:38px;height:38px;border:1px solid #ffffff55;border-radius:50%;display:flex;align-items:center;justify-content:center}
+        @media (max-width:760px){.ft .tg{grid-template-columns:1fr;gap:24px}.ft .tqs{grid-template-columns:1fr}}
+        .ft .tq{margin:56px auto 0;max-width:640px;text-align:center}.ft .tqs .tq{margin:0;max-width:none;text-align:left}
         .ft .tq p{font-size:15px;line-height:1.8;margin:0;min-height:112px}
         .ft .tq b{font-family:'Pirata One',serif;font-weight:400;font-size:26px;display:block;margin-top:22px}
         .ft .tq small{font-size:11px;color:#d8d6e0;letter-spacing:1px;text-transform:uppercase}
@@ -184,8 +187,7 @@ export function FerroTintaFold({ client }: { client?: { name?: string; whatsapp?
         <div className="tint" />
         <div className="inn">
           <Skull />
-          <h1>{brand}</h1>
-          <p className="tag">Estúdio de tatuagem · {city}</p>
+          <h1 style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>{brand}</h1>
           <button className="btn" onClick={() => start()}>Agendar sessão</button>
         </div>
       </section>
@@ -296,13 +298,15 @@ export function FerroTintaFold({ client }: { client?: { name?: string; whatsapp?
       <section className="tst" id="depoimentos" style={{ background: 'url("/ft-lamp.webp") center/cover no-repeat' }}>
         <div className="tint" />
         <div className="wrap">
-          <div style={{ textAlign: "center" }}><h2>Depoimentos</h2></div>
-          <div className="tq">
-            <p>{R.q}</p>
-            <b>{R.n}</b><small>{R.r}</small>
-            <div className="tnav">
+          <div className="tg">
+            <div><h2>Depoimentos</h2><div className="tnav">
               <button aria-label="Anterior" onClick={() => setRev((rev + REVIEWS.length - 1) % REVIEWS.length)}>‹</button>
               <button aria-label="Próximo" onClick={() => setRev((rev + 1) % REVIEWS.length)}>›</button>
+            </div></div>
+            <div className="tqs">
+              {[0, 1].map((k) => { const Q = REVIEWS[(rev + k) % REVIEWS.length]!; return (
+                <div className="tq" key={k}><p>{Q.q}</p><b>{Q.n}</b><small>{Q.r}</small></div>
+              ); })}
             </div>
           </div>
         </div>
@@ -329,6 +333,7 @@ export function FerroTintaFold({ client }: { client?: { name?: string; whatsapp?
           <div><h4>Links</h4><ul>{["Sobre", "Artistas", "Projetos", "Depoimentos", "Contato"].map((t, i) => <li key={t}><a style={{ color: "inherit", cursor: "pointer" }} onClick={() => go(["sobre", "artistas", "projetos", "depoimentos", "contato"][i]!)}>{t}</a></li>)}</ul></div>
           <div><h4>Galeria</h4><div className="fgal">{["/ft-w1.webp", "/ft-w2.webp", "/ft-w3.webp", "/ft-w4.webp", "/ft-w5.webp", "/ft-w6.webp"].map((k) => <img key={k} src={k} alt="" />)}</div></div>
         </div>
+        <div className="wrap soc">{[["f","M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H7v4h3v6h4v-6h3l1-4h-4V9z"],["t","M22 5.8c-.7.3-1.5.6-2.4.7.9-.5 1.5-1.3 1.8-2.3-.8.5-1.7.8-2.6 1a4.1 4.1 0 0 0-7 3.7C8.4 8.7 5.4 7.1 3.4 4.6c-1 1.8-.5 4.1 1.2 5.3-.7 0-1.3-.2-1.9-.5 0 2 1.4 3.700 3.300 4.100-.6.2-1.200.2-1.900.1.5 1.600 2 2.800 3.800 2.800A8.300 8.300 0 0 1 2 18.500 11.700 11.700 0 0 0 8.300 20.300c7.600 0 11.800-6.300 11.800-11.800v-.5c.8-.6 1.500-1.300 1.900-2.200z"],["i","M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4zm5 5a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm5.500-2a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"]].map(([k, d]) => <a key={k} href="#" onClick={(e) => e.preventDefault()} aria-label="Rede social"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d={d} /></svg></a>)}</div>
         <div className="wrap copy">{brand} · +18 com documento · Fotos ilustrativas · Site de demonstração SemSite</div>
       </footer>
 
