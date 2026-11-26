@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 /** Passeios de stand up paddle a partir do pin "SUP-bordy" (desktop 06): hero arredondado com foto, 4 motivos com numeros grandes, galeria em mosaico, depoimentos, pranchas, roteiros e newsletter. */
 const IM = {
   hero: "/mm-1.webp", grupo: "/mm-2.webp", bruços: "/mm-3.webp", remador: "/mm-4.webp",
-  sol: "/mm-5.webp", baia: "/mm-6.webp", dupla: "/mm-7.webp",
+  sol: "/mm-5.webp", baia: "/mm-6.webp", dupla: "/mm-7.webp", yoga: "/mm-8.webp", riso: "/mm-9.webp", pranchas: "/mm-10.webp",
 };
 const NAV: [string, string][] = [["Sobre o SUP", "sobre"], ["Galeria", "galeria"], ["Roteiros", "roteiros"], ["Depoimentos", "depoimentos"], ["Contato", "contato"]];
 const WHY = [
@@ -27,30 +27,18 @@ const OPIN = [
   { n: "Vitória Prado", t: "Ótimo passeio em família! Dá pra remar com os filhos pequenos, o ritmo é calmo e eles amaram ver as garças de perto. O instrutor explicou tudo com paciência. Foi o melhor dia das férias.", p: "Lagoa da Conceição, passeio na lagoa" },
   { n: "Helena Moura", t: "Descobri um esporte novo este ano. Na primeira aula já fiquei em pé e dei até uma remada sozinha. Equilíbrio, calma e uma vista que não dá pra descrever. Já fiz SUP yoga também.", p: "Campeche, aula de SUP yoga" },
 ];
-const BOARDS: [string, string, string, string][] = [
-  ["Dot Zen 11'2\"", "#b7c27a", "#2d3a2a", "#f1f0e4"],
-  ["Touring Azul 12'6\"", "#2a63a8", "#173a68", "#e6eefa"],
-  ["Sun Rosa 11'2\"", "#e24a9a", "#5b1a50", "#fbe5f1"],
-  ["Touring Verde 12'6\"", "#1d9d8f", "#115b55", "#e1f3f0"],
-];
+const BOARDS = ["Turquesa 11'2\"", "Rosa 11'2\"", "Azul 12'6\"", "Verde 12'6\""];
 const ROUTES = [
   { n: "Remada guiada", p: 120, img: IM.baia, pos: "50% 35%" },
   { n: "Pôr do sol no mar", p: 140, img: IM.sol, pos: "50% 60%" },
   { n: "Passeio pela orla", p: 150, img: IM.dupla, pos: "30% 50%" },
   { n: "Passeio a dois", p: 180, img: IM.hero, pos: "50% 70%" },
   { n: "Dia de lagoa", p: 200, img: IM.remador, pos: "50% 45%" },
-  { n: "SUP yoga", p: 100, img: IM.bruços, pos: "50% 50%" },
+  { n: "SUP yoga", p: 100, img: IM.yoga, pos: "50% 45%" },
 ];
 const Ic = ({ d }: { d: string }) => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d={d} /></svg>;
 const Pin = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M12 21s-7-6.2-7-11.2A7 7 0 0 1 19 9.8C19 14.800 12 21 12 21Z" /><circle cx="12" cy="10" r="2.500" /></svg>;
-const Board = ({ b }: { b: [string, string, string, string] }) => (
-  <svg viewBox="0 0 60 220" width="100%" height="100%" aria-hidden>
-    <path d="M30 4C46 30 52 90 50 150c-1 38-9 62-20 66C19 212 11 188 10 150 8 90 14 30 30 4Z" fill={b[3]} stroke={b[2]} strokeWidth="1.600" />
-    <path d="M30 12C41 40 45 95 44 150c-1 34-6 52-14 56-8-4-13-22-14-56-1-55 3-110 14-138Z" fill={b[1]} opacity=".92" />
-    <path d="M30 70c8 14 8 44 0 60-8-16-8-46 0-60Z" fill={b[2]} opacity=".35" />
-    <circle cx="30" cy="100" r="9" fill="none" stroke={b[3]} strokeWidth="2.200" />
-  </svg>
-);
+
 
 export function MareMansa({ client }: { client?: { name?: string; whatsapp?: string; city?: string } }) {
   const brand = client?.name?.trim() || "Maré Mansa SUP";
@@ -111,6 +99,7 @@ export function MareMansa({ client }: { client?: { name?: string; whatsapp?: str
         .mm .oc{background:#fff;border-radius:14px;padding:30px 26px 24px;box-shadow:0 8px 30px rgba(30,80,90,.1);display:flex;flex-direction:column;gap:16px}
         .mm .oc h3{font-size:14px;font-weight:500;text-align:center;color:#2a4650}.mm .oc p{margin:0;font-size:13px;line-height:1.6;text-align:center;flex:1}
         .mm .oc span{display:flex;gap:8px;align-items:center;font-size:12px;color:#4c6870;border-top:1px solid #eef2f3;padding-top:14px}.mm .oc svg{color:#16a5aa;flex:none}
+        .mm .bf{max-width:400px;margin:6px auto 0}.mm .bf img{width:100%;display:block;border-radius:16px;aspect-ratio:3/4;object-fit:cover}.mm .bl{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px;text-align:center;font-size:12px;color:#2a4650}
         .mm .bd{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:6px}
         .mm .bd div{text-align:center;font-size:12.5px;color:#2a4650;letter-spacing:.01em}.mm .bd .bi{height:260px;margin:0 auto 12px;width:64px}
         .mm .rt{display:grid;grid-template-columns:repeat(3,1fr);gap:26px 22px}
@@ -195,7 +184,7 @@ export function MareMansa({ client }: { client?: { name?: string; whatsapp?: str
 
       <section className="sec w">
         <h2 className="st">Pranchas para passeio</h2>
-        <div className="bd">{BOARDS.map((b) => <div key={b[0]}><div className="bi"><Board b={b} /></div>{b[0]}</div>)}</div>
+        <div className="bf"><img src={IM.pranchas} alt="Quatro pranchas de stand up paddle nas cores turquesa, rosa, azul e verde" /><div className="bl">{BOARDS.map((b) => <span key={b}>{b}</span>)}</div></div>
       </section>
 
       <section className="sec w" id="roteiros">
@@ -217,7 +206,7 @@ export function MareMansa({ client }: { client?: { name?: string; whatsapp?: str
           <div className="chk" onClick={() => setOk(!ok)}><i>{ok ? "✓" : ""}</i><span>Ao enviar meus dados, aceito receber novidades da {brand} no WhatsApp, conforme a política de privacidade.</span></div>
           <button className="sub" type="submit">Assinar</button>
         </form>
-        <div className="nlp"><img src={IM.bruços} alt="Passeio de SUP em mar calmo" /></div>
+        <div className="nlp"><img src={IM.riso} alt="Casal rindo e brincando sobre uma prancha de SUP no mar" /></div>
       </section>
 
       <footer>
