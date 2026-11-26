@@ -1,0 +1,8 @@
+import { createRoot } from "react-dom/client";
+import { PetFold } from "@/components/models/PetFold";
+import { BurgerFold } from "@/components/models/BurgerFold";
+declare const __MODEL__: string;
+const cfg = (window as unknown as { __SEMSITE__: { client: { name?: string; whatsapp?: string; city?: string } } }).__SEMSITE__;
+const root = createRoot(document.getElementById("root")!);
+if (__MODEL__ === "focinho-feliz") root.render(<PetFold client={cfg.client} />);
+else if (__MODEL__ === "brasa-e-pao") root.render(<BurgerFold client={cfg.client} />);

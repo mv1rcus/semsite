@@ -9,7 +9,7 @@ import { PremiumSite } from "@/components/PremiumSite";
 import { PetFold } from "@/components/models/PetFold";
 import { BurgerFold } from "@/components/models/BurgerFold";
 import { getPremium } from "@/lib/premium-models";
-import { authorizeModelUse, getModelPrompt } from "@/lib/vitrine.functions";
+import { authorizeModelUse, getModelCode } from "@/lib/vitrine.functions";
 import { getModel, modelLink, type ModelClient } from "@/lib/site-models";
 
 type Search = { n?: string; w?: string; c?: string };
@@ -35,6 +35,7 @@ function Viewer() {
   const [open, setOpen] = useState(false);
   const [done, setDone] = useState("");
   const field = "h-9 min-w-[44%] flex-1 rounded-lg sm:min-w-0 border border-border bg-card px-2.5 text-sm outline-none focus:border-primary";
+  const primary = "inline-flex h-10 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg bg-foreground px-4 text-sm font-bold text-background hover:opacity-90";
   const btn = "inline-flex h-10 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-border px-3 text-sm font-bold hover:bg-muted";
   async function copy(kind: string, text: string) {
     try { await navigator.clipboard.writeText(text); setDone(kind); setTimeout(() => setDone(""), 2000); } catch { /* Clipboard blocked. */ }
@@ -57,9 +58,19 @@ function Viewer() {
       <div className="sticky top-0 z-50 border-b border-border bg-background/95 px-3 py-2 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center gap-2">
           <Link to="/vitrine" className="mr-auto whitespace-nowrap text-sm font-bold hover:underline">← Vitrine</Link>
-          {premium && !verified && <Link to="/verificado" className={btn} title="Só para quem tem o selo Verificado"><Lock className="size-4" />Copiar prompt<span className="hidden sm:inline"> · Verificado</span></Link>}
-          {premium && verified && <button type="button" onClick={async () => { try { const r = await getModelPrompt({ data: { id, name: client.name, whatsapp: client.whatsapp, city: client.city } }); await copy("p", r.prompt); } catch { setDone("err"); setTimeout(() => setDone(""), 2500); } }} className={btn}>{done === "p" ? <Check className="size-4" /> : <Copy className="size-4" />}{done === "p" ? "Prompt copiado!" : done === "err" ? "Só para Verificado" : "Copiar prompt do site"}</button>}
-          <button type="button" disabled title="Em breve" className={`${btn} opacity-50`}><Plus className="size-4" />Em breve</button>
+          {premium && !verified && <Link to="/verificado" className={primary} title="Só para quem tem o selo Verificado"><Lock className="size-4" />Copiar código<span className="hidden sm:inline"> · Verificado</span></Link>}
+          {premium && verified && <button type="button" onClick={async () => {
+            const job = getModelCode({ data: { id, name: client.name, whatsapp: client.whatsapp, city: client.city } });
+            try {
+              if (typeof ClipboardItem !== "undefined" && navigator.clipboard?.write) await navigator.clipboard.write([new ClipboardItem({ "text/plain": job.then((r) => new Blob([r.html], { type: "text/plain" })) })]);
+              else await navigator.clipboard.writeText((await job).html);
+              setDone("p"); setTimeout(() => setDone(""), 2500);
+            } catch {
+              try { const r = await job; const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([r.html], { type: "text/html" })); a.download = r.filename; a.click(); setDone("dl"); } catch { setDone("err"); }
+              setTimeout(() => setDone(""), 3000);
+            }
+          }} className={primary}>{done === "p" ? <Check className="size-4" /> : <Copy className="size-4" />}{done === "p" ? "Código copiado!" : done === "dl" ? "Arquivo baixado" : done === "err" ? "Só para Verificado" : "Copiar código"}</button>}
+          <button type="button" disabled title="Em breve" className={`${btn} px-2.5 opacity-50 sm:px-3`}><Plus className="size-4" />Em breve</button>
         </div>
       </div>
       {premium?.id === "brasa-e-pao" ? <BurgerFold client={client} /> : premium?.id === "focinho-feliz" ? <PetFold client={client} /> : premium ? <PremiumSite model={premium} client={client} /> : model ? <SiteModelView model={model} client={client} /> : null}
