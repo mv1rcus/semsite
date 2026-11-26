@@ -41,7 +41,24 @@ function Login() {
     return () => data.subscription.unsubscribe();
   }, [navigate]);
 
-  async function signIn() {
+  const [askTerms, setAskTerms] = useState(false);
+  const [accepted, setAccepted] = useState(false);
+
+  function signIn() {
+    let ok = false;
+    try { ok = localStorage.getItem("semsite_terms_ok") === "1"; } catch { /* sem storage */ }
+    if (ok) { void doSignIn(); return; }
+    setAccepted(false); setAskTerms(true);
+  }
+
+  function confirmTerms() {
+    if (!accepted) return;
+    try { localStorage.setItem("semsite_terms_ok", "1"); } catch { /* sem storage */ }
+    setAskTerms(false);
+    void doSignIn();
+  }
+
+  async function doSignIn() {
     setLoading(true); setError("");
     const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
     if (result.error) { setError("Não foi possível entrar com o Google. Tente novamente."); setLoading(false); return; }
@@ -83,7 +100,7 @@ function Login() {
             {googleButton("Começar com Google", "mt-8 w-full max-w-md")}
             {error && <p role="alert" className="mt-3 text-sm text-primary">{error}</p>}
             <p className="mt-6 flex items-center gap-2 text-[0.7rem] font-bold tracking-[0.2em] text-muted-foreground"><Lock className="size-3.5 text-primary" /> ACESSO SEGURO COM SUA CONTA GOOGLE</p>
-            <p className="mt-3 text-xs text-muted-foreground">Ao continuar, você concorda com a <Link to="/privacidade" className="underline hover:text-foreground">Política de Privacidade</Link>.</p>
+            <p className="mt-3 text-xs text-muted-foreground">Ao continuar, você concorda com os <Link to="/termos" className="underline hover:text-foreground">Termos de Uso</Link> e a <Link to="/privacidade" className="underline hover:text-foreground">Política de Privacidade</Link>.</p>
           </section>
 
           <section className="login-wave relative flex flex-col items-center justify-center gap-6 overflow-hidden rounded-3xl border border-border p-4 text-center sm:p-8">
@@ -263,6 +280,20 @@ function Login() {
           <Link to="/privacidade" className="hover:text-foreground">Política de Privacidade</Link>
         </nav>
       </footer>
+      {askTerms && (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-black/70 px-4" role="dialog" aria-modal="true" aria-labelledby="termos-titulo" onClick={() => setAskTerms(false)}>
+          <div className="w-full max-w-md rounded-2xl border border-border bg-background p-6" onClick={(e) => e.stopPropagation()}>
+            <h2 id="termos-titulo" className="font-display text-2xl">Antes de continuar</h2>
+            <p className="mt-2 text-sm text-muted-foreground">Para criar sua conta ou entrar, aceite os termos abaixo.</p>
+            <label className="mt-5 flex cursor-pointer items-start gap-3 text-sm">
+              <input type="checkbox" checked={accepted} onChange={(e) => setAccepted(e.target.checked)} className="mt-0.5 size-5 shrink-0 accent-[var(--primary)]" />
+              <span>Li e aceito os <Link to="/termos" target="_blank" className="font-semibold underline">Termos de Uso</Link> e a <Link to="/privacidade" target="_blank" className="font-semibold underline">Política de Privacidade</Link>.</span>
+            </label>
+            <button type="button" disabled={!accepted || loading} onClick={confirmTerms} className="login-cta mt-6 w-full rounded-xl px-4 py-3 font-bold disabled:cursor-not-allowed disabled:opacity-40">Continuar com Google</button>
+            <button type="button" onClick={() => setAskTerms(false)} className="mt-3 w-full text-sm text-muted-foreground hover:text-foreground">Cancelar</button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
