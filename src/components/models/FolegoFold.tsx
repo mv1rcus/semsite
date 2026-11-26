@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 /** Assessoria de corrida, construída do zero a partir de um pin de cartaz "21.1 km City Half Marathon" (azul royal + verde-limão, tipografia ultra-bold, faixa diagonal, faixa xadrez e grade de informações). Cartaz 100% tipográfico sem fotos: o artefato central é a planilha semanal de treinos renderizada como a grade do cartaz. */
-const AZ = "#2038e0", AZ2 = "#15239c", INK = "#0b1040", LM = "#d9f24f", LM2 = "#eaff70", WH = "#f6f8ff", WH2 = "#dfe4ff", MUT = "#aab4f2";
+const AZ = "#2038e0", AZ2 = "#15239c", INK = "#0b1040", LM = "#d9f24f", LM2 = "#eaff70", WH = "#f6f8ff", WH2 = "#e8ecff", MUT = "#ccd4ff";
 const PLANILHA = [
   { d: "SEG", t: "Descanso ativo", dist: "30 min caminhada", pace: "livre", tag: "Recuperação" },
   { d: "TER", t: "Tiros 8 × 400 m", dist: "7 km total", pace: "4:35–4:45 /km", tag: "Velocidade", hot: true },
@@ -66,15 +66,17 @@ export function FolegoFold({ client }: { client?: { name?: string; whatsapp?: st
         .folego .btn:hover{background:${LM2};transform:translate(-2px,-2px);box-shadow:9px 9px 0 ${INK}}
         .folego .btn-o{display:inline-flex;align-items:center;gap:10px;background:none;color:${WH};border:3px solid ${WH};font-weight:800;font-size:14px;letter-spacing:.02em;text-transform:uppercase;padding:14px 28px;cursor:pointer;transition:.22s;text-decoration:none}
         .folego .btn-o:hover{background:${WH};color:${AZ}}
-        .folego .eyebrow{font-size:12.5px;font-weight:800;letter-spacing:.24em;text-transform:uppercase}
+        .folego .eyebrow{font-size:13.5px;font-weight:800;letter-spacing:.2em;text-transform:uppercase}
         .folego .diag1{position:absolute;left:-8%;width:116%;height:34px;background:${LM};transform:rotate(-2.4deg)}
         .folego .diag2{position:absolute;left:-8%;width:116%;height:12px;background:${WH};transform:rotate(-2.4deg)}
         .folego .card{background:${WH};color:${INK};padding:34px 30px;display:flex;flex-direction:column;box-shadow:8px 8px 0 ${INK}}
         .folego .card.hot{background:${LM};box-shadow:8px 8px 0 ${WH}}
-        .folego .tcard{background:${AZ2};border:2px solid rgba(246,248,255,.22);padding:30px}
-        .folego .step{border-top:5px solid ${LM};padding-top:22px}
+        .folego .tcard{background:#101c7d;border:2px solid rgba(246,248,255,.4);padding:30px}
+        .folego .step{border-top:5px solid ${AZ};padding-top:22px}
         @media(max-width:900px){
-          .folego .hero-km{font-size:clamp(96px,30vw,150px)!important}
+          .folego .hero-km{font-size:clamp(84px,23vw,140px)!important}
+          .folego .hero-kmlabel{font-size:34px!important}
+          .folego .brand-city{display:none}
           .folego .grid4{grid-template-columns:1fr 1fr!important}
           .folego .grid3{grid-template-columns:1fr!important}
           .folego .hero-pad{padding-top:110px!important}
@@ -95,7 +97,7 @@ export function FolegoFold({ client }: { client?: { name?: string; whatsapp?: st
       {/* HERO */}
       <header style={{ position: "relative", background: AZ, overflow: "hidden" }}>
         <nav className="wrap" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 26, paddingBottom: 26, gap: 16, flexWrap: "wrap", position: "relative", zIndex: 2 }}>
-          <span className="eyebrow" style={{ color: LM }}>{brand} · {city}</span>
+          <span className="eyebrow" style={{ color: LM }}>Fôlego<span className="brand-city"> · {city}</span></span>
           <div style={{ display: "flex", gap: 22, alignItems: "center", flexWrap: "wrap" }}>
             <button onClick={() => go("planilha")} className="eyebrow" style={{ background: "none", border: "none", color: WH, cursor: "pointer", padding: 0 }}>Planilha</button>
             <button onClick={() => go("planos")} className="eyebrow" style={{ background: "none", border: "none", color: WH, cursor: "pointer", padding: 0 }}>Planos</button>
@@ -105,8 +107,8 @@ export function FolegoFold({ client }: { client?: { name?: string; whatsapp?: st
         <div className="wrap hero-pad" style={{ paddingTop: 96, paddingBottom: 170, position: "relative", zIndex: 2 }}>
           <p className="eyebrow" style={{ color: WH, marginBottom: 18 }}>Planilha individual · feedback em 24h · prova-alvo por ciclo</p>
           <div style={{ display: "flex", alignItems: "baseline", gap: 20, flexWrap: "wrap" }}>
-            <span className="hero-km" style={{ fontFamily: display, fontSize: 210, color: LM, lineHeight: .85, letterSpacing: "-.03em" }}>42.2</span>
-            <span style={{ fontFamily: display, fontSize: 56, color: WH, lineHeight: 1, textTransform: "uppercase" }}>km</span>
+            <span className="hero-km" style={{ fontFamily: display, fontSize: "clamp(140px,19vw,270px)", color: LM, lineHeight: .85, letterSpacing: "-.03em" }}>42.2</span>
+            <span className="hero-kmlabel" style={{ fontFamily: display, fontSize: 56, color: WH, lineHeight: 1, textTransform: "uppercase", alignSelf: "flex-end", paddingBottom: 14 }}>km</span>
           </div>
           <h1 style={{ fontSize: "clamp(38px,5.6vw,68px)", color: WH, margin: "30px 0 22px", maxWidth: 760 }}>
             Da primeira corrida à primeira maratona.
@@ -166,18 +168,18 @@ export function FolegoFold({ client }: { client?: { name?: string; whatsapp?: st
                 <span className="cell c-treino" style={{ flex: 2, padding: "17px 18px", fontWeight: 700, fontSize: 16 }}>{r.t}</span>
                 <span className="cell c-dist" style={{ flex: 1.4, padding: "17px 18px", fontSize: 15, color: WH2 }}>{r.dist}</span>
                 <span className="cell c-pace" style={{ flex: 1.4, padding: "17px 18px", fontSize: 15, color: r.hot ? LM : WH2, fontWeight: r.hot ? 700 : 500 }}>{r.pace}</span>
-                <span className="cell c-tag" style={{ width: 160, padding: "17px 18px", textAlign: "right", fontSize: 12, fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", color: MUT }}>{r.tag}</span>
+                <span className="cell c-tag" style={{ width: 160, padding: "17px 18px", textAlign: "right", fontSize: 13, fontWeight: 800, letterSpacing: ".1em", textTransform: "uppercase", color: WH2 }}>{r.tag}</span>
               </div>
             ))}
           </div>
-          <p style={{ fontSize: 14.5, color: MUT, marginTop: 22, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 14.5, color: WH2, marginTop: 22, lineHeight: 1.5 }}>
             Ciclo de 16 semanas para a Meia de BH · semana 9 de 16 · volume de 44 km. A sua planilha considera histórico, rotina e resposta aos últimos treinos.
           </p>
         </div>
       </section>
 
       {/* COMO FUNCIONA */}
-      <section style={{ background: WH, color: INK, padding: "92px 0" }}>
+      <section style={{ background: LM, color: INK, padding: "92px 0" }}>
         <div className="wrap">
           <p className="eyebrow" style={{ color: AZ, marginBottom: 14 }}>Como funciona</p>
           <h2 style={{ fontSize: "clamp(34px,4.6vw,56px)", margin: "0 0 54px", color: INK }}>Três passos, zero achismo</h2>
@@ -186,7 +188,7 @@ export function FolegoFold({ client }: { client?: { name?: string; whatsapp?: st
               <div key={s.n} className="step">
                 <span style={{ fontFamily: display, fontSize: 54, color: AZ, lineHeight: 1 }}>{s.n}</span>
                 <h3 style={{ fontSize: 22, margin: "14px 0 12px", color: INK }}>{s.t}</h3>
-                <p style={{ fontSize: 15.5, lineHeight: 1.6, color: "#3d4266", margin: 0 }}>{s.d}</p>
+                <p style={{ fontSize: 15.5, lineHeight: 1.6, color: "#2b2b1a", margin: 0 }}>{s.d}</p>
               </div>
             ))}
           </div>
@@ -250,7 +252,7 @@ export function FolegoFold({ client }: { client?: { name?: string; whatsapp?: st
                   <span style={{ width: 46, height: 46, borderRadius: "50%", background: LM, color: INK, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: display, fontSize: 16 }}>{t.n.split(" ").map((x) => x[0]).join("").slice(0, 2)}</span>
                   <div>
                     <div style={{ fontWeight: 800, fontSize: 15 }}>{t.n}</div>
-                    <div style={{ fontSize: 13, color: MUT }}>{t.r}</div>
+                    <div style={{ fontSize: 13.5, color: WH2 }}>{t.r}</div>
                   </div>
                 </div>
               </div>
@@ -277,11 +279,11 @@ export function FolegoFold({ client }: { client?: { name?: string; whatsapp?: st
         <div className="wrap" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 18, flexWrap: "wrap", paddingTop: 34, paddingBottom: 34 }}>
           <div>
             <span style={{ fontFamily: display, fontSize: 20, color: LM, textTransform: "uppercase" }}>{brand}</span>
-            <p style={{ fontSize: 13.5, color: MUT, margin: "8px 0 0" }}>Assessoria de corrida · {city} · Treinos presenciais no Parque das Mangabeiras</p>
+            <p style={{ fontSize: 13.5, color: WH2, margin: "8px 0 0" }}>Assessoria de corrida · {city} · Treinos presenciais no Parque das Mangabeiras</p>
           </div>
           <div style={{ display: "flex", gap: 26, flexWrap: "wrap", alignItems: "center" }}>
             <a href={wa("Olá! Vim pelo site e quero saber mais.")} target="_blank" rel="noreferrer" style={{ color: WH2, fontSize: 14, fontWeight: 700, textDecoration: "none" }}>WhatsApp</a>
-            <span style={{ color: MUT, fontSize: 13 }}>Modelo da Vitrine SemSite</span>
+            <span style={{ color: WH2, fontSize: 13 }}>Modelo da Vitrine SemSite</span>
           </div>
         </div>
       </footer>
