@@ -122,7 +122,7 @@ export function PousadaFold({ client }: { client?: { name?: string; whatsapp?: s
         .pf .band .in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;color:#fff;padding:20px}
         .pf .band h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(28px,3.4vw,44px);margin:0}
         .pf footer{background:#0c1a11;color:#bcc6b4}
-        .pf .fg{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px;padding:54px 0 40px}
+        .pf .fg{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px;padding:54px 0 40px}
         .pf footer h4{font-family:'Cormorant Garamond',serif;color:#f3ede0;font-size:19px;margin:0 0 14px;font-weight:600}
         .pf footer p,.pf footer a{font-size:14px;line-height:1.8;color:#bcc6b4;text-decoration:none;display:block}
         .pf footer a:hover{color:#fff;cursor:pointer}
@@ -220,6 +220,23 @@ export function PousadaFold({ client }: { client?: { name?: string; whatsapp?: s
           .pf .dine{padding:70px 0}
         }
         @media (max-width:520px){.pf .rcards{grid-template-columns:1fr}.pf .rc img{aspect-ratio:16/10}}
+
+        .pf .leaf{position:absolute;left:-90px;bottom:-30px;width:260px;pointer-events:none;z-index:1;transform:rotate(-12deg)}
+        .pf .dgrid{position:relative;z-index:2}
+        .pf .ex{cursor:pointer;aspect-ratio:auto;background:${GREEN};border-radius:16px;overflow:hidden;display:flex;flex-direction:column;min-height:0}
+        .pf .ex img{position:static;width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
+        .pf .ex .ov{position:static;background:${GREEN};padding:13px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px;color:#f3ede0}
+        .pf .ex b{font-family:"Cormorant Garamond",serif;font-size:16px;font-weight:600}
+        .pf .rev b{font-style:normal}
+        .pf .news{position:relative;display:grid;grid-template-columns:.9fr 1fr 1.1fr;align-items:center;gap:26px;background:${GREEN};border-radius:24px;overflow:hidden;margin:20px 0 70px;color:#f3ede0}
+        .pf .news img{width:100%;height:150px;object-fit:cover;display:block;filter:none}
+        .pf .news h3{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:30px;margin:0;line-height:1.1}
+        .pf .news p{margin:8px 0 0;font-size:13.5px;color:#b9c2b2}
+        .pf .nf{display:flex;gap:0;background:#f3ede0;border-radius:40px;padding:5px;margin-right:26px}
+        .pf .nf input{flex:1;min-width:0;border:0;background:transparent;padding:0 16px;font:14px 'Manrope',sans-serif;color:${INK};outline:0}
+        .pf .btn.gold{background:#d5a96a;color:#182018;white-space:nowrap}
+        @media (max-width:900px){.pf .news{grid-template-columns:1fr;gap:16px}.pf .nt{padding:0 22px}.pf .nf{margin:0 22px 24px}.pf .leaf{width:170px;left:-60px}.pf .fg{grid-template-columns:1fr 1fr}}
+        @media (max-width:520px){.pf .fg{grid-template-columns:1fr}}
       `}</style>
 
       <div className="hero">
@@ -277,6 +294,7 @@ export function PousadaFold({ client }: { client?: { name?: string; whatsapp?: s
 
       <section className="dine" id="cafe">
         <svg className="wv t" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden><path d="M0 0h1440v20c-240 40-480 40-720 10S240 0 0 30z" fill={CR} /></svg>
+        <img className="leaf" src="/pou-folha.webp" alt="" aria-hidden loading="lazy" />
         <div className="wrap dgrid">
           <div>
             <h2>Café da manhã e jantar de fazenda</h2>
@@ -296,9 +314,9 @@ export function PousadaFold({ client }: { client?: { name?: string; whatsapp?: s
           </div>
           <div className="exgrid">
             {EXPS.map((e) => (
-              <div className="ex" key={e.n}>
+              <div className="ex" key={e.n} onClick={() => start()}>
                 <img src={e.img} alt={e.n} loading="lazy" />
-                <div className="ov"><b>{e.n}</b></div>
+                <div className="ov"><b>{e.n}</b><span aria-hidden>→</span></div>
               </div>
             ))}
           </div>
@@ -320,14 +338,17 @@ export function PousadaFold({ client }: { client?: { name?: string; whatsapp?: s
       </section>
 
       <div className="wrap">
-        <div className="band">
+        <form className="news" onSubmit={(e) => { e.preventDefault(); start(); }}>
           <img src="/pou-banner.webp" alt="Montanhas ao nascer do sol com névoa" loading="lazy" />
-          <div className="in">
-            <h3>Sua próxima escapada está a uma mensagem de distância</h3>
-            <span style={{ fontSize: 14, color: "#dfe4d8" }}>1. Escolha o chalé · 2. Escolha as datas · 3. Confirme no WhatsApp</span>
-            <button className="btn cream" onClick={() => start()}>Ver datas e reservar</button>
+          <div className="nt">
+            <h3>Seja o primeiro a saber</h3>
+            <p>Ofertas de temporada e pacotes de bem-estar direto no seu e-mail.</p>
           </div>
-        </div>
+          <div className="nf">
+            <input type="email" placeholder="Seu e-mail" aria-label="Seu e-mail" />
+            <button className="btn gold" type="submit">Assinar →</button>
+          </div>
+        </form>
       </div>
 
       <footer id="contato">
@@ -335,6 +356,13 @@ export function PousadaFold({ client }: { client?: { name?: string; whatsapp?: s
           <div>
             <div className="logo" style={{ marginBottom: 14 }}><span className="mark"><Ic d={LEAF} s={20} /></span> Serra do Vento</div>
             <p>Pousada boutique no alto da serra da Mantiqueira. Chalés, café colonial e o silêncio que só a montanha tem.</p>
+          </div>
+          <div>
+            <h4>Explorar</h4>
+            <a onClick={() => go("quartos")}>Acomodações</a>
+            <a onClick={() => go("cafe")}>Gastronomia</a>
+            <a onClick={() => go("exp")}>Experiências</a>
+            <a onClick={() => go("avals")}>Avaliações</a>
           </div>
           <div>
             <h4>Endereço</h4>
