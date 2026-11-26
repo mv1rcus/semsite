@@ -49,6 +49,7 @@ const HTML_LOADERS: Record<string, () => Promise<{ default: string }>> = {
   "dom-navalha": () => import("./standalone-html/dom-navalha.html?raw"),
   "grao-e-prosa": () => import("./standalone-html/grao-e-prosa.html?raw"),
   "toledo-azevedo": () => import("./standalone-html/toledo-azevedo.html?raw"),
+  "casa-petala": () => import("./standalone-html/casa-petala.html?raw"),
   "sorriso-verde": () => import("./standalone-html/sorriso-verde.html?raw"),
   "forca-viva": () => import("./standalone-html/forca-viva.html?raw"),
   "studio-era": () => import("./standalone-html/studio-era.html?raw"),

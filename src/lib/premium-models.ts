@@ -1,4 +1,4 @@
-export type PremiumKey = "poster" | "salao" | "pet" | "advocacia" | "oficina" | "imobiliaria" | "hamburgueria" | "pizzaria" | "barbearia" | "academia" | "restaurante" | "dentista" | "cafeteria" | "tatuagem" | "psicologia";
+export type PremiumKey = "poster" | "salao" | "pet" | "advocacia" | "oficina" | "imobiliaria" | "hamburgueria" | "pizzaria" | "barbearia" | "academia" | "restaurante" | "dentista" | "cafeteria" | "floricultura" | "tatuagem" | "psicologia";
 export type PremiumModel = { id: string; ramo: PremiumKey; ramoLabel: string; style: string; name: string; city: string; cover: string; accent: string; tags: string[] };
 
 export const img = (id: string, w = 1200, h?: number) => `https://images.unsplash.com/${id}?w=${w}${h ? `&h=${h}` : ""}&q=75&auto=format&fit=crop`;
@@ -12,7 +12,7 @@ export const PHOTO = {
   bread: "photo-1509440159596-0249088772ff", clinic: "photo-1519494026892-80bbd2d6fd0d",
 } as const;
 
-const LIVE_PREMIUM = ["brasa-e-pao", "focinho-feliz", "dom-navalha", "sorriso-verde", "forca-viva", "grao-e-prosa", "toledo-azevedo", "tinta-rara", "studio-era", "marina-costa"]; // modelos refeitos no padrao novo e liberados
+const LIVE_PREMIUM = ["brasa-e-pao", "focinho-feliz", "dom-navalha", "sorriso-verde", "forca-viva", "grao-e-prosa", "toledo-azevedo", "tinta-rara", "studio-era", "marina-costa", "casa-petala"]; // modelos refeitos no padrao novo e liberados
 const ALL_PREMIUM: PremiumModel[] = [
   { id: "brasa-e-pao", ramo: "hamburgueria", ramoLabel: "Hamburgueria", style: "Escuro com tipo gigante atrás do burger recortado", name: "Brasa&Pão", city: "Campinas", cover: "/brasa-cover.jpg", accent: "#ff5a1f", tags: ["hamburguer", "burger", "lanchonete", "smash", "escuro", "delivery"] },
   { id: "focinho-feliz", ramo: "pet", ramoLabel: "Pet shop", style: "Claro e verde, loja com carrinho e ofertas", name: "Focinho Feliz", city: "Curitiba", cover: "/pet-cover.jpg", accent: "#16491c", tags: ["pet", "petshop", "racao", "cachorro", "loja", "verde", "claro", "ecommerce"] },
@@ -24,6 +24,7 @@ const ALL_PREMIUM: PremiumModel[] = [
   { id: "tinta-rara", ramo: "tatuagem", ramoLabel: "Estúdio de tatuagem", style: "Escuro com turquesa, arco no hero e agendamento", name: "Tinta Rara", city: "Salvador", cover: "/tat-cover.jpg", accent: "#1dbb9a", tags: ["tatuagem", "tattoo", "tatuador", "estudio", "escuro", "turquesa", "agendamento", "piercing"] },
   { id: "studio-era", ramo: "salao", ramoLabel: "Salão de beleza", style: "Rosé claro com tipo gigante, cards escuros e antes e depois", name: "Studio Era", city: "Belo Horizonte", cover: "/salao-cover.jpg", accent: "#e8a0ab", tags: ["salao", "beleza", "cabelo", "cabeleireiro", "estetica", "claro", "rosa", "agendamento"] },
   { id: "marina-costa", ramo: "psicologia", ramoLabel: "Psicologia", style: "Claro em creme e marrom, consultório acolhedor com agendamento", name: "Marina Costa", city: "Santos", cover: "/psy-cover.jpg", accent: "#8a6a4e", tags: ["psicologa", "psicologia", "terapia", "infantil", "crianca", "claro", "marrom", "agendamento", "saude"] },
+  { id: "casa-petala", ramo: "floricultura", ramoLabel: "Floricultura", style: "Claro em rosa, buquês e carrinho que fecha no WhatsApp", name: "Casa Pétala", city: "Recife", cover: "/flor-cover.jpg", accent: "#d94d78", tags: ["floricultura", "flores", "buque", "presente", "claro", "rosa", "ecommerce"] },
   { id: "smash-poster", ramo: "poster", ramoLabel: "Hamburgueria", style: "Pôster com tipo gigante e parallax", name: "Smash Poster", city: "São Paulo", cover: PHOTO.burger1, accent: "#ef3b2d", tags: ["hamburguer", "burger", "poster", "tipografia", "parallax", "escuro"] },
   { id: "amigo-fiel", ramo: "pet", ramoLabel: "Pet shop", style: "Pôster colorido com tipo gigante", name: "Amigo Fiel", city: "Curitiba", cover: PHOTO.dog, accent: "#ff7a1a", tags: ["pet", "petshop", "cachorro", "veterinaria", "poster", "colorido"] },
   { id: "studio-fio", ramo: "salao", ramoLabel: "Salão de beleza", style: "Editorial rosé", name: "Studio Fio", city: "Belo Horizonte", cover: PHOTO.salon, accent: "#b5546b", tags: ["salao", "beleza", "cabelo", "estetica", "editorial", "claro"] },
@@ -46,6 +47,7 @@ export const getPremium = (id: string) => PREMIUM_MODELS.find((m) => m.id === id
 const SYN: Record<string, string> = {
   hamburgueria: "hamburgueria hamburguer hambúrguer burger lanche lanchonete smash", pizzaria: "pizzaria pizza pizzaiolo forno", barbearia: "barbearia barbeiro barba corte cabelo masculino",
   academia: "academia musculação treino fitness crossfit", restaurante: "restaurante comida almoço jantar gastronomia", dentista: "dentista odontologia odonto clínica sorriso saúde",
+  floricultura: "floricultura flores florista buquê buque rosas presente",
   cafeteria: "cafeteria café padaria confeitaria doceria", tatuagem: "tatuagem tattoo tatuador tatuadora estúdio piercing tinta", psicologia: "psicologia psicologa psicóloga terapia terapeuta infantil criança mental saúde consultório", poster: "hamburgueria hamburguer hambúrguer burger lanche smash pôster", salao: "salão beleza cabelo cabeleireiro estética manicure unhas",
   pet: "pet petshop pet shop cachorro gato veterinária banho tosa", advocacia: "advocacia advogado jurídico escritório direito", oficina: "oficina mecânica carro auto automotivo", imobiliaria: "imobiliária imóveis imóvel casa apartamento corretor aluguel",
 };
