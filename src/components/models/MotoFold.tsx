@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 /** Oficina de motos classicas, construida do zero a partir de um pin de site coral e branco ("Vintage Moto"): titulo gigante em capitulares, moto recortada cruzando a divisa entre o bloco coral e o branco. Foto real da moto (Gemini). Agendamento de revisao que fecha no WhatsApp. */
-const INK = "#161413", CO = "#e4514d", CO2 = "#c93e3a", BG = "#ffffff", SOFT = "#fdeceb", MU = "#6b6361";
+const INK = "#161413", CO = "#f77170", CO2 = "#e85a59", BG = "#ffffff", SOFT = "#fdeceb", MU = "#6b6361";
 const SERV = [
   { t: "Revisão completa", d: "Óleo, velas, folgas de válvula, corrente, cabos, freios e uma lista escrita de tudo que foi visto, moto por moto.", p: "a partir de R$ 380" },
   { t: "Motor e câmbio", d: "Abertura, retífica e remontagem de motores boxer, monocilíndricos e dois tempos, com peças medidas e originais quando existem.", p: "sob orçamento" },
@@ -68,8 +68,8 @@ export function MotoFold({ client }: { client?: { name?: string; whatsapp?: stri
         .mt .strip b{display:block;font-size:30px;font-weight:600}.mt .strip span{font-size:14px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#4a4543}
         .mt h2{font-weight:600;font-size:clamp(34px,4.4vw,52px);letter-spacing:.01em;margin:0;line-height:1.05}
         .mt h2 .c{font-size:1.18em}
-        .mt .story{padding:96px 0 40px;display:grid;grid-template-columns:1fr 340px;gap:70px;align-items:center;max-width:900px;margin:0 auto}
-        .mt .story p{font-size:19px;font-weight:500;line-height:1.7;margin:20px 0 0;color:#2b2625}
+        .mt .story{padding:96px 0 40px;display:grid;grid-template-columns:1fr 250px;gap:90px;align-items:center;max-width:900px;margin:0 auto}
+        .mt .story h2{font-size:clamp(26px,2.8vw,38px)}.mt .story p{font-size:16px;font-weight:500;line-height:1.7;margin:20px 0 0;color:#2b2625}
         .mt .link{display:inline-block;margin-top:24px;font-weight:700;font-size:14px;letter-spacing:.16em;text-transform:uppercase;border-bottom:2px solid ${CO};padding-bottom:4px;color:${INK};text-decoration:none;cursor:pointer}
         .mt .serv{padding:84px 0 40px}
         .mt .row{border-top:2px solid ${INK};cursor:pointer}
