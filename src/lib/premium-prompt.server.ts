@@ -1,6 +1,7 @@
 import type { PremiumKey, PremiumModel } from "./premium-models";
 
 const SECTIONS: Record<PremiumKey, string> = {
+  bikemove: "hero amarelo e azul com ciclista, linha de 4 bikes em cards inclinados, destaque numerado com comparativo, planejador de rotas, acessórios e revisão",
   pneuneon: "hero preto com pneu gigante e supercarro verde-limão, 4 cards de modelos, pneus em destaque, faixa de desempenho, benefícios e busca de encaixe pelo WhatsApp",
   sorvglass: "hero menta em vidro fosco com pote em foto recortada, faixa rosa com história e 4 cards de vidro, faixa creme com 3 sabores em casquinha, faixa vinho com carrinho em vidro e pedido no WhatsApp",
   dancaest: "hero preto com título itálico gigante e dançarina recortada na frente, cards de próximas aulas, grade semanal em caixas, vídeos e rodapé cinza-claro com aula experimental em 4 passos",
@@ -29,7 +30,7 @@ const SECTIONS: Record<PremiumKey, string> = {
   suco: "painéis coloridos empilhados com palavra gigante branca atrás da garrafa, seletor de tamanho com preço, passos, kits em cards e CTA final",
   adega: "hero creme com garrafa, uvas e taça, título serifado espaçado, bloco de boas-vindas com foto do salão, quatro pilares com ícones de traço, três cards escuros com fotos e faixa bordô de reserva",
   agritech: "hero escuro com foto de lavoura, título branco e lima, barra de números, painel de monitoramento ao vivo, quatro cards de soluções, dashboard de fazenda com mapa e faixa final com foto de mãos",
-  estetica: "clinica de estetica com hero editorial claro, tratamentos em cards e agendamento pelo WhatsApp",
+  drones: "hero escuro ciano com drone e título itálico, faixa de quatro diferenciais, cards inclinados de missões, quatro cards de acessórios, sistema de voo explodido e faixa de montagem do kit", eletrico: "hero escuro com carro elétrico e título branco e laranja, barra de cinco números, três cards de modelos sobre creme, bloco de tecnologia com motor, dois painéis de foto e faixa de test drive", estetica: "clinica de estetica com hero editorial claro, tratamentos em cards e agendamento pelo WhatsApp",
   bike: "hero branco com mancha amarela e ciclista em traço preto, título gigante, serviços em cards com sombra amarela, bikes em cards, tabela de oficina com pontilhado e faixa amarela de passeios",
   joalheria: "hero em duas colunas com foto de modelo, coleção em grade com abas, ateliê lado a lado, cesta com gravação",
   padaria: "hero com foto de pão e título grande em serifa, cards de pães, processo lado a lado, encomenda com retirada",
