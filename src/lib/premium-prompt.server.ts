@@ -1,6 +1,7 @@
 import type { PremiumKey, PremiumModel } from "./premium-models";
 
 const SECTIONS: Record<PremiumKey, string> = {
+  viagens: "hero de paisagem com mochileira, destinos em cards com foto, tipos de viagem, newsletter e selos de confiança",
   spahotel: "hero em moldura de vidro com casa na montanha, estatisticas, depoimento e servicos de suites, termas e massagens", pequeno: "hero com criança aviadora, boas-vindas com fotos, lista de diferenciais e programas em cards com foto",
   sushi: "hero com prato de sushi ilustrado, sobre, menu especial de salmão, cardápio com abas e reserva de mesa",
   bikemove: "hero amarelo e azul com ciclista, linha de 4 bikes em cards inclinados, destaque numerado com comparativo, planejador de rotas, acessórios e revisão",
