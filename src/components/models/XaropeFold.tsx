@@ -149,6 +149,7 @@ export function XaropeFold({ client }: { client?: { name?: string; whatsapp?: st
         <div className="wrap" style={{ paddingTop: 72, paddingBottom: 72 }}>
           <div style={{ position: "relative", borderRadius: 8, overflow: "hidden", border: `1px solid ${LINE}` }}>
             <img src="/bar-cocktails.jpg" alt={"Fileira de coquetéis coloridos feitos com xaropes " + brand} loading="lazy" style={{ width: "100%", height: 340, objectFit: "cover", display: "block", filter: "brightness(.55)" }} />
+            <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 62% 88% at 50% 50%, rgba(8,6,10,.82) 0%, rgba(8,6,10,.38) 58%, rgba(8,6,10,0) 100%)" }} />
             <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: 28 }}>
               <h2 className="sec-t" style={{ color: WHITE }}>Inspiração em<br />cada <em>coquetel</em></h2>
               <p style={{ marginTop: 14, fontSize: 15, color: TXT, maxWidth: 460 }}>Descubra combinações novas e surpreenda seus convidados.</p>
