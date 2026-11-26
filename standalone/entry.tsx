@@ -32,6 +32,7 @@ import { PapelFold } from "@/components/models/PapelFold";
 import { MovelFold } from "@/components/models/MovelFold";
 import { BrechoFold } from "@/components/models/BrechoFold";
 import { FizzFold } from "@/components/models/FizzFold";
+import { BikeMove } from "@/components/models/BikeMove";
 import { MilkFold } from "@/components/models/MilkFold";
 import { PatasFold } from "@/components/models/PatasFold";
 import { BakeFold } from "@/components/models/BakeFold";
@@ -114,6 +115,7 @@ else if (__MODEL__ === "risco-e-rabisco") root.render(<PapelFold client={cfg.cli
 else if (__MODEL__ === "formas-moles") root.render(<MovelFold client={cfg.client} />);
 else if (__MODEL__ === "remix") root.render(<BrechoFold client={cfg.client} />);
 else if (__MODEL__ === "fizzo") root.render(<FizzFold client={cfg.client} />);
+else if (__MODEL__ === "giro-bikes") root.render(<BikeMove client={cfg.client} />);
 else if (__MODEL__ === "milky-mix") root.render(<MilkFold client={cfg.client} />);
 else if (__MODEL__ === "patas-e-cores") root.render(<PatasFold client={cfg.client} />);
 else if (__MODEL__ === "massa-mae") root.render(<BakeFold client={cfg.client} />);
