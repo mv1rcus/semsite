@@ -83,6 +83,7 @@ export function BuffetFold({ client }: { client?: { name?: string; whatsapp?: st
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Mulish:wght@400;500;600;700&display=swap');
         .bf *{box-sizing:border-box}
+        .bf h1,.bf h2,.bf h3{font-family:inherit}
         .bf a,.bf button{font-family:inherit}
         .bf .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
         .bf .sans{font-family:'Mulish',system-ui,sans-serif}
