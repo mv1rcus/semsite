@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 const D = "#12423a", D2 = "#2d6e5f", MINT = "#dbe8e0", BG = "#f8faf8", INK = "#10231f";
 const SVC = [
   { n: "Clínico geral", d: "Cuidado de rotina para uma saúde bucal duradoura.", ic: "M8 6c-3 0-5 3-5 7 0 5 2 8 3 13 .5 2 2 2 3 0l2-6c.5-1 1.500-1 2 0l2 6c1 2 2.500 2 3 0 1-5 3-8 3-13 0-4-2-7-5-7-2 0-3 1-4 1S10 6 8 6z" },
-  { n: "Ortodontia", d: "Alinhe o sorriso com aparelho fixo ou alinhadores.", ic: "M3 12h26M3 12v-3h6v3M12 12v-3h8v3M23 12v-3h6v3M3 12v3h6v-3M12 12v3h8v-3M23 12v3h6v-3" },
+  { n: "Ortodontia", d: "Alinhe o sorriso com aparelho fixo ou alinhadores.", ic: "M3 11c3 11 23 11 26 0M3 11h26M8 12v5h4v-5M14 13v6h4v-6M20 12v5h4v-5" },
   { n: "Implantes", d: "Recupere o sorriso com firmeza e naturalidade.", ic: "M9 4h14c1 0 1.500 1 1.500 2.500C24 11 22 13 21 14l-1 14h-8l-1-14c-1-1-3-3-2.500-7.500C8.500 5 8 4 9 4zM12 20h8M12 24h8" },
-  { n: "Estética", d: "Clareamento e facetas para realçar o seu sorriso.", ic: "M8 8c-3 0-5 3-5 7 0 5 2 8 3 12 .5 1.500 2 1.500 2.500 0l1.500-5c.5-1 1.500-1 2 0l1.500 5c.5 1.500 2 1.500 2.500 0 1-4 3-7 3-12 0-4-2-7-5-7-2 0-3 1-4 1S10 8 8 8zM25 3v6M22 6h6" },
+  { n: "Estética", d: "Clareamento e facetas para realçar o seu sorriso.", ic: "M14 4l2.500 7.500L24 14l-7.500 2.500L14 24l-2.500-7.500L4 14l7.500-2.500zM25 4v5M22.500 6.500h5M25 22v5M22.500 24.500h5" },
 ];
 const TESTI = [
   { q: "Atendimento excepcional! A equipe é atenciosa, profissional e minha consulta foi super tranquila.", n: "Camila R.", img: "/dent-p1.webp" },
@@ -93,21 +93,25 @@ export function DentalFold({ client }: { client?: { name?: string; whatsapp?: st
         .df h2{font-family:Fraunces,serif;font-weight:700;font-size:clamp(32px,4vw,46px);color:${D};margin:14px 0 0;line-height:1.1}
         .df h2 em{font-style:italic;font-weight:600;color:${D2}}
         .df .sec{padding:70px 0}
+        .df .info{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid #dbe6df;border-radius:20px;background:#fff;overflow:hidden}
+        .df .info div{padding:22px 26px;border-right:1px solid #e3ece6;display:flex;flex-direction:column;gap:4px}.df .info div:last-child{border:0}
+        .df .info b{font-size:15px;color:${D}}.df .info span{font-size:14.5px;color:#3a524b;line-height:1.5}
         .df .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px}
         .df .card{background:#eef3ef;border:1px solid #e1eae4;border-radius:22px;padding:26px 24px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:10px;min-height:196px;transition:transform .2s,box-shadow .2s}
         .df .card:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(18,66,58,.12)}
-        .df .card b{font-size:17px;font-weight:600;margin-top:8px}
-        .df .card p{margin:0;font-size:14.5px;line-height:1.55;color:#40564f;flex:1}
-        .df .go{width:38px;height:38px;border-radius:50%;background:#fff;display:grid;place-items:center;align-self:flex-end;font-size:16px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+        .df .card b{font-size:19px;font-weight:700;margin-top:8px}
+        .df .card p{margin:0;font-size:15px;line-height:1.55;color:#2a423b;flex:1}
+        .df .more{display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:600;color:${D}}
+        .df .go{width:38px;height:38px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:16px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
         .df .aboutgrid{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center}
         .df .photo{position:relative}
         .df .photo img.p{width:100%;aspect-ratio:4/3.3;object-fit:cover;border-radius:34px;display:block;box-shadow:0 20px 44px rgba(18,66,58,.18)}
         .df .safe{position:absolute;left:-14px;bottom:-22px;background:#fff;border-radius:18px;padding:14px 20px;display:flex;gap:12px;align-items:center;box-shadow:0 12px 30px rgba(18,66,58,.18);font-size:14px;line-height:1.3}
         .df .safe b{display:block;font-size:15px}
         .df .abt h2{margin-top:6px}
-        .df .abt p{font-size:16.5px;line-height:1.7;color:#35504a;margin:20px 0 28px;max-width:440px}
+        .df .abt p{font-size:16.5px;line-height:1.7;color:#35504a;margin:20px 0 28px;max-width:400px}
         .df .perks{display:flex;flex-direction:column;gap:18px;border-left:1px solid #d3dfd8;padding-left:34px}
-        .df .perk{display:flex;gap:14px;align-items:center;font-size:14px;line-height:1.35;color:#486058}
+        .df .perk{display:flex;gap:14px;align-items:center;font-size:14.5px;line-height:1.35;color:#3a524b}
         .df .perk b{display:block;color:${INK};font-size:15px}
         .df .perk i{width:46px;height:46px;border-radius:50%;background:${MINT};display:grid;place-items:center;flex:none}
         .df .testi{display:grid;grid-template-columns:auto 1fr auto;gap:30px;align-items:center;margin-top:44px}
@@ -135,7 +139,7 @@ export function DentalFold({ client }: { client?: { name?: string; whatsapp?: st
         @media(max-width:900px){
           .df .links,.df .navbtn{display:none}.df .burger{display:block}.df .nav{height:70px}.df .logo{font-size:23px}
           .df .herogrid{grid-template-columns:1fr;min-height:0;gap:0}.df .toothwrap{min-height:380px;margin-top:70px}.df .dring{width:380px;height:380px}.df .script{font-size:24px;top:8px}
-          .df .cards{grid-template-columns:1fr 1fr;gap:12px}.df .card{padding:20px 16px;min-height:0}
+          .df .info{grid-template-columns:1fr}.df .info div{border-right:0;border-bottom:1px solid #e3ece6}.df .cards{grid-template-columns:1fr 1fr;gap:12px}.df .card{padding:20px 16px;min-height:0}
           .df .aboutgrid{grid-template-columns:1fr;gap:44px}.df .abwrap{grid-template-columns:1fr !important}.df .perks{border-left:0;padding-left:0;border-top:1px solid #d3dfd8;padding-top:24px}
           .df .testi{grid-template-columns:1fr;gap:18px;justify-items:center}.df .face{width:110px;height:110px}.df .qcard{padding:22px}.df .qcard p{font-size:18px}
           .df .arrs{display:flex;gap:12px}
@@ -177,9 +181,9 @@ export function DentalFold({ client }: { client?: { name?: string; whatsapp?: st
           <div className="toothwrap">
             <div className="dring" />
             <span className="script">Sorria com<br />confiança</span>
-            <img className="leaf" src="/dent-leaf.webp" alt="" style={{ width: 150, left: "4%", bottom: 10, transform: "rotate(-12deg)" }} />
+            <img className="leaf" src="/dent-leaf.webp" alt="" style={{ width: 110, left: "6%", bottom: 20, transform: "rotate(-12deg)" }} />
             <img className="t" src="/dent-tooth.webp" alt="Dente" />
-            <img className="leaf" src="/dent-leaf.webp" alt="" style={{ width: 130, right: -30, top: 40, transform: "rotate(160deg)" }} />
+            <img className="leaf" src="/dent-leaf.webp" alt="" style={{ width: 100, right: -10, top: 50, transform: "rotate(160deg)" }} />
           </div>
         </div>
       </section>
@@ -191,18 +195,22 @@ export function DentalFold({ client }: { client?: { name?: string; whatsapp?: st
         <div className="cards">
           {SVC.map((s) => (
             <button type="button" className="card" key={s.n} onClick={() => start(s.n)}>
-              <Ic d={s.ic} s={34} /><b>{s.n}</b><p>{s.d}</p><span className="go" aria-hidden>→</span>
+              <Ic d={s.ic} s={44} /><b>{s.n}</b><p>{s.d}</p><span className="more">Saiba mais <span className="go" aria-hidden>→</span></span>
             </button>
           ))}
         </div>
       </div></section>
+
+      <div className="wrap"><div className="info">
+        {[["Convênios", "Atendemos os principais planos. Consulte pelo WhatsApp."], ["Pagamento", "Pix, cartão e parcelamento em até 12x."], ["Horário", "Segunda a sexta, das 8h às 18h."]].map(([t, x]) => (<div key={t}><b>{t}</b><span>{x}</span></div>))}
+      </div></div>
 
       <section className="sec" id="clinica" style={{ paddingTop: 30 }}><div className="wrap aboutgrid" style={{ gridTemplateColumns: undefined }}>
         <div className="photo">
           <img className="p" src="/dent-clinic.webp" alt="Dentista atendendo paciente" loading="lazy" />
           <div className="safe"><Ic d="M16 3l11 4v8c0 7-5 12-11 14C10 27 5 22 5 15V7zM11 16l4 4 7-8" s={34} /><div><b>Seguro e confiável</b>Desde 2010</div></div>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1.1fr .9fr", gap: 30, alignItems: "center" }} className="abwrap">
+        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 24, alignItems: "center" }} className="abwrap">
           <div className="abt">
             <span className="tag">Sobre a {brand}</span>
             <h2>Sua clínica de <em>confiança</em></h2>
@@ -240,8 +248,8 @@ export function DentalFold({ client }: { client?: { name?: string; whatsapp?: st
       <footer id="contato"><div className="wrap">
         <div className="fr">
           <div className="logo"><Tooth s={30} />{brand}</div>
-          <nav><a onClick={() => go("top")}>Início</a><a onClick={() => go("servicos")}>Serviços</a><a onClick={() => go("clinica")}>A clínica</a><a onClick={() => go("depoimentos")}>Depoimentos</a><a href={`https://wa.me/${num}`} target="_blank" rel="noreferrer">WhatsApp</a></nav>
-          <div style={{ fontSize: 13.5, color: "#5a6f68", textAlign: "right" }}>Rua das Hortênsias, 210, Centro, {city}<br />Seg a sex, 8h às 18h<br />© 2026 {brand}</div>
+          <nav><a onClick={() => go("top")}>Início</a><a onClick={() => go("servicos")}>Serviços</a><a onClick={() => go("clinica")}>A clínica</a><a onClick={() => go("depoimentos")}>Depoimentos</a></nav>
+          <div style={{ fontSize: 15, color: "#2f4741", lineHeight: 1.6 }}>Rua das Hortênsias, 210, Centro, {city}<br />Seg a sex, 8h às 18h<br /><a href={`https://wa.me/${num}`} target="_blank" rel="noreferrer" style={{ color: D, fontWeight: 600 }}>Falar no WhatsApp</a><br />© 2026 {brand}</div>
         </div>
       </div></footer>
 
