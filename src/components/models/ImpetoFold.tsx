@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-/** Estúdio de pole dance e dança, construído do zero a partir de um pin de schedule tipográfico verde-água e rosa (condensada pesada + script, estrelas sparkle, filetes). Grade de horários como artefato central, sem fotos. */
+/** Estúdio de pole dance. Seção de horários refeita à risca do pin: palavra vertical rosa gigante, timeline com estrelas de 4 pontas, datas em Anton e texto vertical lateral. Estúdio de pole dance e dança, construído do zero a partir de um pin de schedule tipográfico verde-água e rosa (condensada pesada + script, estrelas sparkle, filetes). Grade de horários como artefato central, sem fotos. */
 const TEAL = "#15a08c", TEALD = "#0e7d6d", PINK = "#e7549b", PINKL = "#f492c2", NAVY = "#123a4e", CREAM = "#fbf6ec", CREAM2 = "#f3ead7", WHITE = "#fffdf8", GR = "#4a5c66";
 const GRADE = [
   { d: "SEG", full: "Segunda", classes: [ { h: "19h00", n: "Pole Sport", niv: "Iniciante" }, { h: "20h15", n: "Exotic Flow", niv: "Todos os níveis" } ] },
@@ -70,12 +70,12 @@ export function ImpetoFold({ client }: { client?: { name?: string; whatsapp?: st
           .imp .hero-g{grid-template-columns:1fr!important}
           .imp .desk-nav{display:none!important}
           .imp .vtext{display:none!important}
-          .imp .sched-day{font-size:44px!important}
-          .imp .sched-row{flex-wrap:wrap;gap:16px!important}
-          .imp .sched-row .sched-day{min-width:0!important}
-          .imp .sched-row>span[style*="flex: 1"]{flex-basis:100%!important}
-          .imp .sched-cls{flex-wrap:wrap!important;row-gap:4px!important}
-          .imp .sched-niv{margin-left:0!important;flex-basis:100%!important;text-align:left!important}
+          .imp .poster-word{display:none!important}
+          .imp .poster-line{left:113px!important}
+          .imp .poster-star{left:99px!important}
+          .imp .poster-row{gap:26px!important;padding:22px 0!important}
+          .imp .poster-day{min-width:100px!important}
+          .imp .poster-day span[style*="font-size: clamp(38px"]{font-size:36px!important}
           .imp .hdr-cta-full{display:none!important}
           .imp .hdr-cta-short{display:inline!important}
         }
@@ -128,34 +128,49 @@ export function ImpetoFold({ client }: { client?: { name?: string; whatsapp?: st
         </div>
       </section>
 
-      {/* horários — artefato no formato do pin */}
+      {/* horários — pôster à risca do pin: palavra vertical rosa gigante, timeline com estrelas de 4 pontas, datas em Anton, vtext lateral */}
       <section id="horarios" style={{ padding: "84px 0", background: TEALD, position: "relative", overflow: "hidden" }}>
-        <span className="vtext" style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)", color: "rgba(255,255,255,.9)" }}>aulas toda semana</span>
-        <div className="wrap">
-          <div style={{ textAlign: "center" }}>
-            <div style={{ fontFamily: display, fontSize: "clamp(46px,6vw,74px)", color: PINK, textTransform: "uppercase", lineHeight: 1 }}>Grade da semana</div>
-            <div style={{ fontFamily: script, fontSize: 34, color: WHITE, marginTop: 8 }}>com as professoras da casa</div>
-          </div>
-          <div style={{ maxWidth: 860, margin: "42px auto 0" }}>
-            {GRADE.map((g) => (
-              <div key={g.d} className="sched-row" style={{ position: "relative", display: "flex", gap: 26, alignItems: "center", padding: "24px 6px", borderTop: "2px solid rgba(255,255,255,.75)" }}>
-                <span style={{ position: "absolute", right: 22, top: -11, background: TEALD, padding: "0 8px", lineHeight: 1 }}><Spark s={14} c={PINK} /></span>
-                <span className="sched-day" style={{ fontFamily: display, fontSize: 60, color: PINK, minWidth: 150, lineHeight: 1 }}>{g.d}<span style={{ display: "block", fontFamily: "'Work Sans',sans-serif", fontSize: 12.5, fontWeight: 600, letterSpacing: 2.5, color: WHITE, textTransform: "uppercase", marginTop: 6 }}>{g.full}</span></span>
-                <Spark s={18} c={WHITE} />
-                <span style={{ flex: 1, display: "grid", gap: 14 }}>
-                  {g.classes.map((c) => (
-                    <span key={c.h + c.n} className="sched-cls" style={{ display: "flex", alignItems: "baseline", gap: 14, borderLeft: "3px solid " + PINK, paddingLeft: 14 }}>
-                      <span style={{ fontWeight: 700, fontSize: 15.5, color: WHITE, whiteSpace: "nowrap" }}>{c.h}</span>
-                      <span style={{ fontWeight: 600, fontSize: 15.5, color: WHITE, textTransform: "uppercase", letterSpacing: 1 }}>{c.n}</span>
-                      <span className="sched-niv" style={{ fontSize: 12.5, fontWeight: 600, color: "#ffffff", letterSpacing: 1.5, textTransform: "uppercase", marginLeft: "auto", textAlign: "right" }}>{c.niv}</span>
-                    </span>
-                  ))}
-                </span>
+        <span className="vtext" style={{ position: "absolute", right: 18, top: "50%", transform: "translateY(-50%)", color: "rgba(255,255,255,.75)", fontSize: 12 }}>Aulas particulares disponíveis</span>
+        <div className="wrap" style={{ display: "flex", gap: 34 }}>
+          <span className="poster-word" aria-hidden style={{ fontFamily: display, fontSize: "clamp(88px,10.5vw,142px)", lineHeight: .92, color: PINK, textTransform: "uppercase", writingMode: "vertical-rl", transform: "rotate(180deg)", alignSelf: "center", userSelect: "none" }}>Horários</span>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div className="poster-head" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 26, flexWrap: "wrap", borderBottom: "2px solid rgba(255,255,255,.8)", paddingBottom: 22 }}>
+              <div>
+                <div style={{ fontFamily: display, fontSize: "clamp(24px,2.6vw,34px)", color: WHITE, textTransform: "uppercase", lineHeight: 1 }}>{brand.split(" ")[0]}</div>
+                <div style={{ fontFamily: script, fontSize: "clamp(34px,4vw,48px)", color: PINKL, lineHeight: 1.05 }}>{brand.split(" ").slice(1).join(" ") || brand}</div>
+                <div style={{ fontSize: 12.5, fontWeight: 700, letterSpacing: 2.6, textTransform: "uppercase", color: WHITE, marginTop: 8 }}>{city}</div>
               </div>
-            ))}
-            <div style={{ position: "relative", borderTop: "2px solid rgba(255,255,255,.75)" }}><span style={{ position: "absolute", right: 22, top: -11, background: TEALD, padding: "0 8px", lineHeight: 1 }}><Spark s={14} c={PINK} /></span></div>
+              <div style={{ textAlign: "right" }}>
+                <div style={{ fontFamily: display, fontSize: "clamp(44px,5.6vw,72px)", color: PINK, textTransform: "uppercase", lineHeight: .95 }}>Toda semana</div>
+                <div style={{ fontSize: "clamp(14px,1.6vw,19px)", fontWeight: 700, letterSpacing: 6, textTransform: "uppercase", color: WHITE, marginTop: 6 }}>4 dias de aula</div>
+                <div style={{ marginTop: 8, fontSize: 16, color: WHITE }}>Instrução: <span style={{ fontFamily: script, fontSize: 22, color: "#a5dff0" }}>Professoras da casa</span></div>
+              </div>
+            </div>
+            <div style={{ position: "relative", marginTop: 8 }}>
+              <span aria-hidden style={{ position: "absolute", top: 0, bottom: 0, left: 172, width: 2, background: PINK }} className="poster-line" />
+              {GRADE.map((g) => (
+                <div key={g.d} className="poster-row" style={{ position: "relative", display: "flex", gap: 44, padding: "26px 0" }}>
+                  <span style={{ position: "absolute", left: 158, top: 30, background: TEALD, padding: 4, lineHeight: 1 }} className="poster-star"><Spark s={20} c={PINK} /></span>
+                  <span className="poster-day" style={{ minWidth: 150, textAlign: "right" }}>
+                    <span style={{ fontFamily: display, fontSize: "clamp(38px,4.4vw,56px)", color: PINK, lineHeight: 1, display: "block" }}>{g.d}</span>
+                    <span style={{ display: "block", fontSize: 11.5, fontWeight: 700, letterSpacing: 2.4, color: "rgba(255,255,255,.85)", textTransform: "uppercase", marginTop: 6 }}>{g.full}</span>
+                  </span>
+                  <span style={{ flex: 1, minWidth: 0, display: "grid", gap: 0 }}>
+                    {g.classes.map((c, ci) => (
+                      <span key={c.h + c.n} style={{ display: "block", padding: ci === 0 ? "0 0 14px" : "14px 0 0", borderTop: ci === 0 ? "none" : "1.5px solid rgba(255,255,255,.65)" }}>
+                        <span style={{ display: "block", fontWeight: 700, fontSize: 16, color: WHITE, letterSpacing: 1 }}>{c.h}</span>
+                        <span style={{ display: "block", fontSize: 12, fontWeight: 600, letterSpacing: 2.2, textTransform: "uppercase", color: "rgba(255,255,255,.8)", marginTop: 2 }}>{c.niv}</span>
+                        <span style={{ display: "block", fontFamily: display, fontSize: 21, textTransform: "uppercase", color: PINKL, letterSpacing: 1.5, marginTop: 3 }}>{c.n}</span>
+                      </span>
+                    ))}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <div style={{ borderTop: "2px solid rgba(255,255,255,.8)", paddingTop: 18, textAlign: "center" }}>
+              <a href={wa("Olá! Quero agendar minha aula experimental gratuita no " + brand + ".")} style={{ fontSize: 13.5, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: PINKL, textDecoration: "none" }}>Primeira aula grátis · chama no WhatsApp</a>
+            </div>
           </div>
-          <p style={{ textAlign: "center", marginTop: 26, color: WHITE, fontSize: 14.5 }}>Aulas particulares e turmas de level-up fora da grade: <a style={{ color: "#ffffff", fontWeight: 700, textDecoration: "underline", textUnderlineOffset: 3 }} href={wa("Olá! Quero saber sobre aulas particulares no " + brand + ".")}>chama no WhatsApp</a>.</p>
         </div>
       </section>
 
