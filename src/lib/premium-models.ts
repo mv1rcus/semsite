@@ -12,9 +12,10 @@ export const PHOTO = {
   bread: "photo-1509440159596-0249088772ff", clinic: "photo-1519494026892-80bbd2d6fd0d",
 } as const;
 
-const LIVE_PREMIUM = ["brasa-e-pao"]; // modelos refeitos no padrao novo e liberados
+const LIVE_PREMIUM = ["brasa-e-pao", "focinho-feliz"]; // modelos refeitos no padrao novo e liberados
 const ALL_PREMIUM: PremiumModel[] = [
   { id: "brasa-e-pao", ramo: "hamburgueria", ramoLabel: "Hamburgueria", style: "Escuro com tipo gigante atrás do burger recortado", name: "Brasa&Pão", city: "Campinas", cover: "/brasa-cover.jpg", accent: "#ff5a1f", tags: ["hamburguer", "burger", "lanchonete", "smash", "escuro", "delivery"] },
+  { id: "focinho-feliz", ramo: "pet", ramoLabel: "Pet shop", style: "Claro e verde, loja com carrinho e ofertas", name: "Focinho Feliz", city: "Curitiba", cover: "/pet-cover.jpg", accent: "#16491c", tags: ["pet", "petshop", "racao", "cachorro", "loja", "verde", "claro", "ecommerce"] },
   { id: "smash-poster", ramo: "poster", ramoLabel: "Hamburgueria", style: "Pôster com tipo gigante e parallax", name: "Smash Poster", city: "São Paulo", cover: PHOTO.burger1, accent: "#ef3b2d", tags: ["hamburguer", "burger", "poster", "tipografia", "parallax", "escuro"] },
   { id: "amigo-fiel", ramo: "pet", ramoLabel: "Pet shop", style: "Pôster colorido com tipo gigante", name: "Amigo Fiel", city: "Curitiba", cover: PHOTO.dog, accent: "#ff7a1a", tags: ["pet", "petshop", "cachorro", "veterinaria", "poster", "colorido"] },
   { id: "studio-fio", ramo: "salao", ramoLabel: "Salão de beleza", style: "Editorial rosé", name: "Studio Fio", city: "Belo Horizonte", cover: PHOTO.salon, accent: "#b5546b", tags: ["salao", "beleza", "cabelo", "estetica", "editorial", "claro"] },
