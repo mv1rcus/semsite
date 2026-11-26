@@ -1,4 +1,4 @@
-export type PremiumKey = "poster" | "salao" | "pet" | "advocacia" | "oficina" | "imobiliaria" | "hamburgueria" | "pizzaria" | "barbearia" | "academia" | "restaurante" | "dentista" | "cafeteria";
+export type PremiumKey = "poster" | "salao" | "pet" | "advocacia" | "oficina" | "imobiliaria" | "hamburgueria" | "pizzaria" | "barbearia" | "academia" | "restaurante" | "dentista" | "cafeteria" | "tatuagem";
 export type PremiumModel = { id: string; ramo: PremiumKey; ramoLabel: string; style: string; name: string; city: string; cover: string; accent: string; tags: string[] };
 
 export const img = (id: string, w = 1200, h?: number) => `https://images.unsplash.com/${id}?w=${w}${h ? `&h=${h}` : ""}&q=75&auto=format&fit=crop`;
@@ -12,7 +12,7 @@ export const PHOTO = {
   bread: "photo-1509440159596-0249088772ff", clinic: "photo-1519494026892-80bbd2d6fd0d",
 } as const;
 
-const LIVE_PREMIUM = ["brasa-e-pao", "focinho-feliz", "dom-navalha", "sorriso-verde", "forca-viva", "grao-e-prosa", "toledo-azevedo"]; // modelos refeitos no padrao novo e liberados
+const LIVE_PREMIUM = ["brasa-e-pao", "focinho-feliz", "dom-navalha", "sorriso-verde", "forca-viva", "grao-e-prosa", "toledo-azevedo", "tinta-rara"]; // modelos refeitos no padrao novo e liberados
 const ALL_PREMIUM: PremiumModel[] = [
   { id: "brasa-e-pao", ramo: "hamburgueria", ramoLabel: "Hamburgueria", style: "Escuro com tipo gigante atrás do burger recortado", name: "Brasa&Pão", city: "Campinas", cover: "/brasa-cover.jpg", accent: "#ff5a1f", tags: ["hamburguer", "burger", "lanchonete", "smash", "escuro", "delivery"] },
   { id: "focinho-feliz", ramo: "pet", ramoLabel: "Pet shop", style: "Claro e verde, loja com carrinho e ofertas", name: "Focinho Feliz", city: "Curitiba", cover: "/pet-cover.jpg", accent: "#16491c", tags: ["pet", "petshop", "racao", "cachorro", "loja", "verde", "claro", "ecommerce"] },
@@ -21,6 +21,7 @@ const ALL_PREMIUM: PremiumModel[] = [
   { id: "forca-viva", ramo: "academia", ramoLabel: "Academia", style: "Escuro em preto e verde limão, com aula experimental", name: "Força Viva", city: "Goiânia", cover: "/gym-cover.jpg", accent: "#c8f230", tags: ["academia", "musculacao", "treino", "fitness", "escuro", "verde", "agendamento"] },
   { id: "grao-e-prosa", ramo: "cafeteria", ramoLabel: "Cafeteria", style: "Claro em creme e marrom, com reserva de mesa", name: "Grão & Prosa", city: "Belo Horizonte", cover: "/cafe-cover.jpg", accent: "#a4501f", tags: ["cafeteria", "cafe", "padaria", "claro", "marrom", "agendamento"] },
   { id: "toledo-azevedo", ramo: "advocacia", ramoLabel: "Advocacia", style: "Azul marinho e dourado, com consulta agendada", name: "Toledo & Azevedo", city: "Recife", cover: "/law-cover.jpg", accent: "#c9a24b", tags: ["advogado", "advocacia", "juridico", "escritorio", "azul", "dourado", "agendamento"] },
+  { id: "tinta-rara", ramo: "tatuagem", ramoLabel: "Estúdio de tatuagem", style: "Escuro com turquesa, arco no hero e agendamento", name: "Tinta Rara", city: "Salvador", cover: "/tat-cover.jpg", accent: "#1dbb9a", tags: ["tatuagem", "tattoo", "tatuador", "estudio", "escuro", "turquesa", "agendamento", "piercing"] },
   { id: "smash-poster", ramo: "poster", ramoLabel: "Hamburgueria", style: "Pôster com tipo gigante e parallax", name: "Smash Poster", city: "São Paulo", cover: PHOTO.burger1, accent: "#ef3b2d", tags: ["hamburguer", "burger", "poster", "tipografia", "parallax", "escuro"] },
   { id: "amigo-fiel", ramo: "pet", ramoLabel: "Pet shop", style: "Pôster colorido com tipo gigante", name: "Amigo Fiel", city: "Curitiba", cover: PHOTO.dog, accent: "#ff7a1a", tags: ["pet", "petshop", "cachorro", "veterinaria", "poster", "colorido"] },
   { id: "studio-fio", ramo: "salao", ramoLabel: "Salão de beleza", style: "Editorial rosé", name: "Studio Fio", city: "Belo Horizonte", cover: PHOTO.salon, accent: "#b5546b", tags: ["salao", "beleza", "cabelo", "estetica", "editorial", "claro"] },
@@ -43,7 +44,7 @@ export const getPremium = (id: string) => PREMIUM_MODELS.find((m) => m.id === id
 const SYN: Record<string, string> = {
   hamburgueria: "hamburgueria hamburguer hambúrguer burger lanche lanchonete smash", pizzaria: "pizzaria pizza pizzaiolo forno", barbearia: "barbearia barbeiro barba corte cabelo masculino",
   academia: "academia musculação treino fitness crossfit", restaurante: "restaurante comida almoço jantar gastronomia", dentista: "dentista odontologia odonto clínica sorriso saúde",
-  cafeteria: "cafeteria café padaria confeitaria doceria", poster: "hamburgueria hamburguer hambúrguer burger lanche smash pôster", salao: "salão beleza cabelo cabeleireiro estética manicure unhas",
+  cafeteria: "cafeteria café padaria confeitaria doceria", tatuagem: "tatuagem tattoo tatuador tatuadora estúdio piercing tinta", poster: "hamburgueria hamburguer hambúrguer burger lanche smash pôster", salao: "salão beleza cabelo cabeleireiro estética manicure unhas",
   pet: "pet petshop pet shop cachorro gato veterinária banho tosa", advocacia: "advocacia advogado jurídico escritório direito", oficina: "oficina mecânica carro auto automotivo", imobiliaria: "imobiliária imóveis imóvel casa apartamento corretor aluguel",
 };
 const norm = (t: string) => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
