@@ -194,7 +194,7 @@ export function BurgerPopFold({ client }: { client?: { name?: string; whatsapp?:
         @media(min-width:861px){.bp .mnav{display:none}}
 
         .bp .hero2{position:relative;background:#3b0b0e;color:#fff;overflow:hidden;min-height:clamp(560px,58vw,860px)}
-        .bp .hbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 50%}
+        .bp .hbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:0% 50%}
         .bp .hsh{position:absolute;inset:0;background:linear-gradient(90deg,rgba(40,6,8,.82) 0%,rgba(40,6,8,.45) 40%,rgba(40,6,8,0) 70%),linear-gradient(180deg,rgba(40,6,8,.4),rgba(40,6,8,0) 30%)}
         .bp .hin2{position:relative;z-index:2;padding-bottom:140px}
         .bp .hero2 .logo{color:#fff}
@@ -208,8 +208,8 @@ export function BurgerPopFold({ client }: { client?: { name?: string; whatsapp?:
         .bp .torn.b{bottom:-1px}.bp .torn.t{top:-1px}.bp .torn.bo{bottom:-1px}
         .bp .fresh{padding:6px 0 14px}
         .bp .fresh h2{font-weight:800}
-        .bp .orange{position:relative;background:#e7992f;padding:26px 0 30px}
-        .bp .trio{display:block;width:100%;max-width:1440px;aspect-ratio:2.7/1;object-fit:cover;object-position:50% 46%;margin:0 auto;-webkit-mask-image:radial-gradient(ellipse 62% 70% at 50% 50%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 62% 70% at 50% 50%,#000 55%,transparent 100%)}
+        .bp .orange{position:relative;background:#d9942a;padding:0}
+        .bp .trio{display:block;width:100%;max-width:1440px;aspect-ratio:3/1;object-fit:cover;object-position:50% 50%;margin:0 auto}
         .bp .trio-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
         .bp .chip{background:#fff;color:${INK};border:0;border-radius:999px;padding:11px 18px;font-weight:800;font-size:13.5px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.15)}
         .bp .chip:hover{background:${CR}}
