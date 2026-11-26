@@ -97,7 +97,7 @@ export function BikeFold({ client }: { client?: { name?: string; whatsapp?: stri
         .bk0 a,.bk0 button{font-family:inherit}
         .bk0 .wrap{max-width:1120px;margin:0 auto;padding:0 32px}
         .bk0 .nav{display:flex;align-items:center;justify-content:space-between;height:74px;padding:0 40px;position:relative;z-index:5}
-        .bk0 .logo{font-weight:900;font-size:23px;letter-spacing:-.04em;text-transform:uppercase;display:flex;align-items:center;gap:8px}.bk0 .logo:before{content:"";width:14px;height:14px;border-radius:50%;background:#ffc400;border:3px solid #111}
+        .bk0 .logo{font-family:'Times New Roman',Georgia,serif;font-weight:700;font-size:20px;letter-spacing:.04em;text-transform:uppercase}
         .bk0 .links{display:flex;gap:42px;font-size:13px;font-weight:700}
         .bk0 .links a{color:${INK};cursor:pointer}
         .bk0 .ico{display:flex;gap:18px;align-items:center;font-size:13px;font-weight:700}
@@ -111,7 +111,7 @@ export function BikeFold({ client }: { client?: { name?: string; whatsapp?: stri
         .bk0 .blob{position:absolute;left:0;top:0;width:62%;height:100%;z-index:0}
         .bk0 .rider{position:relative;z-index:1;width:100%;max-width:640px;height:auto;margin-left:30px}
         .bk0 .ht{position:relative;z-index:2;padding-left:10px}
-        .bk0 h1{font-weight:900;font-size:clamp(40px,5.6vw,72px);line-height:1.04;letter-spacing:-.03em;margin:0 0 26px;text-align:right}
+        .bk0 h1{font-family:'Montserrat',system-ui,sans-serif;font-weight:800;font-size:clamp(38px,5vw,66px);line-height:1.08;letter-spacing:-.02em;margin:0 0 26px;text-align:right}
         .bk0 .ht p{font-size:14.5px;line-height:1.75;color:${MUT};margin:0 0 30px;text-align:right;max-width:440px;margin-left:auto}
         .bk0 .acts{display:flex;gap:18px;justify-content:flex-end;align-items:center}
         .bk0 .play{width:54px;height:54px;border-radius:50%;border:2px solid ${INK};display:grid;place-items:center;background:#fff;cursor:pointer}
@@ -173,7 +173,7 @@ export function BikeFold({ client }: { client?: { name?: string; whatsapp?: stri
         <svg className="blob" viewBox="0 0 700 640" preserveAspectRatio="none" aria-hidden><path d="M0 0H470c120 70 150 190 90 290-24 40-10 90 40 120 50 30 40 100-40 130-60 20-140 20-200 100H0z" fill={Y} /></svg>
         <Rider />
         <div className="ht">
-          <h1>O mundo é seu. Pedala!</h1>
+          <h1>O mundo é seu.<br />Pedala!</h1>
           <p>Bikes novas e seminovas, oficina com orçamento antes de mexer e passeios em grupo toda semana em {city}. Para quem quer começar e para quem nunca parou.</p>
           <div className="acts"><a className="play" href="#passeios" onClick={(e) => { e.preventDefault(); go("passeios"); }} aria-label="Ver passeios" title="Ver passeios"><svg width="16" height="18" viewBox="0 0 16 18"><path d="M2 1l13 8-13 8z" fill={INK} /></svg></a><a className="btn" href={wa("uma bike")} target="_blank" rel="noreferrer">Quero uma bike</a></div>
           <div className="dots"><i /><i /><i /><i /></div>
