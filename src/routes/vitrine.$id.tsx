@@ -4,7 +4,7 @@ import { CerimonialFold } from "@/components/models/CerimonialFold";
 import { BuffetFold } from "@/components/models/BuffetFold";
 import { MusicaFold } from "@/components/models/MusicaFold";
 import { AutoescolaFold } from "@/components/models/AutoescolaFold";
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 import { useFollowUp } from "@/lib/use-follow-up";
 import { senderIntro } from "@/lib/message";
@@ -78,7 +78,7 @@ export const Route = createFileRoute("/vitrine/$id")({
     ...(typeof s["w"] === "string" ? { w: s["w"].replace(/\D/g, "").slice(0, 15) } : {}),
     ...(typeof s["c"] === "string" ? { c: s["c"].slice(0, 60) } : {}),
   }),
-  loader: ({ params }) => { const m = getPremium(params.id) ?? getModel(params.id); if (!m) throw notFound(); return m.id; },
+  loader: ({ params }) => { if (params.id === "silva-lima") throw redirect({ to: "/vitrine/$id", params: { id: "toledo-azevedo" } }); const m = getPremium(params.id) ?? getModel(params.id); if (!m) throw notFound(); return m.id; },
   head: ({ params }) => { const m = getPremium(params.id) ?? getModel(params.id); return { meta: [{ title: `${m ? m.ramoLabel : "Modelo"} | Vitrine SemSite` }, { name: "robots", content: "noindex" }] }; },
   notFoundComponent: () => <main className="p-8 text-center"><h1 className="text-2xl font-bold">Modelo não encontrado</h1><Link to="/vitrine" className="mt-4 inline-block underline">Voltar para a vitrine</Link></main>,
   component: Viewer,
