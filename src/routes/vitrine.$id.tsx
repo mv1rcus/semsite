@@ -61,10 +61,9 @@ function Viewer() {
           <div className="mx-auto mt-2 max-w-5xl rounded-xl border border-border bg-card p-2">
             <div className="flex items-center gap-2">
               <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar entre quem já recebeu mensagem" aria-label="Buscar cliente" className={field} />
-              <button type="button" onClick={() => sendTo(null)} className={btn}><Send className="size-4" />Escolher no WhatsApp</button>
             </div>
             <ul className="mt-2 max-h-56 overflow-auto">
-              {shown.length === 0 && <li className="px-2 py-3 text-sm text-muted-foreground">Nenhum cliente com mensagem enviada ainda. Marque como Contatado na aba Clientes ou use "Escolher no WhatsApp".</li>}
+              {shown.length === 0 && <li className="px-2 py-3 text-sm text-muted-foreground">Nenhum cliente com mensagem enviada ainda. Marque como Contatado na aba Clientes.</li>}
               {shown.map((c) => (
                 <li key={c.id}><button type="button" onClick={() => sendTo(c)} className="flex w-full items-center justify-between gap-2 rounded-lg px-2 py-2 text-left text-sm hover:bg-muted"><span className="min-w-0 truncate font-bold">{c.name}</span><span className="inline-flex shrink-0 items-center gap-1 text-xs font-bold text-[#25D366]"><Send className="size-3.5" />Enviar</span></button></li>
               ))}

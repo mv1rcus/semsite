@@ -3,6 +3,7 @@ import { Poster, Salao, Pet, Advocacia, Oficina, Imobiliaria } from "@/component
 import { PHOTO, img, type PremiumModel } from "@/lib/premium-models";
 import type { ModelClient } from "@/lib/site-models";
 import { Frame, ListPage, GalleryPage, BuilderPage, AboutPage, ContactPage, HomeExtras, waLink } from "@/components/PremiumPages";
+import { Hero } from "@/components/PremiumHeroes";
 import { BUILDERS } from "@/lib/premium-config";
 
 export const wa = (c: ModelClient) => waLink(c);
@@ -121,6 +122,6 @@ export function PremiumSite({ model, client }: { model: PremiumModel; client: Mo
   const n = client.name?.trim() || model.name;
   const C = { poster: Poster, salao: Salao, pet: Pet, advocacia: Advocacia, oficina: Oficina, imobiliaria: Imobiliaria, hamburgueria: Hamburgueria, pizzaria: Pizzaria, barbearia: Barbearia, academia: Academia, restaurante: Restaurante, dentista: Dentista, cafeteria: Cafeteria }[model.ramo];
   const c = { ...client, city: client.city?.trim() || model.city };
-  const body = page === "list" ? <ListPage model={model} client={c} /> : page === "gallery" ? <GalleryPage model={model} client={c} /> : page === "builder" && BUILDERS[model.id] ? <BuilderPage model={model} client={c} name={n} /> : page === "about" ? <AboutPage model={model} client={c} /> : page === "contact" ? <ContactPage model={model} client={c} name={n} /> : <><C n={n} c={c} /><HomeExtras model={model} client={c} name={n} /></>;
+  const body = page === "list" ? <ListPage model={model} client={c} /> : page === "gallery" ? <GalleryPage model={model} client={c} /> : page === "builder" && BUILDERS[model.id] ? <BuilderPage model={model} client={c} name={n} /> : page === "about" ? <AboutPage model={model} client={c} /> : page === "contact" ? <ContactPage model={model} client={c} name={n} /> : <><Hero model={model} client={c} name={n} go={setPage} /><HomeExtras model={model} client={c} name={n} go={setPage} /></>;
   return <div ref={ref} className="ps" style={{ overflowX: "clip" }}><Fonts /><Frame model={model} name={n} client={c} page={page} setPage={setPage} home={page === "home"}>{body}</Frame></div>;
 }
