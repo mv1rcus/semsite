@@ -15,6 +15,7 @@ import { InglesFold } from "@/components/models/InglesFold";
 import { CoworkFold } from "@/components/models/CoworkFold";
 import { MotoFold } from "@/components/models/MotoFold";
 import { BlackFold } from "@/components/models/BlackFold";
+import { AgroFold } from "@/components/models/AgroFold";
 import { CinzaFold } from "@/components/models/CinzaFold";
 import { ViolaoFold } from "@/components/models/ViolaoFold";
 import { FotoFold } from "@/components/models/FotoFold";
@@ -91,6 +92,7 @@ else if (__MODEL__ === "studio-era") root.render(<SalonFold client={cfg.client} 
 else if (__MODEL__ === "casa-petala") root.render(<FloraFold client={cfg.client} />);
 else if (__MODEL__ === "fluxo-cowork") root.render(<CoworkFold client={cfg.client} />);
 else if (__MODEL__ === "garagem-74") root.render(<MotoFold client={cfg.client} />);
+else if (__MODEL__ === "agro-nova") root.render(<AgroFold client={cfg.client} />);
 else if (__MODEL__ === "nuvora") root.render(<BlackFold client={cfg.client} />);
 else if (__MODEL__ === "atelie-cinza") root.render(<CinzaFold client={cfg.client} />);
 else if (__MODEL__ === "tom-maior") root.render(<ViolaoFold client={cfg.client} />);
