@@ -37,7 +37,7 @@ export function BurgerFold({ client }: { client?: { name?: string; whatsapp?: st
   return (
     <div className="bf" style={{ background: BG, color: FG, fontFamily: "Inter, system-ui, sans-serif", overflowX: "hidden" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Inter:wght@400;600;800&display=swap');
         .bf a{color:inherit;text-decoration:none}
         .bf-nav{display:flex;gap:28px;font-size:14px;opacity:.85;text-transform:none}
         .bf-hero{position:relative;min-height:min(calc(100vh - 80px),820px);display:grid;place-items:center}
