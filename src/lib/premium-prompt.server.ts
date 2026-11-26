@@ -1,6 +1,7 @@
 import type { PremiumKey, PremiumModel } from "./premium-models";
 
 const SECTIONS: Record<PremiumKey, string> = {
+  bikemove: "hero amarelo e azul com ciclista, linha de 4 bikes em cards inclinados, destaque numerado com comparativo, planejador de rotas, acessórios e revisão",
   pneuneon: "hero preto com pneu gigante e supercarro verde-limão, 4 cards de modelos, pneus em destaque, faixa de desempenho, benefícios e busca de encaixe pelo WhatsApp",
   sorvglass: "hero menta em vidro fosco com pote em foto recortada, faixa rosa com história e 4 cards de vidro, faixa creme com 3 sabores em casquinha, faixa vinho com carrinho em vidro e pedido no WhatsApp",
   dancaest: "hero preto com título itálico gigante e dançarina recortada na frente, cards de próximas aulas, grade semanal em caixas, vídeos e rodapé cinza-claro com aula experimental em 4 passos",
