@@ -39,7 +39,7 @@ export function AticoFold({ client }: { client?: { name?: string; whatsapp?: str
         .atico .navlink:hover{opacity:1}
         .atico .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
         .atico .card img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
-        .atico .card h3{font-family:'Playfair Display',serif;font-weight:500;font-size:19px;letter-spacing:.1em;margin:22px 0 14px;text-align:center}
+        .atico .card h3{font-family:'Playfair Display',serif;font-weight:500;font-size:19px;letter-spacing:.1em;margin:22px 0 14px;text-align:center;color:#f3efe6}
         .atico .card p{font-size:13.5px;line-height:1.75;color:${CRMUT};margin:0;text-align:center}
         @media (max-width: 1020px){ .atico .cards{grid-template-columns:repeat(2,1fr)} }
         @media (max-width: 900px){
