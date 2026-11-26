@@ -20,7 +20,6 @@ if (new Set(ids).size !== ids.length) bad("ID duplicado dentro de LIVE_PREMIUM")
 
 const route = read("src/routes/vitrine.$id.tsx");
 const build = read("scripts/build-standalone.mjs");
-const loaders = read("src/lib/vitrine.functions.ts");
 
 // 2. uma declaração MODELS só (o duplicado de const quebrou o build uma vez)
 const modelsDecls = count(build, "const MODELS");
@@ -37,21 +36,22 @@ for (const id of ids) {
   const inModels = count(build, `"${id}":`);
   if (inModels !== 1) bad(`build-standalone.mjs: MODELS["${id}"] aparece ${inModels}x (esperado 1)`);
 
-  const inLoaders = count(loaders, `"${id}":`);
-  if (inLoaders !== 1) bad(`vitrine.functions.ts: loader "${id}" aparece ${inLoaders}x (esperado 1)`);
-
-  const html = `src/lib/standalone-html/${id}.html`;
-  if (!fs.existsSync(html)) bad(`${html} não existe (rode node scripts/build-standalone.mjs)`);
-  else if (fs.statSync(html).size < 20000) bad(`${html} tem só ${fs.statSync(html).size} bytes — placeholder não substituído?`);
+  // o html do modelo vive cifrado na branch `assets` (fora do worker)
+  const blobUrl = `https://raw.githubusercontent.com/mv1rcus/semsite/assets/${id}.bin`;
+  try {
+    const r = await fetch(blobUrl, { method: "HEAD" });
+    const len = Number(r.headers.get("content-length") || 0);
+    if (!r.ok) bad(`${blobUrl} responde ${r.status} (rode node scripts/build-standalone.mjs, pack-assets e push-assets)`);
+    else if (len < 5000) bad(`${blobUrl} tem só ${len} bytes`);
+  } catch (e) { bad(`${blobUrl}: falha de rede (${e.message})`); }
 
   const cover = `public/cover-locked-${id}.jpg`;
   if (!fs.existsSync(cover)) bad(`${cover} não existe`);
 }
 
-// 4. HTMLs e loaders órfãos (entrada sem modelo live)
-const orphanLoaders = [...loaders.matchAll(/"([a-z0-9-]+)": \(\) => import\("\.\/standalone-html\//g)]
-  .map((m) => m[1]).filter((id) => !ids.includes(id));
-if (orphanLoaders.length) bad(`loaders órfãos (não estão em LIVE_PREMIUM): ${orphanLoaders.join(", ")}`);
+// 4. nenhum .html pode voltar para src/lib/standalone-html (estoura o limite do worker)
+const strayHtml = fs.existsSync("src/lib/standalone-html") ? fs.readdirSync("src/lib/standalone-html").filter((f) => f.endsWith(".html")) : [];
+if (strayHtml.length) bad(`src/lib/standalone-html não pode ter .html (limite do worker): ${strayHtml.join(", ")}. O build-standalone grava em standalone/html e o push-assets sobe cifrado.`);
 
 if (fail.length) {
   console.error(`\n${fail.length} problema(s) de fiação. NÃO publique até resolver.`);

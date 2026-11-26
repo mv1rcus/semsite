@@ -43,75 +43,19 @@ export const listVitrine = createServerFn({ method: "GET" })
     };
   });
 
-const HTML_LOADERS: Record<string, () => Promise<{ default: string }>> = {
-  "voltar-pneus": () => import("./standalone-html/voltar-pneus.html?raw"),
-  "neve-doce": () => import("./standalone-html/neve-doce.html?raw"),
-  "fluxo-urbano": () => import("./standalone-html/fluxo-urbano.html?raw"),
-  "recanto-verde": () => import("./standalone-html/recanto-verde.html?raw"),
-  "aurora-lima": () => import("./standalone-html/aurora-lima.html?raw"),
-  "casa-ameixa": () => import("./standalone-html/casa-ameixa.html?raw"),
-  "escola-compasso": () => import("./standalone-html/escola-compasso.html?raw"),
-  "rota-certa": () => import("./standalone-html/rota-certa.html?raw"),
-  "focinho-feliz": () => import("./standalone-html/focinho-feliz.html?raw"),
-  "brasa-e-pao": () => import("./standalone-html/brasa-e-pao.html?raw"),
-  "dom-navalha": () => import("./standalone-html/dom-navalha.html?raw"),
-  "fluxo-cowork": () => import("./standalone-html/fluxo-cowork.html?raw"),
-  "jato-azul": () => import("./standalone-html/jato-azul.html?raw"),
-  "pano-limpo": () => import("./standalone-html/pano-limpo.html?raw"),
-  "cobalto-grafica": () => import("./standalone-html/cobalto-grafica.html?raw"),
-  "caldeira-brava": () => import("./standalone-html/caldeira-brava.html?raw"),
-  "gota-viva": () => import("./standalone-html/gota-viva.html?raw"),
-  "casa-vinha": () => import("./standalone-html/casa-vinha.html?raw"),
-  "roda-livre": () => import("./standalone-html/roda-livre.html?raw"),
-  "grao-e-prosa": () => import("./standalone-html/grao-e-prosa.html?raw"),
-  "ponte-ingles": () => import("./standalone-html/ponte-ingles.html?raw"),
-  "toledo-azevedo": () => import("./standalone-html/toledo-azevedo.html?raw"),
-  "casa-petala": () => import("./standalone-html/casa-petala.html?raw"),
-  "forno-lume": () => import("./standalone-html/forno-lume.html?raw"),
-  "agro-nova": () => import("./standalone-html/agro-nova.html?raw"),
-  "nuvora": () => import("./standalone-html/nuvora.html?raw"),
-  "atelie-cinza": () => import("./standalone-html/atelie-cinza.html?raw"),
-  "tom-maior": () => import("./standalone-html/tom-maior.html?raw"),
-  "nina-albuquerque": () => import("./standalone-html/nina-albuquerque.html?raw"),
-  "estudio-linho": () => import("./standalone-html/estudio-linho.html?raw"),
-  "garagem-74": () => import("./standalone-html/garagem-74.html?raw"),
-  "atelie-seda": () => import("./standalone-html/atelie-seda.html?raw"),
-  "folha-corrida": () => import("./standalone-html/folha-corrida.html?raw"),
-  "alto-corte": () => import("./standalone-html/alto-corte.html?raw"),
-  "doce-pomar": () => import("./standalone-html/doce-pomar.html?raw"),
-  "volt-e-som": () => import("./standalone-html/volt-e-som.html?raw"),
-  "risco-e-rabisco": () => import("./standalone-html/risco-e-rabisco.html?raw"),
-  "formas-moles": () => import("./standalone-html/formas-moles.html?raw"),
-  "remix": () => import("./standalone-html/remix.html?raw"),
-  "patas-e-cores": () => import("./standalone-html/remix.html?raw"),
-  "milky-mix": () => import("./standalone-html/milky-mix.html?raw"),
-  "massa-mae": () => import("./standalone-html/massa-mae.html?raw"),
-  "sorriso-verde": () => import("./standalone-html/sorriso-verde.html?raw"),
-  "forca-viva": () => import("./standalone-html/forca-viva.html?raw"),
-  "studio-era": () => import("./standalone-html/studio-era.html?raw"),
-  "tinta-rara": () => import("./standalone-html/tinta-rara.html?raw"),
-  "ferro-e-tinta": () => import("./standalone-html/ferro-e-tinta.html?raw"),
-  "pelo-e-pata": () => import("./standalone-html/pelo-e-pata.html?raw"),
-  "marina-costa": () => import("./standalone-html/marina-costa.html?raw"),
-  "otica-prisma": () => import("./standalone-html/otica-prisma.html?raw"),
-  "serra-do-vento": () => import("./standalone-html/serra-do-vento.html?raw"),
-  "burgeria-pop": () => import("./standalone-html/burgeria-pop.html?raw"),
-  "horizonte-prime": () => import("./standalone-html/horizonte-prime.html?raw"),
-  "farmacia-savia": () => import("./standalone-html/farmacia-savia.html?raw"),
-  "clinica-meridian": () => import("./standalone-html/clinica-meridian.html?raw"),
-  "escolinha-bola-pra-frente": () => import("./standalone-html/escolinha-bola-pra-frente.html?raw"),
-  "escola-cardume": () => import("./standalone-html/escola-cardume.html?raw"),
-  "assessoria-folego": () => import("./standalone-html/assessoria-folego.html?raw"),
-  "casa-bandoneon": () => import("./standalone-html/casa-bandoneon.html?raw"),
-  "vao-arquitetura": () => import("./standalone-html/vao-arquitetura.html?raw"),
-  "estudio-impeto": () => import("./standalone-html/estudio-impeto.html?raw"),
-  "estudio-toque": () => import("./standalone-html/estudio-toque.html?raw"),
-  "estudio-serena": () => import("./standalone-html/estudio-serena.html?raw"),
-  "raiz-yoga": () => import("./standalone-html/raiz-yoga.html?raw"),
-  "vetor-contabilidade": () => import("./standalone-html/vetor-contabilidade.html?raw"),
-  "daniela-rocha": () => import("./standalone-html/daniela-rocha.html?raw"),
-  "livia-prado": () => import("./standalone-html/livia-prado.html?raw"),
-};
+/** Os htmls dos modelos ficam FORA do worker: blobs cifrados (gzip + AES-256-GCM) na branch `assets` do repo. So o servidor tem a chave. */
+const BLOB_BASE = "https://raw.githubusercontent.com/mv1rcus/semsite/assets";
+async function loadModelHtml(id: string): Promise<string> {
+  const secret = (process.env["MODEL_BLOB_KEY"] ?? "").trim();
+  if (secret.length < 32) throw new Error("Código indisponível no momento.");
+  const res = await fetch(`${BLOB_BASE}/${encodeURIComponent(id)}.bin`);
+  if (!res.ok) throw new Error("Modelo não encontrado.");
+  const buf = new Uint8Array(await res.arrayBuffer());
+  const keyBytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(secret));
+  const key = await crypto.subtle.importKey("raw", keyBytes, "AES-GCM", false, ["decrypt"]);
+  const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: buf.slice(0, 12) }, key, buf.slice(12));
+  return await new Response(new Blob([plain]).stream().pipeThrough(new DecompressionStream("gzip"))).text();
+}
 
 /** Codigo do modelo: um .html unico (JS, CSS e imagens dentro), montado so no servidor e so para quem tem o selo Verificado. */
 export const getModelCode = createServerFn({ method: "POST" })
@@ -122,9 +66,8 @@ export const getModelCode = createServerFn({ method: "POST" })
     await assertVerified(context.supabase, "O código do site");
     const { getPremium } = await import("./premium-models");
     const m = getPremium(data.id);
-    const load = HTML_LOADERS[data.id];
-    if (!m || !load) throw new Error("Modelo não encontrado.");
-    const { default: html } = await load();
+    if (!m) throw new Error("Modelo não encontrado.");
+    const html = await loadModelHtml(data.id);
     const client = { ...(data.name ? { name: data.name } : {}), ...(data.whatsapp ? { whatsapp: data.whatsapp.replace(/\D/g, "") } : {}), ...(data.city ? { city: data.city } : {}) };
     const json = JSON.stringify(client).replace(/</g, "\\u003c");
     const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
