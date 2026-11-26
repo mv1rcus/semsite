@@ -81,8 +81,8 @@ export function DancaFold({ client }: { client?: { name?: string; whatsapp?: str
         .dz .hero:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,0) 30%,rgba(0,0,0,.1))}
         .dz .ttl{position:absolute;left:0;right:0;top:50%;transform:translateY(-44%);text-align:center;margin:0;font-size:clamp(54px,9.6vw,118px);line-height:.88;letter-spacing:-.02em;color:#f4f4f4;text-transform:uppercase;z-index:1;text-shadow:0 2px 24px rgba(0,0,0,.35)}
         .dz .cut{position:absolute;left:50%;bottom:0;height:96%;transform:translateX(-50%);z-index:2;width:auto;filter:drop-shadow(0 10px 18px rgba(0,0,0,.35))}
-        .dz .pv{position:absolute;left:28px;bottom:26px;z-index:3;display:flex;align-items:center;gap:12px;background:none;border:0;color:#fff;font-size:11px;font-weight:700;letter-spacing:.08em;cursor:pointer;min-height:44px}
-        .dz .pv i{width:40px;height:40px;border:1.5px solid #fff;border-radius:50%;display:grid;place-items:center}
+        .dz .pv{position:absolute;left:24px;bottom:22px;z-index:3;display:flex;align-items:center;gap:12px;background:none;border:0;color:#fff;font-size:13px;text-shadow:0 1px 8px rgba(0,0,0,.8);font-weight:700;letter-spacing:.08em;cursor:pointer;min-height:44px}
+        .dz .pv i{width:44px;height:44px;border:1.5px solid #fff;border-radius:50%;display:grid;place-items:center}
         .dz .pv i:after{content:"";border-left:11px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent;margin-left:3px}
         .dz .sec{width:min(92%,1080px);margin:0 auto;padding:0 5.5%}
         .dz h2{font-size:clamp(30px,4.4vw,48px);margin:0 0 30px;text-transform:uppercase;line-height:1;color:#fff}
@@ -90,16 +90,17 @@ export function DancaFold({ client }: { client?: { name?: string; whatsapp?: str
         .dz .cc{position:relative;border:0;padding:0;cursor:pointer;aspect-ratio:1.6/1;background:#222 center/cover;color:#fff;text-align:left;overflow:hidden}
         .dz .cc:before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.78),rgba(0,0,0,.18) 70%)}
         .dz .cc div{position:absolute;left:16px;right:14px;bottom:14px}
-        .dz .cc b{display:block;font-size:14.5px;line-height:1.25;font-weight:700;margin-bottom:8px}
-        .dz .cc span{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700}
+        .dz .cc b{display:block;font-size:16px;line-height:1.25;font-weight:700;margin-bottom:8px}
+        .dz .cc span{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700}
         .dz .more{display:flex;justify-content:flex-end;margin-top:30px}
         .dz .more a{display:inline-flex;align-items:center;gap:12px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;min-height:44px;text-decoration:none}
+        .dz .lgd{margin:12px 0 0;font-size:13px;color:#c9c9c9}
         .dz .wk{display:grid;grid-template-columns:repeat(5,1fr);border:1.5px solid #fff}
         .dz .wd{border-right:1.5px solid #fff;min-height:210px}.dz .wd:last-child{border-right:0}
         .dz .wd h3{margin:0;padding:8px 10px;border-bottom:1.5px solid #fff;text-align:right;font-size:12px;font-weight:700;letter-spacing:.04em}
-        .dz .wi{display:block;width:100%;background:none;border:0;color:#fff;text-align:left;padding:12px 10px 4px;cursor:pointer;font-size:11.5px;line-height:1.45}
-        .dz .wi div{display:flex;justify-content:space-between;gap:6px;font-weight:700;font-size:12px}
-        .dz .wi small{display:block;font-size:12px;font-weight:700;color:#fff;margin-top:3px}
+        .dz .wi{display:block;width:100%;background:none;border:0;color:#fff;text-align:left;padding:12px 10px 8px;min-height:44px;cursor:pointer;font-size:12.5px;line-height:1.45}
+        .dz .wi div{display:flex;justify-content:space-between;gap:6px;font-weight:700;font-size:12.5px}
+        .dz .wi small{display:block;font-size:13px;font-weight:700;color:#fff;margin-top:3px}
         .dz .wi:hover{background:rgba(255,255,255,.1)}
         .dz .vg{display:grid;grid-template-columns:1.9fr 1fr;gap:14px}
         .dz .vc{display:grid;gap:14px}
@@ -108,7 +109,7 @@ export function DancaFold({ client }: { client?: { name?: string; whatsapp?: str
         .dz .vb:before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.18)}
         .dz .vb em{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font-weight:700;font-style:italic;font-size:clamp(18px,3vw,30px);text-shadow:0 2px 12px rgba(0,0,0,.6)}
         .dz .vb.sm em{font-size:clamp(16px,2.2vw,22px)}
-        .dz .cap{font-size:11.5px;font-weight:700;margin:8px 0 0}
+        .dz .cap{font-size:13px;font-weight:700;margin:8px 0 0}
         .dz footer{background:${FT};color:${BK};margin-top:110px;padding:44px 0 26px}
         .dz .fi{width:min(92%,1080px);margin:0 auto;padding:0 5.5%}
         .dz .fg{display:grid;grid-template-columns:2fr 1fr 1fr;gap:30px}
@@ -138,8 +139,8 @@ export function DancaFold({ client }: { client?: { name?: string; whatsapp?: str
           .dz .mob a{display:flex;align-items:center;min-height:48px;padding:0 14px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;color:#fff}
           .dz .frame{width:94%;border-radius:20px;margin-top:18px}
           .dz .hero{height:460px}
-          .dz .ttl{font-size:clamp(36px,10.4vw,60px)}
-          .dz .cut{height:76%;left:84%}
+          .dz .ttl{font-size:clamp(32px,9.2vw,54px)}
+          .dz .cut{height:72%;left:88%}
           .dz .ttl{text-align:left;padding-left:5%;top:34%}
           .dz .cl{grid-template-columns:1fr}
           .dz .wk{grid-template-columns:1fr}.dz .wd{border-right:0;border-bottom:1.5px solid #fff;min-height:0;padding-bottom:8px}.dz .wd:last-child{border-bottom:0}
@@ -194,6 +195,7 @@ export function DancaFold({ client }: { client?: { name?: string; whatsapp?: str
               </div>
             ))}
           </div>
+          <p className="lgd">INI iniciante · INT intermediário · AVA avançado</p>
           <div className="more"><a onClick={() => start()}>Agenda completa <Arrow /></a></div>
         </section>
 
