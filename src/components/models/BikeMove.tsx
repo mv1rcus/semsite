@@ -109,7 +109,7 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
         .gb .rc{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
         .gb .rk{position:relative;height:210px;overflow:hidden;border:0;padding:0;cursor:pointer;text-align:left;margin-left:-26px;clip-path:polygon(26px 0,100% 0,calc(100% - 26px) 100%,0 100%)}
         .gb .rk:first-child{margin-left:0}
-        .gb .rk img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+        .gb .rk img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 58%}
         .gb .rk .t{position:absolute;left:0;right:0;bottom:0;padding:34px 40px 12px 38px;display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
         .gb .rk .t:before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,var(--bg) 62%,transparent)}
         .gb .rk .t>*{position:relative}
