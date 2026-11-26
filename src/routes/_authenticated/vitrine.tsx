@@ -26,7 +26,7 @@ function Vitrine() {
             </Link></li>
           ))}
         </ul>
-        {shown.length === 0 && <p className="mt-10 text-center text-muted-foreground">Nenhum modelo encontrado.</p>}
+        {shown.length === 0 && <p className="mt-10 text-center text-muted-foreground">{PREMIUM_MODELS.length === 0 ? "Novos modelos em breve. Estamos refazendo a Vitrine do zero." : "Nenhum modelo encontrado."}</p>}
       </main>
     </>
   );

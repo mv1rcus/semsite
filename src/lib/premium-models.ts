@@ -27,8 +27,8 @@ const ALL_PREMIUM: PremiumModel[] = [
   { id: "sorriso-pleno", ramo: "dentista", ramoLabel: "Odontologia", style: "Clínico moderno", name: "Sorriso Pleno", city: "Curitiba", cover: PHOTO.dentist, accent: "#0ea5a4", tags: ["dentista", "clinica", "saude", "claro"] },
   { id: "grao-dourado", ramo: "cafeteria", ramoLabel: "Cafeteria", style: "Aconchego artesanal", name: "Grão Dourado", city: "Recife", cover: PHOTO.coffee, accent: "#b8642a", tags: ["cafe", "cafeteria", "artesanal"] },
 ];
-// Modelos ainda fora do padrao novo ficam despublicados da Vitrine ate ficarem prontos.
-export const HIDDEN_PREMIUM = new Set(["smash-poster", "forno-vivo", "studio-fio", "silva-lima", "motor-certo", "casa-alta", "amigo-fiel"]);
+// Reset geral: todos os modelos antigos ficam fora do ar. Novos modelos entram um a um (codigo antigo segue no historico do git).
+export const HIDDEN_PREMIUM = new Set(ALL_PREMIUM.map((m) => m.id));
 export const PREMIUM_MODELS: PremiumModel[] = ALL_PREMIUM.filter((m) => !HIDDEN_PREMIUM.has(m.id));
 export const getPremium = (id: string) => PREMIUM_MODELS.find((m) => m.id === id);
 
