@@ -95,7 +95,7 @@ export function FotoFold({ client }: { client?: { name?: string; whatsapp?: stri
         .ft2 .sc{font-family:'Mrs Saint Delafield',cursive}
         .ft2 .hero{position:relative;background:#1a1a1a;color:#fff;min-height:680px;overflow:hidden}
         .ft2 .hero .ph{position:absolute;top:0;bottom:0;width:50%}.ft2 .hero .ph.l{left:0}.ft2 .hero .ph.r{right:0}
-        .ft2 .hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,8,8,.62),rgba(10,8,8,.5))}
+        .ft2 .hero:after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(10,8,8,.62),rgba(10,8,8,.5))}
         .ft2 .hero>*{position:relative;z-index:2}
         .ft2 .nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:76px;max-width:1160px;margin:0 auto;padding:0 28px}
         .ft2 .logo{text-shadow:0 1px 10px #000;font-family:'Cormorant Garamond',serif;font-size:15px;letter-spacing:.34em;text-transform:uppercase;font-weight:400;padding-left:.34em;text-align:center}
@@ -162,8 +162,8 @@ export function FotoFold({ client }: { client?: { name?: string; whatsapp?: stri
       `}</style>
 
       <section className="hero" id="top">
-        <Frame k={1} style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: "50%" }} />
-        <Frame k={2} style={{ position: "absolute", top: 0, bottom: 0, right: 0, width: "50%" }} />
+        <Frame k={1} style={{ zIndex: 0, position: "absolute", top: 0, bottom: 0, left: 0, width: "50%" }} />
+        <Frame k={2} style={{ zIndex: 0, position: "absolute", top: 0, bottom: 0, right: 0, width: "50%" }} />
         <header className="nav">
           <div className="nl"><a onClick={() => go("sobre")}>Sobre</a><a onClick={() => go("pacotes")}>Pacotes</a></div>
           <div className="logo">{brand}</div>
