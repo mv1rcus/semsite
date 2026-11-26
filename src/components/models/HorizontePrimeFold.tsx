@@ -2,17 +2,18 @@ import { useState } from "react";
 
 /** Imobiliária editorial à risca do pin (The Mills Group | KW): barra mínima com navegação entre parênteses, marca grande em grotesca bold, foto de piscina emoldurada, parágrafo gigante cinza com trechos em preto, texto miúdo + foto da equipe, imóvel em destaque com miniaturas, três números em serifada itálica, "Case studies" com preços e mosaico de fotos. Creme #efeadf, Inter (corpo e títulos) e Instrument Serif itálico só nos números. */
 const CR = "#efeadf", INK = "#161513", GR = "#cfcabd";
-const THUMBS = ["/hp-flint.webp", "/hp-t1.webp", "/hp-t2.webp", "/hp-t3.webp", "/hp-t4.webp"];
+const U = { f: "/hp-flint.webp", t1: "/hp-t1.webp", t2: "/hp-t2.webp", t3: "/hp-t3.webp", t4: "/hp-t4.webp", c1: "/hp-c1.webp", c2: "/hp-c2.webp", c3: "/hp-c3.webp", c4: "/hp-c4.webp", c5: "/hp-c5.webp", c6: "/hp-c6.webp", hero: "/hp-hero.webp", team: "/hp-team.webp" };
+const THUMBS = [U.f, U.t1, U.t2, U.t3, U.t4];
 const NAV = [["Imóveis", "destaque"], ["15 anos", "numeros"], ["Nosso trabalho", "casos"], ["Vendas", "casos"], ["Equipe", "equipe"]] as const;
 const FACTS: [string, string][] = [["700+", "Imóveis vendidos"], ["225+", "Famílias atendidas"], ["150+", "Imóveis alugados"]];
 const CASES = [
   { p: "R$ 1.899.000", q: "R$ 1.735.000", r: "Comprador", a: "Itaim Bibi", s: "Casa térrea, 4 suítes" },
 ];
-const TILES = [
-  ["/hp-c1.webp", "50% 50%"], ["/hp-c2.webp", "50% 50%"], ["/hp-c3.webp", "50% 50%"], ["/hp-c4.webp", "50% 50%"], ["/hp-c5.webp", "50% 50%"],
-  ["/hp-c6.webp", "50% 50%"], ["/hp-c3.webp", "20% 60%"], ["/hp-c1.webp", "80% 40%"], ["/hp-c5.webp", "30% 70%"], ["/hp-c2.webp", "70% 30%"],
-  ["/hp-c4.webp", "20% 50%"], ["/hp-c6.webp", "75% 55%"], ["/hp-c2.webp", "30% 60%"], ["/hp-c5.webp", "75% 35%"], ["/hp-c1.webp", "20% 80%"],
-] as const;
+const TILES: [string, string][] = [
+  [U.c1, "50% 50%"], [U.c2, "50% 50%"], [U.c3, "50% 50%"], [U.c4, "50% 50%"], [U.c5, "50% 50%"],
+  [U.c6, "50% 50%"], [U.c3, "20% 60%"], [U.c1, "80% 40%"], [U.c5, "30% 70%"], [U.c2, "70% 30%"],
+  [U.c4, "20% 50%"], [U.c6, "75% 55%"], [U.c2, "30% 60%"], [U.c5, "75% 35%"], [U.c1, "20% 80%"],
+];
 
 export function HorizontePrimeFold({ client }: { client?: { name?: string; whatsapp?: string; city?: string } }) {
   const brand = client?.name?.trim() || "Horizonte Prime";
@@ -96,13 +97,13 @@ export function HorizontePrimeFold({ client }: { client?: { name?: string; whats
           <h1>{first}{rest ? <><i>|</i>{rest}</> : null}</h1>
           <p>Imobiliária em {city} · Curadoria e atendimento próximo</p>
         </div>
-        <div className="heroimg" style={{ backgroundImage: 'url("/hp-hero.webp")' }} role="img" aria-label="Casa com piscina e varanda" />
+        <div className="heroimg" style={{ backgroundImage: `url("${U.hero}")` }} role="img" aria-label="Casa com piscina e varanda" />
         <p className="big">
           Com sede em {city}, a <b>{brand}</b> é uma imobiliária que atende famílias e investidores e que ajuda clientes a <b>construir patrimônio com imóveis</b> entregando hospitalidade fora do comum.
         </p>
         <div className="about" id="equipe">
           <p>A equipe da {brand} reúne corretores, avaliadores e advogados com mais de quinze anos de experiência no mercado imobiliário. Acompanhamos cada negociação de perto, da primeira visita à entrega das chaves, com avaliação transparente, documentação conferida e atendimento direto pelo WhatsApp. Cada imóvel do portfólio passa por vistoria e comparação de mercado antes de ser anunciado, para que o preço combine com o que a casa realmente vale.</p>
-          <div className="team" style={{ backgroundImage: 'url("/hp-team.webp")' }} role="img" aria-label="Equipe reunida" />
+          <div className="team" style={{ backgroundImage: `url("${U.team}")` }} role="img" aria-label="Equipe reunida" />
         </div>
       </div>
 
