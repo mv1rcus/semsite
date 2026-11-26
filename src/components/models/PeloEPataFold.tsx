@@ -65,7 +65,7 @@ export function PeloEPataFold({ client }: { client?: { name?: string; whatsapp?:
         .pp h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(38px,4.6vw,58px);margin:12px 0 0;color:${TX};line-height:1.05;text-align:center}
         .pp h2 em{font-style:italic;font-weight:400}
         .pp .sub{color:${MU};font-size:16px;margin:14px auto 0;line-height:1.7;text-align:center;max-width:560px}
-        .pp .cats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px}
+        .pp .cats{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:18px;margin:48px auto 0;max-width:860px}.pp .cat{position:relative;min-height:240px}.pp .cat:first-child{grid-row:span 2;min-height:500px}.pp .cat .catimg{position:absolute;inset:0;aspect-ratio:auto;height:100%}.pp .cat:nth-child(3) .catimg img{object-position:50% 70%}.pp .cat:nth-child(2) .catimg img{object-position:50% 55%}.pp .cat .catimg img{width:100%;height:100%;object-fit:cover;display:block}.pp .cat .catbody{position:absolute;right:0;bottom:0;background:#fff;padding:10px 16px;border-radius:12px 0 0 0;display:flex;flex-direction:column;gap:2px;max-width:70%}.pp .cat .catbody span{display:none}.pp .cat .catbody b{font-size:18px}.pp .cat .catbody{text-align:left}
         .pp .cat{border-radius:18px;overflow:hidden;cursor:pointer;transition:transform .25s}
         .pp .cat:hover{transform:translateY(-6px)}
         .pp .catimg{aspect-ratio:1;overflow:hidden}
@@ -109,7 +109,7 @@ export function PeloEPataFold({ client }: { client?: { name?: string; whatsapp?:
           .pp .sec{padding:64px 0}
           .pp .band{padding:72px 24px}
           .pp .burger{display:block}
-          .pp .cats,.pp .cust,.pp .revs{grid-template-columns:1fr}
+          .pp .cats,.pp .cust,.pp .revs{grid-template-columns:1fr}.pp .cats{grid-template-rows:none}.pp .cat:first-child{grid-row:auto;min-height:380px}
           .pp .col{grid-template-columns:1fr;gap:32px}
           .pp .menuopen{position:fixed;inset:0;background:${BG};z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px}
           .pp .menuopen a{font-family:'Cormorant Garamond',serif;font-size:32px;color:${TX};cursor:pointer}
