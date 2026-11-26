@@ -1,7 +1,7 @@
 // Gera um .html unico por modelo (JS, CSS e imagens embutidos). Rode: node scripts/build-standalone.mjs
 import { execSync } from "node:child_process";
 import fs from "node:fs";
-const MODELS = { "focinho-feliz": "Focinho Feliz", "brasa-e-pao": "Brasa&Pão", "dom-navalha": "Dom Navalha", "sorriso-verde": "Sorriso Verde", "toledo-azevedo": "Toledo & Azevedo", "grao-e-prosa": "Grão & Prosa", "forca-viva": "Força Viva", "tinta-rara": "Tinta Rara", "studio-era": "Studio Era" };
+const MODELS = { "focinho-feliz": "Focinho Feliz", "brasa-e-pao": "Brasa&Pão", "dom-navalha": "Dom Navalha", "sorriso-verde": "Sorriso Verde", "toledo-azevedo": "Toledo & Azevedo", "grao-e-prosa": "Grão & Prosa", "forca-viva": "Força Viva", "tinta-rara": "Tinta Rara", "studio-era": "Studio Era", "marina-costa": "Marina Costa" };
 const mime = (f) => (f.endsWith(".webp") ? "image/webp" : f.endsWith(".png") ? "image/png" : "image/jpeg");
 const images = fs.readdirSync("public").filter((f) => /\.(webp|jpg|png)$/.test(f) && !f.startsWith("cover-locked") && f !== "favicon.png");
 for (const [id] of Object.entries(MODELS)) {
