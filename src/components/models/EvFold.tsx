@@ -35,6 +35,7 @@ export function EvFold({ client }: { client?: { name?: string; whatsapp?: string
         .ev0 .wrap{max-width:1200px;margin:0 auto;padding:0 32px}
         .ev0 .hero{position:relative;min-height:690px;display:flex;flex-direction:column;background:#141010}
         .ev0 .hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:78% center}
+        .ev0 .hero:after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(ellipse 38% 55% at 82% 22%,rgba(255,96,24,.5),rgba(255,96,24,0) 70%),linear-gradient(0deg,rgba(255,96,24,.12),rgba(255,96,24,0) 30%)}
         .ev0 .hero:before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(8,8,9,.88) 0%,rgba(8,8,9,.55) 38%,rgba(8,8,9,0) 66%),linear-gradient(180deg,rgba(8,8,9,.55),rgba(8,8,9,0) 20%)}
         .ev0 .nav{position:relative;z-index:3;height:84px}.ev0 .nav .in{display:flex;align-items:center;height:100%}
         .ev0 .links{display:flex;gap:40px;margin-left:auto;font-size:13px;font-weight:500;align-items:center}
