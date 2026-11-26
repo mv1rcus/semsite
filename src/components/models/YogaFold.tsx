@@ -43,6 +43,7 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
   return (
     <div className="yga" style={{ fontFamily: "'Karla', system-ui, sans-serif", color: INK, background: CRM, overflowX: "hidden" }}>
       <style>{`
+        .yga figure,.yga blockquote{margin:0}
         .yga h1,.yga h2,.yga h3{font-family:${serif}!important;font-weight:500;letter-spacing:-.01em;line-height:1.06;text-wrap:balance}
         .yga .wrap{max-width:1140px;margin:0 auto;padding:0 28px}
         .yga .btn{font-family:'Karla',system-ui,sans-serif;display:inline-flex;align-items:center;gap:10px;background:${OL};color:#fff;font-weight:700;font-size:15px;padding:16px 30px;border-radius:999px;text-decoration:none;border:none;cursor:pointer;transition:.2s;letter-spacing:.3px}
