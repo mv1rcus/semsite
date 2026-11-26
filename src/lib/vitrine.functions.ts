@@ -99,6 +99,7 @@ const HTML_LOADERS: Record<string, () => Promise<{ default: string }>> = {
   "escola-cardume": () => import("./standalone-html/escola-cardume.html?raw"),
   "assessoria-folego": () => import("./standalone-html/assessoria-folego.html?raw"),
   "casa-bandoneon": () => import("./standalone-html/casa-bandoneon.html?raw"),
+  "vao-arquitetura": () => import("./standalone-html/vao-arquitetura.html?raw"),
   "estudio-impeto": () => import("./standalone-html/estudio-impeto.html?raw"),
   "estudio-toque": () => import("./standalone-html/estudio-toque.html?raw"),
   "estudio-serena": () => import("./standalone-html/estudio-serena.html?raw"),
