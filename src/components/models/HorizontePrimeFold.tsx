@@ -2,7 +2,7 @@ import { useState } from "react";
 
 /** Imobiliária editorial à risca do pin (The Mills Group | KW): barra mínima com navegação entre parênteses, marca grande em grotesca bold, foto de piscina emoldurada, parágrafo gigante cinza com trechos em preto, texto miúdo + foto da equipe, imóvel em destaque com miniaturas, três números em serifada itálica, "Case studies" com preços e mosaico de fotos. Creme #efeadf, Inter (corpo e títulos) e Instrument Serif itálico só nos números. */
 const CR = "#efeadf", INK = "#161513", GR = "#cfcabd";
-const U = { f: "/hp-flint.webp", t1: "/hp-t1.webp", t2: "/hp-t2.webp", t3: "/hp-t3.webp", t4: "/hp-t4.webp", c1: "/hp-c1.webp", c2: "/hp-c2.webp", c3: "/hp-c3.webp", c4: "/hp-c4.webp", c5: "/hp-c5.webp", c6: "/hp-c6.webp", hero: "/hp-hero.webp", team: "/hp-team.webp" };
+const U = { f: "/hp-flint.webp", t1: "/hp-t1.webp", t2: "/hp-t2.webp", t3: "/hp-t3.webp", t4: "/hp-t4.webp", c1: "/hp-c1.webp", c2: "/hp-c2.webp", c3: "/hp-c3.webp", c4: "/hp-c4.webp", c5: "/hp-c5.webp", c6: "/hp-c6.webp", m1: "/hp-m1.webp", m2: "/hp-m2.webp", m3: "/hp-m3.webp", m4: "/hp-m4.webp", m5: "/hp-m5.webp", m6: "/hp-m6.webp", hero: "/hp-hero.webp", team: "/hp-team.webp" };
 const THUMBS = [U.f, U.t1, U.t2, U.t3, U.t4];
 const NAV = [["Imóveis", "destaque"], ["15 anos", "numeros"], ["Nosso trabalho", "casos"], ["Vendas", "casos"], ["Equipe", "equipe"]] as const;
 const FACTS: [string, string][] = [["700+", "Imóveis vendidos"], ["225+", "Famílias atendidas"], ["150+", "Imóveis alugados"]];
@@ -10,9 +10,9 @@ const CASES = [
   { p: "R$ 1.899.000", q: "R$ 1.735.000", r: "Comprador", a: "Itaim Bibi", s: "Casa térrea, 4 suítes" },
 ];
 const TILES: [string, string][] = [
-  [U.c1, "50% 50%"], [U.c2, "50% 50%"], [U.c3, "50% 50%"], [U.c4, "50% 50%"], [U.c5, "50% 50%"],
-  [U.c6, "50% 50%"], [U.c3, "20% 60%"], [U.c1, "80% 40%"], [U.c5, "30% 70%"], [U.c2, "70% 30%"],
-  [U.c4, "20% 50%"], [U.c6, "75% 55%"], [U.c2, "30% 60%"], [U.c5, "75% 35%"], [U.c1, "20% 80%"],
+  [U.c1, "50% 50%"], [U.m1, "50% 50%"], [U.c2, "50% 50%"], [U.m3, "50% 50%"], [U.c4, "50% 50%"],
+  [U.m2, "50% 50%"], [U.c3, "50% 50%"], [U.m5, "50% 50%"], [U.c5, "50% 50%"], [U.m4, "50% 50%"],
+  [U.c6, "50% 50%"], [U.m6, "50% 50%"], [U.c2, "75% 40%"], [U.m3, "30% 70%"], [U.c4, "20% 60%"],
 ];
 
 export function HorizontePrimeFold({ client }: { client?: { name?: string; whatsapp?: string; city?: string } }) {
