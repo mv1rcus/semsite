@@ -81,7 +81,7 @@ export function BikeFold({ client }: { client?: { name?: string; whatsapp?: stri
         .bk0 .mmenu a{padding:14px 12px;font-weight:800;cursor:pointer}
         .bk0 .hero{position:relative;min-height:620px;display:grid;grid-template-columns:1.05fr 1fr;align-items:center;margin-top:-74px;padding:74px 40px 40px 0}
         .bk0 .blob{position:absolute;left:0;top:0;width:62%;height:100%;z-index:0}
-        .bk0 .rider{position:relative;z-index:1;width:104%;max-width:840px;height:auto;margin-left:16px;margin-top:-40px}
+        .bk0 .rider{position:relative;z-index:1;width:112%;max-width:960px;height:auto;margin-left:8px;margin-top:20px}
         .bk0 .ht{position:relative;z-index:2;padding-left:10px}
         .bk0 h1{font-family:'Montserrat',system-ui,sans-serif;font-weight:800;font-size:clamp(38px,5vw,66px);line-height:1.08;letter-spacing:-.02em;margin:0 0 26px;text-align:right}
         .bk0 .ht p{font-size:14.5px;line-height:1.75;color:${MUT};margin:0 0 30px;text-align:right;max-width:440px;margin-left:auto}
