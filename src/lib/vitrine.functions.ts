@@ -78,6 +78,7 @@ const HTML_LOADERS: Record<string, () => Promise<{ default: string }>> = {
   "burgeria-pop": () => import("./standalone-html/burgeria-pop.html?raw"),
   "horizonte-prime": () => import("./standalone-html/horizonte-prime.html?raw"),
   "farmacia-savia": () => import("./standalone-html/farmacia-savia.html?raw"),
+  "casa-bandoneon": () => import("./standalone-html/casa-bandoneon.html?raw"),
   "estudio-impeto": () => import("./standalone-html/estudio-impeto.html?raw"),
   "estudio-toque": () => import("./standalone-html/estudio-toque.html?raw"),
   "estudio-serena": () => import("./standalone-html/estudio-serena.html?raw"),
