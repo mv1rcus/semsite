@@ -66,7 +66,7 @@ export function HorizontePrimeFold({ client }: { client?: { name?: string; whats
         .hz .btn.o:hover{border-color:${BLUE};color:${BLUE}}
         .hz .burger{display:none;background:none;border:0;width:44px;height:44px;cursor:pointer}
         .hz .hero{padding:34px 0 60px}
-        .hz h1{font-weight:400;font-size:clamp(40px,5.4vw,72px);line-height:1.06;margin:34px 0 0;max-width:1050px;color:${INK};letter-spacing:-1px}
+        .hz h1{font-family:'Archivo',sans-serif;font-weight:400;font-size:clamp(40px,5.4vw,72px);line-height:1.06;margin:34px 0 0;max-width:1050px;color:${INK};letter-spacing:-1px}
         .hz h1 .sf{font-family:'Fraunces',serif;font-weight:300;font-style:italic;color:${MU}}
         .hz h1 .bd{font-weight:800;letter-spacing:-2px}
         .hz .lead{font-size:17px;line-height:1.7;color:${MU};margin:26px 0 30px;max-width:520px}
