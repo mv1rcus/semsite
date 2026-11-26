@@ -61,6 +61,7 @@ import { ImpetoFold } from "@/components/models/ImpetoFold";
 import { BandoneonFold } from "@/components/models/BandoneonFold";
 import { AcaiFold } from "@/components/models/AcaiFold";
 import { DarkroomFold } from "@/components/models/DarkroomFold";
+import { EixoFold } from "../src/components/models/EixoFold";
 import { AdvMcFold } from "@/components/models/AdvMcFold";
 import { AquaGrowFold } from "@/components/models/AquaGrowFold";
 import { ArqFold } from "@/components/models/ArqFold";
@@ -89,6 +90,7 @@ else if (__MODEL__ === "assessoria-folego") root.render(<FolegoFold client={cfg.
 else if (__MODEL__ === "casa-bandoneon") root.render(<BandoneonFold client={cfg.client} />);
 else if (__MODEL__ === "villa-acai") root.render(<AcaiFold client={cfg.client} />);
 else if (__MODEL__ === "sala-rubra") root.render(<DarkroomFold client={cfg.client} />);
+else if (__MODEL__ === "eixo-pilates") root.render(<EixoFold client={cfg.client} />);
 else if (__MODEL__ === "menezes-prado") root.render(<AdvMcFold client={cfg.client} />);
 else if (__MODEL__ === "aquagrow-eco") root.render(<AquaGrowFold client={cfg.client} />);
 else if (__MODEL__ === "vao-arquitetura") root.render(<ArqFold client={cfg.client} />);
