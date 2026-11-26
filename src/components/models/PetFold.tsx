@@ -80,7 +80,7 @@ export function PetFold({ client }: { client?: { name?: string; whatsapp?: strin
         .pf .search input{flex:1;border:0;outline:0;padding:0 22px;font-size:15px;min-height:50px;min-width:0;background:transparent}
         .pf .search button{background:${G};color:#fff;border:0;padding:0 30px;font-weight:600;cursor:pointer;min-height:50px}
         .pf .badges{display:flex;gap:22px;flex-wrap:wrap;margin:26px 0 90px}
-        .pf .badge{display:flex;align-items:center;gap:10px;font-size:12.5px;font-weight:600;line-height:1.25;max-width:130px}
+        .pf .badge{display:flex;align-items:center;gap:10px;font-size:13.5px;font-weight:600;line-height:1.25;max-width:150px}
         .pf .badge span.c{width:42px;height:42px;border:1.5px solid #5d9a55;border-radius:50%;display:grid;place-items:center;flex:none}
         .pf .wave{position:absolute;left:0;right:0;bottom:0;height:80px;background:${G};border-radius:100% 100% 0 0/100% 100% 0 0;transform:scaleX(1.6)}
         .pf .stats{background:${G};color:#fff;padding:26px 0 30px}
@@ -88,7 +88,7 @@ export function PetFold({ client }: { client?: { name?: string; whatsapp?: strin
         .pf .stat{display:flex;gap:14px;align-items:center;justify-content:center;padding:4px 12px;border-right:1px solid rgba(255,255,255,.28)}
         .pf .stat:last-child{border:0}
         .pf .stat b{display:block;font-size:26px;font-weight:700;line-height:1}
-        .pf .stat small{font-size:12px;opacity:.85}
+        .pf .stat small{font-size:13.5px;opacity:.9}
         .pf .quote{display:grid;grid-template-columns:.9fr 1.1fr;align-items:end;gap:20px;padding-top:6px}
         .pf .quote p{font-family:Lora,serif;font-style:italic;font-weight:600;font-size:clamp(20px,2.4vw,28px);line-height:1.5;color:#5a3a22;text-align:center;margin:30px 0}
         .pf .about{background:#f7f5ee;padding:60px 0 56px;border-radius:50% 50% 0 0/38px 38px 0 0;margin-top:-16px}
@@ -116,7 +116,7 @@ export function PetFold({ client }: { client?: { name?: string; whatsapp?: strin
         .pf .offer h3{font-family:Fredoka,sans-serif;font-weight:600;font-size:clamp(28px,3.4vw,44px);color:${CREAM};margin:0}
         .pf .offer .big{font-family:Fredoka;font-weight:700;font-size:clamp(54px,7vw,92px);color:${CREAM};line-height:1}
         .pf .ben{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:34px 0}
-        .pf .bn{display:flex;gap:12px;align-items:center;justify-content:center;border-right:1px solid #cfd8cc;font-size:13px;font-weight:600;line-height:1.25}
+        .pf .bn{display:flex;gap:12px;align-items:center;justify-content:center;border-right:1px solid #cfd8cc;font-size:14.5px;font-weight:600;line-height:1.25}
         .pf .bn:last-child{border:0}
         .pf footer{background:${G};color:#fff;padding:46px 0 22px}
         .pf .fgrid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr 1.2fr;gap:26px;font-size:13.5px}
@@ -211,7 +211,8 @@ export function PetFold({ client }: { client?: { name?: string; whatsapp?: strin
         </div>
       </div>
 
-      <section className="about" id="sobre">
+      <section className="about" id="sobre" style={{ position: "relative" }}>
+        <div style={{ position: "absolute", right: 24, top: 24, opacity: .5 }} aria-hidden><Paw s={64} /></div>
         <div className="wrap aboutgrid">
           <div>
             <h2 className="t">Sobre <em>nós</em></h2>
@@ -244,7 +245,7 @@ export function PetFold({ client }: { client?: { name?: string; whatsapp?: strin
             {list.map((p) => (
               <div className="prod" key={p.id}>
                 <div className="im"><img src={p.img} alt={p.n} loading="lazy" /></div>
-                <p style={{ fontSize: 13, fontWeight: 600, margin: "14px 0 6px", minHeight: 38 }}>{p.n}</p>
+                <p style={{ fontSize: 14, fontWeight: 600, margin: "14px 0 6px", minHeight: 44 }}>{p.n}</p>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}><b style={{ fontSize: 20 }}>{brl(p.p)}</b><button className="cartbtn" aria-label={`Adicionar ${p.n}`} onClick={() => add(p.id)}><Ico d={I.cart} c="#fff" s={22} /></button></div>
                 <div style={{ marginTop: 4 }}><Stars /> <small style={{ opacity: .6 }}>({p.r})</small></div>
               </div>
@@ -262,7 +263,7 @@ export function PetFold({ client }: { client?: { name?: string; whatsapp?: strin
           {treats.map((p) => (
             <div className="circ" key={p.id}>
               <div className="o"><img src={p.img} alt={p.n} loading="lazy" /></div>
-              <p style={{ fontSize: 12.5, fontWeight: 600, margin: "10px auto 4px", maxWidth: 170 }}>{p.n}</p>
+              <p style={{ fontSize: 13.5, fontWeight: 600, margin: "10px auto 4px", maxWidth: 180, minHeight: 40 }}>{p.n}</p>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}><b style={{ fontSize: 17, color: G }}>{brl(p.p)}</b><button className="cartbtn s" aria-label={`Adicionar ${p.n}`} onClick={() => add(p.id)}><Ico d={I.cart} s={20} /></button></div>
             </div>
           ))}
@@ -291,13 +292,13 @@ export function PetFold({ client }: { client?: { name?: string; whatsapp?: strin
       <footer id="contato">
         <div className="wrap">
           <div className="fgrid">
-            <div><div style={{ display: "flex", gap: 8, alignItems: "center", fontWeight: 800, fontSize: 20, fontStyle: "italic" }}><Paw c="#fff" s={30} />{brand || "Focinho Feliz"}</div></div>
+            <div><div style={{ display: "flex", gap: 8, alignItems: "center", fontWeight: 800, fontSize: 20, fontStyle: "italic" }}><Paw c="#fff" s={30} />{brand || "Focinho Feliz"}</div><div style={{ display: "flex", gap: 10, marginTop: 16 }}>{["f", "ig", "x", "▶"].map((t) => <span key={t} aria-hidden style={{ width: 34, height: 34, borderRadius: "50%", background: "#2f8f2f", display: "grid", placeItems: "center", fontSize: 12, fontWeight: 800 }}>{t}</span>)}</div></div>
             <div><h4>Informações</h4><a>Como funciona</a><a>Dicas de especialistas</a><a>Perguntas</a></div>
             <div><h4>Sobre nós</h4><a>Início</a><a>Sobre</a><a>Rações</a><a>Contato</a></div>
             <div><h4>Legal</h4><a>Termos de serviço</a><a>Privacidade</a><a>Trocas e devoluções</a></div>
             <div><h4>Contato</h4><a href={`https://wa.me/${num}`} target="_blank" rel="noopener noreferrer">WhatsApp</a><a>contato@seupet.com.br</a><a>{client?.city ? client.city : "Rua das Patinhas, 123"}</a></div>
           </div>
-          <p style={{ textAlign: "center", fontSize: 12.5, opacity: .8, marginTop: 28 }}>© 2026 {brand || "Focinho Feliz"}. Todos os direitos reservados.</p>
+          <p style={{ textAlign: "center", fontSize: 13, opacity: .8, margin: "32px 0 14px" }}>© 2026 {brand || "Focinho Feliz"}. Todos os direitos reservados.</p>
         </div>
       </footer>
 
