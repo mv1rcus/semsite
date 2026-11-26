@@ -12,6 +12,7 @@ const SECTIONS: Record<PremiumKey, string> = {
   sorveteria: "titulo grande em sans, cards arredondados em bento, fotos de fruta e sorvete, sabores com formato, pedido no WhatsApp",
   eletronicos: "tema escuro verde-menta, hero com produto em pódio, categorias, mais vendidos com carrinho no WhatsApp",
   papelaria: "pastel rosa/amarelo/lavanda, título desenhado à mão, faixas onduladas, categorias em cartões coloridos, produtos em destaque com sacola no WhatsApp",
+  moveis: "verde-sálvia e creme, título gigante arredondado sobre a poltrona, cartões de categoria, coleção em faixa escura, catálogo com carrinho no WhatsApp",
   roupas: "título gigante em sans, fotos P&B, novidades com tamanho, sacola no WhatsApp",
   livraria: "título gigante em sans, estante em destaque, cards escuros numerados, clube de leitura, reserva no WhatsApp",
   grafica: "título gigante em azul cobalto sobre fundo creme, ilustração de folhas e círculos CMYK, faixa de 3 passos, tabela de preços em fundo escuro",
