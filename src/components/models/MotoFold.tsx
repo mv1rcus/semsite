@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-/** Oficina de motos classicas, construida do zero a partir de um pin de site coral e branco ("Vintage Moto"): titulo gigante em capitulares, moto recortada cruzando a divisa entre o bloco coral e o branco. Sem foto: a moto e um desenho SVG proprio. Agendamento de revisao que fecha no WhatsApp. */
+/** Oficina de motos classicas, construida do zero a partir de um pin de site coral e branco ("Vintage Moto"): titulo gigante em capitulares, moto recortada cruzando a divisa entre o bloco coral e o branco. Foto real da moto (Gemini). Agendamento de revisao que fecha no WhatsApp. */
 const INK = "#161413", CO = "#e4514d", CO2 = "#c93e3a", BG = "#ffffff", SOFT = "#fdeceb", MU = "#6b6361";
 const SERV = [
   { t: "Revisão completa", d: "Óleo, velas, folgas de válvula, corrente, cabos, freios e uma lista escrita de tudo que foi visto, moto por moto.", p: "a partir de R$ 380" },
@@ -142,7 +142,7 @@ export function MotoFold({ client }: { client?: { name?: string; whatsapp?: stri
         .mt .big .c{font-size:1.16em}
         .mt .big .s{font-size:.82em;text-transform:uppercase}
         .mt .sub{text-align:center;color:#fff;font-size:17px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-top:14px;padding-bottom:34px}
-        .mt .stage{position:relative;margin-top:-30px}
+        .mt .stage{position:relative;margin-top:6px}
         .mt .stage .half{position:absolute;left:0;right:0;bottom:0;height:40%;background:#fff}
         .mt .stage .m{position:relative;max-width:1020px;margin:0 auto;padding:0 20px}
         .mt .cta{display:inline-flex;align-items:center;gap:10px;background:${INK};color:#fff;text-decoration:none;font-weight:600;font-size:14px;letter-spacing:.12em;text-transform:uppercase;padding:16px 30px;border:0;cursor:pointer}
@@ -214,7 +214,7 @@ export function MotoFold({ client }: { client?: { name?: string; whatsapp?: stri
         </div>
         <div className="stage">
           <div className="half" />
-          <div className="m"><Moto /></div>
+          <div className="m"><img src="/garagem-moto.webp" alt="Triumph clássica preta em parede coral" style={{ width: "100%", height: "auto", display: "block", boxShadow: "0 24px 50px rgba(0,0,0,.18)" }} /></div>
         </div>
       </div>
 
