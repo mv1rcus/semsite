@@ -29,7 +29,7 @@ export function AgriFold({ client }: { client?: { name?: string; whatsapp?: stri
         .ag0 h1,.ag0 h2,.ag0 h3{font-family:'Plus Jakarta Sans',system-ui,sans-serif !important;font-weight:500 !important;letter-spacing:-.02em;text-transform:none;margin:0}
         .ag0 .wrap{max-width:1180px;margin:0 auto;padding:0 32px}
         .ag0 .hero{position:relative;min-height:760px;display:flex;flex-direction:column;background:#10230f}
-        .ag0 .hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% center}@media(max-width:760px){.ag0 .hero img.bg{object-position:84% center}}
+        .ag0 .hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% center}
         .ag0 .hero:before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(7,18,10,.82) 0%,rgba(7,18,10,.45) 45%,rgba(7,18,10,0) 70%),linear-gradient(180deg,rgba(7,18,10,.5) 0%,rgba(7,18,10,0) 22%,rgba(11,26,18,0) 78%,#0b1a12 100%)}
         .ag0 .nav{position:relative;z-index:3;height:84px;display:flex;align-items:center}
         .ag0 .nav .in{display:flex;align-items:center;width:100%}
@@ -74,9 +74,9 @@ export function AgriFold({ client }: { client?: { name?: string; whatsapp?: stri
         .ag0 .wf{position:fixed;right:18px;bottom:18px;z-index:30;width:56px;height:56px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 8px 22px rgba(0,0,0,.4)}
         @media(max-width:900px){
           .ag0 .wrap{padding:0 20px}.ag0 .links,.ag0 .nav .btn,.ag0 .sun{display:none}.ag0 .burger{display:block}
-          .ag0 .hero{min-height:auto}.ag0 .hero:before{background:linear-gradient(180deg,rgba(7,18,10,.6) 0%,rgba(7,18,10,.62) 45%,rgba(11,26,18,.9) 80%,#0b1a12 100%)}
+          .ag0 .hero{min-height:auto}.ag0 .hero:before{background:linear-gradient(180deg,rgba(7,18,10,.45) 0,rgba(7,18,10,0) 90px,rgba(7,18,10,0) 200px,#0b1a12 350px,#0b1a12 100%)}.ag0 .hero img.bg{height:350px;bottom:auto;object-position:86% 30%}
           .ag0 .hero img.bg{object-position:66% center}
-          .ag0 h1{font-size:38px}.ag0 .hc{padding:40px 20px 30px}
+          .ag0 h1{font-size:38px}.ag0 .hc{padding:230px 20px 30px}
           .ag0 .stats,.ag0 .live{position:relative;left:auto;right:auto;bottom:auto;width:auto;margin:0 20px 16px;z-index:4}
           .ag0 .stats{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:20px}.ag0 .live{width:auto}
           .ag0 .sh,.ag0 .tech{grid-template-columns:1fr;gap:18px}.ag0 .sh h2{font-size:28px}.ag0 .cards{grid-template-columns:1fr 1fr}
