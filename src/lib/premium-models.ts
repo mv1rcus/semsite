@@ -1,4 +1,4 @@
-export type PremiumKey = "poster" | "salao" | "pet" | "advocacia" | "oficina" | "imobiliaria" | "hamburgueria" | "pizzaria" | "barbearia" | "academia" | "restaurante" | "dentista" | "cafeteria" | "padaria" | "coworking" | "floricultura" | "tatuagem" | "psicologia" | "escola" | "otica";
+export type PremiumKey = "poster" | "salao" | "pet" | "advocacia" | "oficina" | "imobiliaria" | "hamburgueria" | "pizzaria" | "barbearia" | "academia" | "restaurante" | "dentista" | "cafeteria" | "lavajato" | "padaria" | "coworking" | "floricultura" | "tatuagem" | "psicologia" | "escola" | "otica";
 export type PremiumModel = { id: string; ramo: PremiumKey; ramoLabel: string; style: string; name: string; city: string; cover: string; accent: string; tags: string[] };
 
 export const img = (id: string, w = 1200, h?: number) => `https://images.unsplash.com/${id}?w=${w}${h ? `&h=${h}` : ""}&q=75&auto=format&fit=crop`;
@@ -12,7 +12,7 @@ export const PHOTO = {
   bread: "photo-1509440159596-0249088772ff", clinic: "photo-1519494026892-80bbd2d6fd0d",
 } as const;
 
-const LIVE_PREMIUM = ["brasa-e-pao", "focinho-feliz", "dom-navalha", "sorriso-verde", "forca-viva", "grao-e-prosa", "toledo-azevedo", "tinta-rara", "studio-era", "marina-costa", "casa-petala", "ponte-ingles", "fluxo-cowork", "otica-prisma", "forno-lume", "massa-mae"]; // modelos refeitos no padrao novo e liberados
+const LIVE_PREMIUM = ["brasa-e-pao", "focinho-feliz", "dom-navalha", "sorriso-verde", "forca-viva", "grao-e-prosa", "toledo-azevedo", "tinta-rara", "studio-era", "marina-costa", "casa-petala", "ponte-ingles", "fluxo-cowork", "otica-prisma", "forno-lume", "massa-mae", "jato-azul"]; // modelos refeitos no padrao novo e liberados
 const ALL_PREMIUM: PremiumModel[] = [
   { id: "brasa-e-pao", ramo: "hamburgueria", ramoLabel: "Hamburgueria", style: "Escuro com tipo gigante atrás do burger recortado", name: "Brasa&Pão", city: "Campinas", cover: "/brasa-cover.jpg", accent: "#ff5a1f", tags: ["hamburguer", "burger", "lanchonete", "smash", "escuro", "delivery"] },
   { id: "focinho-feliz", ramo: "pet", ramoLabel: "Pet shop", style: "Claro e verde, loja com carrinho e ofertas", name: "Focinho Feliz", city: "Curitiba", cover: "/pet-cover.jpg", accent: "#16491c", tags: ["pet", "petshop", "racao", "cachorro", "loja", "verde", "claro", "ecommerce"] },
@@ -20,6 +20,7 @@ const ALL_PREMIUM: PremiumModel[] = [
   { id: "sorriso-verde", ramo: "dentista", ramoLabel: "Odontologia", style: "Claro em verde menta, dente 3D e agendamento", name: "Sorriso Verde", city: "Florianópolis", cover: "/dental-cover.jpg", accent: "#12423a", tags: ["dentista", "odontologia", "clinica", "saude", "claro", "verde", "agendamento"] },
   { id: "forca-viva", ramo: "academia", ramoLabel: "Academia", style: "Escuro em preto e verde limão, com aula experimental", name: "Força Viva", city: "Goiânia", cover: "/gym-cover.jpg", accent: "#c8f230", tags: ["academia", "musculacao", "treino", "fitness", "escuro", "verde", "agendamento"] },
   { id: "fluxo-cowork", ramo: "coworking", ramoLabel: "Coworking", style: "Cinza e branco, palavra gigante sobre a foto e reserva por WhatsApp", name: "Fluxo", city: "Curitiba", cover: "/cw-cover.jpg", accent: "#232323", tags: ["coworking", "escritorio", "espaco de trabalho", "sala de reuniao"] },
+  { id: "jato-azul", ramo: "lavajato", ramoLabel: "Lava-jato", style: "Escuro em azul marinho, respingo de água, pacotes de lavagem e agendamento em 3 passos", name: "Jato Azul", city: "Fortaleza", cover: "/wash-cover.jpg", accent: "#2f6bff", tags: ["lava-jato", "estetica automotiva", "lavagem", "detalhamento"] },
   { id: "grao-e-prosa", ramo: "cafeteria", ramoLabel: "Cafeteria", style: "Claro em creme e marrom, com reserva de mesa", name: "Grão & Prosa", city: "Belo Horizonte", cover: "/cafe-cover.jpg", accent: "#a4501f", tags: ["cafeteria", "cafe", "padaria", "claro", "marrom", "agendamento"] },
   { id: "ponte-ingles", ramo: "escola", ramoLabel: "Escola de inglês", style: "Verde profundo com tipo gigante, adesivos coloridos e aula experimental", name: "Ponte Inglês", city: "Curitiba", cover: "/ingles-cover.jpg", accent: "#2a8a63", tags: ["escola", "ingles", "idiomas", "curso", "educacao", "verde", "colorido", "agendamento"] },
   { id: "toledo-azevedo", ramo: "advocacia", ramoLabel: "Advocacia", style: "Azul marinho e dourado, com consulta agendada", name: "Toledo & Azevedo", city: "Recife", cover: "/law-cover.jpg", accent: "#c9a24b", tags: ["advogado", "advocacia", "juridico", "escritorio", "azul", "dourado", "agendamento"] },

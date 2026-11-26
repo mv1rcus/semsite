@@ -1,7 +1,7 @@
 // Gera um .html unico por modelo (JS, CSS e imagens embutidos). Rode: node scripts/build-standalone.mjs
 import { execSync } from "node:child_process";
 import fs from "node:fs";
-const MODELS = { "focinho-feliz": "Focinho Feliz", "brasa-e-pao": "Brasa&Pão", "dom-navalha": "Dom Navalha", "sorriso-verde": "Sorriso Verde", "toledo-azevedo": "Toledo & Azevedo", "ponte-ingles": "Ponte Inglês", "fluxo-cowork": "Fluxo", "grao-e-prosa": "Grão & Prosa", "massa-mae": "Massa Mãe", "casa-petala": "Casa Pétala", "forca-viva": "Força Viva", "tinta-rara": "Tinta Rara", "otica-prisma": "Ótica Prisma", "studio-era": "Studio Era", "marina-costa": "Marina Costa", "forno-lume": "Forno Lume" };
+const MODELS = { "focinho-feliz": "Focinho Feliz", "brasa-e-pao": "Brasa&Pão", "dom-navalha": "Dom Navalha", "sorriso-verde": "Sorriso Verde", "toledo-azevedo": "Toledo & Azevedo", "ponte-ingles": "Ponte Inglês", "fluxo-cowork": "Fluxo", "jato-azul": "Jato Azul", "grao-e-prosa": "Grão & Prosa", "massa-mae": "Massa Mãe", "casa-petala": "Casa Pétala", "forca-viva": "Força Viva", "tinta-rara": "Tinta Rara", "otica-prisma": "Ótica Prisma", "studio-era": "Studio Era", "marina-costa": "Marina Costa", "forno-lume": "Forno Lume" };
 const mime = (f) => (f.endsWith(".webp") ? "image/webp" : f.endsWith(".png") ? "image/png" : "image/jpeg");
 const images = fs.readdirSync("public").filter((f) => /\.(webp|jpg|png)$/.test(f) && !f.startsWith("cover-locked") && f !== "favicon.png");
 for (const [id] of Object.entries(MODELS)) {
