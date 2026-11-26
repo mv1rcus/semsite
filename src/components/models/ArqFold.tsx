@@ -108,7 +108,7 @@ export function ArqFold({ client }: { client?: { name?: string; whatsapp?: strin
 
       {/* hero: foto full-bleed com a tipografia sobre o céu, como o pôster */}
       <section style={{ position: "relative", overflow: "hidden", background: CREAM }}>
-        <img src="/vao-hero.webp" alt={"Casa de arquitetura orgânica projetada pela " + brand + " na serra, concreto e madeira ao pôr do sol"} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 74%" }} />
+        <img src="/vao-hero.webp" alt={"Casa de arquitetura orgânica projetada pela " + brand + " na serra, concreto e madeira ao pôr do sol"} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 58%" }} />
         <div className="hero-fade" style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(239,234,224,.96) 0%, rgba(239,234,224,.9) 32%, rgba(239,234,224,.32) 55%, rgba(239,234,224,0) 68%)" }} />
         <div className="bp"><Blueprint pos="tl" /></div>
         <div className="bp"><Blueprint pos="tr" /></div>
@@ -118,10 +118,10 @@ export function ArqFold({ client }: { client?: { name?: string; whatsapp?: strin
           <div className="hero-wm-sub" style={{ fontSize: 19, letterSpacing: ".62em", fontWeight: 500, marginTop: 6, textTransform: "lowercase" }}>arquitetura</div>
           <div style={{ width: 56, height: 1.5, background: INK, margin: "26px auto" }} />
           <h1 className="hero-h1" style={{ fontSize: 52, maxWidth: 760, margin: "0 auto" }}>Arquitetura que transcende</h1>
-          <div style={{ marginTop: 22, fontSize: 12, fontWeight: 600, letterSpacing: ".34em", textTransform: "uppercase", color: INK2 }}>Projeto<span style={{ color: AMBER_TXT, margin: "0 14px" }}>·</span>Visão<span style={{ color: AMBER_TXT, margin: "0 14px" }}>·</span>Território</div>
+          <div style={{ marginTop: 22, fontSize: 12, fontWeight: 600, letterSpacing: ".34em", textTransform: "uppercase", color: INK, textShadow: "0 1px 12px " + CREAM + ", 0 0 4px " + CREAM }}>Projeto<span style={{ color: AMBER_TXT, margin: "0 14px" }}>·</span>Visão<span style={{ color: AMBER_TXT, margin: "0 14px" }}>·</span>Território</div>
           <div style={{ display: "flex", gap: 16, justifyContent: "center", marginTop: 34, flexWrap: "wrap" }}>
             <a href={wa("Olá! Quero iniciar um projeto de arquitetura com a " + brand + ".")} className="btn">Iniciar meu projeto</a>
-            <a onClick={() => go("projetos")} className="btn-o">Ver projetos</a>
+            <a onClick={() => go("projetos")} className="btn-o" style={{ background: "rgba(239,234,224,.62)", backdropFilter: "blur(5px)" }}>Ver projetos</a>
           </div>
         </div>
       </section>
