@@ -2,7 +2,8 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { useFollowUp } from "@/lib/use-follow-up";
 import { senderIntro } from "@/lib/message";
-import { Check, Copy, Plus, Send, UserRound } from "lucide-react";
+import { Check, Copy, Lock, Plus, Send, UserRound } from "lucide-react";
+import { useVerified } from "@/lib/use-verified";
 import { SiteModelView } from "@/components/SiteModelView";
 import { PremiumSite } from "@/components/PremiumSite";
 import { getPremium, modelPrompt } from "@/lib/premium-models";
@@ -35,6 +36,7 @@ function Viewer() {
   async function copy(kind: string, text: string) {
     try { await navigator.clipboard.writeText(text); setDone(kind); setTimeout(() => setDone(""), 2000); } catch { /* Clipboard blocked. */ }
   }
+  const { verified } = useVerified();
   const { clients: all, update } = useFollowUp();
   const clients = all.filter((c) => c.stage === "contacted" || c.stage === "demo_sent");
   const [q, setQ] = useState("");
@@ -53,11 +55,13 @@ function Viewer() {
       <div className="sticky top-0 z-50 border-b border-border bg-background/95 px-3 py-2 backdrop-blur">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-2">
           <Link to="/vitrine" className="mr-auto text-sm font-bold hover:underline">← Vitrine</Link>
-          {premium && <button type="button" onClick={() => copy("p", modelPrompt(premium, client))} className={btn}>{done === "p" ? <Check className="size-4" /> : <Copy className="size-4" />}{done === "p" ? "Prompt copiado!" : "Copiar prompt do site"}</button>}
-          <button type="button" onClick={() => setOpen(!open)} className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-primary px-3 text-sm font-bold text-primary-foreground"><UserRound className="size-4" />Usar em um cliente</button>
+          {premium && !verified && <Link to="/verificado" className={btn} title="Só para quem tem o selo Verificado"><Lock className="size-4" />Copiar prompt · Verificado</Link>}
+          {premium && verified && <button type="button" onClick={() => copy("p", modelPrompt(premium, client))} className={btn}>{done === "p" ? <Check className="size-4" /> : <Copy className="size-4" />}{done === "p" ? "Prompt copiado!" : "Copiar prompt do site"}</button>}
+          {!verified && <Link to="/verificado" className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-primary px-3 text-sm font-bold text-primary-foreground" title="Só para quem tem o selo Verificado"><Lock className="size-4" />Usar em um cliente · Verificado</Link>}
+          {verified && <button type="button" onClick={() => setOpen(!open)} className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-primary px-3 text-sm font-bold text-primary-foreground"><UserRound className="size-4" />Usar em um cliente</button>}
           <button type="button" disabled title="Em breve" className={`${btn} opacity-50`}><Plus className="size-4" />Em breve</button>
         </div>
-        {open && (
+        {verified && open && (
           <div className="mx-auto mt-2 max-w-5xl rounded-xl border border-border bg-card p-2">
             <div className="flex items-center gap-2">
               <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar entre quem já recebeu mensagem" aria-label="Buscar cliente" className={field} />
