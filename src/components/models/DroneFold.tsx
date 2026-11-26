@@ -54,16 +54,16 @@ export function DroneFold({ client }: { client?: { name?: string; whatsapp?: str
         .dr0 .feat div{display:flex;align-items:center;gap:16px;border-left:1px solid rgba(255,255,255,.1);padding-left:24px;font-size:11.500px;letter-spacing:.18em;text-transform:uppercase;line-height:1.5;white-space:pre-line}.dr0 .feat div:first-child{border:0;padding-left:0}
         .dr0 .mis{display:grid;grid-template-columns:.9fr 3.1fr;background:#0a1319}.dr0 .mis .l{padding:44px 30px 44px 32px;display:flex;flex-direction:column;justify-content:center}
         .dr0 .mis h2{font-size:34px}.dr0 .mis .l i{display:block;width:44px;height:3px;background:${CY};margin-top:22px}.dr0 .mis .eb{font-size:10.500px;margin-bottom:14px;letter-spacing:.22em}
-        .dr0 .ms{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:0}.dr0 .m{position:relative;min-height:220px;overflow:hidden;clip-path:polygon(9% 0,100% 0,91% 100%,0 100%);margin-left:-22px;background:#16252d}
-        .dr0 .m img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.dr0 .m:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(7,13,18,.85),rgba(7,13,18,0) 55%)}
-        .dr0 .m span{position:absolute;z-index:2;left:26%;bottom:16px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;line-height:1.5;white-space:pre-line}.dr0 .m svg{position:absolute;z-index:2;left:26%;bottom:62px}
+        .dr0 .ms{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:0}.dr0 .m{position:relative;min-height:240px;clip-path:polygon(14% 0,100% 0,86% 100%,0 100%);margin-left:-34px;background:#2ee6f2;padding:1px 0}.dr0 .m:first-child{margin-left:-14px}.dr0 .mi{position:absolute;inset:1px 0;overflow:hidden;clip-path:polygon(14% 0,100% 0,86% 100%,0 100%);background:#16252d}
+        .dr0 .mi img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.dr0 .mi:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(7,13,18,.85),rgba(7,13,18,0) 55%)}
+        .dr0 .mi span{position:absolute;z-index:2;left:30%;bottom:16px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;line-height:1.5;white-space:pre-line}.dr0 .mi svg{position:absolute;z-index:2;left:30%;bottom:62px}
         .dr0 .acc{padding:36px 0 40px;background:#080f14}.dr0 .ah{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;font-size:13px;letter-spacing:.2em;text-transform:uppercase;font-weight:700}.dr0 .ah a{color:${CY};font-size:11.500px}
         .dr0 .ag{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.dr0 .ac{background:${PN};border:1px solid rgba(255,255,255,.07);border-radius:4px;position:relative;overflow:hidden}
         .dr0 .ac img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:#101b23}.dr0 .ac .b{padding:12px 14px 16px}.dr0 .ac b{display:block;font-size:15px;font-weight:700}.dr0 .ac small{display:block;font-size:11.500px;color:${MUT};margin:2px 0 8px}.dr0 .ac em{font-style:normal;font-weight:600;font-size:15px}
         .dr0 .ac i{position:absolute;right:0;bottom:0;width:50px;height:34px;background:${CY};display:grid;place-items:center;clip-path:polygon(28% 0,100% 0,100% 100%,0 100%)}
         .dr0 .sys{display:grid;grid-template-columns:.8fr 2fr;background:#091016;border-top:1px solid ${LN};border-bottom:1px solid ${LN};align-items:center}
-        .dr0 .sys .l{padding:38px 28px 38px 32px}.dr0 .sys h2{font-size:34px;margin-bottom:18px}.dr0 .sys i.bar{display:block;width:40px;height:3px;background:${CY};margin-bottom:22px}
-        .dr0 .sys li{list-style:none;font-size:12px;letter-spacing:.18em;text-transform:uppercase;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.08);display:flex;gap:16px}.dr0 .sys li b{color:${CY};font-weight:600}
+        .dr0 .sys .l{padding:38px 28px 38px 32px}.dr0 .sys h2{font-size:40px;margin-bottom:18px}.dr0 .sys i.bar{display:block;width:40px;height:3px;background:${CY};margin-bottom:22px}
+        .dr0 .sys li{list-style:none;font-size:12px;letter-spacing:.18em;text-transform:uppercase;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.08);display:flex;gap:16px}.dr0 .sys li b{color:#7d8c93;font-weight:500}.dr0 .sys li{color:#e8eef0;border-bottom:1px solid rgba(255,255,255,.14)}.dr0 .sys li:first-child,.dr0 .sys li:first-child b{color:${CY};font-weight:600;border-bottom-color:${CY}}
         .dr0 .sys img{width:100%;display:block;aspect-ratio:16/8;object-fit:cover;background:#0c161d;filter:brightness(.52) saturate(.8) contrast(1.15) hue-rotate(-8deg)}
         .dr0 .build{position:relative;min-height:340px;display:flex;align-items:center;justify-content:flex-end;background:#13252e;overflow:hidden}
         .dr0 .build img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:28% 30%}.dr0 .build:before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(270deg,rgba(7,13,18,.85) 0%,rgba(7,13,18,0) 62%)}
@@ -74,7 +74,7 @@ export function DroneFold({ client }: { client?: { name?: string; whatsapp?: str
           .dr0 .hero{min-height:auto}.dr0 .hero:before{background:linear-gradient(180deg,rgba(7,13,18,.4),rgba(7,13,18,.25) 40%,rgba(7,13,18,.92) 85%)}
           .dr0 h1{font-size:46px}.dr0 .hc{padding:210px 0 30px}.dr0 .side{display:none}
           .dr0 .feat .wrap{grid-template-columns:1fr 1fr;gap:20px;padding:20px}.dr0 .feat div{border:0;padding:0}
-          .dr0 .mis{grid-template-columns:1fr}.dr0 .mis .l{padding:30px 20px 10px}.dr0 .ms{grid-template-columns:1fr 1fr;gap:10px;padding:0 20px 24px}.dr0 .m{margin:0;clip-path:none;min-height:170px}.dr0 .m span,.dr0 .m svg{left:14px}
+          .dr0 .mis{grid-template-columns:1fr}.dr0 .mis .l{padding:30px 20px 10px}.dr0 .ms{grid-template-columns:1fr 1fr;gap:10px;padding:0 20px 24px}.dr0 .m,.dr0 .m:first-child{margin:0;clip-path:none;min-height:170px;background:none;padding:0}.dr0 .mi{clip-path:none;inset:0}.dr0 .m span,.dr0 .mi svg{left:14px}
           .dr0 .ag{grid-template-columns:1fr 1fr}.dr0 .sys{grid-template-columns:1fr}.dr0 .sys .l{padding:30px 20px 10px}
           .dr0 .build{justify-content:flex-start;min-height:300px;align-items:flex-end}.dr0 .build .t{padding:0 20px 28px}.dr0 .build h2{font-size:34px}
         }
@@ -98,7 +98,7 @@ export function DroneFold({ client }: { client?: { name?: string; whatsapp?: str
       <section className="feat"><div className="wrap">{FEAT.map(([t, d]) => <div key={t}><Ico d={d as string} s={26} />{t}</div>)}</div></section>
       <section className="mis">
         <div className="l"><span className="eb">O sistema {brand.charAt(0) + brand.slice(1).toLowerCase()}</span><h2>Potência<br />modular<br />para toda<br />missão</h2><i /></div>
-        <div className="ms">{MISS.map((m) => <div className="m" key={m.t}><img src={m.img} alt={m.t.replace("\n", " ")} /><Ico d={m.ic} s={20} /><span>{m.t}</span></div>)}</div>
+        <div className="ms">{MISS.map((m) => <div className="m" key={m.t}><div className="mi"><img src={m.img} alt={m.t.replace("\n", " ")} /><Ico d={m.ic} s={20} /><span>{m.t}</span></div></div>)}</div>
       </section>
       <section className="acc wrap" id="acc" style={{ maxWidth: "none", padding: 0 }}><div className="wrap">
         <div className="ah"><span>[ Acessórios em destaque</span><a href={wa("ver todos os acessórios")}>VER TODOS →</a></div>
