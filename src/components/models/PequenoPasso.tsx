@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 const N = "#3d3b87", P = "#ff4f87", O = "#ffb020", PALE = "#f3f9fb";
 const CHECKS = ["Apoio à personalidade da criança", "Brincadeiras internas e externas para os pequenos", "Professores qualificados e carinhosos", "A melhor escola infantil da região"];
 const PROGS = [
-  { n: "Contagem com blocos", d: "Os pequenos aprendem números e cores empilhando, separando e contando blocos coloridos.", img: "/pp-blocos.webp" },
-  { n: "Arte com pratos de papel", d: "Recorte, cola e tinta para criar bichinhos e máscaras. Muita imaginação e mão na massa.", img: "/pp-tinta.webp" },
-  { n: "Desenho com massinha", d: "Modelagem de personagens com massinha para treinar a coordenação e a criatividade.", img: "/pp-massinha.webp" },
+  { n: "Contagem com blocos", d: "Os pequenos aprendem números e cores empilhando, separando e contando blocos coloridos.", img: "/pq-blocos.webp" },
+  { n: "Arte com pratos de papel", d: "Recorte, cola e tinta para criar bichinhos e máscaras. Muita imaginação e mão na massa.", img: "/pq-tinta.webp" },
+  { n: "Desenho com massinha", d: "Modelagem de personagens com massinha para treinar a coordenação e a criatividade.", img: "/pq-massinha.webp" },
 ];
 const NAV: [string, string][] = [["Início", "top"], ["Sobre", "sobre"], ["Eventos", "programas"], ["Programas", "programas"], ["Galeria", "programas"], ["Novidades", "sobre"], ["Contato", "contato"]];
 const Dd = ({ children, w = 1.6 }: { children: React.ReactNode; w?: number }) => <svg viewBox="0 0 60 60" fill="none" stroke={N} strokeWidth={w} strokeLinecap="round" strokeLinejoin="round" aria-hidden>{children}</svg>;
@@ -84,7 +84,7 @@ export function PequenoPasso({ client }: { client?: { name?: string; whatsapp?: 
       </div></nav>
 
       <header className="hero">
-        <img src="/pp-hero.webp" alt="Menino com capacete de aviador de brinquedo, brincando de avião no tapete ao lado de um ursinho" />
+        <img src="/pq-hero.webp" alt="Menino com capacete de aviador de brinquedo, brincando de avião no tapete ao lado de um ursinho" />
         <div className="dd s" style={{ left: "-1%", top: 90, width: 46, height: 46 }}><Dd><circle cx="30" cy="30" r="9" /><path d="M30 8v6M30 46v6M8 30h6M46 30h6M14 14l4 4M42 42l4 4M46 14l-4 4M14 46l4-4" /></Dd></div>
         <div className="dd s" style={{ left: "44%", top: 108, width: 54, height: 54 }}><Dd><path d="M8 34c4-12 18-14 26-8l8-6-2 10c4 4 2 10-4 10-8 2-20 2-28-6z" /><circle cx="36" cy="26" r="1.200" /></Dd></div>
         <div className="dd s" style={{ left: "56%", top: 118, width: 56, height: 56 }}><Dd><path d="M24 40c-8-6-10-18 0-24 10-4 20 4 16 14-2 6-6 8-6 12h-8zM26 48h8M27 53h6M30 4v4M10 14l3 3M50 14l-3 3" /></Dd></div>
@@ -106,7 +106,7 @@ export function PequenoPasso({ client }: { client?: { name?: string; whatsapp?: 
           <h2 className="h2">Bem-vindo à creche e escola infantil</h2>
           <svg className="wave" viewBox="0 0 46 8" fill="none" stroke="#3a8fd6" strokeWidth="1.600" aria-hidden><path d="M1 4c3-4 5-4 8 0s5 4 8 0 5-4 8 0 5 4 8 0 5-4 8 0" /></svg>
           <div className="about">
-            <div className="ph"><img className="a" src="/pp-manual.webp" alt="Mãe e criança em atividade manual com papéis coloridos" /><img className="b" src="/pp-prof.webp" alt="Professora com duas crianças brincando" /></div>
+            <div className="ph"><img className="a" src="/pq-manual.webp" alt="Mãe e criança em atividade manual com papéis coloridos" /><img className="b" src="/pq-prof.webp" alt="Professora com duas crianças brincando" /></div>
             <div>
               <p>Aqui cada criança é acolhida como único. Cuidamos da rotina, da alimentação e do aprendizado com muito afeto, brincadeira e atenção ao ritmo de cada um, em um ambiente seguro e colorido.</p>
               <ul>{CHECKS.map((c) => <li key={c}><i><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M5 12l5 5 9-10" /></svg></i>{c}</li>)}</ul>
