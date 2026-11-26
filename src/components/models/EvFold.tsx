@@ -122,7 +122,7 @@ export function EvFold({ client }: { client?: { name?: string; whatsapp?: string
         <div><img src="/ev-interior.webp" alt="Interior do carro com volante e painel digital iluminado" /><div className="t"><span className="eb">Interior</span><h2>Uma condução<br />mais humana.</h2><p>Calma. Conectada. Pensada ao seu redor.</p><a className="btn wh" href={wa("conhecer o interior")}>Explorar interior <Arrow /></a></div></div>
       </section>
 
-      <section className="cta"><img src="/ev-estrada.webp" alt="Carro elétrico em estrada à beira-mar ao pôr do sol" /><div className="wrap"><span className="eb">Agende um test drive</span><h2>Seu próximo<br />capítulo começa aqui.</h2><p>Conheça a {brand} pessoalmente e sinta como um futuro totalmente elétrico pode ser.</p><a className="btn wh" href={wa()}>Agendar test drive <Arrow /></a></div></section>
+      <section className="cta"><img src="/ev-estrada.webp" alt="Carro elétrico em estrada de montanha ao pôr do sol" /><div className="wrap"><span className="eb">Agende um test drive</span><h2>Seu próximo<br />capítulo começa aqui.</h2><p>Conheça a {brand} pessoalmente e sinta como um futuro totalmente elétrico pode ser.</p><a className="btn wh" href={wa()}>Agendar test drive <Arrow /></a></div></section>
 
       <footer className="foot"><div className="wrap"><div className="g">
         <div><Word b={brand} s={22} /><p style={{ margin: "14px 0 0", lineHeight: 1.6 }}>Dirigindo um futuro mais limpo, mais inteligente e mais inspirador.</p></div>
