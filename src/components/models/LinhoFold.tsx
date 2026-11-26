@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-/** Estudio de pilates novo, construido do zero a partir de um pin de site em verde sálvia e linho ("Lex Fish"): hero em cartao arredondado com cortina de linho, trio de paineis verdes, serifa leve. Sem foto: as figuras sao tracos desenhados em SVG. Aula experimental que fecha no WhatsApp. */
+/** Estudio de pilates novo, construido do zero a partir de um pin de site em verde sálvia e linho ("Lex Fish"): hero em cartao arredondado com cortina de linho, trio de paineis verdes, serifa leve. Fotos reais (Gemini). Aula experimental que fecha no WhatsApp. */
 const FOR = "#2f4a3c", SAGE = "#9aa89a", SAGE2 = "#667a69", LIN = "#f1eee7", LIN2 = "#e6e1d6", INK = "#1f2b24", MU = "#55625a";
 const MODS = [
   { t: "Reformer", d: "Aparelho com molas, para força e alinhamento. Turmas de até 5 pessoas." },
@@ -90,7 +90,7 @@ export function LinhoFold({ client }: { client?: { name?: string; whatsapp?: str
           linear-gradient(90deg,rgba(255,255,255,.0) 0,rgba(255,255,255,.55) 9%,rgba(0,0,0,.05) 15%,rgba(255,255,255,.35) 24%,rgba(0,0,0,.06) 33%,rgba(255,255,255,.5) 44%,rgba(0,0,0,.05) 52%,rgba(255,255,255,.4) 63%,rgba(0,0,0,.07) 72%,rgba(255,255,255,.5) 83%,rgba(0,0,0,.05) 92%,rgba(255,255,255,.2) 100%),
           linear-gradient(180deg,#e8e1d3 0%,#d9d0bf 70%,#cfc5b2 100%)}
         .ln .hero::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 78% 30%,rgba(255,255,255,.55),transparent 70%);pointer-events:none}
-        .ln .hero .fig{z-index:1;position:absolute;right:5%;bottom:0;width:min(46%,470px)}
+        .ln .hero .fig{z-index:1;position:absolute;right:5%;bottom:0;width:min(38%,400px)}
         .ln .hero .in{position:relative;padding:110px 7% 0;max-width:640px}
         .ln .hero h1{font-size:clamp(34px,4.6vw,56px);line-height:1.12;color:${FOR};margin:0}
         .ln .btn{display:inline-block;background:${FOR};color:#fff;text-decoration:none;font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:18px 32px;border-radius:5px;border:0;cursor:pointer}
@@ -133,7 +133,7 @@ export function LinhoFold({ client }: { client?: { name?: string; whatsapp?: str
         .ln .wa{position:fixed;right:20px;bottom:20px;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 8px 22px rgba(0,0,0,.28);z-index:20}
         @media(max-width:820px){
           .ln .wrap{padding:0 14px}.ln .bar{grid-template-columns:1fr auto}.ln .bar .pill{display:none}.ln .logo{padding-left:0}.ln .bar .sm,.ln .dl{display:none}.ln .burger{display:block}
-          .ln .hero{min-height:620px}.ln .hero .in{padding:60px 24px 0}.ln .hero .fig{width:86%;right:7%}
+          .ln .hero{min-height:0}.ln .hero .in{padding:60px 24px 28px}.ln .hero .fig{position:relative;width:78%;right:auto;margin:0 auto}
           .ln .about,.ln .book{grid-template-columns:1fr;gap:34px;padding:60px 0 50px}
           .ln .trio{grid-template-columns:1fr}.ln .trio .c{min-height:220px}
           .ln .info{grid-template-columns:1fr;gap:22px}
@@ -154,7 +154,7 @@ export function LinhoFold({ client }: { client?: { name?: string; whatsapp?: str
             <h1>Esculpa o corpo e acalme a mente para ser a melhor versão de você.</h1>
             <button className="btn lt" onClick={() => go("agendar")}>Agende sua aula experimental</button>
           </div>
-          <div className="fig"><Teaser /></div>
+          <div className="fig"><img src="/linho-reformer-v.webp" alt="Aula de reformer em sala com cortina de linho" style={{ width: "100%", height: "auto", display: "block", borderRadius: "200px 200px 14px 14px" }} /></div>
         </section>
       </div>
 
@@ -165,7 +165,7 @@ export function LinhoFold({ client }: { client?: { name?: string; whatsapp?: str
             <h2>Movimento para <b>cada corpo</b> e para cada <b>estilo de vida</b>, criado pela Helena Prado.</h2>
             <a className="btn" href={baseNote} target="_blank" rel="noreferrer">Conhecer o estúdio</a>
           </div>
-          <div className="arch"><span className="st">✦</span><Stretch /></div>
+          <div className="arch"><span className="st">✦</span><img src="/linho-reformer-h.webp" alt="Sala de reformer com parede verde sálvia" style={{ width: "100%", height: "auto", display: "block", borderRadius: "170px 170px 10px 10px" }} /></div>
         </div>
       </div>
 
