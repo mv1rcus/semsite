@@ -71,7 +71,7 @@ export function OpticFold({ client }: { client?: { name?: string; whatsapp?: str
         .of .btn.o{background:transparent;color:${INK};border:1.5px solid #c9bda9;box-shadow:none}
         .of .btn.o:hover{border-color:${INK}}
         .of .burger{display:none;background:none;border:0;width:44px;height:44px;cursor:pointer}
-        .of .hero{position:relative;overflow:hidden;background:${BG}}.of .hero header{position:relative;z-index:2}.of .hero section{position:static}.of .herogrid>div:first-child{position:relative;z-index:2}.of .hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,${BG} 0%,${BG}e6 42%,${BG}00 74%);pointer-events:none}
+        .of .hero{position:relative;overflow:hidden;background:${BG}}.of .hero header{position:relative;z-index:2}.of .hero .links{background:rgba(246,241,233,.88);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);padding:11px 26px;border-radius:999px;gap:26px}.of .hero section{position:static}.of .herogrid>div:first-child{position:relative;z-index:2}.of .hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,${BG} 0%,${BG}e6 42%,${BG}00 74%);pointer-events:none}
         .of .herogrid{display:grid;grid-template-columns:minmax(0,560px) 1fr;align-items:center;gap:20px;min-height:600px}
         .of .himg{position:absolute;left:0;right:0;top:0;bottom:0;z-index:0}
         .of .himg .arch{display:none}
