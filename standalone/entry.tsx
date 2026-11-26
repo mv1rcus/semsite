@@ -1,3 +1,4 @@
+import { PneuNeon } from "@/components/models/PneuNeon";
 import { SorvGlassFold } from "@/components/models/SorvGlassFold";
 import { DancaFold } from "@/components/models/DancaFold";
 import { EspacoFold } from "@/components/models/EspacoFold";
@@ -68,7 +69,8 @@ import { DentalFold } from "@/components/models/DentalFold";
 declare const __MODEL__: string;
 const cfg = (window as unknown as { __SEMSITE__: { client: { name?: string; whatsapp?: string; city?: string } } }).__SEMSITE__;
 const root = createRoot(document.getElementById("root")!);
-if (__MODEL__ === "neve-doce") root.render(<SorvGlassFold client={cfg.client} />);
+if (__MODEL__ === "voltar-pneus") root.render(<PneuNeon client={cfg.client} />);
+else if (__MODEL__ === "neve-doce") root.render(<SorvGlassFold client={cfg.client} />);
 else if (__MODEL__ === "fluxo-urbano") root.render(<DancaFold client={cfg.client} />);
 else if (__MODEL__ === "recanto-verde") root.render(<EspacoFold client={cfg.client} />);
 else if (__MODEL__ === "aurora-lima") root.render(<CerimonialFold client={cfg.client} />);
