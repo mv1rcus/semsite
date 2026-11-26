@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 /** Loja de refrigerante e suco gaseificado autoral, construida a partir de um pin claro com lata roxa e verde-limao gigante, titulo condensado azul-marinho, cards de sabores com respingos, faixa de estilo de vida, clube de pontos roxo e cards coloridos. Carrinho que fecha no WhatsApp. */
 const PUR = "#6a3bff", NAVY = "#15124f", LIME = "#8fd12f", INK = "#1b1850";
 const FLAV = [
-  { n: "Uva e Limão", p: 8, c: "#efe6ff", img: "/fizz-uva.webp" },
-  { n: "Pêssego e Manga", p: 8, c: "#ffe2d9", img: "/fizz-pessego.webp" },
-  { n: "Limão e Kiwi", p: 8, c: "#e7f6cf", img: "/fizz-limao.webp" },
-  { n: "Abacaxi e Maracujá", p: 8, c: "#fff0b8", img: "/fizz-abacaxi.webp" },
-  { n: "Mirtilo e Yuzu", p: 8, c: "#d8edff", img: "/fizz-mirtilo.webp" },
+  { n: "Uva e Limão", p: 8, c: "radial-gradient(circle at 50% 42%,#c9a8ff 0,#6a3bff 100%)", img: "/fizz-uva.webp" },
+  { n: "Pêssego e Manga", p: 8, c: "radial-gradient(circle at 50% 42%,#ffb08a 0,#f0483a 100%)", img: "/fizz-pessego.webp" },
+  { n: "Limão e Kiwi", p: 8, c: "radial-gradient(circle at 50% 42%,#d3f585 0,#5fb81a 100%)", img: "/fizz-limao.webp" },
+  { n: "Abacaxi e Maracujá", p: 8, c: "radial-gradient(circle at 50% 42%,#fff08a 0,#ffae1a 100%)", img: "/fizz-abacaxi.webp" },
+  { n: "Mirtilo e Yuzu", p: 8, c: "radial-gradient(circle at 50% 42%,#b4e6ff 0,#2f8fe8 100%)", img: "/fizz-mirtilo.webp" },
 ];
 const brl = (v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: 2 });
 const Ic = ({ d, c = PUR }: { d: string; c?: string }) => (<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d={d} /></svg>);
@@ -36,7 +36,7 @@ export function FizzFold({ client }: { client?: { name?: string; whatsapp?: stri
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@400;500;600&family=Unbounded:wght@600&display=swap');
         .fz *{box-sizing:border-box}.fz h1,.fz h2,.fz h3,.fz h4,.fz h5{font-family:'Bebas Neue',Impact,sans-serif;font-weight:400;font-style:normal;text-transform:uppercase;margin:0}.fz a,.fz button{font-family:inherit}
-        .fz .bg{background:radial-gradient(900px 600px at 85% 8%,#ddd0ff 0,transparent 60%),linear-gradient(180deg,#fff 0,#f6f3ff 100%)}
+        .fz .bg{background:radial-gradient(760px 620px at 96% 24%,#7a4dff 0,rgba(122,77,255,.55) 38%,transparent 72%),radial-gradient(900px 300px at 70% 60%,rgba(106,59,255,.35) 0,transparent 70%),linear-gradient(180deg,#fff 0,#f1ecff 100%)}
         .fz .nav{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:40px;padding:26px 28px}
         .fz .logo{font-family:'Unbounded',sans-serif;font-weight:600;font-size:30px;color:${PUR};letter-spacing:-.04em;line-height:1}
         .fz .nav .m{display:flex;gap:30px;margin-left:auto;font-weight:500;font-size:14px}.fz .nav .m a{cursor:pointer}
@@ -48,7 +48,7 @@ export function FizzFold({ client }: { client?: { name?: string; whatsapp?: stri
         .fz .hg p{font-size:16px;line-height:1.55;max-width:340px;margin:22px 0 28px;font-weight:400}
         .fz .ben{display:flex;gap:30px;margin-bottom:34px}.fz .ben div{display:flex;flex-direction:column;gap:6px;font-size:10.5px;font-weight:500;letter-spacing:.03em;text-transform:uppercase;line-height:1.3}
         .fz .btn{background:${PUR};color:#fff;border:2px solid ${PUR};border-radius:10px;padding:14px 28px;font-weight:600;font-size:13px;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block}.fz .btn.o{background:#fff;color:${PUR};margin-left:12px}
-        .fz .can{position:relative;justify-self:end;width:min(100%,620px)}.fz .can img{width:100%;display:block;mix-blend-mode:multiply}
+        .fz .can{position:relative;justify-self:end;width:min(118%,720px);margin:-30px -60px -20px 0}.fz .can img{width:100%;display:block;mix-blend-mode:multiply}
         .fz .badge{position:absolute;right:2%;top:12%;width:96px;height:96px;border-radius:50%;border:1.5px solid ${PUR};display:grid;place-items:center;text-align:center;font-size:9.5px;font-weight:600;line-height:1.25;color:${PUR};text-transform:uppercase;background:rgba(255,255,255,.55)}
         .fz .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
         .fz .panel{background:#fff;border-radius:22px;padding:26px 24px 28px;box-shadow:0 20px 50px rgba(80,50,200,.08)}
@@ -78,7 +78,7 @@ export function FizzFold({ client }: { client?: { name?: string; whatsapp?: stri
         @media(max-width:900px){
           .fz .nav{padding:18px;gap:10px}.fz .nav .m{display:none}.fz .burger{display:grid;margin-left:auto}.fz .nav .ib.cart{margin-left:0}
           .fz .hg{grid-template-columns:1fr;padding:0 20px;min-height:0}.fz .can{justify-self:center;width:112%;margin:-10px -6% 0}
-          .fz .ben{gap:18px}.fz .badge{width:76px;height:76px;font-size:8px;top:4%;right:4%}.fz .fc:last-child{grid-column:1/-1;max-width:calc(50% - 8px);justify-self:center;width:100%}
+          .fz .ben{gap:18px}.fz .badge{width:76px;height:76px;font-size:8px;top:4%;right:4%}.fz .why4{grid-template-columns:1fr 1fr}.fz .row>*{min-width:0}.fz .fc:last-child{grid-column:1/-1;max-width:calc(50% - 8px);justify-self:center;width:100%}
           .fz .btn{padding:13px 20px}.fz .btn.o{margin-left:8px}
           .fz .wrap{padding:0 16px}.fz .fl{grid-template-columns:repeat(2,1fr)}.fz .row{grid-template-columns:1fr}.fz .club{grid-template-columns:1fr}.fz .pts{grid-template-columns:1fr 1fr}.fz .pts div{min-height:170px}.fz .fg{grid-template-columns:1fr 1fr}
           .fz .mob{display:block;background:#fff;border-radius:16px;margin:0 16px 10px;box-shadow:0 10px 30px rgba(80,50,200,.12)}.fz .mob a{display:block;padding:14px 20px;font-weight:600;cursor:pointer}
