@@ -41,7 +41,7 @@ export function AgriFold({ client }: { client?: { name?: string; whatsapp?: stri
         .ag0 .mm{position:absolute;top:78px;left:14px;right:14px;z-index:20;background:#13261b;border:1px solid ${LINE};border-radius:14px;padding:8px}.ag0 .mm a{display:block;padding:14px;font-weight:600}
         .ag0 .hc{position:relative;z-index:3;flex:1;display:flex;flex-direction:column;justify-content:center;padding:30px 0 150px}
         .ag0 .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(156,204,74,.4);background:rgba(7,18,10,.55);border-radius:999px;padding:7px 14px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#cfe5a8;width:max-content;max-width:100%}
-        .ag0 h1{font-size:60px;line-height:1.05;margin:26px 0 22px}.ag0 h1 em{font-style:normal;color:${LIME}}
+        .ag0 h1{font-size:54px;line-height:1.05;margin:26px 0 22px}.ag0 h1 em{font-style:normal;color:${LIME}}
         .ag0 .sub{max-width:480px;font-size:15.500px;line-height:1.65;color:#e1eae3;margin:0 0 34px}
         .ag0 .ghost{display:inline-flex;align-items:center;gap:12px;font-weight:600;font-size:14px;margin-left:18px}.ag0 .ghost i{width:44px;height:44px;border:1px solid rgba(255,255,255,.4);border-radius:50%;display:grid;place-items:center}
         .ag0 .stats{position:absolute;z-index:4;left:32px;bottom:60px;display:flex;gap:44px;background:rgba(16,31,23,.78);border:1px solid ${LINE};backdrop-filter:blur(8px);border-radius:16px;padding:22px 34px}
