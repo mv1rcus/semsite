@@ -13,19 +13,19 @@ export const PHOTO = {
 } as const;
 
 export const PREMIUM_MODELS: PremiumModel[] = [
-  { id: "smash-poster", ramo: "poster", ramoLabel: "Hamburgueria", style: "Pôster com tipo gigante e parallax", name: "Smash Poster", city: "Juiz de Fora", cover: PHOTO.burger1, accent: "#ef3b2d", tags: ["hamburguer", "burger", "poster", "tipografia", "parallax", "escuro"] },
-  { id: "amigo-fiel", ramo: "pet", ramoLabel: "Pet shop", style: "Pôster colorido com tipo gigante", name: "Amigo Fiel", city: "Juiz de Fora", cover: PHOTO.dog, accent: "#ff7a1a", tags: ["pet", "petshop", "cachorro", "veterinaria", "poster", "colorido"] },
-  { id: "studio-fio", ramo: "salao", ramoLabel: "Salão de beleza", style: "Editorial rosé", name: "Studio Fio", city: "Juiz de Fora", cover: PHOTO.salon, accent: "#b5546b", tags: ["salao", "beleza", "cabelo", "estetica", "editorial", "claro"] },
-  { id: "silva-lima", ramo: "advocacia", ramoLabel: "Advocacia", style: "Sóbrio azul-marinho", name: "Silva & Lima", city: "Juiz de Fora", cover: PHOTO.law, accent: "#c9a24b", tags: ["advocacia", "advogado", "juridico", "escritorio", "sobrio"] },
-  { id: "motor-certo", ramo: "oficina", ramoLabel: "Oficina mecânica", style: "Industrial amarelo", name: "Motor Certo", city: "Juiz de Fora", cover: PHOTO.engine, accent: "#ffc61a", tags: ["oficina", "mecanica", "carro", "auto", "industrial"] },
-  { id: "casa-alta", ramo: "imobiliaria", ramoLabel: "Imobiliária", style: "Tela cheia com busca", name: "Casa Alta", city: "Juiz de Fora", cover: PHOTO.house, accent: "#2f6f5e", tags: ["imobiliaria", "imovel", "casa", "corretor", "aluguel"] },
-  { id: "chapa-quente", ramo: "hamburgueria", ramoLabel: "Hamburgueria", style: "Escuro com destaque", name: "Chapa Quente", city: "Juiz de Fora", cover: PHOTO.burger4, accent: "#ef3b2d", tags: ["hamburguer", "burger", "lanche", "escuro"] },
-  { id: "forno-vivo", ramo: "pizzaria", ramoLabel: "Pizzaria", style: "Editorial escuro", name: "Forno Vivo", city: "Juiz de Fora", cover: PHOTO.pizza, accent: "#e0452b", tags: ["pizza", "escuro", "editorial"] },
-  { id: "navalha-real", ramo: "barbearia", ramoLabel: "Barbearia", style: "Preto e dourado", name: "Navalha Real", city: "Juiz de Fora", cover: PHOTO.barber, accent: "#c9a24b", tags: ["barbearia", "dourado", "classico"] },
-  { id: "iron-box", ramo: "academia", ramoLabel: "Academia", style: "Impacto neon", name: "Iron Box", city: "Juiz de Fora", cover: PHOTO.gym, accent: "#c6ff3d", tags: ["academia", "neon", "bold", "fitness"] },
-  { id: "mesa-posta", ramo: "restaurante", ramoLabel: "Restaurante", style: "Elegante claro", name: "Mesa Posta", city: "Juiz de Fora", cover: PHOTO.terrace, accent: "#8a5a3c", tags: ["restaurante", "elegante", "claro"] },
-  { id: "sorriso-pleno", ramo: "dentista", ramoLabel: "Odontologia", style: "Clínico moderno", name: "Sorriso Pleno", city: "Juiz de Fora", cover: PHOTO.dentist, accent: "#0ea5a4", tags: ["dentista", "clinica", "saude", "claro"] },
-  { id: "grao-dourado", ramo: "cafeteria", ramoLabel: "Cafeteria", style: "Aconchego artesanal", name: "Grão Dourado", city: "Juiz de Fora", cover: PHOTO.coffee, accent: "#b8642a", tags: ["cafe", "cafeteria", "artesanal"] },
+  { id: "smash-poster", ramo: "poster", ramoLabel: "Hamburgueria", style: "Pôster com tipo gigante e parallax", name: "Smash Poster", city: "São Paulo", cover: PHOTO.burger1, accent: "#ef3b2d", tags: ["hamburguer", "burger", "poster", "tipografia", "parallax", "escuro"] },
+  { id: "amigo-fiel", ramo: "pet", ramoLabel: "Pet shop", style: "Pôster colorido com tipo gigante", name: "Amigo Fiel", city: "Curitiba", cover: PHOTO.dog, accent: "#ff7a1a", tags: ["pet", "petshop", "cachorro", "veterinaria", "poster", "colorido"] },
+  { id: "studio-fio", ramo: "salao", ramoLabel: "Salão de beleza", style: "Editorial rosé", name: "Studio Fio", city: "Belo Horizonte", cover: PHOTO.salon, accent: "#b5546b", tags: ["salao", "beleza", "cabelo", "estetica", "editorial", "claro"] },
+  { id: "silva-lima", ramo: "advocacia", ramoLabel: "Advocacia", style: "Sóbrio azul-marinho", name: "Silva & Lima", city: "Brasília", cover: PHOTO.law, accent: "#c9a24b", tags: ["advocacia", "advogado", "juridico", "escritorio", "sobrio"] },
+  { id: "motor-certo", ramo: "oficina", ramoLabel: "Oficina mecânica", style: "Industrial amarelo", name: "Motor Certo", city: "Campinas", cover: PHOTO.engine, accent: "#ffc61a", tags: ["oficina", "mecanica", "carro", "auto", "industrial"] },
+  { id: "casa-alta", ramo: "imobiliaria", ramoLabel: "Imobiliária", style: "Tela cheia com busca", name: "Casa Alta", city: "Rio de Janeiro", cover: PHOTO.house, accent: "#2f6f5e", tags: ["imobiliaria", "imovel", "casa", "corretor", "aluguel"] },
+  { id: "chapa-quente", ramo: "hamburgueria", ramoLabel: "Hamburgueria", style: "Escuro com destaque", name: "Chapa Quente", city: "São Paulo", cover: PHOTO.burger4, accent: "#ef3b2d", tags: ["hamburguer", "burger", "lanche", "escuro"] },
+  { id: "forno-vivo", ramo: "pizzaria", ramoLabel: "Pizzaria", style: "Editorial escuro", name: "Forno Vivo", city: "Porto Alegre", cover: PHOTO.pizza, accent: "#e0452b", tags: ["pizza", "escuro", "editorial"] },
+  { id: "navalha-real", ramo: "barbearia", ramoLabel: "Barbearia", style: "Preto e dourado", name: "Navalha Real", city: "Belo Horizonte", cover: PHOTO.barber, accent: "#c9a24b", tags: ["barbearia", "dourado", "classico"] },
+  { id: "iron-box", ramo: "academia", ramoLabel: "Academia", style: "Impacto neon", name: "Iron Box", city: "Rio de Janeiro", cover: PHOTO.gym, accent: "#c6ff3d", tags: ["academia", "neon", "bold", "fitness"] },
+  { id: "mesa-posta", ramo: "restaurante", ramoLabel: "Restaurante", style: "Elegante claro", name: "Mesa Posta", city: "Florianópolis", cover: PHOTO.terrace, accent: "#8a5a3c", tags: ["restaurante", "elegante", "claro"] },
+  { id: "sorriso-pleno", ramo: "dentista", ramoLabel: "Odontologia", style: "Clínico moderno", name: "Sorriso Pleno", city: "Curitiba", cover: PHOTO.dentist, accent: "#0ea5a4", tags: ["dentista", "clinica", "saude", "claro"] },
+  { id: "grao-dourado", ramo: "cafeteria", ramoLabel: "Cafeteria", style: "Aconchego artesanal", name: "Grão Dourado", city: "Recife", cover: PHOTO.coffee, accent: "#b8642a", tags: ["cafe", "cafeteria", "artesanal"] },
 ];
 export const getPremium = (id: string) => PREMIUM_MODELS.find((m) => m.id === id);
 
