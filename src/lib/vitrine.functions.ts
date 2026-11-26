@@ -29,3 +29,16 @@ export const authorizeModelUse = createServerFn({ method: "POST" })
     if (!getPremium(data.id)) throw new Error("Modelo não encontrado.");
     return { ok: true as const };
   });
+
+/** Galeria: o servidor decide o que cada conta ve. Sem o selo, a capa real, o nome e o estilo nunca saem do servidor (so uma capa borrada e o ramo). */
+export const listVitrine = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { PREMIUM_MODELS } = await import("./premium-models");
+    const { data } = await context.supabase.rpc("am_i_verified");
+    const verified = !!data;
+    return {
+      verified,
+      models: PREMIUM_MODELS.map((m) => verified ? m : { ...m, name: "Modelo bloqueado", style: "Disponível para quem tem o selo Verificado", city: "", tags: [], accent: "#444", cover: `/cover-locked-${m.id}.jpg` }),
+    };
+  });

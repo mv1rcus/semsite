@@ -1,8 +1,10 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { ProspectTabs } from "@/components/ProspectTabs";
-import { PREMIUM_MODELS, img, searchPremium } from "@/lib/premium-models";
+import { searchPremium, type PremiumModel } from "@/lib/premium-models";
+import { listVitrine } from "@/lib/vitrine.functions";
+import { VitrineCard } from "@/components/VitrineCard";
 
 export const Route = createFileRoute("/_authenticated/vitrine")({
   head: () => ({ meta: [{ title: "Vitrine de sites | SemSite" }, { name: "description", content: "Modelos de site prontos por ramo para usar com seus clientes." }] }),
@@ -11,7 +13,11 @@ export const Route = createFileRoute("/_authenticated/vitrine")({
 
 function Vitrine() {
   const [q, setQ] = useState("");
-  const shown = useMemo(() => searchPremium(q, PREMIUM_MODELS), [q]);
+  const [data, setData] = useState<{ verified: boolean; models: PremiumModel[] } | null>(null);
+  useEffect(() => { listVitrine().then((r) => setData(r as { verified: boolean; models: PremiumModel[] })).catch(() => setData({ verified: false, models: [] })); }, []);
+  const all = data?.models ?? [];
+  const verified = !!data?.verified;
+  const shown = useMemo(() => searchPremium(q, all), [q, all]);
   return (
     <>
       <ProspectTabs active="vitrine" />
@@ -19,14 +25,10 @@ function Vitrine() {
         <label className="relative block"><Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" /><input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar referência, estilo ou ramo (ex: hamburgueria, pet, barbearia)" aria-label="Pesquisar modelos" className="h-12 w-full rounded-2xl border border-border bg-card pl-11 pr-4 text-sm outline-none focus:border-primary" /></label>
         <ul className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {shown.map((m) => (
-            <li key={m.id}><Link to="/vitrine/$id" params={{ id: m.id }} className="group relative block overflow-hidden rounded-2xl border border-border bg-card">
-              <img src={m.cover.startsWith("/") ? m.cover : img(m.cover, 800, 560)} alt="" loading="lazy" className="aspect-[10/7] w-full object-cover transition duration-500 group-hover:scale-105" />
-              <span className="absolute left-3 top-3 rounded-full bg-black/70 px-2.5 py-1 text-[11px] font-bold text-white">{m.ramoLabel}</span>
-              <div className="px-4 py-3"><p className="font-bold">{m.name}</p><p className="text-xs text-muted-foreground">{m.style}</p></div>
-            </Link></li>
+            <li key={m.id}><VitrineCard m={m} verified={verified} /></li>
           ))}
         </ul>
-        {shown.length === 0 && <p className="mt-10 text-center text-muted-foreground">{PREMIUM_MODELS.length === 0 ? "Novos modelos em breve. Estamos refazendo a Vitrine do zero." : "Nenhum modelo encontrado."}</p>}
+        {data && shown.length === 0 && <p className="mt-10 text-center text-muted-foreground">{data && all.length === 0 ? "Novos modelos em breve. Estamos refazendo a Vitrine do zero." : "Nenhum modelo encontrado."}</p>}
       </main>
     </>
   );
