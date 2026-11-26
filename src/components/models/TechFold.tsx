@@ -55,7 +55,7 @@ export function TechFold({ client }: { client?: { name?: string; whatsapp?: stri
         .tm *{box-sizing:border-box}.tm a,.tm button,.tm input{font-family:inherit}
         .tm h1,.tm h2,.tm h3{font-family:'Plus Jakarta Sans',system-ui,sans-serif!important;font-weight:800!important;letter-spacing:-.02em!important;text-transform:none!important;margin:0}
         .tm .w{max-width:1180px;margin:0 auto;padding:0 28px}
-        .tm .nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0;font-size:13px;font-weight:500}
+        .tm .nav{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:22px 0;font-size:13px;font-weight:500}
         .tm .lg{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px}.tm .lg svg{width:30px;height:30px}.tm .lg b{color:${PU2};font-weight:800}
         .tm .lk{display:flex;gap:30px}.tm .lk a{color:#e6e3f0;text-decoration:none;cursor:pointer;padding-bottom:6px;border-bottom:2px solid transparent}.tm .lk a.on{border-color:${PU};color:#fff}
         .tm .ic{display:flex;gap:18px;align-items:center}.tm .ic button{background:none;border:0;color:#fff;cursor:pointer;position:relative;padding:0}.tm .ic .n{position:absolute;top:-8px;right:-9px;background:${PU};border-radius:99px;font-size:9px;padding:1px 5px}
@@ -69,7 +69,7 @@ export function TechFold({ client }: { client?: { name?: string; whatsapp?: stri
         .tm .row{display:flex;gap:16px;align-items:center}
         .tm .bt{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,#9a4dff,#7a2fe8);color:#fff;border:0;border-radius:99px;padding:14px 26px;font-weight:700;font-size:14px;text-decoration:none;cursor:pointer;box-shadow:0 8px 28px rgba(139,61,255,.45)}
         .tm .vd{display:inline-flex;align-items:center;gap:10px;border:1px solid #3a3550;background:rgba(255,255,255,.04);border-radius:99px;padding:13px 24px;font-weight:600;font-size:14px;color:#fff;text-decoration:none;cursor:pointer}.tm .vd i{width:26px;height:26px;border-radius:50%;border:1px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-style:normal}
-        .tm .stage{position:absolute;right:0;top:0;bottom:0;width:58%;z-index:1;background:url(/tech-hero.webp) right bottom/contain no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 30%);mask-image:linear-gradient(90deg,transparent 0,#000 30%)}
+        .tm .stage{position:absolute;right:0;top:0;bottom:0;width:58%;z-index:1;background:url(/tech-hero.webp) 62% 58%/150% auto no-repeat;-webkit-mask-image:radial-gradient(ellipse 62% 62% at 56% 52%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 62% 62% at 56% 52%,#000 55%,transparent 100%)}
         .tm .cats{position:relative;z-index:4;display:grid;grid-template-columns:repeat(6,1fr);background:#0d0b14;border:1px solid ${LN};border-radius:20px;padding:22px 0;margin-top:0}
         .tm .cats div{display:flex;flex-direction:column;align-items:center;gap:10px;font-size:13px;font-weight:500;border-left:1px solid ${LN};cursor:pointer}.tm .cats div:first-child{border-left:0}
         .tm section{padding:54px 0 0}
