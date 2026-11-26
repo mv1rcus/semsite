@@ -67,6 +67,16 @@ export function ToqueFold({ client }: { client?: { name?: string; whatsapp?: str
           .tq .brand{font-size:16px!important;letter-spacing:2px!important}
           .tq .hdr-cta-full{display:none!important}
           .tq .hdr-cta-short{display:inline!important}
+          .tq .pl-grid{grid-template-columns:1fr!important}
+          .tq .pl-side{min-height:280px}
+          .tq .pl-contact{grid-template-columns:1fr!important}
+          .tq .pl-contact>div{border-left:none!important;border-top:1px solid rgba(20,21,13,.15)}
+          .tq .pl-contact>div:first-child{border-top:none!important}
+          .tq .pl-card{padding:4px 20px!important}
+          .tq .pl-row{display:grid!important;grid-template-columns:52px minmax(0,1fr) auto;gap:4px 14px;align-items:start;padding:20px 0!important}
+          .tq .pl-ic{width:52px!important;height:52px!important;grid-row:1/span 3}
+          .tq .pl-dv{display:none!important}
+          .tq .pl-pr{font-size:19px!important;padding:6px 0 0!important}
         }
       `}</style>
 
@@ -121,27 +131,71 @@ export function ToqueFold({ client }: { client?: { name?: string; whatsapp?: str
         </div>
       </section>
 
-      {/* rituais / price list */}
-      <section id="rituais" style={{ padding: "90px 0", background: PANEL }}>
-        <div className="wrap">
-          <div style={{ textAlign: "center" }}>
-            <span className="eyebrow center">Menu de rituais</span>
-            <h2 style={{ marginTop: 14, fontSize: "clamp(34px,4.2vw,54px)", color: CREAM }}>LISTA DE <span style={{ color: GOLD }}>PREÇOS</span></h2>
-            <p style={{ color: MUTED, fontSize: 15.5, marginTop: 10 }}>Valores por sessão. Pacotes de 4 e 8 sessões com desconto progressivo.</p>
+      {/* rituais / price list — à risca do pin: título serif+script gigante, card de vidro com ícones circulares, mármore à direita, "Hora de RELAXAR", barra bege de contato */}
+      <section id="rituais" style={{ padding: "100px 0 90px", background: PANEL, position: "relative", overflow: "hidden" }}>
+        <div className="wrap" style={{ position: "relative" }}>
+          <div className="pl-grid" style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) 300px", gap: 48, alignItems: "stretch" }}>
+            <div>
+              <span className="eyebrow">Menu de rituais</span>
+              <div style={{ position: "relative", marginTop: 18 }}>
+                <h2 style={{ fontSize: "clamp(52px,7vw,86px)", lineHeight: 1, letterSpacing: 5, color: CREAM, textTransform: "uppercase" }}>Lista de</h2>
+                <div style={{ fontFamily: script, fontWeight: 400, fontSize: "clamp(46px,6vw,74px)", color: GOLD, lineHeight: .7, margin: "-6px 0 0 96px" }}>preços</div>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 22, color: MUTED, fontSize: 11.5, letterSpacing: 3.5, textTransform: "uppercase" }}>
+                <span style={{ width: 40, height: 1, background: LINE }} />
+                Massoterapia
+                <svg width="8" height="8" viewBox="0 0 8 8" aria-hidden><rect x="1.8" y="1.8" width="4.4" height="4.4" transform="rotate(45 4 4)" fill="none" stroke="${GOLD}" strokeWidth="1" /></svg>
+                <span style={{ width: 40, height: 1, background: LINE }} />
+              </div>
+
+              <div className="pl-card" style={{ marginTop: 36, background: "rgba(236,229,211,.045)", border: `1px solid ${LINE}`, borderRadius: 8, padding: "8px 30px", boxShadow: "0 30px 70px -50px rgba(0,0,0,.9)" }}>
+                {RITUAIS.map((r, idx) => (
+                  <article key={r.t} className="pl-row" style={{ display: "flex", gap: 24, alignItems: "center", padding: "24px 0", ...(idx > 0 ? { borderTop: `1px solid ${LINE2}` } : {}) }}>
+                    <span className="pl-ic" style={{ width: 72, height: 72, borderRadius: "50%", border: `1px solid ${LINE}`, display: "grid", placeItems: "center", flexShrink: 0 }}><Ic d={r.i} s={32} c={GOLD} /></span>
+                    <span style={{ flex: 1, minWidth: 0 }}>
+                      <h3 style={{ fontSize: 18.5, color: CREAM, letterSpacing: 2.2, textTransform: "uppercase" }}>{r.t}</h3>
+                      <p style={{ fontSize: 14.5, lineHeight: 1.6, color: MUTED, margin: "6px 0 8px", maxWidth: 380 }}>{r.d}</p>
+                      <span style={{ fontSize: 11.5, fontWeight: 500, letterSpacing: 2.5, textTransform: "uppercase", color: GOLD }}>{r.m}</span>
+                    </span>
+                    <span className="pl-dv" style={{ width: 1, alignSelf: "stretch", background: LINE2 }} />
+                    <span className="pl-pr" style={{ fontFamily: serif, fontSize: "clamp(24px,5vw,30px)", color: GOLD, whiteSpace: "nowrap", paddingLeft: 6 }}>{r.p}</span>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            <div className="pl-side" style={{ position: "relative", display: "flex", alignItems: "stretch", gap: 18 }}>
+              <span className="vtext" style={{ alignSelf: "center", flexShrink: 0 }}>relax · recharge · renew</span>
+              <div style={{ flex: 1, borderRadius: "170px 170px 8px 8px", overflow: "hidden", border: `1px solid ${LINE2}`, minHeight: 420 }}>
+                <img src="/toque-marmore.jpg" alt="Textura de mármore com ramo de eucalipto" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "68% 50%", display: "block" }} />
+              </div>
+            </div>
           </div>
-          <div style={{ maxWidth: 920, margin: "48px auto 0" }}>
-            {RITUAIS.map((r, idx) => (
-              <article key={r.t} style={{ display: "flex", gap: 24, alignItems: "center", padding: "26px 8px", borderTop: `1px solid ${LINE}`, ...(idx === RITUAIS.length - 1 ? { borderBottom: `1px solid ${LINE}` } : {}) }}>
-                <span style={{ width: 64, height: 64, borderRadius: "50%", border: `1px solid ${LINE}`, background: PANEL2, display: "grid", placeItems: "center", flexShrink: 0 }}><Ic d={r.i} s={30} c={GOLD} /></span>
-                <span style={{ flex: 1, minWidth: 0 }}>
-                  <span style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12 }}>
-                    <h3 style={{ fontSize: 21, color: CREAM, letterSpacing: 2, textTransform: "uppercase" }}>{r.t}</h3>
-                    <span style={{ fontFamily: serif, fontSize: "clamp(24px,6vw,32px)", color: GOLD, whiteSpace: "nowrap" }}>{r.p}</span>
-                  </span>
-                  <p style={{ fontSize: 15.5, lineHeight: 1.65, color: MUTED, margin: "6px 0 8px" }}>{r.d}</p>
-                  <span style={{ fontSize: 12, fontWeight: 500, letterSpacing: 2.5, textTransform: "uppercase", color: GOLD }}>{r.m}</span>
+
+          <div style={{ textAlign: "center", marginTop: 72 }}>
+            <div style={{ fontFamily: script, fontWeight: 400, fontSize: "clamp(26px,3vw,34px)", color: GOLD }}>Hora de</div>
+            <div style={{ fontFamily: serif, fontSize: "clamp(48px,6.5vw,76px)", letterSpacing: 12, color: CREAM, textTransform: "uppercase", lineHeight: 1.15, marginTop: 2 }}>Relaxar</div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14, marginTop: 16, color: MUTED, fontSize: 11.5, letterSpacing: 3, textTransform: "uppercase" }}>
+              <span style={{ width: 46, height: 1, background: LINE }} />
+              <Ic d="M16 5c-4 5-7 8-7 12a7 7 0 0 0 14 0c0-4-3-7-7-12z" s={16} c={GOLD} />
+              Seu bem-estar é a nossa prioridade
+              <span style={{ width: 46, height: 1, background: LINE }} />
+            </div>
+          </div>
+
+          <div className="pl-contact" style={{ marginTop: 40, background: CREAM, color: INK, borderRadius: 8, display: "grid", gridTemplateColumns: "1fr 1fr 1fr", overflow: "hidden" }}>
+            {[
+              { i: "M9 5h4l2 5-3 2c1.2 3 3 5 6 6.2l2-3 5 2v4c0 1.1-.9 2-2 2C12 23.8 6.2 18 5.7 7c0-1.1.9-2 1.3-2z", t: phone ? `+${phone}` : "(16) 99999-9999", s: "Agende sua sessão" },
+              { i: "M5 9h22v15H5zM5 10l11 8 11-8", t: "contato@estudiotoque.com.br", s: "Envie um email" },
+              { i: "M16 4a8 8 0 0 1 8 8c0 6-8 16-8 16S8 18 8 12a8 8 0 0 1 8-8zM16 14a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z", t: `Estúdio Toque · ${city}`, s: "Atendimento com hora marcada" },
+            ].map((c, idx) => (
+              <div key={c.t} style={{ display: "flex", alignItems: "center", gap: 14, padding: "20px 24px", ...(idx > 0 ? { borderLeft: "1px solid rgba(20,21,13,.15)" } : {}) }}>
+                <span style={{ width: 44, height: 44, borderRadius: "50%", border: "1px solid rgba(20,21,13,.35)", display: "grid", placeItems: "center", flexShrink: 0 }}><Ic d={c.i} s={20} c={INK} /></span>
+                <span>
+                  <div style={{ fontFamily: serif, fontSize: 14.5, letterSpacing: .6, fontWeight: 600 }}>{c.t}</div>
+                  <div style={{ fontSize: 11.5, letterSpacing: 1.6, textTransform: "uppercase", opacity: .75, marginTop: 3 }}>{c.s}</div>
                 </span>
-              </article>
+              </div>
             ))}
           </div>
         </div>
