@@ -59,6 +59,7 @@ import { MedFold } from "@/components/models/MedFold";
 import { ToqueFold } from "@/components/models/ToqueFold";
 import { ImpetoFold } from "@/components/models/ImpetoFold";
 import { BandoneonFold } from "@/components/models/BandoneonFold";
+import { AquaGrowFold } from "@/components/models/AquaGrowFold";
 import { ArqFold } from "@/components/models/ArqFold";
 import { BolaPraFrenteFold } from "@/components/models/BolaPraFrenteFold";
 import { CardumeFold } from "@/components/models/CardumeFold";
@@ -82,6 +83,7 @@ else if (__MODEL__ === "escolinha-bola-pra-frente") root.render(<BolaPraFrenteFo
 else if (__MODEL__ === "escola-cardume") root.render(<CardumeFold client={cfg.client} />);
 else if (__MODEL__ === "assessoria-folego") root.render(<FolegoFold client={cfg.client} />);
 else if (__MODEL__ === "casa-bandoneon") root.render(<BandoneonFold client={cfg.client} />);
+else if (__MODEL__ === "aquagrow-eco") root.render(<AquaGrowFold client={cfg.client} />);
 else if (__MODEL__ === "vao-arquitetura") root.render(<ArqFold client={cfg.client} />);
 else if (__MODEL__ === "estudio-impeto") root.render(<ImpetoFold client={cfg.client} />);
 else if (__MODEL__ === "estudio-toque") root.render(<ToqueFold client={cfg.client} />);
