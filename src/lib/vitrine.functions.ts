@@ -50,6 +50,7 @@ const HTML_LOADERS: Record<string, () => Promise<{ default: string }>> = {
   "fluxo-cowork": () => import("./standalone-html/fluxo-cowork.html?raw"),
   "jato-azul": () => import("./standalone-html/jato-azul.html?raw"),
   "pano-limpo": () => import("./standalone-html/pano-limpo.html?raw"),
+  "cobalto-grafica": () => import("./standalone-html/cobalto-grafica.html?raw"),
   "grao-e-prosa": () => import("./standalone-html/grao-e-prosa.html?raw"),
   "ponte-ingles": () => import("./standalone-html/ponte-ingles.html?raw"),
   "toledo-azevedo": () => import("./standalone-html/toledo-azevedo.html?raw"),
