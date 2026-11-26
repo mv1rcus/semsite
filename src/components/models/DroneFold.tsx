@@ -48,7 +48,7 @@ export function DroneFold({ client }: { client?: { name?: string; whatsapp?: str
         .dr0 .mm{position:absolute;top:66px;left:14px;right:14px;z-index:20;background:#0f1b22;border:1px solid ${LN};padding:8px}.dr0 .mm a{display:block;padding:14px;font-weight:600}
         .dr0 .hc{position:relative;z-index:3;flex:1;display:flex;flex-direction:column;justify-content:center;padding:30px 0 60px}
         .dr0 .eb{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#dbe7ea;line-height:1.5}
-        .dr0 h1{font-size:68px;margin:22px 0 20px}.dr0 .sub{font-size:13.500px;letter-spacing:.26em;text-transform:uppercase;line-height:1.7;color:#dbe7ea;max-width:340px;margin:0 0 28px}
+        .dr0 h1{font-size:98px;margin:22px 0 22px}.dr0 .sub{font-size:13.500px;letter-spacing:.26em;text-transform:uppercase;line-height:1.7;color:#dbe7ea;max-width:440px;margin:0 0 28px}
         .dr0 .side{position:absolute;z-index:3;right:32px;top:230px;display:flex;flex-direction:column;gap:6px;font-size:11px;letter-spacing:.18em;color:#cfe3e6}
         .dr0 .feat{background:#091117;border-top:1px solid ${LN};border-bottom:1px solid ${LN}}.dr0 .feat .wrap{display:grid;grid-template-columns:repeat(4,1fr);padding:22px 32px}
         .dr0 .feat div{display:flex;align-items:center;gap:16px;border-left:1px solid rgba(255,255,255,.1);padding-left:24px;font-size:11.500px;letter-spacing:.18em;text-transform:uppercase;line-height:1.5;white-space:pre-line}.dr0 .feat div:first-child{border:0;padding-left:0}
