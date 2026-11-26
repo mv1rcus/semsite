@@ -205,11 +205,11 @@ export function BurgerPopFold({ client }: { client?: { name?: string; whatsapp?:
         .bp .hero2 h1 .y1{color:${YEL}}
         .bp .hero2 .lead{color:#f3e4d6;max-width:430px;font-size:16.5px;margin:22px 0 26px;font-weight:600}
         .bp .torn{position:absolute;left:0;width:100%;height:40px;display:block}
-        .bp .torn.b{bottom:-1px}.bp .torn.t{top:-1px}.bp .torn.bo{bottom:-1px}
+        .bp .torn.rr{top:calc(72% - 39px);z-index:1}.bp .torn.b{bottom:-1px}.bp .torn.t{top:-1px}.bp .torn.bo{bottom:-1px} .bp .torn{z-index:3}
         .bp .fresh{padding:6px 0 14px}
         .bp .fresh h2{font-weight:800}
         .bp .orange{position:relative;background:#d9942a;padding:0}
-        .bp .trio{display:block;width:100%;max-width:1440px;aspect-ratio:3/1;object-fit:cover;object-position:50% 50%;margin:0 auto}
+        .bp .trio{display:block;width:100%;max-width:1440px;aspect-ratio:3.15/1;object-fit:cover;object-position:50% 0%;margin:0 auto}
         .bp .trio-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
         .bp .chip{background:#fff;color:${INK};border:0;border-radius:999px;padding:11px 18px;font-weight:800;font-size:13.5px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.15)}
         .bp .chip:hover{background:${CR}}
@@ -231,7 +231,7 @@ export function BurgerPopFold({ client }: { client?: { name?: string; whatsapp?:
         @media(max-width:860px){
           .bp .hsh{background:linear-gradient(180deg,rgba(40,6,8,.7),rgba(40,6,8,.5) 60%,rgba(40,6,8,.55))}
           .bp .hin2{padding-bottom:90px}.bp .hcopy{padding:30px 0 10px}
-          .bp .orange{padding:56px 0 66px}
+          .bp .orange{padding:0}
         }
         .bp .fresh,.bp .orange{overflow:hidden;position:relative}
         .bp .fl{position:absolute;pointer-events:none;z-index:1;filter:drop-shadow(0 10px 14px rgba(60,20,0,.25))}
@@ -290,6 +290,7 @@ export function BurgerPopFold({ client }: { client?: { name?: string; whatsapp?:
       </section>
 
       <section className="sec favs">
+        <svg className="torn rr" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden><path d="M0 0L0 29 L24 33 L48 29 L72 30 L96 30 L120 31 L144 31 L168 30 L192 34 L216 28 L240 34 L264 33 L288 28 L312 28 L336 33 L360 29 L384 30 L408 27 L432 27 L456 31 L480 27 L504 31 L528 28 L552 32 L576 30 L600 33 L624 32 L648 25 L672 33 L696 30 L720 27 L744 31 L768 30 L792 31 L816 34 L840 33 L864 26 L888 31 L912 32 L936 27 L960 31 L984 32 L1008 25 L1032 29 L1056 32 L1080 27 L1104 30 L1128 28 L1152 26 L1176 32 L1200 27 L1224 30 L1248 31 L1272 29 L1296 30 L1320 31 L1344 34 L1368 26 L1392 29 L1416 30 L1440 25 L1440 0Z" fill={CR} /></svg>
         <div className="wrap">
           <p className="sub center" style={{ maxWidth: 640, margin: "0 auto 44px", textAlign: "center" }}>Smash de 120 g na chapa bem quente, cheddar derretido e molho da casa. Fritas crocantes e pizza de massa fina saem junto, tudo fresco, direto pro seu WhatsApp.</p>
           <div className="fh"><h2>Favoritos da casa</h2><span className="dots" aria-hidden><i /><i /><i /><i /><i /></span></div>
