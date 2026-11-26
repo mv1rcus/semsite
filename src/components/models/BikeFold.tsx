@@ -36,48 +36,7 @@ const Limb = ({ d, w = 22 }: { d: string; w?: number }) => (
   </g>
 );
 const Rider = () => (
-  <svg viewBox="0 0 520 430" className="rider" role="img" aria-label="Ilustração de um ciclista de lenço amarelo ao vento">
-    <ellipse cx="260" cy="402" rx="230" ry="7" fill={INK} opacity=".85" />
-    <Wheel cx={112} cy={304} r={92} />
-    <Wheel cx={408} cy={304} r={92} />
-    <g stroke={INK} strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" fill="none">
-      {/* quadro: tubo do selim, tubo superior, tubo diagonal, bainhas */}
-      <path d="M250 304L222 204M222 204L352 200M352 200L250 304M222 204L112 304M250 304L112 304" />
-      {/* garfo e mesa */}
-      <path d="M352 196L366 236L408 304M352 196L350 178L384 172" />
-      {/* canote e selim */}
-      <path d="M222 204L216 184" />
-      <path d="M192 182h50" strokeWidth="11" />
-      {/* pedivela */}
-      <circle cx="250" cy="304" r="15" fill="#fff" />
-      <path d="M250 304L280 332M250 304L220 276" />
-      <path d="M268 336h26M208 272h26" strokeWidth="10" />
-    </g>
-    {/* perna de tras */}
-    <Limb d="M226 186L238 246L224 280" />
-    {/* bermuda */}
-    <path d="M206 168c-10 20-6 44 20 52 26 8 46-6 52-26l-28-30z" fill={INK} stroke={INK} strokeWidth="4" strokeLinejoin="round" />
-    {/* perna da frente */}
-    <Limb d="M236 190L296 246L282 330" />
-    {/* tronco */}
-    <g fill="none" strokeLinecap="round">
-      <path d="M222 180L318 132" stroke={INK} strokeWidth="58" />
-      <path d="M222 180L318 132" stroke="#fff" strokeWidth="50" />
-      <path d="M252 148l40 10" stroke={INK} strokeWidth="3" />
-    </g>
-    {/* braco */}
-    <Limb d="M316 138L346 164L382 174" w={14} />
-    {/* cabeca */}
-    <circle cx="352" cy="92" r="27" fill={Y} stroke={INK} strokeWidth="6" />
-    <path d="M326 86c-2-26 22-40 40-30 12 6 18 20 12 32z" fill="#fff" stroke={INK} strokeWidth="5" strokeLinejoin="round" />
-    <g fill={INK}>{[[330, 62], [346, 54], [362, 56], [374, 66], [324, 74]].map(([x, y], i) => (<circle key={i} cx={x} cy={y} r="10" />))}</g>
-    <circle cx="364" cy="98" r="3" fill={INK} />
-    <path d="M372 108l8 3" stroke={INK} strokeWidth="4" strokeLinecap="round" fill="none" />
-    {/* lenço */}
-    <path d="M330 108C300 88 272 100 242 82C212 64 190 78 150 58L142 84C190 98 212 88 242 108C272 128 300 118 326 134z" fill={Y} stroke={INK} strokeWidth="5" strokeLinejoin="round" />
-    <path d="M150 58L142 84" stroke={INK} strokeWidth="5" />
-    <path d="M30 160h18M50 224h26M14 270h22" stroke={INK} strokeWidth="5" strokeLinecap="round" />
-  </svg>
+  <img className="rider" src="/roda-ciclista.webp" alt="Ilustração de um ciclista de lenço amarelo ao vento" />
 );
 const BikeLine = ({ k }: { k: number }) => (
   <svg viewBox="0 0 300 190" className="bk" aria-hidden>
@@ -122,7 +81,7 @@ export function BikeFold({ client }: { client?: { name?: string; whatsapp?: stri
         .bk0 .mmenu a{padding:14px 12px;font-weight:800;cursor:pointer}
         .bk0 .hero{position:relative;min-height:620px;display:grid;grid-template-columns:1.05fr 1fr;align-items:center;margin-top:-74px;padding:74px 40px 40px 0}
         .bk0 .blob{position:absolute;left:0;top:0;width:62%;height:100%;z-index:0}
-        .bk0 .rider{position:relative;z-index:1;width:100%;max-width:720px;height:auto;margin-left:-10px}
+        .bk0 .rider{position:relative;z-index:1;width:104%;max-width:840px;height:auto;margin-left:16px;margin-top:-40px}
         .bk0 .ht{position:relative;z-index:2;padding-left:10px}
         .bk0 h1{font-family:'Montserrat',system-ui,sans-serif;font-weight:800;font-size:clamp(38px,5vw,66px);line-height:1.08;letter-spacing:-.02em;margin:0 0 26px;text-align:right}
         .bk0 .ht p{font-size:14.5px;line-height:1.75;color:${MUT};margin:0 0 30px;text-align:right;max-width:440px;margin-left:auto}
@@ -164,7 +123,7 @@ export function BikeFold({ client }: { client?: { name?: string; whatsapp?: stri
         .bk0 .foot{background:${INK};color:#d4d0c4;display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:26px;padding:38px 40px;font-size:14px;line-height:1.7}
         .bk0 .foot b{color:#fff}
         .bk0 .wa{position:fixed;right:18px;bottom:18px;z-index:40;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.3)}
-        @media(max-width:960px){.bk0 .hero{grid-template-columns:1fr;padding:74px 20px 30px;min-height:0}.bk0 .blob{width:100%;height:62%}.bk0 .rider{margin:20px auto 0;display:block;max-width:480px}.bk0 h1,.bk0 .ht p{text-align:left}.bk0 .ht p{margin-left:0}.bk0 .acts,.bk0 .dots{justify-content:flex-start}.bk0 .sv,.bk0 .bg,.bk0 .of{grid-template-columns:1fr}.bk0 .of{gap:30px}}
+        @media(max-width:960px){.bk0 .hero{grid-template-columns:1fr;padding:74px 20px 30px;min-height:0}.bk0 .blob{width:100%;height:62%}.bk0 .rider{margin:20px auto 24px;display:block;width:100%;max-width:480px}.bk0 h1,.bk0 .ht p{text-align:left}.bk0 .ht p{margin-left:0}.bk0 .acts,.bk0 .dots{justify-content:flex-start}.bk0 .sv,.bk0 .bg,.bk0 .of{grid-template-columns:1fr}.bk0 .of{gap:30px}}
         @media(max-width:760px){
           .bk0 .links,.bk0 .ico .btn,.bk0 .ico span{display:none}.bk0 .burger{display:block}.bk0 .nav{padding:0 12px 0 20px}
           .bk0 .wrap{padding:0 20px}.bk0 .sec{padding-top:70px}.bk0 .rd{margin-top:70px;padding:60px 0}
