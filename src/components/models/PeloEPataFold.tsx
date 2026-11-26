@@ -52,7 +52,7 @@ export function PeloEPataFold({ client }: { client?: { name?: string; whatsapp?:
         .pp .btn.o{background:transparent;color:${TX};border:1.5px solid ${TX}}
         .pp .btn.o:hover{background:${TX};color:#f6f1e7}
         .pp .burger{display:none;background:none;border:0;width:44px;height:44px;cursor:pointer}
-        .pp .hero{text-align:center;padding:64px 24px 0}
+        .pp .hero{text-align:center;padding:0;position:relative;overflow:hidden;min-height:min(56vw,760px);display:flex;align-items:center;justify-content:center}.pp .hero .hbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%}.pp .hero .hin{position:relative;z-index:2;padding:56px 24px;max-width:540px}.pp .hero h1{font-size:clamp(36px,4.2vw,58px)}.pp .hero .herocta{margin-bottom:0}
         .pp .kick{font-size:12px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:${MU}}
         .pp h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(46px,7vw,88px);line-height:1.04;margin:18px auto 8px;max-width:820px;color:${TX}}
         .pp h1 em{font-style:italic;font-weight:400}
@@ -82,7 +82,7 @@ export function PeloEPataFold({ client }: { client?: { name?: string; whatsapp?:
         .pp .pitem b{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:21px}
         .pp .pitem small{display:block;font-size:13.5px;color:${MU};margin-top:3px;line-height:1.55;font-weight:400}
         .pp .pitem .pr{font-family:'Cormorant Garamond',serif;font-size:21px;font-style:italic;white-space:nowrap}
-        .pp .cust{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px}
+        .pp .custgrid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;margin-top:44px;background:#d9d8d4;border-radius:18px;padding:32px}.pp .custimg img{width:100%;display:block;border-radius:12px}.pp .steps{list-style:none;margin:0;padding:0;display:grid;gap:22px;text-align:left}.pp .steps li{border-top:1px solid #1d1a1533;padding-top:14px}.pp .steps span{display:block;font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#5c5546}.pp .steps b{display:block;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:26px;margin-top:4px}.pp .cust{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px}
         .pp .cucard{background:${CD};border:1px solid ${LN};border-radius:18px;padding:30px 26px}
         .pp .cucard b{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;display:block;margin-top:14px}
         .pp .cucard p{font-size:14px;color:${MU};line-height:1.65;margin:8px 0 0}
@@ -110,7 +110,7 @@ export function PeloEPataFold({ client }: { client?: { name?: string; whatsapp?:
           .pp .band{padding:72px 24px}
           .pp .burger{display:block}
           .pp .cats,.pp .cust,.pp .revs{grid-template-columns:1fr}.pp .cats{grid-template-rows:none}.pp .cat:first-child{grid-row:auto;min-height:380px}
-          .pp .col{grid-template-columns:1fr;gap:32px}
+          .pp .col{grid-template-columns:1fr;gap:32px}.pp .custgrid{grid-template-columns:1fr;padding:18px;gap:24px}.pp .hero{flex-direction:column;min-height:0}.pp .hero .hbg{position:static;height:auto;aspect-ratio:4/3;order:2}.pp .hero .hin{padding:44px 20px 24px}
           .pp .menuopen{position:fixed;inset:0;background:${BG};z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px}
           .pp .menuopen a{font-family:'Cormorant Garamond',serif;font-size:32px;color:${TX};cursor:pointer}
         }
@@ -142,6 +142,8 @@ export function PeloEPataFold({ client }: { client?: { name?: string; whatsapp?:
       )}
 
       <header className="hero">
+        <img className="hbg" src="/pp-duo.webp" alt="Labrador e gato lado a lado em fundo bege" />
+        <div className="hin">
         <span className="kick">Boutique para cães e gatos · {city}</span>
         <h1>Tudo para quem <em>você mais ama,</em> escolhido <em>a dedo</em></h1>
         <p className="lead">Coleiras, guias, comedouros e mantas de ateliês que tratam pet como família. Nada de prateleira de oferta: curadoria peça a peça.</p>
@@ -149,7 +151,7 @@ export function PeloEPataFold({ client }: { client?: { name?: string; whatsapp?:
           <a className="btn" onClick={() => go("colecao")}>Ver a coleção</a>
           <a className="btn o" href={wa(`Oi! Quero uma indicação de produto na ${brand}.`)} target="_blank" rel="noreferrer">Pedir indicação</a>
         </div>
-        <div className="heroimg"><img src="/pp-hero.webp" alt="Labrador e gato lado a lado em fundo bege" /></div>
+        </div>
       </header>
 
       <section className="sec" id="categorias">
@@ -193,14 +195,13 @@ export function PeloEPataFold({ client }: { client?: { name?: string; whatsapp?:
           <div className="kick2">Feito sob medida</div>
           <h2>Com o nome <em>dele</em> gravado</h2>
           <p className="sub">Toda peça da coleção pode sair personalizada: nome, medida e combinação de cores escolhidos por ti.</p>
-          <div className="cust">
-            {CUSTOM.map((c, i) => (
-              <div className="cucard" key={c.t}>
-                <Ic d={["M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z", "M3 12h18M12 3v18M5 6l14 12M19 6L5 18", "M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"][i] ?? ""} />
-                <b>{c.t}</b>
-                <p>{c.d}</p>
-              </div>
-            ))}
+          <div className="custgrid">
+            <div className="custimg"><img src="/pp-coleiras.webp" alt="Coleiras personalizadas em rosa, marrom e turquesa" /></div>
+            <ol className="steps">
+              {["Escolha a peça da coleção", "Diga o nome para gravar", "Passe a medida do pescoço", "Combine as cores com a gente"].map((t, i) => (
+                <li key={t}><span>Passo {i + 1}</span><b>{t}</b></li>
+              ))}
+            </ol>
           </div>
           <div style={{ textAlign: "center", marginTop: 40 }}>
             <a className="btn" href={wa(`Oi! Quero uma peça personalizada na ${brand}.`)} target="_blank" rel="noreferrer">Personalizar uma peça</a>
