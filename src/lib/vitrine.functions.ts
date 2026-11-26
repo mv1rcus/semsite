@@ -56,6 +56,7 @@ const HTML_LOADERS: Record<string, () => Promise<{ default: string }>> = {
   "casa-petala": () => import("./standalone-html/casa-petala.html?raw"),
   "forno-lume": () => import("./standalone-html/forno-lume.html?raw"),
   "atelie-seda": () => import("./standalone-html/atelie-seda.html?raw"),
+  "folha-corrida": () => import("./standalone-html/folha-corrida.html?raw"),
   "massa-mae": () => import("./standalone-html/massa-mae.html?raw"),
   "sorriso-verde": () => import("./standalone-html/sorriso-verde.html?raw"),
   "forca-viva": () => import("./standalone-html/forca-viva.html?raw"),
