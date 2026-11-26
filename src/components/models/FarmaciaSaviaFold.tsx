@@ -82,7 +82,7 @@ export function FarmaciaSaviaFold({ client }: { client?: { name?: string; whatsa
         @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
         .fa *{box-sizing:border-box}
         .fa h1,.fa h2,.fa h3,.fa h4{font-family:Ubuntu,system-ui,sans-serif;font-weight:500;margin:0}
-        .fa .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+        .fa .wrap{max-width:940px;margin:0 auto;padding:0 20px}
         .fa .tb{display:flex;justify-content:space-between;padding:12px 0 0;font-size:12px;color:${MU}}
         .fa .hd{display:grid;grid-template-columns:230px 1fr 130px 170px 220px;gap:24px;align-items:center;padding:18px 0 22px}
         .fa .logo{display:flex;align-items:center;gap:8px;font-size:28px;font-weight:700;color:${LIME};letter-spacing:-.01em}
@@ -101,9 +101,11 @@ export function FarmaciaSaviaFold({ client }: { client?: { name?: string; whatsa
         .fa .bh{background:${LIME};color:#fff;font-size:13px;font-weight:500;letter-spacing:.02em;padding:11px 14px;text-transform:uppercase}
         .fa .ct a{display:flex;justify-content:space-between;padding:9px 14px;font-size:12px;color:#666;border-bottom:1px solid #f0f0f0;cursor:pointer}
         .fa .ct a:last-child{border:0}
-        .fa .bn{position:relative;height:300px;background-color:#fff}
+        .fa .soc2{display:flex;gap:8px;margin:18px 0 6px}.fa .soc2 a{width:26px;height:26px;border-radius:50%;background:#96d33f;display:flex;align-items:center;justify-content:center}
+        .fa .bn{position:relative;aspect-ratio:2/1;background-color:#fff}
+        .fa .ar{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:52px;border:0;background:rgba(255,255,255,.75);color:#333;font-size:28px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}.fa .ar.l{left:0}.fa .ar.r{right:0}.fa .ar:hover{background:#fff}
         .fa .promos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 16px}
-        .fa .pm{min-height:130px;color:#fff;text-align:center;padding:16px;display:flex;flex-direction:column;justify-content:center;align-items:center;cursor:pointer}
+        .fa .pm{aspect-ratio:1.43;color:#fff;text-align:center;padding:16px;display:flex;flex-direction:column;justify-content:center;align-items:center;cursor:pointer}
         .fa .pm h3{font-size:24px;font-weight:400;line-height:1.1}
         .fa .pm h2{font-size:46px;font-weight:500;line-height:1.05;letter-spacing:-.02em}
         .fa .pm p{margin:4px 0 0;font-size:11px;opacity:.95}
@@ -121,7 +123,7 @@ export function FarmaciaSaviaFold({ client }: { client?: { name?: string; whatsa
         .fa .pc{position:relative;padding:18px 14px 16px;text-align:center;border-right:1px solid #f0f0f0;font-size:11px}
         .fa .pc:last-child{border:0}
         .fa .sale{position:absolute;left:14px;top:14px;background:${BLUE};color:#fff;font-size:10px;padding:2px 6px;z-index:1}
-        .fa .pim{height:128px;display:flex;align-items:center;justify-content:center}.fa .pim img{max-height:128px;max-width:128px;object-fit:contain}
+        .fa .pim{height:168px;display:flex;align-items:center;justify-content:center}.fa .pim img{max-height:168px;max-width:168px;object-fit:contain}
         .fa .pc h4{font-size:11px;font-weight:500;color:#444;margin:10px 0 5px;line-height:1.35}
         .fa .pr b{font-size:13px;font-weight:700;margin-right:5px}
         .fa .add{margin:10px 0 8px;background:${LIME};color:#fff;border:0;padding:8px 18px;font:500 10px Ubuntu,system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase;cursor:pointer}
@@ -151,9 +153,9 @@ export function FarmaciaSaviaFold({ client }: { client?: { name?: string; whatsa
         @media(max-width:1000px){
           .fa .hd{grid-template-columns:1fr 1fr;gap:14px}.fa .srch{grid-column:1/-1;order:5}.fa .ph{display:none}
           .fa .grid{grid-template-columns:1fr}.fa .ct{display:none}.fa .side{display:none}.fa .mob{display:block}
-          .fa .tb span:first-child{display:none}.fa .tb{justify-content:flex-end}.fa .bn{height:190px}.fa .promos{grid-template-columns:1fr}.fa .pm h2{font-size:38px}
+          .fa .tb span:first-child{display:none}.fa .tb{justify-content:flex-end}.fa .bn{aspect-ratio:auto;height:190px}.fa .pm{aspect-ratio:auto;min-height:120px}.fa .promos{grid-template-columns:1fr}.fa .pm h2{font-size:38px}
           .fa .nav a{padding:14px 12px;font-size:12px}.fa .nav .lg{display:none}
-          .fa .pcs{grid-template-columns:1fr 1fr}.fa .pc:nth-child(2n){border-right:0}.fa .pc:nth-child(3){display:none}
+          .fa .pim{height:120px}.fa .pim img{max-height:120px;max-width:100%}.fa .pcs{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.fa .pc:nth-child(2n){border-right:0}.fa .pc:nth-child(3){display:none}
           .fa .bar .wrap{grid-template-columns:1fr;gap:20px}.fa .fg{grid-template-columns:1fr 1fr}
         }
       `}</style>
@@ -183,7 +185,7 @@ export function FarmaciaSaviaFold({ client }: { client?: { name?: string; whatsa
           </div>
         </aside>
         <main>
-          <div className="bn" style={{ background: 'url("/fs-banner.webp") center/cover no-repeat' }} role="img" aria-label="Rosto com folha de bananeira" />
+          <div className="bn" style={{ background: 'url("/fs-banner.webp") center/cover no-repeat' }} role="img" aria-label="Rosto com folha de bananeira"><button className="ar l" aria-label="Anterior" onClick={() => setOpen(true)}>‹</button><button className="ar r" aria-label="Próximo" onClick={() => setOpen(true)}>›</button></div>
           <div className="promos">
             <div className="pm" style={{ background: LIME }} onClick={() => setOpen(true)}><h3>Oferta especial</h3><h2>10% OFF</h2><p>NO PAGAMENTO PELO CARTÃO DE CRÉDITO</p></div>
             <div className="pm" style={{ background: BLUE }} onClick={() => setOpen(true)}><h3>Frete grátis</h3><p style={{ fontSize: 15, margin: "2px 0 8px" }}>em pedidos acima de R$ 99</p><p>Oferta válida em todos os produtos da loja.</p></div>
@@ -221,6 +223,7 @@ export function FarmaciaSaviaFold({ client }: { client?: { name?: string; whatsa
             <div><h4>Minha conta</h4><a>Minha conta</a><a>Histórico de pedidos</a><a>Lista de desejos</a><a>Newsletter</a></div>
             <div><h4>Contato</h4><a>Rua das Acácias, 450, {city}</a><a>{phone ? `+${num}` : "0800 234 5678"}</a><a>Todos os dias, 8h às 19h</a></div>
           </div>
+          <div className="soc2">{[["f","M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H7v4h3v6h4v-6h3l1-4h-4V9z"],["t","M22 5.800c-.700.300-1.500.600-2.400.700.900-.500 1.500-1.300 1.800-2.300-.800.500-1.700.800-2.600 1a4.100 4.100 0 0 0-7 3.700C8.400 8.700 5.400 7.100 3.400 4.600c-1 1.800-.500 4.100 1.200 5.300-.700 0-1.300-.200-1.900-.500 0 2 1.400 3.700 3.300 4.100-.600.200-1.200.200-1.900.1.500 1.600 2 2.800 3.800 2.800A8.300 8.300 0 0 1 2 18.500a11.700 11.700 0 0 0 6.300 1.800c7.600 0 11.800-6.300 11.800-11.800v-.5c.800-.6 1.500-1.300 1.900-2.200z"],["i","M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4zm5 5a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"]].map(([k, d]) => <a key={k} aria-label="Rede social"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d={d} /></svg></a>)}</div>
           <div className="cp"><span>{brand} © 2026 · Foto ilustrativa</span><span>Site de demonstração SemSite</span></div>
         </div>
       </footer>
