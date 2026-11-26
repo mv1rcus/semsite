@@ -100,7 +100,7 @@ export function CardumeFold({ client }: { client?: { name?: string; whatsapp?: s
         <div className="wrap" style={{ textAlign: "center", paddingTop: 34 }}>
           <p className="eyebrow" style={{ color: AZ2, marginBottom: 6, textWrap: "balance", maxWidth: 560, marginLeft: "auto", marginRight: "auto" }}>Do primeiro banho de piscina ao pódio</p>
           <h1 style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>{brand} Escola de Natação em {city}: aulas de natação para bebês, crianças, adultos e hidroginástica</h1>
-          <svg viewBox="0 0 1200 880" role="img" aria-label="Pôster com a palavra Cardume repetida em letras gigantes preenchidas com água" style={{ width: "100%", maxWidth: 980, height: "auto", display: "block", margin: "0 auto" }}>
+          <svg overflow="visible" viewBox="235 5 730 840" role="img" aria-label="Pôster com a palavra Cardume repetida em letras gigantes preenchidas com água" style={{ width: "100%", maxWidth: 690, height: "auto", display: "block", margin: "0 auto" }}>
             <defs>
               <pattern id="cd-foto" width="720" height="720" patternUnits="userSpaceOnUse">
                 <image href="/cardume-agua.webp" width="720" height="720" preserveAspectRatio="xMidYMid slice" />
@@ -111,7 +111,7 @@ export function CardumeFold({ client }: { client?: { name?: string; whatsapp?: s
                 <text key={y} x="600" y={y} fill="url(#cd-foto)" stroke={AZ2} strokeWidth="2" paintOrder="stroke">CARDUME</text>
               ))}
             </g>
-            <image href="/cardume-nadador.webp" x="290" y="230" width="620" height="443" preserveAspectRatio="xMidYMid meet" />
+            <image href="/cardume-nadador.webp" x="340" y="250" width="520" height="371" preserveAspectRatio="xMidYMid meet" />
           </svg>
           <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap", marginTop: 30 }}>
             <a className="btn" href={wa(`Olá! Quero agendar uma aula experimental de natação na ${brand}.`)} target="_blank" rel="noreferrer">Aula experimental grátis</a>
