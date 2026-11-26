@@ -74,12 +74,12 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
         .gb .bd{position:absolute;right:4px;top:4px;background:${Y};color:${K};border-radius:50%;width:16px;height:16px;font-size:10px;font-weight:700;display:grid;place-items:center}
         .gb .burger{display:none}
         .gb .mob{display:none}
-        .gb .hero{position:relative;min-height:480px;background:${B};overflow:hidden}
+        .gb .hero{position:relative;min-height:580px;background:${B};overflow:hidden}
         .gb .hero>img{position:absolute;right:0;top:0;width:76%;height:100%;object-fit:cover;object-position:60% 40%}
         .gb .hero:before{content:"";position:absolute;inset:0;z-index:1;background:${Y};clip-path:polygon(0 0,36% 0,25% 100%,0 100%)}
         .gb .hero:after{content:"";position:absolute;z-index:1;right:0;top:0;bottom:0;width:22%;background:linear-gradient(90deg,rgba(27,47,214,0),rgba(27,47,214,.85));}
-        .gb .hc{position:relative;z-index:3;padding:34px 0 40px;width:min(94%,1200px);margin:0 auto;min-height:480px}
-        .gb .hc h1{font-size:clamp(60px,8.2vw,104px);max-width:5.2em;margin:0 0 22px;line-height:.86}
+        .gb .hc{position:relative;z-index:3;padding:34px 0 40px;width:min(94%,1200px);margin:0 auto;min-height:580px}
+        .gb .hc h1{font-size:clamp(64px,9.6vw,136px);max-width:5.2em;margin:0 0 22px;line-height:.86}
         .gb .hc p{font-size:15px;line-height:1.5;max-width:23ch;margin:0 0 22px;font-weight:500}
         .gb .btn{display:inline-flex;align-items:center;gap:10px;min-height:46px;padding:0 22px;border-radius:2px;font-size:13px;font-weight:700;text-decoration:none;cursor:pointer;border:0;background:${K};color:#fff}
         .gb .btn.y{background:${Y};color:${K}}
@@ -90,7 +90,7 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
         .gb .nc b{display:block;font-family:'Barlow Condensed',sans-serif;font-style:italic;font-weight:800;font-size:34px;color:${Y};letter-spacing:0;margin-top:2px}
         .gb .nc i{display:block;color:${Y};margin:0 0 12px auto;width:max-content;font-style:normal;font-size:22px}
         .gb .rg{display:grid;grid-template-columns:320px 1fr;gap:30px;align-items:center;padding:68px 0}
-        .gb h2{text-wrap:balance}.gb .rg h2,.gb .plan h2,.gb .gg h2,.gb .svc h2{font-size:clamp(38px,4.2vw,50px);line-height:.9}.gb .svc h2{font-size:clamp(34px,3.2vw,42px)}
+        .gb h2{text-wrap:balance}.gb .rg h2,.gb .plan h2,.gb .gg h2,.gb .svc h2{font-size:clamp(38px,4.2vw,50px);line-height:.9}.gb .svc h2{font-size:clamp(34px,3.2vw,42px)}.gb .svc h2:before{content:'///';color:${Y};font-style:italic;margin-right:8px}
         .gb .rg p{font-size:14px;font-weight:600;text-transform:uppercase;margin:20px 0 0;line-height:1.35;max-width:14ch}
         .gb .rg .ln{height:1px;background:${K};width:130px;margin-top:20px;position:relative}
         .gb .rc{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
@@ -103,11 +103,11 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
         .gb .rk h3{font-size:19px;line-height:1;font-style:italic}
         .gb .rk small{display:block;font-size:11px;font-weight:600;font-family:'Inter',sans-serif;font-style:normal;text-transform:none;margin-top:3px;opacity:.9}
         .gb .rk i{width:30px;height:30px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;flex:none}
-        .gb .pr{background:#f6f6f8;position:relative;overflow:hidden}
+        .gb .pr{background:#fafafb;position:relative;overflow:hidden}
         .gb .pr .in{display:grid;grid-template-columns:1.15fr .9fr;gap:0;align-items:stretch}
-        .gb .pl{position:relative;display:grid;grid-template-columns:1fr 250px;align-items:center;padding:30px 20px 30px 0;min-height:420px}
+        .gb .pl{position:relative;display:grid;grid-template-columns:1fr 250px;align-items:center;padding:30px 20px 30px 0;min-height:460px}
         .gb .pl .n2{position:absolute;left:-10px;top:10px;font-family:'Barlow Condensed',sans-serif;font-style:italic;font-weight:800;font-size:clamp(150px,20vw,250px);line-height:.8;color:${B};z-index:0}
-        .gb .pl img{position:relative;z-index:1;width:100%;mix-blend-mode:multiply;margin-top:50px}
+        .gb .pl img{position:relative;z-index:1;width:122%;margin-left:-20%;max-width:none;mix-blend-mode:multiply;filter:brightness(1.07) contrast(1.06);margin-top:50px}
         .gb .pd{position:relative;z-index:2;display:grid;gap:12px}
         .gb .pd h3{font-size:28px;line-height:1.02}
         .gb .pd .new{display:inline-block;background:${Y};font-size:10px;font-weight:800;padding:2px 7px;font-style:italic;vertical-align:top;margin-left:8px;font-family:'Inter',sans-serif;text-transform:uppercase}
@@ -120,7 +120,7 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
         .gb .ct{display:grid;grid-template-columns:96px repeat(3,1fr);font-size:12px;align-items:center}
         .gb .ct>div{padding:10px 4px;border-bottom:1px solid #ececf0;text-align:center}
         .gb .ct>div:nth-child(4n+1){text-align:left;font-weight:500;color:#444}
-        .gb .ct .h{border:0;font-weight:700;font-size:12px;line-height:1.3}
+        .gb .ct .h img{display:block;width:100%;height:36px;object-fit:contain;mix-blend-mode:multiply;margin:0 auto 4px}.gb .ct .h{border:0;font-weight:700;font-size:12px;line-height:1.3}
         .gb .ct .hy{background:${Y};font-weight:800}
         .gb .ct b{font-weight:700}
         .gb .plan{position:relative;display:grid;grid-template-columns:.9fr 1fr;min-height:360px;background:#0f1013;overflow:hidden;color:#fff}
@@ -151,7 +151,7 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
         .gb footer h4{font-size:12px;font-family:'Inter',sans-serif;font-style:normal;font-weight:700;margin-bottom:10px;text-transform:none}
         .gb footer a{display:block;color:#cfcfd4;font-size:12px;text-decoration:none;padding:3px 0;cursor:pointer}
         .gb footer p{font-size:12px;color:#cfcfd4;margin:10px 0 0}
-        .gb .nl2{display:flex;margin-top:8px}.gb .nl2 input{flex:1;min-width:0;height:44px;border:0;padding:0 12px;font-size:12px}.gb .nl2 button{width:48px;border:0;background:${Y};cursor:pointer;display:grid;place-items:center}
+        .gb .soc{display:flex;gap:10px;margin-top:12px}.gb .soc a{width:44px;height:44px;border:1.5px solid #4a4a50;border-radius:50%;display:grid;place-items:center;color:#fff;cursor:pointer}.gb .nl2{display:flex;margin-top:8px}.gb .nl2 input{flex:1;min-width:0;height:44px;border:0;padding:0 12px;font-size:12px}.gb .nl2 button{width:48px;border:0;background:${Y};cursor:pointer;display:grid;place-items:center}
         .gb .dm{grid-column:1/-1;border-top:1px solid #2a2a2e;padding-top:14px;margin-top:6px;font-size:12px;color:#a8a8ae}
         .gb .wa{position:fixed;right:14px;bottom:14px;width:48px;height:48px;border-radius:50%;background:#25d366;display:grid;place-items:center;z-index:30;box-shadow:0 6px 18px rgba(0,0,0,.35)}
         .gb .toast{position:fixed;left:50%;bottom:74px;transform:translateX(-50%);background:${Y};color:${K};padding:12px 20px;font-size:13px;font-weight:700;z-index:40}
@@ -185,7 +185,7 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
         <img src="/gb-hero.webp" alt="Ciclista de jaqueta amarela numa e-bike cinza e branca atravessando a cidade em movimento" />
         <span className="big" aria-hidden>01</span>
         <div className="hc">
-          <h1>Mova<br />a cidade</h1>
+          <h1>Mova<br />a<br />cidade</h1>
           <p>Bicicletas, e-bikes e mobilidade urbana para uma vida mais rápida, limpa e livre.</p>
           <a className="btn" href="#linha" onClick={(e) => { e.preventDefault(); go("linha"); }}>Ver bikes <Arr /></a>
         </div>
@@ -220,7 +220,7 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
         <div className="cm">
           <h3>Compare as bikes</h3>
           <div className="ct" role="table" aria-label="Comparação">
-            <div className="h" /><div className="h hy">E-City Pro<br />{brl(12499)}</div><div className="h">Urban Lite<br />{brl(7499)}</div><div className="h">Gravel X<br />{brl(9499)}</div>
+            <div className="h" /><div className="h hy"><img src="/gb-prod.webp" alt="" />E-City Pro<br />{brl(12499)}</div><div className="h"><img src="/gb-cat2.webp" alt="" />Urban Lite<br />{brl(7499)}</div><div className="h"><img src="/gb-cat3.webp" alt="" />Gravel X<br />{brl(9499)}</div>
             {COMP.map((r) => r.map((c, i) => <div key={`${r[0]}${i}`} style={i === 1 ? { fontWeight: 700 } : undefined}>{c}</div>))}
           </div>
           <a className="btn o" href={wa("Oi! Quero a comparação completa das bikes.")} target="_blank" rel="noreferrer" style={{ justifyContent: "center" }}>Ver comparação completa <Arr s={14} /></a>
@@ -257,7 +257,7 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
         <div><h4>Suporte</h4><a onClick={() => go("servico")}>Central de ajuda</a><a onClick={() => go("servico")}>Garantia</a><a onClick={() => go("servico")}>Agendar revisão</a></div>
         <div><h4>Sobre</h4><a onClick={() => go("rotas")}>Nossa história</a><a onClick={() => go("rotas")}>Sustentabilidade</a><a onClick={() => go("rotas")}>Lojas</a></div>
         <div><h4>Fique por dentro</h4><p style={{ marginTop: 0 }}>Novidades, dicas de pedal e ofertas.</p>
-          <form className="nl2" onSubmit={(e) => { e.preventDefault(); window.open(wa(`Oi! Quero receber novidades da ${brand}. Meu e-mail: ${mail || "não informado"}`), "_blank"); }}><input type="email" aria-label="Seu e-mail" placeholder="Seu e-mail" value={mail} onChange={(e) => setMail(e.target.value)} /><button type="submit" aria-label="Enviar"><Arr /></button></form></div>
+          <form className="nl2" onSubmit={(e) => { e.preventDefault(); window.open(wa(`Oi! Quero receber novidades da ${brand}. Meu e-mail: ${mail || "não informado"}`), "_blank"); }}><input type="email" aria-label="Seu e-mail" placeholder="Seu e-mail" value={mail} onChange={(e) => setMail(e.target.value)} /><button type="submit" aria-label="Enviar"><Arr /></button></form><div className="soc">{[["Instagram",<path d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" />],["YouTube",<path d="M3 8a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3zM10 9v6l5-3z" />],["TikTok",<path d="M14 3v11a4 4 0 1 1-4-4M14 3c0 3 2 5 5 5" />]].map(([n,d]) => <a key={n as string} href={wa(`Oi! Vi o ${n} da ${brand}.`)} target="_blank" rel="noreferrer" aria-label={n as string}><Ico s={18} c="#fff">{d}</Ico></a>)}</div></div>
         <p className="dm">Fotos, nomes, números, preços e endereço são ilustrativos. Modelo de demonstração.</p>
       </div></footer>
       <a className="wa" href={order} target="_blank" rel="noreferrer" aria-label="Falar no WhatsApp"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden><path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.2-1.4A10 10 0 1 0 12 2zm5.2 13.9c-.2.6-1.300 1.200-1.800 1.200-.5.100-1.100.100-1.800-.100-.4-.100-1-.300-1.700-.600-3-1.300-4.900-4.300-5.100-4.500-.1-.2-1.200-1.600-1.200-3s.8-2.100 1-2.400c.3-.3.600-.3.800-.3h.6c.2 0 .5-.1.700.5l.9 2.200c.1.200.1.400 0 .6l-.4.600c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.7-.1l.9-1.100c.2-.3.400-.2.700-.1l2 1c.3.100.5.200.5.300.1.100.1.700-.1 1.300z" /></svg></a>
