@@ -6,6 +6,7 @@ const SECTIONS: Record<PremiumKey, string> = {
   barbearia: "hero dividido com foto da barbearia, tabela de serviços com preços pontilhados, galeria assimétrica", academia: "hero com título gigante vazado, faixa de números, três planos com destaque no do meio, fotos lado a lado",
   restaurante: "hero com foto em arco, pratos da casa em cards com foto, depoimento em citação", dentista: "hero com foto e cartão flutuante de avaliação, grade de tratamentos, faixa de números",
   lavanderia: "pilha de roupas coloridas no hero creme, cards coloridos de serviços, linha do tempo com fotos e processo em 4 passos",
+  roupas: "título gigante em sans, fotos P&B, novidades com tamanho, sacola no WhatsApp",
   livraria: "título gigante em sans, estante em destaque, cards escuros numerados, clube de leitura, reserva no WhatsApp",
   joalheria: "hero em duas colunas com foto de modelo, coleção em grade com abas, ateliê lado a lado, cesta com gravação",
   padaria: "hero com foto de pão e título grande em serifa, cards de pães, processo lado a lado, encomenda com retirada",
