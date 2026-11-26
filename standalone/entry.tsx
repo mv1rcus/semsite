@@ -3,6 +3,7 @@ import { PetFold } from "@/components/models/PetFold";
 import { BurgerFold } from "@/components/models/BurgerFold";
 import { BarberFold } from "@/components/models/BarberFold";
 import { GymFold } from "@/components/models/GymFold";
+import { SalonFold } from "@/components/models/SalonFold";
 import { CafeFold } from "@/components/models/CafeFold";
 import { TattooFold } from "@/components/models/TattooFold";
 import { LawFold } from "@/components/models/LawFold";
@@ -12,6 +13,7 @@ const cfg = (window as unknown as { __SEMSITE__: { client: { name?: string; what
 const root = createRoot(document.getElementById("root")!);
 if (__MODEL__ === "focinho-feliz") root.render(<PetFold client={cfg.client} />);
 else if (__MODEL__ === "forca-viva") root.render(<GymFold client={cfg.client} />);
+else if (__MODEL__ === "studio-era") root.render(<SalonFold client={cfg.client} />);
 else if (__MODEL__ === "grao-e-prosa") root.render(<CafeFold client={cfg.client} />);
 else if (__MODEL__ === "toledo-azevedo") root.render(<LawFold client={cfg.client} />);
 else if (__MODEL__ === "sorriso-verde") root.render(<DentalFold client={cfg.client} />);
