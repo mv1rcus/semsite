@@ -148,8 +148,8 @@ export function BikeMove({ client }: { client?: { name?: string; whatsapp?: stri
         .gb .gear{display:grid;grid-template-columns:1.35fr 1fr;gap:20px;padding:68px 0}
         .gb .gg h2{margin-bottom:6px}
         .gb .gl{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 24px)/3);gap:12px;margin-top:18px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}.gb .gl::-webkit-scrollbar{display:none}.gb .gc{scroll-snap-align:start}.gb .car{display:flex;gap:10px;margin-top:14px}.gb .car button{width:44px;height:44px;border-radius:50%;border:1.5px solid #777;background:#fff;display:grid;place-items:center;cursor:pointer;color:#111}
-        .gb .gc{background:#f1f1f4;padding:12px;display:flex;flex-direction:column}
-        .gb .gc img{width:100%;aspect-ratio:1;object-fit:contain;mix-blend-mode:multiply}
+        .gb .gc{background:#fff;border-radius:14px;box-shadow:0 2px 14px rgba(20,20,40,.1);padding:14px 12px 12px;display:flex;flex-direction:column}
+        .gb .gc img{width:100%;aspect-ratio:1;object-fit:contain}
         .gb .gc b{font-size:12px;font-weight:600;margin-top:6px}
         .gb .gc div{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:14px;font-weight:700}
         .gb .gc button{width:44px;height:44px;border-radius:50%;background:${Y};border:0;display:grid;place-items:center;cursor:pointer;color:${K}}
