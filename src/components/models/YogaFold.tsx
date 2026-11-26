@@ -53,10 +53,14 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
         .yga .eyebrow::before{content:"●";font-size:8px}
         .yga .hov{transition:transform .2s,box-shadow .2s,border-color .2s}
         .yga .hov:hover{transform:translateY(-4px);box-shadow:0 18px 40px -24px rgba(46,51,32,.45);border-color:rgba(185,138,94,.6)!important}
+        .yga .hero-comp{min-height:700px}
         @media (max-width:900px){
           .yga .hero-g{grid-template-columns:1fr!important}
           .yga .hor-g{grid-template-columns:1fr!important;gap:32px!important}
           .yga .desk-nav{display:none!important}
+          .yga .hero-comp{min-height:0!important;display:grid;gap:26px}
+          .yga .hero-comp .arq{position:static!important;width:min(300px,86%)!important;height:auto!important;aspect-ratio:3/4;margin:0 auto}
+          .yga .hero-comp .hojecard{position:static!important}
         }
       `}</style>
 
@@ -91,10 +95,10 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
               {["Primeira aula gratuita", "Turmas de até 12 alunos", "Tapete e props inclusos"].map((b) => <span key={b} style={{ display: "inline-flex", gap: 7, alignItems: "center" }}><Ic d={CHECK} s={14} c={OL2} />{b}</span>)}
             </div>
           </div>
-          {/* composicao CSS: sol + card de horarios */}
-          <div style={{ position: "relative", minHeight: 420 }}>
-            <img src="/raiz-instrutora.webp" alt="Instrutora de yoga em prática no estúdio" style={{ position: "absolute", top: 0, right: 0, width: 300, height: 400, borderRadius: "150px 150px 24px 24px", objectFit: "cover" }} />
-            <div style={{ position: "absolute", bottom: 0, left: 0, right: 24, background: "#fff", borderRadius: 22, padding: "26px 26px 20px", boxShadow: "0 28px 60px -30px rgba(46,51,32,.45)", border: `1px solid ${CRM2}` }}>
+          {/* foto da instrutora livre + card de horarios abaixo, sem sobreposicao */}
+          <div className="hero-comp" style={{ position: "relative" }}>
+            <img src="/raiz-instrutora.webp" alt="Instrutora de yoga em prática no estúdio" className="arq" style={{ position: "absolute", top: 0, right: 0, width: 300, height: 400, borderRadius: "150px 150px 24px 24px", objectFit: "cover" }} />
+            <div className="hojecard" style={{ position: "absolute", bottom: 0, left: 0, right: 24, background: "#fff", borderRadius: 22, padding: "26px 26px 20px", boxShadow: "0 28px 60px -30px rgba(46,51,32,.45)", border: `1px solid ${CRM2}` }}>
               <span style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: 1.8, color: CLAY }}>HOJE NO ESTÚDIO</span>
               {[{ h: "6h30", c: "Vinyasa Flow", v: "3 vagas" }, { h: "12h", c: "Hatha Yoga", v: "5 vagas" }, { h: "19h", c: "Yin Yoga", v: "2 vagas" }].map((r) => (
                 <div key={r.h} style={{ display: "flex", alignItems: "center", gap: 14, padding: "13px 0", borderBottom: `1px solid ${CRM2}` }}>
