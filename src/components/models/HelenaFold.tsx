@@ -24,10 +24,11 @@ const DEPO = [
   { t: "Profissional incrível, sempre me deixou confortável desde a primeira sessão. Recuperei uma qualidade de vida que eu não tinha há anos.", n: "Diego" },
 ];
 
-function Ph({ src, alt, ratio, wide }: { src: string; alt: string; ratio: string; wide?: boolean }) {
+function Ph({ src, alt, ratio, wide, pos, soft }: { src: string; alt: string; ratio: string; wide?: boolean; pos?: string; soft?: boolean }) {
   return (
-    <div style={{ position: "relative", aspectRatio: ratio, background: `linear-gradient(160deg, ${BG2}, ${BG})`, overflow: "hidden", width: "100%" }}>
-      <img src={src} alt={alt} loading={wide ? undefined : "lazy"} onLoad={(e) => { e.currentTarget.style.opacity = "1"; }} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block", opacity: 0, transition: "opacity .4s" }} />
+    <div style={{ position: "relative", aspectRatio: ratio, background: soft ? "transparent" : `linear-gradient(160deg, ${BG2}, ${BG})`, overflow: "hidden", width: "100%" }}>
+      <img src={src} alt={alt} loading={wide ? undefined : "lazy"} onLoad={(e) => { e.currentTarget.style.opacity = "1"; }} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: pos || "center", display: "block", opacity: 0,
+            ...(soft ? { mixBlendMode: "lighten" as const, WebkitMaskImage: "radial-gradient(ellipse 92% 90% at 50% 50%, #000 55%, transparent 85%)", maskImage: "radial-gradient(ellipse 92% 90% at 50% 50%, #000 55%, transparent 85%)" } : {}), transition: "opacity .4s" }} />
     </div>
   );
 }
@@ -125,7 +126,7 @@ export function HelenaFold({ client }: { client?: { name?: string; whatsapp?: st
             </div>
             <div style={{ position: "relative" }}>
               <Ph src="/psico-hero.jpg" alt="Retrato de psicóloga sorridente de blazer escuro em fundo escuro com bokeh dourado" ratio="4/5" />
-              <div aria-hidden style={{ position: "absolute", inset: 0, background: `linear-gradient(90deg, ${BG} 0%, transparent 26%), linear-gradient(0deg, ${BG} 0%, transparent 18%)` }} />
+              <div aria-hidden style={{ position: "absolute", inset: 0, background: `linear-gradient(90deg, ${BG} 0%, transparent 26%), linear-gradient(0deg, ${BG} 0%, transparent 18%), linear-gradient(270deg, ${BG} 0%, transparent 10%)` }} />
             </div>
           </div>
         </div>
@@ -150,7 +151,7 @@ export function HelenaFold({ client }: { client?: { name?: string; whatsapp?: st
       {/* NÃO É NORMAL */}
       <section style={{ padding: "90px 0", background: BG2, borderTop: `1px solid ${LINE}` }}>
         <div className="wrap grid2" style={{ gridTemplateColumns: "5fr 6fr" }}>
-          <div><Ph src="/psico-cerebro.jpg" alt="Cérebro desenhado em rabiscos de luz branca sobre fundo escuro" ratio="1/1" /></div>
+          <div><Ph src="/psico-cerebro.jpg" alt="Cérebro desenhado em rabiscos de luz branca sobre fundo escuro" ratio="1/1" pos="28% 50%" soft /></div>
           <div>
             <h2 className="h" style={{ fontSize: 32, lineHeight: 1.3, marginBottom: 30 }}>NÃO É NORMAL E NÃO É SAUDÁVEL</h2>
             {SINTOMAS.map((s) => (
@@ -183,8 +184,12 @@ export function HelenaFold({ client }: { client?: { name?: string; whatsapp?: st
           <div style={{ position: "relative", padding: 40 }}>
             <div aria-hidden style={{ position: "absolute", inset: 0, borderRadius: "50%", border: `1px solid rgba(230,205,150,.35)` }} />
             <div aria-hidden style={{ position: "absolute", inset: 26, borderRadius: "50%", border: `1px solid rgba(230,205,150,.22)` }} />
-            <div style={{ position: "relative", borderRadius: 14, overflow: "hidden", boxShadow: "0 30px 80px rgba(0,0,0,.55)" }}>
-              <Ph src="/psico-video.jpg" alt="Psicóloga atendendo por videochamada em laptop" ratio="16/10" wide />
+            <div style={{ position: "relative" }}>
+              <div style={{ border: "12px solid #0d0a07", borderBottomWidth: 22, borderRadius: "16px 16px 0 0", overflow: "hidden", background: "#0d0a07", boxShadow: "0 30px 80px rgba(0,0,0,.55)" }}>
+                <div aria-hidden style={{ position: "absolute", top: 6, left: "50%", width: 5, height: 5, marginLeft: -2.5, borderRadius: "50%", background: "#3d342a", zIndex: 3 }} />
+                <Ph src="/psico-video.jpg" alt="Psicóloga atendendo por videochamada, vista da tela do laptop" ratio="16/10" wide />
+              </div>
+              <div aria-hidden style={{ height: 16, margin: "0 -7%", background: "linear-gradient(180deg, #4a4034 0%, #2b2116 55%, #191009 100%)", borderRadius: "0 0 14px 14px", boxShadow: "0 18px 40px rgba(0,0,0,.5)" }} />
             </div>
           </div>
         </div>
