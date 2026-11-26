@@ -110,7 +110,7 @@ export function AutoescolaFold({ client }: { client?: { name?: string; whatsapp?
         .ra .stats span{font-size:13.5px;color:#cfcac4;font-weight:600}
         .ra .sec{padding:100px 0 0}
         .ra h2{font-size:clamp(32px,4.2vw,54px);margin:14px 0 0}
-        .ra .eb{display:inline-block;color:${RD};font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.14em;border-left:4px solid ${RD};padding-left:12px}
+        .ra .red .eb{color:#fff;border-color:#fff}.ra #planos{padding-top:150px}.ra .eb{display:inline-block;color:#b01c1c;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.14em;border-left:4px solid ${RD};padding-left:12px}
         .ra .ab{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center}
         .ra .abp{position:relative}.ra .abp img{display:block;width:100%;aspect-ratio:4/4.4;object-fit:cover;border-radius:16px}
         .ra .abp:before{content:"";position:absolute;left:-16px;top:-16px;width:60%;height:60%;border-left:8px solid ${RD};border-top:8px solid ${RD};border-radius:16px 0 0 0;z-index:-1}
@@ -126,7 +126,7 @@ export function AutoescolaFold({ client }: { client?: { name?: string; whatsapp?
         .ra .cc em{font-style:normal;font-size:12.5px;font-weight:800;color:${RD};text-transform:uppercase;letter-spacing:.1em}
         .ra .cc h3{font-family:'Poppins',sans-serif;font-weight:700;font-size:26px;margin:0;text-transform:uppercase}
         .ra .cc p{margin:0;font-size:15px;line-height:1.55;color:${GY}}
-        .ra .cc .go{margin-top:auto;padding-top:10px;font-weight:800;font-size:14px;color:${RD}}
+        .ra .cc .go{margin-top:auto;padding-top:10px;display:inline-flex;align-items:center;min-height:44px;color:#b01c1c;font-weight:800;font-size:14px}
         .ra .info{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:#fff;border-radius:16px;margin-top:-1px;box-shadow:0 10px 30px rgba(18,18,18,.08);overflow:hidden;border:1px solid ${LN}}
         .ra .info div{padding:24px 26px;border-left:1px solid ${LN}}.ra .info div:first-child{border:0}
         .ra .info b{display:block;font-size:12.5px;text-transform:uppercase;letter-spacing:.12em;color:${RD};font-weight:800}
