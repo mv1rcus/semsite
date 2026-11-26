@@ -34,24 +34,27 @@ export function BurgerFold() {
   return (
     <div className="bf" style={{ background: BG, color: FG, fontFamily: "Inter, system-ui, sans-serif", overflowX: "hidden" }}>
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
         .bf a{color:inherit;text-decoration:none}
-        .bf-nav{display:flex;gap:28px;font-size:14px;opacity:.85}
+        .bf-nav{display:flex;gap:28px;font-size:14px;opacity:.85;text-transform:none}
         .bf-hero{position:relative;min-height:min(calc(100vh - 80px),820px);display:grid;place-items:center}
         .bf-giant{position:absolute;top:4%;left:0;right:0;text-align:center;font-family:${F};font-size:clamp(130px,30vw,460px);line-height:.8;white-space:nowrap;letter-spacing:4px}
-        .bf-img{position:relative;z-index:2;width:min(62vw,560px);margin-top:8vh;filter:drop-shadow(0 40px 50px rgba(0,0,0,.7))}
+        .bf-img{position:relative;z-index:2;width:min(52vw,540px);margin-top:12vh;filter:drop-shadow(0 40px 50px rgba(0,0,0,.7))}
         .bf-left{position:absolute;left:5vw;bottom:8vh;z-index:3;max-width:360px}
         .bf-price{position:absolute;right:5vw;bottom:8vh;z-index:3;text-align:right}
         .bf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
         .bf-two{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
         .bf-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
         .bf-sec{padding:90px 5vw}
+        .bf-pills{display:flex;gap:8px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;padding-bottom:4px;margin:28px 0}.bf-pills button{flex:0 0 auto;min-height:44px}
+        .bf-add{min-height:44px}.bf-desc{font-size:13px;line-height:1.5;color:#a8a29a}
         .bf-card{transition:transform .3s}.bf-card:hover{transform:translateY(-6px) rotate(-1deg)}
         @media(max-width:820px){
           .bf-nav{display:none}
           .bf-hero{min-height:auto;display:block;padding:10px 5vw 40px;text-align:center}
-          .bf-giant{position:relative;top:0;font-size:clamp(88px,27vw,200px);margin-top:10px}
-          .bf-img{width:84vw;margin:-6vw auto 0;display:block}
-          .bf-left,.bf-price{position:static;max-width:none;text-align:center;margin-top:18px}
+          .bf-giant{position:relative;top:0;font-size:34vw;margin-top:10px}
+          .bf-img{width:66vw;margin:-4vw auto 0;display:block}
+          .bf-left,.bf-price{position:static;max-width:none;text-align:center;margin-top:18px}.bf-price div:first-child{font-size:44px!important}
           .bf-left>div{justify-content:center}
           .bf-grid,.bf-3{grid-template-columns:1fr 1fr}
           .bf-two{grid-template-columns:1fr}
@@ -77,17 +80,17 @@ export function BurgerFold() {
             <a href="#combo" style={{ border: `1px solid ${FG}aa`, padding: "13px 24px", borderRadius: 999 }}>Combos</a>
           </div>
         </div>
-        <div className="bf-price"><div style={{ fontFamily: F, fontSize: 64, lineHeight: 1, color: OR }}>R$ 32</div><div style={{ fontSize: 13, opacity: 0.7 }}>Smash duplo</div></div>
+        <div className="bf-price"><div style={{ fontFamily: F, fontSize: 60, lineHeight: 1, color: FG }}>R$ 32</div><div style={{ fontSize: 13, opacity: 0.75 }}>Smash duplo</div></div>
       </section>
 
-      <div style={{ background: OR, color: BG, fontFamily: F, fontSize: 28, letterSpacing: 2, whiteSpace: "nowrap", overflow: "hidden", padding: "12px 0" }}>
+      <div style={{ background: OR, color: BG, fontFamily: F, fontSize: 22, letterSpacing: 2, whiteSpace: "nowrap", overflow: "hidden", padding: "10px 0", marginTop: 48 }}>
         <div style={{ display: "inline-block", animation: "bfm 22s linear infinite" }}>{Array.from({ length: 8 }).map((_, i) => <span key={i} style={{ margin: "0 28px" }}>CARNE PRENSADA ✦ PÃO NA MANTEIGA ✦ MOLHO DA CASA ✦</span>)}</div>
         <style>{"@keyframes bfm{to{transform:translateX(-50%)}}@media(prefers-reduced-motion:reduce){.bf div{animation:none!important}}"}</style>
       </div>
 
       <section id="cardapio" className="bf-sec">
         <h2 style={{ fontFamily: F, fontSize: "clamp(44px,7vw,92px)", lineHeight: 0.95 }}>O QUE SAI<br /><span style={{ color: OR }}>DA CHAPA</span></h2>
-        <div style={{ display: "flex", gap: 10, margin: "28px 0", flexWrap: "wrap" }}>
+        <div className="bf-pills">
           {(["Burgers", "Acompanhamentos", "Bebidas"] as const).map((t) => <button key={t} onClick={() => setTab(t)} style={{ padding: "10px 20px", borderRadius: 999, border: `1px solid ${tab === t ? OR : FG + "44"}`, background: tab === t ? OR : "transparent", color: tab === t ? BG : FG, fontWeight: 700, cursor: "pointer" }}>{t}</button>)}
         </div>
         <div className="bf-grid">
@@ -95,10 +98,10 @@ export function BurgerFold() {
             <article key={i.n} className="bf-card" style={{ background: "#16110f", border: "1px solid #ffffff14", borderRadius: 24, padding: 22, textAlign: "center" }}>
               <div style={{ height: 200, display: "grid", placeItems: "center" }}><img src={i.img} alt={i.n} loading="lazy" style={{ maxHeight: 190, maxWidth: "90%", objectFit: "contain", filter: "drop-shadow(0 18px 20px rgba(0,0,0,.6))" }} /></div>
               <h3 style={{ fontFamily: F, fontSize: 30, marginTop: 12, letterSpacing: 1 }}>{i.n}</h3>
-              <p style={{ fontSize: 13, opacity: 0.65, minHeight: 38 }}>{i.d}</p>
+              <p className="bf-desc" style={{ minHeight: 40 }}>{i.d}</p>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 14 }}>
                 <span style={{ fontFamily: F, fontSize: 30, color: OR }}>{brl(i.p)}</span>
-                <button onClick={() => add(i.n)} style={{ ...btn, padding: "9px 18px", fontSize: 14 }}>{cart[i.n] ? `Adicionado (${cart[i.n]})` : "Adicionar"}</button>
+                <button className="bf-add" onClick={() => add(i.n)} style={{ ...btn, padding: "10px 18px", fontSize: 14 }}>{cart[i.n] ? `Adicionado (${cart[i.n]})` : "Adicionar"}</button>
               </div>
             </article>
           ))}
