@@ -137,7 +137,7 @@ export function NutriFold({ client }: { client?: { name?: string; whatsapp?: str
         .nut .fr nav a{cursor:pointer;color:#e6dcc4}
         .nut .fr nav a:hover{color:#fff}
         .nut .copy{text-align:center;font-size:13px;color:#8a967f;margin-top:30px}
-        .nut .wa{position:fixed;right:18px;bottom:18px;z-index:40;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+        .nut .wa{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:40;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.3)}
         .nut .ov{position:fixed;inset:0;z-index:100;background:rgba(16,32,22,.62);display:flex;align-items:center;justify-content:center;padding:16px}
         .nut .md{background:${BG};width:100%;max-width:520px;max-height:92vh;overflow:auto;padding:32px;border-radius:20px;position:relative}
         .nut .md h3{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;margin:8px 0 4px;color:${GR}}
@@ -148,6 +148,9 @@ export function NutriFold({ client }: { client?: { name?: string; whatsapp?: str
         .nut .x{position:absolute;right:14px;top:12px;width:44px;height:44px;border:0;background:none;font-size:26px;cursor:pointer;color:${GR}}
         .nut .mob{display:none}
         @media(max-width:900px){
+          .nut .wa{width:46px;height:46px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom))}
+          .nut .wa svg{width:24px;height:24px}
+          .nut{padding-bottom:70px}
           .nut .links{display:none}.nut .burger{display:block}
           .nut .hero{grid-template-columns:1fr;gap:34px;padding:10px 0 60px}
           .nut .heroph{max-width:420px;margin:0 auto;width:100%}
