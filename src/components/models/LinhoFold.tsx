@@ -20,40 +20,9 @@ function nextDays() {
   return out;
 }
 
-/** Figuras em traco com membros afinando: teaser (corpo em V) e alongamento lateral. */
-function Limb({ d, w, c = FOR }: { d: string; w: number; c?: string }) {
-  return <path d={d} fill="none" stroke={c} strokeWidth={w} strokeLinecap="round" strokeLinejoin="round" />;
-}
 function Arcs() {
   return <svg width="64" height="40" viewBox="0 0 64 40" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><path d="M2 38a30 30 0 0 1 60 0" /><path d="M14 38a18 18 0 0 1 36 0" /><path d="M26 38a6 6 0 0 1 12 0" /></svg>;
 }
-function Teaser() {
-  return (
-    <svg viewBox="0 0 420 300" role="img" aria-label="Desenho de uma pessoa fazendo teaser no colchonete" style={{ width: "100%", height: "auto", display: "block" }}>
-      <ellipse cx="210" cy="266" rx="190" ry="12" fill={FOR} opacity=".2" />
-      <rect x="24" y="248" width="372" height="14" rx="7" fill={FOR} />
-      <Limb d="M214 236 Q300 206 372 120" w={20} />
-      <Limb d="M368 126 L394 104" w={11} />
-      <Limb d="M214 238 Q150 222 122 136" w={36} />
-      <Limb d="M146 150 Q238 146 330 112" w={11} c={SAGE2} />
-      <circle cx="116" cy="98" r="23" fill={FOR} />
-    </svg>
-  );
-}
-function Stretch() {
-  return (
-    <svg viewBox="0 0 300 270" role="img" aria-label="Desenho de uma pessoa em alongamento lateral" style={{ width: "100%", height: "auto", display: "block" }}>
-      <rect x="24" y="238" width="252" height="14" rx="7" fill={FOR} />
-      <Limb d="M150 150 L104 234" w={17} />
-      <Limb d="M150 150 L198 234" w={17} />
-      <Limb d="M150 156 Q146 112 176 76" w={38} />
-      <Limb d="M176 76 Q150 40 112 30" w={11} c={SAGE2} />
-      <Limb d="M160 100 Q196 118 190 150" w={10} c={SAGE2} />
-      <circle cx="194" cy="50" r="21" fill={FOR} />
-    </svg>
-  );
-}
-
 export function LinhoFold({ client }: { client?: { name?: string; whatsapp?: string; city?: string } }) {
   const brand = client?.name?.trim() || "Estúdio Linho";
   const city = client?.city?.trim() || "Florianópolis";
@@ -89,7 +58,7 @@ export function LinhoFold({ client }: { client?: { name?: string; whatsapp?: str
         .ln .hero{position:relative;border-radius:14px;overflow:hidden;min-height:560px;margin-top:6px;background:
           linear-gradient(90deg,rgba(255,255,255,.0) 0,rgba(255,255,255,.55) 9%,rgba(0,0,0,.05) 15%,rgba(255,255,255,.35) 24%,rgba(0,0,0,.06) 33%,rgba(255,255,255,.5) 44%,rgba(0,0,0,.05) 52%,rgba(255,255,255,.4) 63%,rgba(0,0,0,.07) 72%,rgba(255,255,255,.5) 83%,rgba(0,0,0,.05) 92%,rgba(255,255,255,.2) 100%),
           linear-gradient(180deg,#e8e1d3 0%,#d9d0bf 70%,#cfc5b2 100%)}
-        .ln .hero::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 78% 30%,rgba(255,255,255,.55),transparent 70%);pointer-events:none}
+        .ln .hero::after{display:none;content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 78% 30%,rgba(255,255,255,.55),transparent 70%);pointer-events:none}
         .ln .hero .fig{z-index:1;position:absolute;right:5%;bottom:0;width:min(38%,400px)}
         .ln .hero .in{position:relative;padding:110px 7% 0;max-width:640px}
         .ln .hero h1{font-size:clamp(34px,4.6vw,56px);line-height:1.12;color:${FOR};margin:0}
@@ -97,6 +66,12 @@ export function LinhoFold({ client }: { client?: { name?: string; whatsapp?: str
         .ln .btn:hover{background:#243a2e}
         .ln .btn.lt{background:rgba(255,255,255,.92);color:${FOR}}
         .ln .hero .btn{margin-top:30px}
+        .ln .hero .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:100% 30%;z-index:0}
+        .ln .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,30,24,.45),rgba(20,30,24,.1) 60%);z-index:1}
+        .ln .hero .in{z-index:2;max-width:500px;padding-right:0}.ln .hero h1{font-size:clamp(30px,3.7vw,46px)}.ln .hero .btn{white-space:nowrap}.ln .hero h1{color:#fff;text-wrap:balance}
+        .ln .pose{border-radius:14px;overflow:hidden;position:relative}.ln .pose img{width:100%;height:auto;display:block}
+        .ln .trio .c{position:relative;overflow:hidden}.ln .trio .c>*{position:relative;z-index:1}.ln .trio .cbg{position:absolute!important;inset:0;width:100%;height:100%;object-fit:cover;z-index:0!important}
+        .ln .c2:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,30,24,.75),rgba(20,30,24,.15) 50%,rgba(20,30,24,.55));z-index:0}
         .ln .about{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:96px 0 80px}
         .ln .eyebrow{font-size:13px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:${FOR}}
         .ln .about h2{font-size:clamp(28px,3.4vw,40px);line-height:1.3;margin:22px 0 28px;color:${INK}}
@@ -112,7 +87,7 @@ export function LinhoFold({ client }: { client?: { name?: string; whatsapp?: str
         .ln .book{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center;padding:100px 0 80px}
         .ln .book h2{font-size:clamp(30px,3.8vw,46px);line-height:1.2;margin:0}
         .ln .book h2 em{font-style:italic}
-        .ln .book p.l{font-size:17px;line-height:1.65;color:${MU};margin:18px 0 0;max-width:430px}
+        .ln .book p.l{font-size:17px;line-height:1.65;color:${MU};margin:18px 0 0;max-width:500px;padding-right:0}.ln .hero h1{font-size:clamp(30px,3.7vw,46px)}.ln .hero .btn{white-space:nowrap}
         .ln .card{background:#fff;border-radius:14px;padding:30px;box-shadow:0 14px 40px rgba(31,43,36,.1)}
         .ln .card h4{font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:${MU};margin:0 0 14px}
         .ln .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
@@ -133,7 +108,7 @@ export function LinhoFold({ client }: { client?: { name?: string; whatsapp?: str
         .ln .wa{position:fixed;right:20px;bottom:20px;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 8px 22px rgba(0,0,0,.28);z-index:20}
         @media(max-width:820px){
           .ln .wrap{padding:0 14px}.ln .bar{grid-template-columns:1fr auto}.ln .bar .pill{display:none}.ln .logo{padding-left:0}.ln .bar .sm,.ln .dl{display:none}.ln .burger{display:block}
-          .ln .hero{min-height:0}.ln .hero .in{padding:60px 24px 28px}.ln .hero .fig{position:relative;width:78%;right:auto;margin:0 auto}
+          .ln .hero{min-height:0}.ln .hero .in{padding:60px 24px 28px}.ln .hero{min-height:460px}
           .ln .about,.ln .book{grid-template-columns:1fr;gap:34px;padding:60px 0 50px}
           .ln .trio{grid-template-columns:1fr}.ln .trio .c{min-height:220px}
           .ln .info{grid-template-columns:1fr;gap:22px}
@@ -154,7 +129,7 @@ export function LinhoFold({ client }: { client?: { name?: string; whatsapp?: str
             <h1>Esculpa o corpo e acalme a mente para ser a melhor versão de você.</h1>
             <button className="btn lt" onClick={() => go("agendar")}>Agende sua aula experimental</button>
           </div>
-          <div className="fig"><img src="/linho-reformer-v.webp" alt="Aula de reformer em sala com cortina de linho" style={{ width: "100%", height: "auto", display: "block", borderRadius: "200px 200px 14px 14px" }} /></div>
+          <img className="bg" src="/linho-hero.webp" alt="Mulher em pé sobre o colchonete diante de cortinas brancas" />
         </section>
       </div>
 
@@ -165,13 +140,13 @@ export function LinhoFold({ client }: { client?: { name?: string; whatsapp?: str
             <h2>Movimento para <b>cada corpo</b> e para cada <b>estilo de vida</b>, criado pela Helena Prado.</h2>
             <a className="btn" href={baseNote} target="_blank" rel="noreferrer">Conhecer o estúdio</a>
           </div>
-          <div className="arch"><span className="st">✦</span><img src="/linho-reformer-h.webp" alt="Sala de reformer com parede verde sálvia" style={{ width: "100%", height: "auto", display: "block", borderRadius: "170px 170px 10px 10px" }} /></div>
+          <div className="pose"><img src="/linho-pose.webp" alt="Mulher fazendo alongamento de perna no colchonete" /></div>
         </div>
       </div>
 
       <section className="trio" id="modalidades">
         <div className="c c1"><div><Arcs /><h3>Reformer</h3><p>Aparelho com molas e turmas de até cinco pessoas.</p></div><button className="ghost" onClick={() => { setMod(0); go("agendar"); }}>Marcar aula →</button></div>
-        <div className="c c2"><div><Arcs /><h3>Mat</h3><p>Solo, bola e faixa. Fundamentos para qualquer idade.</p></div><button className="ghost" onClick={() => { setMod(1); go("agendar"); }}>Marcar aula →</button></div>
+        <div className="c c2"><img className="cbg" src="/linho-card.webp" alt="Mulher ajoelhada no colchonete" /><div><Arcs /><h3>Mat</h3><p>Solo, bola e faixa. Fundamentos para qualquer idade.</p></div><button className="ghost" onClick={() => { setMod(1); go("agendar"); }}>Marcar aula →</button></div>
         <div className="c c3"><div><Arcs /><h3>Barre</h3><p>Postura, pés e coxas em ritmo contínuo, com música.</p></div><button className="ghost" onClick={() => { setMod(2); go("agendar"); }}>Marcar aula →</button></div>
       </section>
 
