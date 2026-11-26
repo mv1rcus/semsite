@@ -1,3 +1,4 @@
+import { AutoescolaFold } from "@/components/models/AutoescolaFold";
 import { createRoot } from "react-dom/client";
 import { PetFold } from "@/components/models/PetFold";
 import { BurgerFold } from "@/components/models/BurgerFold";
@@ -48,7 +49,8 @@ import { DentalFold } from "@/components/models/DentalFold";
 declare const __MODEL__: string;
 const cfg = (window as unknown as { __SEMSITE__: { client: { name?: string; whatsapp?: string; city?: string } } }).__SEMSITE__;
 const root = createRoot(document.getElementById("root")!);
-if (__MODEL__ === "escolinha-bola-pra-frente") root.render(<BolaPraFrenteFold client={cfg.client} />);
+if (__MODEL__ === "rota-certa") root.render(<AutoescolaFold client={cfg.client} />);
+else if (__MODEL__ === "escolinha-bola-pra-frente") root.render(<BolaPraFrenteFold client={cfg.client} />);
 else if (__MODEL__ === "escola-cardume") root.render(<CardumeFold client={cfg.client} />);
 else if (__MODEL__ === "assessoria-folego") root.render(<FolegoFold client={cfg.client} />);
 else if (__MODEL__ === "casa-bandoneon") root.render(<BandoneonFold client={cfg.client} />);

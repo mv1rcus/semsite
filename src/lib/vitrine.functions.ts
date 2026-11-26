@@ -44,6 +44,7 @@ export const listVitrine = createServerFn({ method: "GET" })
   });
 
 const HTML_LOADERS: Record<string, () => Promise<{ default: string }>> = {
+  "rota-certa": () => import("./standalone-html/rota-certa.html?raw"),
   "focinho-feliz": () => import("./standalone-html/focinho-feliz.html?raw"),
   "brasa-e-pao": () => import("./standalone-html/brasa-e-pao.html?raw"),
   "dom-navalha": () => import("./standalone-html/dom-navalha.html?raw"),
