@@ -28,7 +28,7 @@ const SECTIONS: Record<PremiumKey, string> = {
   cervejaria: "fundo escuro com título gigante em contorno, copo em círculo âmbar, cards inclinados de regras, lista da torneira com copos em SVG e agenda semanal",
   suco: "painéis coloridos empilhados com palavra gigante branca atrás da garrafa, seletor de tamanho com preço, passos, kits em cards e CTA final",
   adega: "hero creme com garrafa, uvas e taça, título serifado espaçado, bloco de boas-vindas com foto do salão, quatro pilares com ícones de traço, três cards escuros com fotos e faixa bordô de reserva",
-  eletrico: "hero escuro com foto de lavoura, título branco e lima, barra de números, painel de monitoramento ao vivo, quatro cards de soluções, dashboard de fazenda com mapa e faixa final com foto de mãos",
+  eletrico: "hero escuro com carro elétrico e título branco e laranja, barra de cinco números, três cards de modelos sobre creme, bloco de tecnologia com motor, dois painéis de foto e faixa de test drive",
   bike: "hero branco com mancha amarela e ciclista em traço preto, título gigante, serviços em cards com sombra amarela, bikes em cards, tabela de oficina com pontilhado e faixa amarela de passeios",
   joalheria: "hero em duas colunas com foto de modelo, coleção em grade com abas, ateliê lado a lado, cesta com gravação",
   padaria: "hero com foto de pão e título grande em serifa, cards de pães, processo lado a lado, encomenda com retirada",
