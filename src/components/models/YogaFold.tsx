@@ -47,7 +47,7 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
         .yga .wrap{max-width:1140px;margin:0 auto;padding:0 28px}
         .yga .btn{display:inline-flex;align-items:center;gap:10px;background:${OL};color:#fff;font-weight:700;font-size:15px;padding:16px 30px;border-radius:999px;text-decoration:none;border:none;cursor:pointer;transition:.2s;letter-spacing:.3px}
         .yga .btn:hover{background:${DK};transform:translateY(-2px)}
-        .yga .btn-o{display:inline-flex;align-items:center;gap:10px;background:none;color:${OL};border:1.5px solid ${OL};font-weight:700;font-size:15px;padding:15px 28px;border-radius:999px;cursor:pointer;transition:.2s}
+        .yga .btn-o{text-decoration:none;display:inline-flex;align-items:center;gap:10px;background:none;color:${OL};border:1.5px solid ${OL};font-weight:700;font-size:15px;padding:15px 28px;border-radius:999px;cursor:pointer;transition:.2s}
         .yga .btn-o:hover{background:rgba(74,82,48,.08)}
         .yga .eyebrow{display:inline-flex;align-items:center;gap:8px;color:${CLAY};font-weight:700;font-size:12px;letter-spacing:2.5px;text-transform:uppercase}
         .yga .eyebrow::before{content:"●";font-size:8px}
@@ -74,7 +74,6 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
       {/* hero */}
       <section style={{ position: "relative", padding: "90px 0 80px", overflow: "hidden", background: CRM }}>
         <div style={{ position: "absolute", top: -180, right: -120, width: 560, height: 560, borderRadius: "50%", background: `radial-gradient(circle, ${SAND} 0%, transparent 65%)`, opacity: .8 }} />
-        <div style={{ position: "absolute", bottom: -140, left: -100, width: 420, height: 420, borderRadius: "50%", border: `1.5px solid ${SAND}`, opacity: .7 }} />
         <div className="wrap hero-g" style={{ position: "relative", display: "grid", gridTemplateColumns: "1.15fr .85fr", gap: 56, alignItems: "center" }}>
           <div>
             <span className="eyebrow">Estúdio de yoga · {city}</span>
@@ -88,16 +87,17 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
               <a className="btn" href={wa("Olá! Quero agendar uma aula experimental no " + brand + ".")}>Agendar aula experimental →</a>
               <button className="btn-o" onClick={() => go("aulas")}>Conhecer as aulas →</button>
             </div>
-            <div style={{ display: "flex", gap: 26, fontSize: 13.5, color: GR, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: 26, fontSize: 13.5, color: "#5c5949", fontWeight: 600, flexWrap: "wrap" }}>
               {["Primeira aula gratuita", "Turmas de até 12 alunos", "Tapete e props inclusos"].map((b) => <span key={b} style={{ display: "inline-flex", gap: 7, alignItems: "center" }}><Ic d={CHECK} s={14} c={OL2} />{b}</span>)}
             </div>
           </div>
           {/* composicao CSS: sol + card de horarios */}
           <div style={{ position: "relative", minHeight: 420 }}>
-            <div style={{ position: "absolute", top: 10, right: 20, width: 240, height: 240, borderRadius: "50%", background: `linear-gradient(160deg, ${CLAY}, ${SAND})`, opacity: .85 }} />
-            <div style={{ position: "absolute", top: 90, right: 60, width: 240, height: 120, borderRadius: "120px 120px 0 0", border: `1.5px solid ${OL}`, borderBottom: "none", opacity: .55 }} />
-            <div style={{ position: "absolute", top: 130, right: 40, width: 280, height: 140, borderRadius: "140px 140px 0 0", border: `1.5px solid ${OL}`, borderBottom: "none", opacity: .3 }} />
-            <div style={{ position: "absolute", bottom: 0, left: 0, right: 40, background: "#fff", borderRadius: 22, padding: "26px 26px 20px", boxShadow: "0 28px 60px -30px rgba(46,51,32,.4)", border: `1px solid ${CRM2}` }}>
+            <div style={{ position: "absolute", top: 0, right: 0, width: 300, height: 400, borderRadius: "150px 150px 24px 24px", background: `linear-gradient(165deg, ${CLAY} 0%, ${SAND} 78%)`, opacity: .9 }} />
+            <svg viewBox="0 0 120 160" style={{ position: "absolute", top: 30, right: 30, width: 110, height: 150, opacity: .5 }} aria-hidden>
+              <path d="M60 150 C60 100 60 70 60 20 M60 110 C40 100 30 84 28 64 M60 110 C80 100 90 84 92 64 M60 76 C46 68 40 56 39 42 M60 76 C74 68 80 56 81 42" fill="none" stroke="#4a5230" strokeWidth="3" strokeLinecap="round" />
+            </svg>
+            <div style={{ position: "absolute", bottom: 0, left: 0, right: 24, background: "#fff", borderRadius: 22, padding: "26px 26px 20px", boxShadow: "0 28px 60px -30px rgba(46,51,32,.45)", border: `1px solid ${CRM2}` }}>
               <span style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: 1.8, color: CLAY }}>HOJE NO ESTÚDIO</span>
               {[{ h: "6h30", c: "Vinyasa Flow", v: "3 vagas" }, { h: "12h", c: "Hatha Yoga", v: "5 vagas" }, { h: "19h", c: "Yin Yoga", v: "2 vagas" }].map((r) => (
                 <div key={r.h} style={{ display: "flex", alignItems: "center", gap: 14, padding: "13px 0", borderBottom: `1px solid ${CRM2}` }}>
@@ -113,22 +113,23 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
       </section>
 
       {/* aulas */}
-      <section id="aulas" style={{ padding: "84px 0", background: "#fff" }}>
+      <div style={{ background: CRM, lineHeight: 0 }} aria-hidden>
+        <svg viewBox="0 0 1440 70" preserveAspectRatio="none" style={{ width: "100%", height: 70, display: "block" }}><path d="M0 70 C360 0 1080 0 1440 70 L1440 70 L0 70 Z" fill="#ffffff" /></svg>
+      </div>
+      <section id="aulas" style={{ padding: "60px 0 84px", background: "#fff" }}>
         <div className="wrap">
           <span className="eyebrow">Aulas</span>
           <h2 style={{ marginTop: 12, fontSize: "clamp(30px,3.6vw,44px)", color: DK }}>Descubra a sua prática</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(250px,1fr))", gap: 18, marginTop: 36 }}>
             {CLASSES.map((c, i) => (
-              <article key={c.t} className="hov" style={{ borderRadius: 20, overflow: "hidden", border: `1px solid ${CRM2}`, background: CRM }}>
-                <div style={{ height: 130, background: [OL, CLAY, OL2, DK][i % 4], position: "relative", display: "grid", placeItems: "center" }}>
-                  <span style={{ fontFamily: serif, fontStyle: "italic", fontSize: 54, color: "rgba(245,241,230,.28)" }}>{["ॐ", "❋", "☾", "✿"][i % 4]}</span>
-                  <span style={{ position: "absolute", bottom: 12, left: 16, fontSize: 11, fontWeight: 700, letterSpacing: 1.4, color: "rgba(245,241,230,.85)", textTransform: "uppercase" }}>{c.dur}</span>
+              <article key={c.t} className="hov" style={{ borderRadius: 20, border: `1px solid ${CRM2}`, background: CRM, padding: "26px 24px 24px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10 }}>
+                  <span style={{ fontSize: 11.5, fontWeight: 800, letterSpacing: 1.6, color: CLAY, textTransform: "uppercase" }}>{c.dur}</span>
+                  <span style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: 1, color: OL2, textTransform: "uppercase" }}>{c.lv}</span>
                 </div>
-                <div style={{ padding: "20px 22px 24px" }}>
-                  <h3 style={{ fontSize: 20, marginBottom: 8, color: DK }}>{c.t}</h3>
-                  <p style={{ fontSize: 14, lineHeight: 1.65, color: GR, marginBottom: 14 }}>{c.d}</p>
-                  <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 1, color: CLAY, textTransform: "uppercase" }}>{c.lv}</span>
-                </div>
+                <h3 style={{ fontSize: 26, margin: "14px 0 10px", color: DK, fontStyle: "italic" }}>{c.t}</h3>
+                <div style={{ width: 42, height: 2, background: CLAY, marginBottom: 14, borderRadius: 2 }} />
+                <p style={{ fontSize: 14.5, lineHeight: 1.65, color: "#5c5949" }}>{c.d}</p>
               </article>
             ))}
           </div>
@@ -151,7 +152,7 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
                 <span style={{ fontFamily: serif, fontStyle: "italic", fontSize: 19, color: SAND }}>{s.h}</span>
               </div>
             ))}
-            <p style={{ marginTop: 16, fontSize: 13, color: "rgba(245,241,230,.6)" }}>Domingo: prática restaurativa aberta às 9h, uma vez por mês.</p>
+            <p style={{ marginTop: 16, fontSize: 13.5, color: "rgba(245,241,230,.78)" }}>Domingo: prática restaurativa aberta às 9h, uma vez por mês.</p>
           </div>
         </div>
       </section>
