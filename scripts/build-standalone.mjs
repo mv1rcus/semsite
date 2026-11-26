@@ -14,6 +14,7 @@ for (const [id] of Object.entries(MODELS)) {
     code = code.split(tag).join(`"${uri}"`);
   }
   const html = `<!doctype html>\n<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>__SEMSITE_TITLE__</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Caveat:wght@500;600&family=Jost:wght@400;500;600&family=Cormorant+Garamond:wght@400;500;600&family=Allura&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>html,body{margin:0;padding:0;background:#fff}*{box-sizing:border-box}img{max-width:100%}</style></head><body><div id="root"></div><script>window.__SEMSITE__={id:"${id}",client:/*__SEMSITE_CLIENT__*/{}};</script><script>${code.replace(/<\/script/gi, "<\\/script")}</script></body></html>\n`;
-  fs.writeFileSync(`src/lib/standalone-html/${id}.html`, html);
+  fs.mkdirSync("standalone/html", { recursive: true });
+  fs.writeFileSync(`standalone/html/${id}.html`, html);
   console.log(id, (html.length / 1e6).toFixed(2), "MB");
 }

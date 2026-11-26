@@ -31,3 +31,4 @@ dist-ssr
 *.sln
 *.sw?
 standalone/out
+standalone/html
