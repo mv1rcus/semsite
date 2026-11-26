@@ -93,10 +93,7 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
           </div>
           {/* composicao CSS: sol + card de horarios */}
           <div style={{ position: "relative", minHeight: 420 }}>
-            <div style={{ position: "absolute", top: 0, right: 0, width: 300, height: 400, borderRadius: "150px 150px 24px 24px", background: `linear-gradient(165deg, ${CLAY} 0%, ${SAND} 78%)`, opacity: .9 }} />
-            <svg viewBox="0 0 120 160" style={{ position: "absolute", top: 30, right: 30, width: 110, height: 150, opacity: .5 }} aria-hidden>
-              <path d="M60 150 C60 100 60 70 60 20 M60 110 C40 100 30 84 28 64 M60 110 C80 100 90 84 92 64 M60 76 C46 68 40 56 39 42 M60 76 C74 68 80 56 81 42" fill="none" stroke="#4a5230" strokeWidth="3" strokeLinecap="round" />
-            </svg>
+            <img src="/raiz-instrutora.webp" alt="Instrutora de yoga em prática no estúdio" style={{ position: "absolute", top: 0, right: 0, width: 300, height: 400, borderRadius: "150px 150px 24px 24px", objectFit: "cover" }} />
             <div style={{ position: "absolute", bottom: 0, left: 0, right: 24, background: "#fff", borderRadius: 22, padding: "26px 26px 20px", boxShadow: "0 28px 60px -30px rgba(46,51,32,.45)", border: `1px solid ${CRM2}` }}>
               <span style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: 1.8, color: CLAY }}>HOJE NO ESTÚDIO</span>
               {[{ h: "6h30", c: "Vinyasa Flow", v: "3 vagas" }, { h: "12h", c: "Hatha Yoga", v: "5 vagas" }, { h: "19h", c: "Yin Yoga", v: "2 vagas" }].map((r) => (

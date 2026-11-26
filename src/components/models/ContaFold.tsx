@@ -237,7 +237,7 @@ export function ContaFold({ client }: { client?: { name?: string; whatsapp?: str
             <div style={{ background: NV, borderRadius: 22, padding: "34px 30px", color: "#fff", boxShadow: "0 26px 60px -26px rgba(11,21,38,.55)", position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", inset: 0, background: "radial-gradient(500px 260px at 90% 0%, rgba(242,163,60,.16), transparent 60%)" }} />
               <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 16, marginBottom: 22 }}>
-                <span style={{ width: 66, height: 66, borderRadius: "50%", background: AM, color: NV, display: "grid", placeItems: "center", fontFamily: serif, fontStyle: "italic", fontSize: 26, fontWeight: 700 }}>RN</span>
+                <img src="/vetor-socio.webp" alt="Ricardo Nunes, sócio-fundador" style={{ width: 66, height: 66, borderRadius: "50%", objectFit: "cover", flexShrink: 0, border: "2px solid rgba(242,163,60,.55)" }} />
                 <span><strong style={{ fontSize: 17, display: "block" }}>Ricardo Nunes</strong><span style={{ fontSize: 13, color: AM, fontWeight: 700 }}>Sócio-fundador · CRC-SP</span></span>
               </div>
               <p style={{ position: "relative", fontFamily: serif, fontStyle: "italic", fontSize: 19, lineHeight: 1.5, color: "#dbe4f3", marginBottom: 22 }}>"Contabilidade boa é a que o dono da empresa entende. O resto é papelada."</p>
