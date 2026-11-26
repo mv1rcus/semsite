@@ -103,7 +103,7 @@ export function AutoescolaFold({ client }: { client?: { name?: string; whatsapp?
                 .ra .qc{background:#fff;color:#b01919;border-radius:12px;padding:10px;display:flex;align-items:center;gap:14px;box-shadow:0 14px 30px rgba(0,0,0,.3)}
         .ra .qc img{flex:none;width:72px;height:72px;object-fit:cover;border-radius:8px}
         .ra .qc span{font-size:15px;font-weight:600;line-height:1.4}
-        .ra .stats{background:${DK2};color:#fff;position:relative;z-index:4}
+        .ra .stats{background:${DK2};color:#fff;position:relative;z-index:4;padding-bottom:44px;clip-path:polygon(0 0,100% 0,100% calc(100% - 44px),50% 100%,0 calc(100% - 44px))}
         .ra .stats .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
         .ra .stats div.s{padding:26px 20px;border-left:1px solid rgba(255,255,255,.14)}.ra .stats div.s:first-child{border:0}
         .ra .stats b{font-family:'Poppins',sans-serif;font-weight:700;font-size:34px;display:block;color:#fff}
@@ -117,7 +117,7 @@ export function AutoescolaFold({ client }: { client?: { name?: string; whatsapp?
         .ra .fg{display:grid;grid-template-columns:1fr 1fr;gap:26px 24px;margin-top:34px}
         .ra .fi{display:flex;gap:14px}.ra .fi i{flex:none;width:46px;height:46px;border-radius:10px;background:${RD};display:grid;place-items:center}
         .ra .fi b{display:block;font-size:16.5px;font-weight:800}.ra .fi span{display:block;font-size:14.5px;line-height:1.5;color:${GY};margin-top:4px}
-        .ra .red{background:${RD};margin-top:100px;padding:84px 0;color:#fff}
+        .ra .red{background:${RD};margin-top:56px;padding:120px 0 128px;color:#fff;clip-path:polygon(0 0,50% 48px,100% 0,100% calc(100% - 48px),50% 100%,0 calc(100% - 48px))}
         .ra .cg{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
         .ra .cc{background:#fff;color:${DK};border-radius:16px;overflow:hidden;cursor:pointer;border:0;text-align:left;padding:0;transition:transform .2s;box-shadow:0 14px 30px rgba(0,0,0,.18);display:flex;flex-direction:column}
         .ra .cc:hover{transform:translateY(-6px)}
@@ -131,13 +131,13 @@ export function AutoescolaFold({ client }: { client?: { name?: string; whatsapp?
         .ra .info div{padding:24px 26px;border-left:1px solid ${LN}}.ra .info div:first-child{border:0}
         .ra .info b{display:block;font-size:12.5px;text-transform:uppercase;letter-spacing:.12em;color:${RD};font-weight:800}
         .ra .info span{display:block;margin-top:6px;font-size:16px;font-weight:700;line-height:1.4}
-        .ra .pg{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:44px;align-items:stretch}
-        .ra .pc{background:${DK2};color:#fff;border-radius:16px;padding:32px 24px;display:flex;flex-direction:column;gap:16px;position:relative}
-        .ra .pc.hi{background:${RD};transform:translateY(-14px);box-shadow:0 24px 44px rgba(214,40,40,.35)}
+        .ra .pg{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:56px;align-items:stretch}
+        .ra .pc{background:#444;color:#fff;border-radius:0;padding:36px 22px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;position:relative}
+        .ra .pc.hi{background:${RD};margin:-14px 0;padding-top:50px;padding-bottom:50px}
         .ra .pc em{font-style:normal;font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;opacity:1;font-size:13.5px}
         .ra .pc h3{font-family:'Poppins',sans-serif;font-weight:700;font-size:30px;margin:0;text-transform:uppercase}
         .ra .pc ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;font-size:16px;line-height:1.45;flex:1;color:#fff}
-        .ra .pc li{display:flex;gap:10px}.ra .pc li:before{content:"✓";font-weight:700;color:${RD}}.ra .pc.hi li:before{color:#fff}
+        .ra .pc li{display:block}
         .ra .tg3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:40px}
         .ra .tc{background:#fff;border-radius:16px;overflow:hidden;border:1px solid ${LN}}
         .ra .tc img{display:block;width:100%;aspect-ratio:4/4.2;object-fit:cover}
@@ -170,9 +170,9 @@ export function AutoescolaFold({ client }: { client?: { name?: string; whatsapp?
           
           .ra .stats .wrap{grid-template-columns:1fr 1fr;padding:0}.ra .stats div.s{padding:20px 22px;border-left:0;border-top:1px solid rgba(255,255,255,.14)}.ra .stats div.s:nth-child(-n+2){border-top:0}.ra .stats div.s:nth-child(even){border-left:1px solid rgba(255,255,255,.14)}.ra .stats b{font-size:28px}
           .ra .sec{padding-top:64px}.ra .ab{grid-template-columns:1fr;gap:36px}.ra .fg{grid-template-columns:1fr}
-          .ra .red{margin-top:64px;padding:60px 0}.ra .cg{grid-template-columns:1fr;gap:18px}
+          .ra .red{margin-top:40px;padding:90px 0 100px}.ra .cg{grid-template-columns:1fr;gap:18px}
           .ra .info{grid-template-columns:1fr}.ra .info div{border-left:0;border-top:1px solid ${LN}}.ra .info div:first-child{border-top:0}
-          .ra .pg{grid-template-columns:minmax(0,1fr);gap:14px}.ra .pc{padding:24px 18px}.ra .pc.hi{transform:none}.ra .pc h3{font-size:24px}
+          .ra .pg{grid-template-columns:minmax(0,1fr);gap:3px}.ra .pc{padding:28px 18px}.ra .pc.hi{margin:0}.ra .pc h3{font-size:24px}
           .ra .tg3{grid-template-columns:1fr;gap:16px}.ra .tc{display:grid;grid-template-columns:130px 1fr}.ra .tc img{aspect-ratio:1;height:100%}.ra .tc div{border-top:0;border-left:5px solid ${RD};align-self:stretch;display:flex;flex-direction:column;justify-content:center}
           .ra .cta{grid-template-columns:1fr;padding:38px 26px;margin:64px 0 50px}.ra .cta:after{width:120px;right:-50px;top:-10%}
           .ra .fr{justify-content:center;text-align:center}.ra .fr nav{gap:18px;flex-wrap:wrap;justify-content:center}
