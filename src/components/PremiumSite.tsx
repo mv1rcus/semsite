@@ -5,13 +5,11 @@ import type { ModelClient } from "@/lib/site-models";
 import { Frame, ListPage, GalleryPage, BuilderPage, AboutPage, ContactPage, HomeExtras, waLink } from "@/components/PremiumPages";
 import { Hero } from "@/components/PremiumHeroes";
 import { BUILDERS } from "@/lib/premium-config";
-
 export const wa = (c: ModelClient) => waLink(c);
 export const Fonts = () => <style>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Bebas+Neue&family=Inter:wght@400;500;600;800&family=Fraunces:ital,wght@0,400;0,700;1,400&family=Oswald:wght@500;700&display=swap');.ps *{box-sizing:border-box}.ps img{display:block}.ps a{text-decoration:none;color:inherit}@keyframes psmq{to{transform:translateX(-50%)}}@keyframes psfade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}.ps .fade{animation:psfade .8s both}@media (prefers-reduced-motion:no-preference){@keyframes psfloat{50%{translate:0 -10px}}.ps [data-float]{animation:psfloat 4s ease-in-out infinite}.ps a{transition:transform .25s ease,filter .25s ease}.ps a:hover{transform:translateY(-3px);filter:brightness(1.1)}.ps img:not([data-par]){transition:transform .6s ease}.ps div:hover>img:not([data-par]){transform:scale(1.04)}}@media (prefers-reduced-motion:reduce){.ps .fade{animation:none}.ps [data-marq]{animation:none!important}}`}</style>;
 export const Btn = ({ href, children, bg, fg, style }: { href: string; children: ReactNode; bg: string; fg: string; style?: CSSProperties }) => <a href={href} style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 26px", background: bg, color: fg, fontWeight: 700, borderRadius: 999, fontSize: 15, ...style }}>{children}</a>;
 export const Sec = ({ children, style, id }: { children: ReactNode; style?: CSSProperties; id?: string }) => <section id={id} style={{ padding: "88px 6vw", ...style }}>{children}</section>;
 export const Foot = ({ name, c, bg, fg }: { name: string; c: ModelClient; bg: string; fg: string }) => <footer id="contato" style={{ background: bg, color: fg, padding: "40px 6vw", display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 16, fontSize: 14, opacity: 0.95 }}><b>{name}</b><span>{c.city ? `${c.city} · ` : ""}{c.whatsapp ? `WhatsApp ${c.whatsapp}` : "Fale pelo WhatsApp"}</span><span>Modelo ilustrativo · Fotos Unsplash</span></footer>;
-
 function Hamburgueria({ n, c }: { n: string; c: ModelClient }) {
   const red = "#ef3b2d"; const items = [[PHOTO.burger1, "Clássico da Casa", "Blend 160g, queijo, cebola e molho especial", "29,90"], [PHOTO.burger2, "Duplo Rústico", "Dois smash, picles e maionese defumada", "36,90"], [PHOTO.burger3, "Gourmet Sésamo", "Pão de gergelim, alface, tomate e cheddar", "32,90"], [PHOTO.burger5, "Bacon Egg", "Bacon crocante, ovo e cheddar derretido", "38,90"], [PHOTO.burger4, "Burger + Batata", "Acompanha porção de fritas crocantes", "41,90"], [PHOTO.burger1, "Cheese Salada", "O queridinho de sempre, bem completo", "27,90"]];
   return <div className="ps" style={{ background: "#0e0e10", color: "#fff", fontFamily: "Inter,sans-serif" }}>
@@ -23,7 +21,6 @@ function Hamburgueria({ n, c }: { n: string; c: ModelClient }) {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(min(100%,260px),1fr))", gap: 20 }}>{items.map(([p, t, d, v], i) => <div key={i} style={{ background: "#17171a", borderRadius: 22, overflow: "hidden", border: "1px solid #26262b" }}><div style={{ position: "relative" }}><img src={img(p!, 600, 420)} alt="" style={{ width: "100%", height: 200, objectFit: "cover" }} /><b style={{ position: "absolute", left: 12, top: 12, background: "#000a", padding: "5px 12px", borderRadius: 8 }}>R$ {v}</b></div><div style={{ padding: 18 }}><p style={{ fontWeight: 800, fontSize: 18 }}>{t}</p><p style={{ opacity: 0.6, fontSize: 13, margin: "6px 0 14px", lineHeight: 1.5 }}>{d}</p><a href={wa(c)} style={{ background: red, padding: "8px 16px", borderRadius: 8, fontSize: 13, fontWeight: 700 }}>Adicionar +</a></div></div>)}</div></Sec>
     </div>;
 }
-
 function Pizzaria({ n, c }: { n: string; c: ModelClient }) {
   const menu = [["Margherita", "Tomate italiano, mozzarella de búfala, manjericão", "54"], ["Calabresa da Casa", "Calabresa artesanal, cebola roxa, azeitonas", "58"], ["Quatro Queijos", "Mussarela, gorgonzola, parmesão, provolone", "62"], ["Rústica de Alho", "Alho assado, rúcula, tomate seco, burrata", "68"]];
   return <div className="ps" style={{ background: "#120d0b", color: "#f6ece4", fontFamily: "Inter,sans-serif" }}>
@@ -38,7 +35,6 @@ function Pizzaria({ n, c }: { n: string; c: ModelClient }) {
     <Sec id="hist" style={{ background: "#1a1310", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,320px),1fr))", gap: 56, alignItems: "center" }}><img src={img(PHOTO.pizza, 1000, 800)} alt="" style={{ width: "100%", borderRadius: 20, aspectRatio: "5/4", objectFit: "cover", objectPosition: "20% 30%", transform: "scaleX(-1)" }} /><div><p style={{ color: "#f0a58f", letterSpacing: 3, fontSize: 12 }}>NOSSA HISTÓRIA</p><h2 style={{ fontFamily: "Playfair Display,serif", fontSize: 44, fontWeight: 500, margin: "12px 0 18px" }}>Receita de família, forno aceso todo dia.</h2><p style={{ opacity: 0.75, lineHeight: 1.7 }}>Fermentação lenta, tomate selecionado e muito carinho. {n} é o jeito mais gostoso de juntar a mesa.</p></div></Sec>
     </div>;
 }
-
 function Barbearia({ n, c }: { n: string; c: ModelClient }) {
   const gold = "#c9a24b"; const sv = [["Corte clássico", "45"], ["Barba com toalha quente", "35"], ["Corte + barba", "70"], ["Pigmentação", "50"], ["Sobrancelha", "15"]];
   return <div className="ps" style={{ background: "#0b0b0b", color: "#eee6d6", fontFamily: "Inter,sans-serif" }}>
@@ -50,7 +46,6 @@ function Barbearia({ n, c }: { n: string; c: ModelClient }) {
     <Sec id="gal" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 14 }}><img src={img(PHOTO.barber, 1000, 700)} alt="" style={{ width: "100%", height: 340, objectFit: "cover", gridRow: "span 2", minHeight: 480 }} /><img src={img(PHOTO.salon, 600, 400)} alt="" style={{ width: "100%", height: 233, objectFit: "cover", filter: "grayscale(1) contrast(1.1)" }} /><img src={img(PHOTO.coffee, 600, 400)} alt="" style={{ width: "100%", height: 233, objectFit: "cover", filter: "grayscale(1)" }} /><div style={{ gridColumn: "span 2", border: `1px solid ${gold}`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Oswald,sans-serif", fontSize: 28, letterSpacing: 4, color: gold, padding: 24, textAlign: "center" }}>CAFÉ, MÚSICA E BOM PAPO</div></Sec>
     </div>;
 }
-
 function Academia({ n, c }: { n: string; c: ModelClient }) {
   const lime = "#c6ff3d"; const plans = [["Mensal", "119", "Acesso livre a todas as áreas"], ["Trimestral", "99", "Mais avaliação física inclusa"], ["Anual", "79", "O melhor preço, treino acompanhado"]];
   return <div className="ps" style={{ background: "#080808", color: "#fff", fontFamily: "Inter,sans-serif" }}>
@@ -62,7 +57,6 @@ function Academia({ n, c }: { n: string; c: ModelClient }) {
     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", height: 360 }}><img src={img(PHOTO.gym2, 1000, 700)} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /><img src={img(PHOTO.gym, 1000, 700)} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(1)" }} /></div>
     </div>;
 }
-
 function Restaurante({ n, c }: { n: string; c: ModelClient }) {
   const br = "#8a5a3c"; const dishes = [["Farfalle ao pesto", "Tomate confit, pesto fresco, parmesão", "68"], ["Salmão grelhado", "Legumes salteados e molho de ervas", "82"], ["Costela assada", "Cozida por 8 horas, com batatas rústicas", "89"]];
   return <div className="ps" style={{ background: "#f7f1e8", color: "#2b2118", fontFamily: "Inter,sans-serif" }}>
@@ -74,7 +68,6 @@ function Restaurante({ n, c }: { n: string; c: ModelClient }) {
     <Sec id="sobre" style={{ textAlign: "center" }}><p style={{ fontFamily: "Playfair Display,serif", fontStyle: "italic", fontSize: 34, maxWidth: 760, margin: "0 auto", lineHeight: 1.4 }}>"Um lugar pra voltar sempre. O atendimento faz a diferença."</p><p style={{ marginTop: 18, opacity: 0.6, fontSize: 14 }}>Avaliação de cliente · exemplo</p></Sec>
     </div>;
 }
-
 function Dentista({ n, c }: { n: string; c: ModelClient }) {
   const tl = "#0ea5a4"; const tr = [["Limpeza e prevenção", "🪥"], ["Clareamento", "✨"], ["Ortodontia", "😁"], ["Implantes", "🦷"], ["Lentes de contato", "💎"], ["Urgência", "🚑"]];
   return <div className="ps" style={{ background: "#fff", color: "#0f2a2e", fontFamily: "Inter,sans-serif" }}>
@@ -86,7 +79,6 @@ function Dentista({ n, c }: { n: string; c: ModelClient }) {
     <Sec id="eq" style={{ background: tl, color: "#fff", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,200px),1fr))", textAlign: "center", gap: 20 }}>{[["12", "anos de experiência"], ["5 mil+", "sorrisos atendidos"], ["100%", "biossegurança"]].map(([a, b]) => <div key={b}><div style={{ fontSize: 56, fontWeight: 800 }}>{a}</div><div style={{ opacity: 0.85 }}>{b}</div></div>)}</Sec>
     </div>;
 }
-
 function Cafeteria({ n, c }: { n: string; c: ModelClient }) {
   const cl = "#b8642a"; const menu = [["Espresso", "8"], ["Cappuccino", "14"], ["Café coado V60", "12"], ["Pão de fermentação natural", "16"], ["Bolo do dia", "13"]];
   return <div className="ps" style={{ background: "#f3e9dc", color: "#3a2616", fontFamily: "Inter,sans-serif" }}>
@@ -97,7 +89,6 @@ function Cafeteria({ n, c }: { n: string; c: ModelClient }) {
     <Sec style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,320px),1fr))", gap: 56, alignItems: "center", paddingTop: 30 }}><img src={img(PHOTO.brunch, 1000, 800)} alt="" style={{ width: "100%", borderRadius: 200, aspectRatio: "1", objectFit: "cover" }} /><div><h2 style={{ fontFamily: "Fraunces,serif", fontSize: 44, fontWeight: 400, marginBottom: 28 }}>Nosso cardápio</h2>{menu.map(([t, p]) => <div key={t} style={{ display: "flex", gap: 12, padding: "14px 0", borderBottom: "1px solid #d9c6ae", fontSize: 19 }}><span>{t}</span><i style={{ flex: 1 }} /><b style={{ color: cl }}>R$ {p}</b></div>)}</div></Sec>
     </div>;
 }
-
 /** Animações leves ao rolar: reveal (IntersectionObserver) e parallax (data-par). Desliga com "reduzir movimento". */
 function useScrollFx(root: React.RefObject<HTMLDivElement | null>, dep: string) {
   useEffect(() => {
@@ -113,14 +104,14 @@ function useScrollFx(root: React.RefObject<HTMLDivElement | null>, dep: string) 
     return () => { io.disconnect(); window.removeEventListener("scroll", on); if (raf) cancelAnimationFrame(raf); };
   }, [root, dep]);
 }
-
 export function PremiumSite({ model, client }: { model: PremiumModel; client: ModelClient }) {
   const ref = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(() => (typeof window !== "undefined" && window.location.hash.slice(1)) || "home");
   useScrollFx(ref, model.id + page);
   useEffect(() => { window.scrollTo({ top: 0 }); }, [page]);
   const n = client.name?.trim() || model.name;
-  const C = { sorveteria: Cafeteria, roupas: Cafeteria, livraria: Cafeteria, joalheria: Cafeteria, padaria: Cafeteria, floricultura: Cafeteria, poster: Poster, salao: Salao, pet: Pet, advocacia: Advocacia, oficina: Oficina, imobiliaria: Imobiliaria, hamburgueria: Hamburgueria, pizzaria: Pizzaria, barbearia: Barbearia, academia: Academia, restaurante: Restaurante, dentista: Dentista, cafeteria: Cafeteria, tatuagem: Poster, lavanderia: Poster, lavajato: Poster, coworking: Poster, psicologia: Dentista, escola: Poster, otica: Poster, pousada: Poster, nutricionista: Dentista, farmacia: Dentista }[model.ramo];
+  
+  
   const c = { ...client, city: client.city?.trim() || model.city };
   const body = page === "list" ? <ListPage model={model} client={c} /> : page === "gallery" ? <GalleryPage model={model} client={c} /> : page === "builder" && BUILDERS[model.id] ? <BuilderPage model={model} client={c} name={n} /> : page === "about" ? <AboutPage model={model} client={c} /> : page === "contact" ? <ContactPage model={model} client={c} name={n} /> : <><Hero model={model} client={c} name={n} go={setPage} /><HomeExtras model={model} client={c} name={n} go={setPage} /></>;
   return <div ref={ref} className="ps" style={{ overflowX: "clip" }}><Fonts /><Frame model={model} name={n} client={c} page={page} setPage={setPage} home={page === "home"}>{body}</Frame></div>;

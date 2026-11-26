@@ -70,6 +70,7 @@ const HTML_LOADERS: Record<string, () => Promise<{ default: string }>> = {
   "burgeria-pop": () => import("./standalone-html/burgeria-pop.html?raw"),
   "horizonte-prime": () => import("./standalone-html/horizonte-prime.html?raw"),
   "farmacia-savia": () => import("./standalone-html/farmacia-savia.html?raw"),
+  "daniela-rocha": () => import("./standalone-html/daniela-rocha.html?raw"),
   "livia-prado": () => import("./standalone-html/livia-prado.html?raw"),
 };
 
