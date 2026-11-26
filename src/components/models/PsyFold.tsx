@@ -118,7 +118,7 @@ export function PsyFold({ client }: { client?: { name?: string; whatsapp?: strin
         .psy .fr nav a{cursor:pointer;color:#e9dcc9}
         .psy .fr nav a:hover{color:#fff}
         .psy .copy{text-align:center;font-size:13px;color:#a68d74;margin-top:30px}
-        .psy .wa{position:fixed;right:18px;bottom:18px;z-index:40;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+        .psy .wa{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:40;width:58px;height:58px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.3)}
         .psy .ov{position:fixed;inset:0;z-index:100;background:rgba(32,22,14,.62);display:flex;align-items:center;justify-content:center;padding:16px}
         .psy .md{background:${BG};width:100%;max-width:520px;max-height:92vh;overflow:auto;padding:32px;border-radius:26px;position:relative}
         .psy .md h3{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;margin:8px 0 4px;color:${DK}}
@@ -129,6 +129,9 @@ export function PsyFold({ client }: { client?: { name?: string; whatsapp?: strin
         .psy .x{position:absolute;right:14px;top:12px;width:44px;height:44px;border:0;background:none;font-size:26px;cursor:pointer;color:${DK}}
         .psy .mob{display:none}
         @media(max-width:900px){
+          .psy .wa{width:46px;height:46px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom))}
+          .psy .wa svg{width:24px;height:24px}
+          .psy{padding-bottom:70px}
           .psy .links,.psy .navbtn{display:none}.psy .burger{display:block}
           .psy .hero{min-height:560px}.psy .heroimg img{object-position:72% 30%}
           .psy .heroshade{background:linear-gradient(180deg,rgba(30,21,14,.45) 0%,rgba(30,21,14,.75) 60%,rgba(30,21,14,.9) 100%)}
