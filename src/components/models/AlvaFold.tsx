@@ -58,17 +58,25 @@ export function AlvaFold({ client }: { client?: { name?: string; whatsapp?: stri
         .alva .seals{display:grid;grid-template-columns:repeat(4,1fr)}
         .alva .seal{display:flex;align-items:center;justify-content:center;gap:12px;padding:30px 10px;font:500 11px 'Jost',sans-serif;letter-spacing:.16em;color:${INK};text-align:center}
         .alva .seal + .seal{border-left:1px solid ${LINE}}
-        .alva .badge{position:absolute;right:-26px;bottom:-26px;width:128px;height:128px;animation:spin 18s linear infinite}
+        .alva .hero-full{position:relative;overflow:hidden;min-height:860px;display:flex;align-items:center}
+        .alva .hero-full > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 26%}
+        .alva .hero-full .fade{position:absolute;inset:0;background:linear-gradient(90deg,#f5f0ea 0%,rgba(245,240,234,.95) 26%,rgba(245,240,234,.55) 48%,rgba(245,240,234,0) 68%)}
+        .alva .hero-full .wrap{position:relative;z-index:2;width:100%;padding-top:90px;padding-bottom:90px}
+        .alva .badge{position:absolute;right:56px;bottom:44px;width:128px;height:128px;animation:spin 18s linear infinite;z-index:3}
         @keyframes spin{to{transform:rotate(360deg)}}
         @media (max-width: 900px){
           .alva nav{display:none!important}
           .alva .band > div:first-child{aspect-ratio:auto!important;min-height:560px}
           .alva .duo{grid-template-columns:1fr!important}
           .alva .serif-xl{font-size:42px!important}
-          .alva .hero-photo{max-width:440px;margin:0 auto;width:100%}
           .alva .seals{grid-template-columns:repeat(2,1fr)}
           .alva .seal + .seal{border-left:none}
-          .alva .badge{right:0;bottom:-20px;width:104px;height:104px}
+          .alva .badge{top:72px;right:12px;bottom:auto;width:104px;height:104px}
+          .alva .hero-full{min-height:640px;align-items:flex-end}
+          .alva .hero-full > img{object-position:66% 18%}
+          .alva .hero-full .fade{background:linear-gradient(180deg,rgba(245,240,234,.2) 0%,rgba(245,240,234,.62) 46%,#f5f0ea 84%)}
+          .alva .hero-full .wrap{padding:140px 28px 46px}
+          .alva .hero-full .caps{max-width:230px}
         }
         @media (max-width: 560px){ .alva .cards{grid-template-columns:1fr} }
       `}</style>
@@ -89,10 +97,12 @@ export function AlvaFold({ client }: { client?: { name?: string; whatsapp?: stri
         </div>
       </header>
 
-      {/* HERO */}
-      <section style={{ padding: "60px 0 90px" }}>
-        <div className="wrap duo" style={{ display: "grid", gridTemplateColumns: "6fr 6fr", gap: 64, alignItems: "center" }}>
-          <div>
+      {/* HERO full-bleed */}
+      <section className="hero-full">
+        <img src="/alva-hero.jpg" alt="Retrato editorial de mulher com pele radiante em fundo bege com sombras de folhas" />
+        <div className="fade" />
+        <div className="wrap">
+          <div style={{ maxWidth: 520 }}>
             <p className="caps">CUIDADO AVANÇADO. RESULTADOS NATURAIS.</p>
             <h1 className="serif serif-xl" style={{ fontSize: 64, lineHeight: 1.08, margin: "26px 0 0" }}>SUA MELHOR<br />VERSÃO,<br />REFINADA.</h1>
             <div style={{ width: 44, height: 2, background: GOLD, margin: "30px 0" }} />
@@ -101,18 +111,15 @@ export function AlvaFold({ client }: { client?: { name?: string; whatsapp?: stri
               <button className="pill pill-g" onClick={() => book(`Olá! Quero agendar uma avaliação na ${brand}.`)}>AGENDAR AVALIAÇÃO</button>
             </div>
           </div>
-          <div className="hero-photo" style={{ position: "relative" }}>
-            <Ph src="/alva-hero.jpg" alt="Retrato editorial de mulher com pele radiante em fundo bege com sombras de folhas" ratio="4/5" />
-            <svg className="badge" viewBox="0 0 128 128" aria-hidden>
-              <defs><path id="circ" d="M 64,64 m -46,0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0" /></defs>
-              <circle cx="64" cy="64" r="64" fill={CRM} opacity=".92" />
-              <text style={{ font: "500 10.5px 'Jost',sans-serif", letterSpacing: ".24em", fill: INK }}>
-                <textPath href="#circ">CIÊNCIA · BELEZA NATURAL · RESULTADOS REAIS ·</textPath>
-              </text>
-              <text x="64" y="74" textAnchor="middle" style={{ font: "500 34px 'Playfair Display',serif", fill: INK }}>a</text>
-            </svg>
-          </div>
         </div>
+        <svg className="badge" viewBox="0 0 128 128" aria-hidden>
+          <defs><path id="circ" d="M 64,64 m -46,0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0" /></defs>
+          <circle cx="64" cy="64" r="64" fill={CRM} opacity=".92" />
+          <text textLength="288" lengthAdjust="spacingAndGlyphs" style={{ font: "500 10px 'Jost',sans-serif", letterSpacing: ".12em", fill: INK }}>
+            <textPath href="#circ">CIÊNCIA · BELEZA NATURAL · RESULTADOS REAIS ·</textPath>
+          </text>
+          <text x="64" y="74" textAnchor="middle" style={{ font: "500 34px 'Playfair Display',serif", fill: INK }}>a</text>
+        </svg>
       </section>
 
       {/* TRATAMENTOS */}
@@ -143,7 +150,7 @@ export function AlvaFold({ client }: { client?: { name?: string; whatsapp?: stri
       {/* FAIXA CLÍNICA */}
       <section id="sobre" className="band" style={{ position: "relative" }}>
         <Ph src="/alva-clinica.jpg" alt="Recepção elegante de clínica de estética com balcão de pedra e poltronas claras" ratio="16/7" wide />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(43,33,24,.42), rgba(43,33,24,.06) 55%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(30,21,14,.66) 0%, rgba(30,21,14,.34) 36%, rgba(30,21,14,.02) 62%)" }} />
         <div className="wrap" style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center" }}>
           <div style={{ maxWidth: 460 }}>
             <p className="caps" style={{ color: "#efe7db" }}>BELEZA. CONFIANÇA. VOCÊ.</p>
