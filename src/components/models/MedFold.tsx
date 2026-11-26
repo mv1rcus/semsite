@@ -129,7 +129,7 @@ export function MedFold({ client }: { client?: { name?: string; whatsapp?: strin
         <div className="wrap">
           <span className="eyebrow">Sessões</span>
           <h2 style={{ marginTop: 12, fontSize: "clamp(30px,3.8vw,48px)", color: DEEP }}>Uma prática para cada momento do dia</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(430px,1fr))", gap: 18, marginTop: 38 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(430px,100%),1fr))", gap: 18, marginTop: 38 }}>
             {SESS.map((s) => (
               <article key={s.t} className="hov" style={{ background: s.bg, borderRadius: 18, padding: "24px 24px", border: `1px solid ${CRM2}`, display: "flex", gap: 16, alignItems: "flex-start" }}>
                 <span style={{ width: 52, height: 52, borderRadius: "50%", background: "rgba(139,160,122,.2)", border: `1.5px solid ${SAGE}`, display: "grid", placeItems: "center", flexShrink: 0 }}><Ic d={s.i} s={28} c={DEEP} /></span>
@@ -157,7 +157,7 @@ export function MedFold({ client }: { client?: { name?: string; whatsapp?: strin
               <article key={b.t} style={{ background: "rgba(244,240,230,.06)", border: "1px solid rgba(139,160,122,.45)", borderRadius: 18, padding: "30px 28px", height: "100%" }}>
                 <h3 style={{ fontSize: 24, color: CRM, marginBottom: 10 }}>{b.t}</h3>
                 <p style={{ fontSize: 15, lineHeight: 1.65, color: "rgba(244,240,230,.88)", marginBottom: 20 }}>{b.d}</p>
-                <div style={{ display: "grid", gridTemplateColumns: `repeat(${b.steps.length},1fr)`, gap: 8 }}>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                   {b.steps.map((st, k) => (
                     <span key={st} style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 600, color: CRM, background: "rgba(139,160,122,.18)", border: "1px solid rgba(139,160,122,.5)", borderRadius: 999, padding: "8px 14px" }}>
                       <span style={{ width: 20, height: 20, borderRadius: "50%", background: PEACH, color: INK, display: "grid", placeItems: "center", fontSize: 11, fontWeight: 700 }}>{k + 1}</span>{st}
