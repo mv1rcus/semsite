@@ -60,7 +60,8 @@ export function ToqueFold({ client }: { client?: { name?: string; whatsapp?: str
         .tq .vtext{writing-mode:vertical-rl;letter-spacing:6px;font-size:10.5px;text-transform:uppercase;color:${MUTED}}
         @media (max-width:900px){
           .tq .hero-g{grid-template-columns:1fr!important}
-          .tq .hero-art{min-height:300px!important}
+          .tq .hero-art{min-height:380px!important}
+          .tq .hero-arch{height:360px!important}
           .tq .desk-nav{display:none!important}
           .tq .vtext,.tq .hero-branch{display:none!important}
           .tq .brand{font-size:16px!important;letter-spacing:2px!important}
@@ -106,17 +107,16 @@ export function ToqueFold({ client }: { client?: { name?: string; whatsapp?: str
               ))}
             </ul>
           </div>
-          <div className="hero-art" style={{ position: "relative", display: "grid", placeItems: "center", minHeight: 420, marginBottom: 30 }}>
-            <div style={{ position: "absolute", width: 380, height: 380, borderRadius: "50%", border: `1px solid ${LINE2}` }} />
-            <div style={{ position: "absolute", width: 300, height: 300, borderRadius: "50%", border: `1px solid ${LINE}` }} />
-            <div style={{ position: "relative", width: 216, height: 216, borderRadius: "50%", background: `radial-gradient(circle at 35% 30%, ${PANEL2}, ${PANEL} 70%)`, border: `1px solid ${LINE}`, display: "grid", placeItems: "center", boxShadow: "0 30px 80px -40px rgba(0,0,0,.9)" }}>
+          <div className="hero-art" style={{ position: "relative", minHeight: 480, marginBottom: 30 }}>
+            <img className="hero-arch" src="/toque-marmore.jpg" alt="Textura de mármore claro com ramo de folhagem, como no cartaz de referência" style={{ position: "absolute", right: 0, top: 0, width: "min(320px,74%)", height: 470, objectFit: "cover", objectPosition: "68% 50%", borderRadius: "160px 160px 16px 16px", border: `1px solid ${LINE}`, boxShadow: "0 40px 90px -50px rgba(0,0,0,.85)" }} />
+            <div style={{ position: "absolute", left: 4, bottom: 30, width: 204, height: 204, borderRadius: "50%", background: `radial-gradient(circle at 35% 30%, ${PANEL2}, ${PANEL} 70%)`, border: `1px solid ${LINE}`, display: "grid", placeItems: "center", boxShadow: "0 30px 80px -40px rgba(0,0,0,.9)" }}>
               <div style={{ textAlign: "center" }}>
-                <div style={{ fontFamily: serif, fontSize: 54, color: GOLD, letterSpacing: 4 }}>ET</div>
+                <div style={{ fontFamily: serif, fontSize: 52, color: GOLD, letterSpacing: 4 }}>ET</div>
                 <div style={{ width: 44, height: 1, background: LINE, margin: "12px auto" }} />
                 <div style={{ fontSize: 10, letterSpacing: 4.5, color: MUTED, textTransform: "uppercase" }}>{brand}</div>
               </div>
             </div>
-            <span style={{ position: "absolute", bottom: -22, background: PANEL, border: `1px solid ${LINE}`, borderRadius: 2, padding: "10px 18px", fontSize: 12.5, letterSpacing: 1.5, textTransform: "uppercase", color: GOLDL }}>Agenda da semana aberta</span>
+            <span style={{ position: "absolute", right: 8, bottom: -20, background: PANEL, border: `1px solid ${LINE}`, borderRadius: 2, padding: "10px 18px", fontSize: 12.5, letterSpacing: 1.5, textTransform: "uppercase", color: GOLDL }}>Agenda da semana aberta</span>
           </div>
         </div>
       </section>
