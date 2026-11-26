@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 /** Estudio de yoga, construido do zero a partir de um pin editorial em verde-oliva e creme. Agendamento de aula experimental que fecha no WhatsApp. */
-const OL = "#4a5230", OL2 = "#5b6339", DK = "#2e3320", CRM = "#f5f1e6", CRM2 = "#ede7d6", SAND = "#d9cfae", INK = "#2b2b23", GR = "#6d6a58", CLAY = "#b98a5e";
+const OL = "#4a5230", OL2 = "#5b6339", DK = "#2e3320", CRM = "#f5f1e6", CRM2 = "#ede7d6", SAND = "#d9cfae", INK = "#2b2b23", GR = "#6d6a58", CLAY = "#b98a5e", CLAY_TXT = "#8A5A28";
 const CLASSES = [
   { t: "Hatha Yoga", d: "Posturas clássicas com ritmo calmo, ideal para construir base e consciência corporal.", lv: "Todos os níveis", dur: "60 min" },
   { t: "Vinyasa Flow", d: "Sequências fluidas ligadas à respiração para força, mobilidade e presença.", lv: "Intermediário", dur: "75 min" },
@@ -43,18 +43,24 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
   return (
     <div className="yga" style={{ fontFamily: "'Karla', system-ui, sans-serif", color: INK, background: CRM, overflowX: "hidden" }}>
       <style>{`
-        .yga h1,.yga h2,.yga h3{font-family:${serif}!important;font-weight:500;letter-spacing:-.01em}
+        .yga figure,.yga blockquote{margin:0}
+        .yga h1,.yga h2,.yga h3{font-family:${serif}!important;font-weight:500;letter-spacing:-.01em;line-height:1.06;text-wrap:balance}
         .yga .wrap{max-width:1140px;margin:0 auto;padding:0 28px}
-        .yga .btn{display:inline-flex;align-items:center;gap:10px;background:${OL};color:#fff;font-weight:700;font-size:15px;padding:16px 30px;border-radius:999px;text-decoration:none;border:none;cursor:pointer;transition:.2s;letter-spacing:.3px}
+        .yga .btn{font-family:'Karla',system-ui,sans-serif;display:inline-flex;align-items:center;gap:10px;background:${OL};color:#fff;font-weight:700;font-size:15px;padding:16px 30px;border-radius:999px;text-decoration:none;border:none;cursor:pointer;transition:.2s;letter-spacing:.3px}
         .yga .btn:hover{background:${DK};transform:translateY(-2px)}
-        .yga .btn-o{text-decoration:none;display:inline-flex;align-items:center;gap:10px;background:none;color:${OL};border:1.5px solid ${OL};font-weight:700;font-size:15px;padding:15px 28px;border-radius:999px;cursor:pointer;transition:.2s}
+        .yga .btn-o{font-family:'Karla',system-ui,sans-serif;text-decoration:none;display:inline-flex;align-items:center;gap:10px;background:none;color:${OL};border:1.5px solid ${OL};font-weight:700;font-size:15px;padding:15px 28px;border-radius:999px;cursor:pointer;transition:.2s}
         .yga .btn-o:hover{background:rgba(74,82,48,.08)}
-        .yga .eyebrow{display:inline-flex;align-items:center;gap:8px;color:${CLAY};font-weight:700;font-size:12px;letter-spacing:2.5px;text-transform:uppercase}
+        .yga .eyebrow{display:inline-flex;align-items:center;gap:8px;color:${CLAY_TXT};font-weight:700;font-size:12px;letter-spacing:2.5px;text-transform:uppercase}
         .yga .eyebrow::before{content:"●";font-size:8px}
         .yga .hov{transition:transform .2s,box-shadow .2s,border-color .2s}
         .yga .hov:hover{transform:translateY(-4px);box-shadow:0 18px 40px -24px rgba(46,51,32,.45);border-color:rgba(185,138,94,.6)!important}
         .yga .hero-comp{min-height:700px}
         @media (max-width:900px){
+          .yga .g3y{grid-template-columns:1fr!important}
+          .yga .g4y{grid-template-columns:1fr 1fr!important}
+        }
+        @media (max-width:560px){
+          .yga .g4y{grid-template-columns:1fr!important}
           .yga .hero-g{grid-template-columns:1fr!important}
           .yga .hor-g{grid-template-columns:1fr!important;gap:32px!important}
           .yga .desk-nav{display:none!important}
@@ -98,8 +104,8 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
           {/* foto da instrutora livre + card de horarios abaixo, sem sobreposicao */}
           <div className="hero-comp" style={{ position: "relative" }}>
             <img src="/raiz-instrutora.webp" alt="Instrutora de yoga em prática no estúdio" className="arq" style={{ position: "absolute", top: 0, right: 0, width: 300, height: 400, borderRadius: "150px 150px 24px 24px", objectFit: "cover" }} />
-            <div className="hojecard" style={{ position: "absolute", bottom: 0, left: 0, right: 24, background: "#fff", borderRadius: 22, padding: "26px 26px 20px", boxShadow: "0 28px 60px -30px rgba(46,51,32,.45)", border: `1px solid ${CRM2}` }}>
-              <span style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: 1.8, color: CLAY }}>HOJE NO ESTÚDIO</span>
+            <div className="hojecard" style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "#fff", borderRadius: 22, padding: "26px 26px 20px", boxShadow: "0 28px 60px -30px rgba(46,51,32,.45)", border: `1px solid ${CRM2}` }}>
+              <span style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: 1.8, color: CLAY_TXT }}>HOJE NO ESTÚDIO</span>
               {[{ h: "6h30", c: "Vinyasa Flow", v: "3 vagas" }, { h: "12h", c: "Hatha Yoga", v: "5 vagas" }, { h: "19h", c: "Yin Yoga", v: "2 vagas" }].map((r) => (
                 <div key={r.h} style={{ display: "flex", alignItems: "center", gap: 14, padding: "13px 0", borderBottom: `1px solid ${CRM2}` }}>
                   <span style={{ fontFamily: serif, fontSize: 20, fontStyle: "italic", color: DK, minWidth: 56 }}>{r.h}</span>
@@ -121,11 +127,11 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
         <div className="wrap">
           <span className="eyebrow">Aulas</span>
           <h2 style={{ marginTop: 12, fontSize: "clamp(30px,3.6vw,44px)", color: DK }}>Descubra a sua prática</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(250px,1fr))", gap: 18, marginTop: 36 }}>
+          <div className="g4y" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 18, marginTop: 36 }}>
             {CLASSES.map((c, i) => (
               <article key={c.t} className="hov" style={{ borderRadius: 20, border: `1px solid ${CRM2}`, background: CRM, padding: "26px 24px 24px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10 }}>
-                  <span style={{ fontSize: 11.5, fontWeight: 800, letterSpacing: 1.6, color: CLAY, textTransform: "uppercase" }}>{c.dur}</span>
+                  <span style={{ fontSize: 11.5, fontWeight: 800, letterSpacing: 1.6, color: CLAY_TXT, textTransform: "uppercase" }}>{c.dur}</span>
                   <span style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: 1, color: OL2, textTransform: "uppercase" }}>{c.lv}</span>
                 </div>
                 <h3 style={{ fontSize: 26, margin: "14px 0 10px", color: DK, fontStyle: "italic" }}>{c.t}</h3>
@@ -163,7 +169,7 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
         <div className="wrap">
           <span className="eyebrow">Planos</span>
           <h2 style={{ marginTop: 12, fontSize: "clamp(30px,3.6vw,44px)", color: DK }}>Comece do seu jeito</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 18, marginTop: 36 }}>
+          <div className="g3y" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 18, marginTop: 36 }}>
             {PLANS.map((p) => (
               <article key={p.t} className="hov" style={{ background: "#fff", borderRadius: 22, padding: "30px 26px", border: p.hot ? `2px solid ${OL}` : `1px solid ${CRM2}`, position: "relative" }}>
                 {p.hot && <span style={{ position: "absolute", top: -13, left: 24, background: OL, color: "#fff", fontSize: 11.5, fontWeight: 800, letterSpacing: 1.2, padding: "5px 14px", borderRadius: 999 }}>MAIS ESCOLHIDO</span>}
@@ -187,7 +193,7 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
         <div className="wrap">
           <span className="eyebrow">Depoimentos</span>
           <h2 style={{ marginTop: 12, fontSize: "clamp(30px,3.6vw,44px)", color: DK }}>Quem pratica, sente</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(270px,1fr))", gap: 20, marginTop: 36 }}>
+          <div className="g3y" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20, marginTop: 36 }}>
             {TESTI.map((t) => (
               <figure key={t.n} className="hov" style={{ background: CRM, borderRadius: 20, padding: "28px 26px", border: `1px solid ${CRM2}`, display: "flex", flexDirection: "column", gap: 14 }}>
                 <span style={{ fontFamily: serif, fontSize: 46, lineHeight: .6, color: CLAY }}>"</span>
