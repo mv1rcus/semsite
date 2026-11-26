@@ -84,6 +84,7 @@ export function VidaLeveFold({ client }: { client?: { name?: string; whatsapp?: 
   return (
     <div className="vidaleve" style={{ background: CREAM, color: INK, fontFamily: sans }}>
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Jost:wght@400;500;600&family=Caveat:wght@500;600&display=swap');
         html,body{background:${CREAM} !important}
         .vidaleve .wrap{max-width:1240px;margin:0 auto;padding:0 28px}
         .vidaleve .kick{color:${GREEN};font-size:12.5px;letter-spacing:.32em;font-weight:600;text-transform:uppercase}
