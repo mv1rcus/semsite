@@ -62,12 +62,12 @@ export function CinzaFold({ client }: { client?: { name?: string; whatsapp?: str
         .cz nav.top .links{display:flex;gap:16px}.cz nav.top a{color:#d8d6d2;text-decoration:none;cursor:pointer;padding-bottom:3px;border-bottom:1px solid transparent}.cz nav.top a.on{border-color:#d8d6d2;color:#fff}
         .cz nav.top .lg{font-weight:300;color:#fff;font-size:9px}.cz .burger{display:none;background:none;border:0;color:#fff;font-size:26px;cursor:pointer}
         .cz .mob{position:fixed;inset:0;z-index:20;background:#1b1b1b;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:30px;font-size:15px;letter-spacing:.2em;text-transform:uppercase}.cz .mob a{color:#fff;cursor:pointer}
-        .cz .hero{position:relative;color:#f3f2f0;background:linear-gradient(180deg,#2c2b2a 0,#3b3a39 35%,#4a4a49 60%,#e9e9e8 62%);padding:150px 0 0}
+        .cz .hero{position:relative;color:#f3f2f0;background:linear-gradient(180deg,#2d2e30 0,#2d2e30 43%,rgba(45,46,48,0) 64%),url(/cinza-hero.webp) center bottom/100% auto no-repeat,#e9e9e8;padding:150px 0 0}
         .cz .hero .in{padding:0 12%;position:relative;z-index:2}
         .cz .hero h1{font-size:clamp(24px,2.8vw,34px);color:#f3f2f0;line-height:1.15}
         .cz .hero p{margin:12px 0 22px;font-size:11px;letter-spacing:.04em;color:#bdbbb7;font-weight:300}
         .cz .hero .btn{font-size:9px;padding:9px 20px}
-        .cz .hero .pic{height:0;padding-bottom:62%;margin-top:-10px;background:url(/cinza-hero.webp) center bottom/100% auto no-repeat}
+        .cz .hero .pic{height:0;padding-bottom:76%;margin-top:-10px}
         .cz .fil{padding:34px 12% 46px}
         .cz .fil h2{font-size:clamp(22px,2.6vw,30px);color:#3a3a39;margin-bottom:26px}
         .cz .fil .cols{display:grid;grid-template-columns:1fr 1fr;gap:34px}.cz .fil p{font-size:12px;line-height:1.7;color:#5a5a58;font-weight:300;margin:0}
