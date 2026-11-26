@@ -45,6 +45,7 @@ import { SucoFold } from "@/components/models/SucoFold";
 import { WineFold } from "@/components/models/WineFold";
 import { AgriFold } from "@/components/models/AgriFold";
 import { DroneFold } from "@/components/models/DroneFold";
+import { EvFold } from "@/components/models/EvFold";
 import { BikeFold } from "@/components/models/BikeFold";
 import { CafeFold } from "@/components/models/CafeFold";
 import { TattooFold } from "@/components/models/TattooFold";
@@ -147,6 +148,7 @@ else if (__MODEL__ === "gota-viva") root.render(<SucoFold client={cfg.client} />
 else if (__MODEL__ === "casa-vinha") root.render(<WineFold client={cfg.client} />);
 else if (__MODEL__ === "campo-vivo") root.render(<AgriFold client={cfg.client} />);
 else if (__MODEL__ === "aerolume") root.render(<DroneFold client={cfg.client} />);
+else if (__MODEL__ === "voltra") root.render(<EvFold client={cfg.client} />);
 else if (__MODEL__ === "roda-livre") root.render(<BikeFold client={cfg.client} />);
 else if (__MODEL__ === "grao-e-prosa") root.render(<CafeFold client={cfg.client} />);
 else if (__MODEL__ === "ponte-ingles") root.render(<InglesFold client={cfg.client} />);
