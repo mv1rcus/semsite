@@ -22,7 +22,7 @@ const PATHS: Record<string, string[]> = {
 };
 const Ic = ({ k, s = 24, c = "currentColor", w = 1.8 }: { k: string; s?: number; c?: string; w?: number }) => (
   <svg width={s} height={s} viewBox="0 0 32 32" fill="none" stroke={c} strokeWidth={w} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-    {PATHS[k].map((d, i) => <path key={i} d={d} />)}
+    {(PATHS[k as keyof typeof PATHS] || []).map((d, i) => <path key={i} d={d} />)}
   </svg>
 );
 
@@ -74,7 +74,7 @@ export function YogaFold({ client }: { client?: { name?: string; whatsapp?: stri
           <span style={{ fontFamily: serif, fontSize: 27, color: DK, letterSpacing: "-.01em" }}>{brand}<span style={{ color: CLAY_TXT }}>.</span></span>
           <nav className="nav-c" style={{ display: "flex", gap: 34 }}>
             {["Aulas", "Sobre", "Benefícios", "Contato"].map((l, i) => (
-              <button key={l} className="nav-a" onClick={() => go(["aulas", "sobre", "beneficios", "contato"][i])}>{l}</button>
+              <button key={l} className="nav-a" onClick={() => go(["aulas", "sobre", "beneficios", "contato"][i] || "aulas")}>{l}</button>
             ))}
           </nav>
           <a href={wa("Olá! Quero agendar uma aula experimental.")} target="_blank" rel="noreferrer" className="btn-pill">Agendar</a>
