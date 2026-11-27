@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { FREE_DAILY_SEARCHES, VERIFIED_PLANS } from "@/lib/verified-plans";
 
 export const Route = createFileRoute("/")({
+  headers: () => ({ "cache-control": "public, max-age=300, stale-while-revalidate=600" }),
   head: () => ({
     meta: [
       { title: "SemSite | Encontre seus próximos clientes" },
