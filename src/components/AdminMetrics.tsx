@@ -35,6 +35,10 @@ export function AdminMetrics() {
   useEffect(run, []); // eslint-disable-line react-hooks/exhaustive-deps
   if (err) return <p className="mt-4 text-destructive">{err}</p>;
   if (!m) return <p className="mt-4 text-muted-foreground">Carregando…</p>;
+  return <MetricsView m={m} run={run} />;
+}
+
+export function MetricsView({ m, run }: { m: M; run: () => void }) {
   return (
     <div className="mt-2">
       <div className="mt-2 flex items-center justify-between"><p className="text-xs text-muted-foreground">Atualizado em {fmt(m.generatedAt)}</p><button className="text-sm text-primary underline" onClick={run}>Atualizar</button></div>
