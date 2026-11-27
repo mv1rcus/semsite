@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { type StripeEnv, verifyWebhook } from "@/lib/stripe.server";
+import { emailOfUser, sendOnce } from "@/lib/email.server";
+import { cancellationEmail, paymentConfirmedEmail, refundEmail } from "@/lib/email-templates";
 
 function periodOf(sub: any) {
   const item = sub.items?.data?.[0];
@@ -71,6 +73,44 @@ async function revokePurchasedBadge(charge: any) {
 
 
 
+// ---- E-mails transacionais: best effort, nunca derrubam o webhook (sendOnce/emailOfUser não lançam erro). ----
+
+async function userIdOfSubscription(sub: any, env: StripeEnv): Promise<string | null> {
+  if (isUuid(sub?.metadata?.userId)) return sub.metadata.userId;
+  try {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data } = await supabaseAdmin.from("subscriptions").select("user_id").eq("stripe_subscription_id", sub.id).eq("environment", env).maybeSingle();
+    return (data as any)?.user_id ?? null;
+  } catch {
+    return null;
+  }
+}
+
+async function emailPaymentConfirmed(session: any, eventId: string) {
+  const to = session?.customer_details?.email || session?.customer_email || (await emailOfUser(session?.metadata?.userId));
+  if (!to) return;
+  const months = Number(session?.metadata?.paid_months || 0) || null;
+  await sendOnce(`pay:${eventId}`, "payment_confirmed", paymentConfirmedEmail(to, months));
+}
+
+/** Cancelamento: aviso quando marca "cancelar no fim do período" e quando a assinatura termina; um só e-mail por assinatura. */
+async function emailCancellation(sub: any, env: StripeEnv, ended: boolean, previous?: any) {
+  const justScheduled = !ended && sub?.cancel_at_period_end === true && previous && previous.cancel_at_period_end === false;
+  if (!ended && !justScheduled) return;
+  const userId = await userIdOfSubscription(sub, env);
+  const to = await emailOfUser(userId);
+  if (!to) return;
+  const { current_period_end } = periodOf(sub);
+  await sendOnce(`cancel:${sub.id}`, "cancellation", cancellationEmail(to, current_period_end, ended));
+}
+
+async function emailRefund(charge: any, eventId: string) {
+  const to = charge?.billing_details?.email || (await emailOfUser(charge?.metadata?.userId));
+  if (!to) return;
+  await sendOnce(`refund:${charge.id}`, "refund", refundEmail(to));
+}
+
+
 export const Route = createFileRoute("/api/public/payments/webhook")({
   server: {
     handlers: {
@@ -83,22 +123,35 @@ export const Route = createFileRoute("/api/public/payments/webhook")({
           const obj = event.data.object;
           switch (event.type) {
             case "customer.subscription.created":
+              await upsertSubscription(obj, env);
+              break;
             case "customer.subscription.updated":
               await upsertSubscription(obj, env);
+              await emailCancellation(obj, env, false, (event.data as any).previous_attributes);
               break;
             case "customer.subscription.deleted":
               await upsertSubscription(obj, env, "canceled");
+              await emailCancellation(obj, env, true);
               break;
             case "checkout.session.completed":
               // Boleto e Pix avulso avisam antes de o dinheiro cair: só entrega o selo
               // quando o pagamento não está mais pendente.
-              if (obj.mode === "payment" && obj.payment_status !== "unpaid") await grantPurchasedMonths(obj, event.id);
+              if (obj.mode === "payment" && obj.payment_status !== "unpaid") {
+                await grantPurchasedMonths(obj, event.id);
+                await emailPaymentConfirmed(obj, event.id);
+              } else if (obj.mode === "subscription" && obj.payment_status === "paid") {
+                await emailPaymentConfirmed(obj, event.id);
+              }
               break;
             case "checkout.session.async_payment_succeeded":
-              if (obj.mode === "payment") await grantPurchasedMonths(obj, event.id);
+              if (obj.mode === "payment") {
+                await grantPurchasedMonths(obj, event.id);
+                await emailPaymentConfirmed(obj, event.id);
+              }
               break;
             case "charge.refunded":
               await revokePurchasedBadge(obj);
+              await emailRefund(obj, event.id);
               break;
             default:
               break;
