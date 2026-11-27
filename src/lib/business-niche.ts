@@ -10,7 +10,7 @@ const NICHE_WORDS: [RegExp, string][] = [
   [/odonto|dentist|dental|sorriso/, "Dentista"], [/fisio/, "Fisioterapia"], [/psicolog/, "Psicólogo"], [/nutri/, "Nutricionista"],
   [/farmac|drogaria/, "Farmácia"], [/laborat/, "Laboratório"], [/otica/, "Ótica"],
   [/pizz/, "Pizzaria"], [/hamburg|burger|lanchon|lanche/, "Hamburgueria"], [/acai|sorvet/, "Açaiteria e sorveteria"],
-  [/confeit|doceria|bolos?\b|cake/, "Confeitaria"], [/padaria|panific/, "Padaria"], [/cafeter|coffee/, "Cafeteria"],
+  [/confeit|doceria|bolos?\b|\w*cake/, "Confeitaria"], [/padaria|panific/, "Padaria"], [/cafeter|coffee/, "Cafeteria"],
   [/marmit/, "Marmitaria"], [/espetinh/, "Espetinho"], [/buffet/, "Buffet"], [/restaur/, "Restaurante"],
   [/pet ?shop|banho e tosa|veterin|\bpet\b/, "Pet shop"], [/adestra/, "Adestramento"],
   [/academ|crossfit|fitness|gym/, "Academia"], [/pilates/, "Pilates"],
