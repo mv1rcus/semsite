@@ -10,18 +10,18 @@ const script = "'Permanent Marker', 'Caveat', cursive";
 const sans = "'Inter', 'Helvetica Neue', Arial, sans-serif";
 
 const PRODUCTS = [
-  { img: "/st-sneaker.webp", name: "High Top Retro 85", cat: "Sneakers", price: 180 },
-  { img: "/st-slide.webp", name: "Foam Slide Sand", cat: "Sneakers", price: 70 },
-  { img: "/st-hoodie-gray.webp", name: "Heavyweight Hoodie Grey", cat: "Apparel", price: 110 },
-  { img: "/st-dadshoe.webp", name: "Runner 9060 Chunky", cat: "Sneakers", price: 150 },
-  { img: "/st-hoodie-black.webp", name: "Essential Hoodie Black", cat: "Apparel", price: 90 },
-  { img: "/st-cap.webp", name: "Curved Brim Cap", cat: "Accessories", price: 28 },
+  { img: "/st-sneaker.webp", name: "High Top Retro 85", cat: "Tênis", price: 180 },
+  { img: "/st-slide.webp", name: "Foam Slide Sand", cat: "Tênis", price: 70 },
+  { img: "/st-hoodie-gray.webp", name: "Heavyweight Hoodie Grey", cat: "Roupas", price: 110 },
+  { img: "/st-dadshoe.webp", name: "Runner 9060 Chunky", cat: "Tênis", price: 150 },
+  { img: "/st-hoodie-black.webp", name: "Essential Hoodie Black", cat: "Roupas", price: 90 },
+  { img: "/st-cap.webp", name: "Curved Brim Cap", cat: "Acessórios", price: 28 },
 ];
 
 const REVIEWS = [
-  { name: "Jordan T.", text: "Fits perfect and shipped fast. The retro high tops look even better in person." },
-  { name: "Mike L.", text: "Best streetwear spot in the city. Real pairs, fair prices, zero hassle on returns." },
-  { name: "Alyssa R.", text: "Got the grey hoodie for my brother and ended up buying one for me too. Super soft." },
+  { name: "Jordan T.", text: "Caimento perfeito e chegou rápido. Os high tops retrô são ainda melhores pessoalmente." },
+  { name: "Miguel L.", text: "Melhor loja de streetwear da cidade. Pares originais, preço justo e troca sem dor de cabeça." },
+  { name: "Alyssa R.", text: "Comprei o moletom cinza pro meu irmão e acabei levando um pra mim também. Muito macio." },
 ];
 
 const BRANDS = ["NORTHLINE", "KICKLAB", "URBANOX", "SOLEWORKS", "FLUXWEAR", "DISTRICT 9"];
@@ -65,7 +65,7 @@ export function StrideDistrict({ client }: { client?: { name?: string; whatsapp?
     setSlide(i);
   };
 
-  const nav: [string, string][] = [["NEW ARRIVALS", "novidades"], ["SNEAKERS", "categorias"], ["APPAREL", "categorias"], ["ACCESSORIES", "categorias"], ["BRANDS", "marcas"]];
+  const nav: [string, string][] = [["LANÇAMENTOS", "novidades"], ["TÊNIS", "categorias"], ["ROUPAS", "categorias"], ["ACESSÓRIOS", "categorias"], ["MARCAS", "marcas"]];
 
   return (
     <div className="sd-root" style={{ background: BLACK, color: "#fff", fontFamily: sans }}>
@@ -182,10 +182,10 @@ export function StrideDistrict({ client }: { client?: { name?: string; whatsapp?
       `}</style>
 
       <div className="sd-top">
-        <span>Free shipping on orders over $150</span>
-        <span>New drops every Friday</span>
-        <span>Store locator</span>
-        <span>Help</span>
+        <span>Frete grátis acima de R$ 150</span>
+        <span>Drop novo toda sexta</span>
+        <span>Nossas lojas</span>
+        <span>Ajuda</span>
       </div>
 
       <header className="sd-hdr">
@@ -194,61 +194,61 @@ export function StrideDistrict({ client }: { client?: { name?: string; whatsapp?
         </div>
         <nav className="sd-nav">
           {nav.map(([l, id]) => <a key={l} onClick={() => go(id)}>{l}</a>)}
-          <a className="sale" onClick={() => go("sale")}>SALE</a>
+          <a className="sale" onClick={() => go("sale")}>OFERTAS</a>
         </nav>
         <div className="sd-icons">
-          <button className="sd-cartbtn" onClick={() => window.open(wa(`Hi! I'd like to order from ${brand}.`), "_blank")}>CART ({cart})</button>
+          <button className="sd-cartbtn" onClick={() => window.open(wa(`Olá! Quero fazer um pedido na ${brand}.`), "_blank")}>SACOLA ({cart})</button>
         </div>
       </header>
 
       <section className="sd-hero">
         <div className="sd-hero-txt">
-          <p className="sd-script">Own the streets</p>
-          <h1 className="sd-h1">Built for<br /><em>Movement</em></h1>
-          <p className="sd-sub">Fresh kicks, clean fits and street essentials. Everything you need to stand out and move with confidence.</p>
+          <p className="sd-script">Domine as ruas</p>
+          <h1 className="sd-h1">Feito pro<br /><em>Movimento</em></h1>
+          <p className="sd-sub">Tênis novos, fits limpos e essenciais de rua. Tudo pra você se destacar e se mover com confiança.</p>
           <div className="sd-btns">
-            <button className="sd-btn p" onClick={() => go("novidades")}>Shop new arrivals</button>
-            <button className="sd-btn o" onClick={() => go("cultura")}>Explore looks</button>
+            <button className="sd-btn p" onClick={() => go("novidades")}>Ver lançamentos</button>
+            <button className="sd-btn o" onClick={() => go("cultura")}>Explorar looks</button>
           </div>
           <div className="sd-badges">
-            <div className="sd-badge"><i>✓</i>100% Authentic</div>
-            <div className="sd-badge"><i>↺</i>Easy returns</div>
-            <div className="sd-badge"><i>🔒</i>Secure checkout</div>
+            <div className="sd-badge"><i>✓</i>100% original</div>
+            <div className="sd-badge"><i>↺</i>Troca fácil</div>
+            <div className="sd-badge"><i>🔒</i>Compra segura</div>
           </div>
         </div>
         <div className="sd-hero-img">
-          <img src="/st-hero.jpg" alt="Model crouching in front of a graffiti wall wearing orange and white sneakers" />
+          <img src="/st-hero.jpg" alt="Modelo agachado em frente a um muro de grafite com tênis laranja e branco" />
           <div className="sd-count"><b>01</b> / 03</div>
         </div>
       </section>
 
       <section className="sd-cats" id="categorias">
-        <h2 className="sd-sec">Shop by <span>category</span></h2>
-        <p className="sd-secsub">Find your fit, find your style.</p>
+        <h2 className="sd-sec">Compre por <span>categoria</span></h2>
+        <p className="sd-secsub">Ache seu fit, ache seu estilo.</p>
         <div className="sd-catgrid">
           <div className="sd-cat" onClick={() => go("novidades")}>
-            <img src="/st-sneaker.webp" alt="Sneakers" />
-            <div className="t"><b>Sneakers</b><u>SHOP →</u></div>
+            <img src="/st-sneaker.webp" alt="Tênis" />
+            <div className="t"><b>Tênis</b><u>VER →</u></div>
           </div>
           <div className="sd-cat" onClick={() => go("novidades")}>
-            <span className="tag">Never follow</span>
-            <img src="/st-hoodie-black.webp" alt="Hoodies" />
-            <div className="t"><b>Hoodies</b><u>SHOP →</u></div>
+            <span className="tag">Seja você</span>
+            <img src="/st-hoodie-black.webp" alt="Moletons" />
+            <div className="t"><b>Moletons</b><u>VER →</u></div>
           </div>
           <div className="sd-cat" onClick={() => go("novidades")}>
-            <img src="/st-cap.webp" alt="Accessories" />
-            <div className="t"><b>Accessories</b><u>SHOP →</u></div>
+            <img src="/st-cap.webp" alt="Acessórios" />
+            <div className="t"><b>Acessórios</b><u>VER →</u></div>
           </div>
           <div className="sd-cat" onClick={() => go("cultura")}>
-            <img className="cover" src="/st-l3.jpg" alt="T-shirts" style={{ objectPosition: "30% 40%" }} />
-            <div className="t"><b>T-shirts</b><u>SHOP →</u></div>
+            <img className="cover" src="/st-l3.jpg" alt="Camisetas" style={{ objectPosition: "30% 40%" }} />
+            <div className="t"><b>Camisetas</b><u>VER →</u></div>
           </div>
         </div>
       </section>
 
       <section className="sd-new" id="novidades">
-        <h2 className="sd-sec l">New <span>arrivals</span></h2>
-        <p className="sd-secsub" style={{ color: "#8d8d93" }}>Fresh drops. Limited quantities.</p>
+        <h2 className="sd-sec l">Novos <span>lançamentos</span></h2>
+        <p className="sd-secsub" style={{ color: "#8d8d93" }}>Drops fresquinhos. Quantidade limitada.</p>
         <div className="sd-track" ref={track} onScroll={(e) => {
           const el = e.currentTarget; const c = el.children[0] as HTMLElement | undefined;
           if (c) setSlide(Math.min(PRODUCTS.length - 1, Math.round(el.scrollLeft / (c.offsetWidth + 18))));
@@ -259,43 +259,43 @@ export function StrideDistrict({ client }: { client?: { name?: string; whatsapp?
               <div className="in">
                 <span className="c">{p.cat}</span>
                 <span className="n">{p.name}</span>
-                <span className="p">${p.price}</span>
-                <button className="sd-add" onClick={() => { setCart((n) => n + 1); window.open(wa(`Hi! I'd like the ${p.name} ($${p.price}).`), "_blank"); }}>Add to cart</button>
+                <span className="p">R$ {p.price}</span>
+                <button className="sd-add" onClick={() => { setCart((n) => n + 1); window.open(wa(`Olá! Quero o ${p.name} (R$ ${p.price}).`), "_blank"); }}>Adicionar</button>
               </div>
             </article>
           ))}
         </div>
         <div className="sd-dots">
-          {PRODUCTS.map((p, i) => <button key={p.name} aria-label={`Product ${i + 1}`} className={i === slide ? "on" : ""} onClick={() => scrollTo(i)} />)}
+          {PRODUCTS.map((p, i) => <button key={p.name} aria-label={`Produto ${i + 1}`} className={i === slide ? "on" : ""} onClick={() => scrollTo(i)} />)}
         </div>
       </section>
 
       <section className="sd-sale" id="sale">
         <div>
-          <h3>Up to 40% off<br />on select styles</h3>
-          <p>Limited time. While supplies last.</p>
+          <h3>Até 40% off<br />em estilos selecionados</h3>
+          <p>Por tempo limitado. Enquanto durar o estoque.</p>
           <div className="sd-btns" style={{ marginTop: 22 }}>
-            <button className="sd-btn" style={{ background: "#111", color: "#fff", borderColor: "#111" }} onClick={() => go("novidades")}>Shop sale</button>
+            <button className="sd-btn" style={{ background: "#111", color: "#fff", borderColor: "#111" }} onClick={() => go("novidades")}>Ver ofertas</button>
           </div>
         </div>
         <div className="sd-smile"><Smiley /></div>
       </section>
 
       <section className="sd-cult" id="cultura">
-        <h2 className="sd-sec l">More than a brand.<br /><span>It's a culture.</span></h2>
+        <h2 className="sd-sec l">Mais que uma marca.<br /><span>É uma cultura.</span></h2>
         <div className="sd-cultgrid">
           {[["/st-l1.jpg", "50% 30%"], ["/st-l3.jpg", "50% 40%"], ["/st-l5.jpg", "60% 50%"], ["/st-l2.jpg", "50% 35%"], ["/st-l4.jpg", "50% 60%"]].map(([src, pos], i) => (
-            <div className="ph" key={src}><img src={src} alt={`Street style ${i + 1}`} loading="lazy" style={{ objectPosition: pos }} /></div>
+            <div className="ph" key={src}><img src={src} alt={`Estilo de rua ${i + 1}`} loading="lazy" style={{ objectPosition: pos }} /></div>
           ))}
         </div>
         <div style={{ textAlign: "center" }}>
-          <button className="sd-btn p" onClick={() => window.open(wa("Hi! I want to join the District."), "_blank")}>Join the district</button>
+          <button className="sd-btn p" onClick={() => window.open(wa("Olá! Quero entrar pro District."), "_blank")}>Entre pro District</button>
         </div>
       </section>
 
       <section className="sd-rev">
-        <h2 className="sd-sec">What our <span>customers</span> say</h2>
-        <p className="sd-secsub">Real people. Real style.</p>
+        <h2 className="sd-sec">O que nossos <span>clientes</span> dizem</h2>
+        <p className="sd-secsub">Gente de verdade. Estilo de verdade.</p>
         <div className="sd-revgrid">
           {REVIEWS.map((r) => (
             <div className="sd-card" key={r.name}>
@@ -314,32 +314,32 @@ export function StrideDistrict({ client }: { client?: { name?: string; whatsapp?
       <footer className="sd-foot">
         <div>
           <div className="sd-logo" style={{ fontSize: 26 }}>{first} {rest && <b>{rest}</b>}</div>
-          <p style={{ color: "#8d8d93", fontSize: 14, lineHeight: 1.6, maxWidth: 260 }}>Streetwear, sneakers and everyday essentials for people who keep moving.</p>
+          <p style={{ color: "#8d8d93", fontSize: 14, lineHeight: 1.6, maxWidth: 260 }}>Streetwear, tênis e essenciais pro dia a dia de quem não para.</p>
         </div>
         <div>
-          <h4>Shop</h4>
-          <a onClick={() => go("novidades")}>New arrivals</a>
-          <a onClick={() => go("categorias")}>Sneakers</a>
-          <a onClick={() => go("categorias")}>Apparel</a>
-          <a onClick={() => go("sale")}>Sale</a>
+          <h4>Loja</h4>
+          <a onClick={() => go("novidades")}>Lançamentos</a>
+          <a onClick={() => go("categorias")}>Tênis</a>
+          <a onClick={() => go("categorias")}>Roupas</a>
+          <a onClick={() => go("sale")}>Ofertas</a>
         </div>
         <div>
-          <h4>Help</h4>
-          <a onClick={() => window.open(wa("Hi! I need help with an order."), "_blank")}>Contact us</a>
-          <a>Shipping</a>
-          <a>Returns</a>
-          <a>Store locator</a>
+          <h4>Ajuda</h4>
+          <a onClick={() => window.open(wa("Olá! Preciso de ajuda com um pedido."), "_blank")}>Fale conosco</a>
+          <a>Entregas</a>
+          <a>Trocas</a>
+          <a>Nossas lojas</a>
         </div>
         <div>
-          <h4>Join the district</h4>
-          <div style={{ color: "#8d8d93", fontSize: 14 }}>Get early access to drops and offers.</div>
+          <h4>Entre pro District</h4>
+          <div style={{ color: "#8d8d93", fontSize: 14 }}>Receba os drops e as ofertas em primeira mão.</div>
           <div className="sd-news">
-            <input placeholder="Your email" aria-label="Email" />
-            <button onClick={() => window.open(wa("Hi! Add me to the drops list."), "_blank")}>JOIN</button>
+            <input placeholder="Seu e-mail" aria-label="E-mail" />
+            <button onClick={() => window.open(wa("Olá! Me coloca na lista de drops."), "_blank")}>ENTRAR</button>
           </div>
-          <div className="sd-app"><span>Download on the<br /><b>App Store</b></span><span>Get it on<br /><b>Google Play</b></span></div>
+          <div className="sd-app"><span>Baixe na<br /><b>App Store</b></span><span>Disponível no<br /><b>Google Play</b></span></div>
         </div>
-        <div className="sd-copy"><span>© {brand}. All rights reserved.</span><span>Privacy · Terms</span></div>
+        <div className="sd-copy"><span>© {brand}. Todos os direitos reservados.</span><span>Privacidade · Termos</span></div>
       </footer>
     </div>
   );
