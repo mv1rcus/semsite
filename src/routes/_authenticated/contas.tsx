@@ -8,6 +8,7 @@ import { matchesAccount } from "@/lib/account-search";
 import { Button } from "@/components/ui/button";
 import { AdminTickets } from "@/components/AdminTickets";
 import { AdminMetrics } from "@/components/AdminMetrics";
+import { AdminSystem } from "@/components/AdminSystem";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 type Account = { email: string | null; created_at: string; last_sign_in_at: string | null; username: string | null; display_name: string | null };
@@ -23,7 +24,7 @@ function Contas() {
   const [rows, setRows] = useState<Account[] | null>(null);
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Account | null>(null);
-  const [tab, setTab] = useState<"contas" | "tickets" | "metricas">("contas");
+  const [tab, setTab] = useState<"contas" | "tickets" | "metricas" | "sistema">("contas");
   useEffect(() => {
     (supabase.rpc as unknown as (n: string) => Promise<{ data: Account[] | null }>)("admin_accounts").then(({ data }) => setRows(data ?? []));
   }, []);
@@ -39,9 +40,11 @@ function Contas() {
           <Button role="tab" aria-selected={tab === "contas"} variant={tab === "contas" ? "default" : "outline"} size="sm" onClick={() => setTab("contas")}>Contas</Button>
           <Button role="tab" aria-selected={tab === "tickets"} variant={tab === "tickets" ? "default" : "outline"} size="sm" onClick={() => setTab("tickets")}>Tickets</Button>
           <Button role="tab" aria-selected={tab === "metricas"} variant={tab === "metricas" ? "default" : "outline"} size="sm" onClick={() => setTab("metricas")}>Métricas</Button>
+          <Button role="tab" aria-selected={tab === "sistema"} variant={tab === "sistema" ? "default" : "outline"} size="sm" onClick={() => setTab("sistema")}>Sistema</Button>
         </div>
         {tab === "tickets" && <AdminTickets />}
         {tab === "metricas" && <AdminMetrics />}
+        {tab === "sistema" && <AdminSystem />}
         {tab === "contas" && (rows === null ? <p className="mt-4 text-muted-foreground">Carregando…</p> : rows.length === 0 ? <p className="mt-4 text-muted-foreground">Nada para mostrar aqui.</p> : (
           <>
             <div className="mt-4 grid grid-cols-2 gap-3">
