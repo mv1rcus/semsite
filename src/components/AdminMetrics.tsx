@@ -31,7 +31,7 @@ export function AdminMetrics() {
   const load = useServerFn(adminMetrics);
   const [m, setM] = useState<M | null>(null);
   const [err, setErr] = useState("");
-  const run = () => { setErr(""); load().then(setM).catch(() => setErr("Não foi possível carregar as métricas.")); };
+  const run = () => { setErr(""); load().then((r) => { if ("error" in r) setErr(`Não foi possível carregar as métricas (${r.error}).`); else setM(r); }).catch(() => setErr("Não foi possível carregar as métricas.")); };
   useEffect(run, []); // eslint-disable-line react-hooks/exhaustive-deps
   if (err) return <p className="mt-4 text-destructive">{err}</p>;
   if (!m) return <p className="mt-4 text-muted-foreground">Carregando…</p>;
