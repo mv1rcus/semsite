@@ -30,6 +30,8 @@ function RedefinirSenha() {
     const { error: err } = await supabase.auth.updateUser({ password });
     setBusy(false);
     if (err) { setError(err.message.toLowerCase().includes("weak") || err.message.toLowerCase().includes("pwned") ? "Essa senha é fraca ou já vazou em algum site. Escolha outra." : "Não foi possível trocar a senha. Peça um novo link."); return; }
+    // Depois do reset, derruba as outras sessões (de quem tinha a senha antiga ou a sessão roubada).
+    await supabase.auth.signOut({ scope: "others" });
     setDone(true);
     setTimeout(() => navigate({ to: "/buscar" }), 1500);
   }

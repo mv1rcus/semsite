@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
+import { ChangePasswordDialog } from "@/components/ChangePasswordDialog";
 import { deleteMyAccount } from "@/lib/account-deletion.functions";
 import { loadMessageSettings, saveMessageSettings } from "@/lib/message";
 import { normalizeProfileLinks, splitProfileLinks, profileLinkLabel, MAX_PROFILE_LINKS } from "@/lib/profile-link";
@@ -30,6 +31,8 @@ const EMPTY: Form = { username: "", display_name: "", phone: "", city: "", bio: 
 function Perfil() {
   const [form, setForm] = useState<Form>(EMPTY);
   const [email, setEmail] = useState("");
+  const [pwOpen, setPwOpen] = useState(false);
+  const [hasPassword, setHasPassword] = useState(false);
   const [delOpen, setDelOpen] = useState(false);
   const [delText, setDelText] = useState("");
   const [delBusy, setDelBusy] = useState(false);
@@ -51,7 +54,7 @@ function Perfil() {
     (async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
-      setUserId(user.id); setEmail(user.email ?? ""); setJoined(user.created_at);
+      setUserId(user.id); setEmail(user.email ?? ""); setHasPassword((user.identities ?? []).some((i) => i.provider === "email")); setJoined(user.created_at);
       const { data } = await supabase.from("profiles").select("username, display_name, phone, city, bio, link_url, avatar_url, banner_url").eq("id", user.id).maybeSingle();
       const meta = user.user_metadata ?? {};
       setForm(data ? { ...data, username: data.username ?? "", banner_url: data.banner_url ?? "" } : { ...EMPTY, display_name: String(meta["full_name"] ?? meta["name"] ?? ""), avatar_url: String(meta["avatar_url"] ?? "") });
@@ -163,6 +166,7 @@ function Perfil() {
             <Button variant="outline" className="rounded-full font-bold" disabled={!savedUser} onClick={share}><Share2 />{copied ? "Link copiado!" : "Compartilhar perfil"}</Button>
             <Button variant="outline" className="rounded-full font-bold" onClick={() => { setForm(saved); setStatus(""); setEditing(true); }}>Editar perfil</Button>
           </div>
+          {hasPassword && <button type="button" onClick={() => setPwOpen(true)} className="mt-3 w-full text-center text-xs text-muted-foreground hover:text-foreground">Alterar senha</button>}
           <button type="button" onClick={() => { setDelText(""); setDelErr(""); setDelOpen(true); }} className="mt-3 w-full text-center text-xs text-muted-foreground hover:text-destructive">Excluir minha conta</button>
         </div>
         <div className="flex border-t border-border">
@@ -175,6 +179,7 @@ function Perfil() {
         {savedUser ? <PostFeed key={savedUser} onlyUser={savedUser} canPost={false} /> : !loading && <p className="text-sm text-muted-foreground">Escolha seu @ em Editar perfil pra ver suas publicações aqui.</p>}
       </section>
       {savedUser && <FollowListDialog username={savedUser} kind={list} onClose={() => setList(null)} />}
+      {hasPassword && <ChangePasswordDialog email={email} open={pwOpen} onOpenChange={setPwOpen} />}
       <Dialog open={delOpen} onOpenChange={o => { if (!delBusy) setDelOpen(o); }}>
         <DialogContent>
           <DialogHeader>
