@@ -2,6 +2,7 @@ import type { PremiumKey, PremiumModel } from "./premium-models";
 
 const SECTIONS: Record<PremiumKey, string> = {
   fonoaudiologia: "ludico rosa e indigo com fonte arredondada, hero com foto arredondada, 3 passos em circulos tracejados, fotos sobrepostas com card de horarios, faixa indigo com 5 especialidades, 2 cards com foto e card de agendamento, depoimentos em faixa rosa",
+  tenis: "preto e laranja urbano, hero com modelo em muro de grafite e titulo em script verde, categorias em cards escuros, carrossel de produtos recortados, banner laranja de promocao",
   interiores: "creme rustico editorial, hero split com foto grande a esquerda e painel com still-life a direita, 3 projetos com legendas em caixa alta, secao de texto com foto de detalhe e botao escuro",
   doula: "hero verde-escuro editorial com foto em arco e foto oval, secao creme com fotos sobrepostas, sobre em duas colunas com foto e botao de contorno, processo em 3 passos com icones de sol",
   relojoaria: "hero preto com relógio em destaque e anéis de medidas, corte diagonal com card branco, faixa de oficina, promoções com foto sobreposta e assinatura de voucher",
