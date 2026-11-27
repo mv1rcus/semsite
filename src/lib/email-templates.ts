@@ -78,3 +78,25 @@ export function refundEmail(to: string): MailMessage {
     { label: "Voltar ao SemSite", href: SITE },
   );
 }
+
+export function ticketOpenedEmail(to: string, number: number, subject: string): MailMessage {
+  return build(
+    to,
+    `Recebemos seu ticket #${number}`,
+    `Ticket #${number} recebido`,
+    [
+      `Recebemos sua mensagem sobre "${subject}". Seu número de atendimento é #${number}.`,
+      "Vamos responder por e-mail assim que possível. Guarde este número se precisar falar de novo sobre o mesmo assunto.",
+    ],
+  );
+}
+
+export function ticketReplyEmail(to: string, number: number, subject: string, reply: string): MailMessage {
+  const paragraphs = reply.split(/\n+/).map((p) => p.trim()).filter(Boolean);
+  return build(
+    to,
+    `Resposta ao seu ticket #${number}`,
+    `Resposta ao ticket #${number}`,
+    [`Sobre: ${subject}`, ...paragraphs, "Se precisar de mais alguma coisa, abra um novo ticket em " + SITE + "/suporte citando o número #" + number + "."],
+  );
+}

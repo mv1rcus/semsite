@@ -105,7 +105,7 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
                 <Link to="/feed" onClick={close} className={item(active === "feed")}><Newspaper className="size-5" />Feed</Link>
                 <Link to="/pessoas" onClick={close} className={item(active === "people")}><UserSearch className="size-5" />Pesquisar pessoas</Link>
                 <Link to="/verificado" onClick={close} className={item(false)}><VerifiedBadge size={20} />Obter verificado</Link>
-                {isOwner && <Link to="/contas" onClick={close} className={item(false)}><Users className="size-5" />Contas do site</Link>}
+                {isOwner && <Link to="/contas" onClick={close} className={item(false)}><Users className="size-5" />Painel do SemSite</Link>}
                 <button type="button" onClick={signOut} className={item(false)}><LogOut className="size-5" />Sair</button>
               </div>
             </nav>

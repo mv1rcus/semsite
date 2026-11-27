@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Search, ChevronRight } from "lucide-react";
 import { matchesAccount } from "@/lib/account-search";
 import { Button } from "@/components/ui/button";
+import { AdminTickets } from "@/components/AdminTickets";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 type Account = { email: string | null; created_at: string; last_sign_in_at: string | null; username: string | null; display_name: string | null };
@@ -21,6 +22,7 @@ function Contas() {
   const [rows, setRows] = useState<Account[] | null>(null);
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Account | null>(null);
+  const [tab, setTab] = useState<"contas" | "tickets">("contas");
   useEffect(() => {
     (supabase.rpc as unknown as (n: string) => Promise<{ data: Account[] | null }>)("admin_accounts").then(({ data }) => setRows(data ?? []));
   }, []);
@@ -31,8 +33,13 @@ function Contas() {
     <>
       <ProspectTabs active="profile" />
       <main className="mx-auto max-w-3xl px-4 py-6">
-        <p className="page-kicker mb-3">/ ADMIN</p><h1 className="font-display text-4xl tracking-wide">Contas do site</h1>
-        {rows === null ? <p className="mt-4 text-muted-foreground">Carregando…</p> : rows.length === 0 ? <p className="mt-4 text-muted-foreground">Nada para mostrar aqui.</p> : (
+        <p className="page-kicker mb-3">/ ADMIN</p><h1 className="font-display text-4xl tracking-wide">Painel do SemSite</h1>
+        <div role="tablist" aria-label="Seções do painel" className="mt-4 flex gap-2">
+          <Button role="tab" aria-selected={tab === "contas"} variant={tab === "contas" ? "default" : "outline"} size="sm" onClick={() => setTab("contas")}>Contas</Button>
+          <Button role="tab" aria-selected={tab === "tickets"} variant={tab === "tickets" ? "default" : "outline"} size="sm" onClick={() => setTab("tickets")}>Tickets</Button>
+        </div>
+        {tab === "tickets" && <AdminTickets />}
+        {tab === "contas" && (rows === null ? <p className="mt-4 text-muted-foreground">Carregando…</p> : rows.length === 0 ? <p className="mt-4 text-muted-foreground">Nada para mostrar aqui.</p> : (
           <>
             <div className="mt-4 grid grid-cols-2 gap-3">
               <div className="app-card p-4"><p className="text-sm text-muted-foreground">Total de contas</p><p className="font-display text-4xl text-primary">{rows.length}</p></div>
@@ -60,7 +67,7 @@ function Contas() {
               ))}
             </ul>
           </>
-        )}
+        ))}
       </main>
       <Dialog open={selected !== null} onOpenChange={open => { if (!open) setSelected(null); }}>
         <DialogContent className="max-h-[85dvh] w-[calc(100%-2rem)] overflow-y-auto rounded-lg">

@@ -274,6 +274,7 @@ function Login() {
           <a href="#duvidas" className="hover:text-foreground">Dúvidas</a>
           <Link to="/termos" className="hover:text-foreground">Termos de Uso</Link>
           <Link to="/privacidade" className="hover:text-foreground">Política de Privacidade</Link>
+          <Link to="/suporte" className="hover:text-foreground">Suporte</Link>
         </nav>
       </footer>
       {askTerms && (

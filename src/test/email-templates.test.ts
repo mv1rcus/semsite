@@ -17,3 +17,15 @@ describe("e-mails transacionais", () => {
     expect(refundEmail("a@b.co").subject).toMatch(/Reembolso/);
   });
 });
+
+import { ticketOpenedEmail, ticketReplyEmail } from "@/lib/email-templates";
+describe("ticket emails", () => {
+  it("inclui o número do ticket e escapa HTML", () => {
+    const a = ticketOpenedEmail("a@b.com", 7, "Oi <b>");
+    expect(a.subject).toContain("#7");
+    expect(a.html).not.toContain("<b>");
+    const r = ticketReplyEmail("a@b.com", 7, "Assunto", "Linha 1\nLinha 2 <script>");
+    expect(r.subject).toContain("#7");
+    expect(r.html).not.toContain("<script>");
+  });
+});
