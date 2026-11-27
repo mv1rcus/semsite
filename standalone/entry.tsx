@@ -42,6 +42,7 @@ import { BikeMove } from "@/components/models/BikeMove";
 import { MareSushi } from "@/components/models/MareSushi";
 import { PequenoPasso } from "@/components/models/PequenoPasso";
 import { NevoaSpa } from "@/components/models/NevoaSpa";
+import { CacauFino } from "@/components/models/CacauFino";
 import { MareMansa } from "@/components/models/MareMansa";
 import { RotaAberta } from "@/components/models/RotaAberta";
 import { MilkFold } from "@/components/models/MilkFold";
@@ -171,6 +172,7 @@ else if (__MODEL__ === "giro-bikes") root.render(<BikeMove client={cfg.client} /
 else if (__MODEL__ === "mare-sushi") root.render(<MareSushi client={cfg.client} />);
 else if (__MODEL__ === "pequeno-passo") root.render(<PequenoPasso client={cfg.client} />);
 else if (__MODEL__ === "nevoa-spa") root.render(<NevoaSpa client={cfg.client} />);
+else if (__MODEL__ === "cacau-fino") root.render(<CacauFino client={cfg.client} />);
 else if (__MODEL__ === "mare-mansa") root.render(<MareMansa client={cfg.client} />);
 else if (__MODEL__ === "rota-aberta") root.render(<RotaAberta client={cfg.client} />);
 else if (__MODEL__ === "milky-mix") root.render(<MilkFold client={cfg.client} />);
