@@ -1,7 +1,23 @@
 import { createStart, createCsrfMiddleware, createMiddleware } from "@tanstack/react-start";
+import { getRequest } from "@tanstack/react-start/server";
 
 import { renderErrorPage } from "./lib/error-page";
 import { attachSupabaseAuth } from "@/integrations/supabase/auth-attacher";
+
+// Crawlers de IA e scrapers conhecidos não são leitores do site: cada página que
+// abrem vira SSR e queima Compute. Resposta seca, sem montar página. Ficam de fora
+// de propósito: Googlebot/Bingbot (SEO da home) e os bots de prévia de link
+// (WhatsApp, facebookexternalhit, Twitterbot, Applebot), que o produto precisa.
+const BOT_UA = /GPTBot|ChatGPT-User|OAI-SearchBot|ClaudeBot|anthropic-ai|Claude-Web|Bytespider|CCBot|Amazonbot|meta-externalagent|AhrefsBot|SemrushBot|MJ12bot|DotBot|PetalBot|DataForSeoBot|BLEXBot|YandexBot|Baiduspider|HeadlessChrome|PhantomJS|python-requests|scrapy/i;
+
+const botWallMiddleware = createMiddleware().server(async ({ next }) => {
+  const request = getRequest();
+  if (request.method === "GET" || request.method === "HEAD") {
+    const ua = request.headers.get("user-agent") ?? "";
+    if (BOT_UA.test(ua)) return new Response("Forbidden", { status: 403 });
+  }
+  return next();
+});
 
 const errorMiddleware = createMiddleware().server(async ({ next }) => {
   try {
@@ -27,5 +43,5 @@ const csrfMiddleware = createCsrfMiddleware({
 
 export const startInstance = createStart(() => ({
   functionMiddleware: [attachSupabaseAuth],
-  requestMiddleware: [errorMiddleware, csrfMiddleware],
+  requestMiddleware: [botWallMiddleware, errorMiddleware, csrfMiddleware],
 }));

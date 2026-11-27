@@ -53,11 +53,14 @@ export const getDemonstration = createServerFn({ method: "GET" })
     const device = demoDeviceFromUserAgent(getRequest().headers.get("user-agent"));
     // Só grava o aparelho quando o acesso veio de um navegador de verdade (ignora bots de prévia).
     const openedAt = new Date().toISOString();
-    const counts = !!device && isNewOpenSession(last_opened_at ?? null);
-    const tracked = await supabaseAdmin.from("site_demonstrations").update({ last_opened_at: openedAt, ...(device ? { last_opened_device: device } : {}), ...(counts && open_count !== undefined ? { open_count: open_count + 1 } : {}) }).eq("id", demo.id);
-    if (tracked.error && device) {
-      // Coluna ainda não aplicada (migração 0019 pendente): registra só o horário até lá.
-      await supabaseAdmin.from("site_demonstrations").update({ last_opened_at: openedAt }).eq("id", demo.id);
+    // Bot de prévia/rastreador não grava nada: cada write aqui custa Compute e banco.
+    if (device) {
+      const counts = isNewOpenSession(last_opened_at ?? null);
+      const tracked = await supabaseAdmin.from("site_demonstrations").update({ last_opened_at: openedAt, last_opened_device: device, ...(counts && open_count !== undefined ? { open_count: open_count + 1 } : {}) }).eq("id", demo.id);
+      if (tracked.error) {
+        // Coluna ainda não aplicada (migração 0019 pendente): registra só o horário até lá.
+        await supabaseAdmin.from("site_demonstrations").update({ last_opened_at: openedAt }).eq("id", demo.id);
+      }
     }
     return { ...demo, expired: false, expiresAt };
   });
