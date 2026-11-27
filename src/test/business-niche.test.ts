@@ -32,3 +32,4 @@ describe("ramo não confunde palavra solta", () => {
   it("busca oficina descarta Oficina do Lanche", () => expect(matchesSearch("Oficina do Lanche", null, "oficina mecânica")).toBe(false));
   it("busca oficina mantém oficina de verdade", () => expect(matchesSearch("Auto Mecânica Silva", null, "oficina mecânica")).toBe(true));
 });
+it("Misscake segue confeitaria", () => expect(detectNiche("Misscakejf", null)).toBe("Confeitaria"));
