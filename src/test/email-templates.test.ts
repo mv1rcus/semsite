@@ -29,3 +29,15 @@ describe("ticket emails", () => {
     expect(r.html).not.toContain("<script>");
   });
 });
+
+import { welcomeEmail } from "@/lib/email-templates";
+describe("renovação e boas-vindas", () => {
+  it("assinatura sem período fala de renovação automática e cancelamento", () => {
+    expect(paymentConfirmedEmail("a@b.co").text).toContain("renova automaticamente");
+    expect(paymentConfirmedEmail("a@b.co", 1).text).toContain("não renova sozinho");
+  });
+  it("boas-vindas assinada só SemSite", () => {
+    expect(welcomeEmail("a@b.co").subject).toMatch(/Bem-vindo/);
+    expect(welcomeEmail("a@b.co").html).not.toMatch(/Marcus/i);
+  });
+});

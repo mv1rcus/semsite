@@ -43,7 +43,9 @@ export function paymentConfirmedEmail(to: string, months?: number | null, untilI
     [
       "Recebemos seu pagamento e o selo Verificado já está ativo na sua conta.",
       ...(periodo ? [`Período contratado: ${periodo}${until ? `, válido até ${until}` : ""}.`] : until ? [`Válido até ${until}.`] : []),
-      "O pagamento é único por período e não renova sozinho: você só paga de novo se quiser mais um período.",
+      ...(periodo
+        ? ["Este pagamento é único por período e não renova sozinho: você só paga de novo se quiser mais um período."]
+        : ["Sua assinatura renova automaticamente a cada período. Você pode cancelar quando quiser em Verificado > Gerenciar ou cancelar assinatura: o cancelamento vale para as próximas cobranças e o período já pago continua valendo até o fim."]),
     ],
     { label: "Ver meu selo Verificado", href: `${SITE}/verificado` },
   );
@@ -98,5 +100,19 @@ export function ticketReplyEmail(to: string, number: number, subject: string, re
     `Resposta ao seu ticket #${number}`,
     `Resposta ao ticket #${number}`,
     [`Sobre: ${subject}`, ...paragraphs, "Se precisar de mais alguma coisa, abra um novo ticket em " + SITE + "/suporte citando o número #" + number + "."],
+  );
+}
+
+export function welcomeEmail(to: string): MailMessage {
+  return build(
+    to,
+    "Bem-vindo ao SemSite",
+    "Sua conta foi criada",
+    [
+      "Sua conta no SemSite está pronta. Agora é só entrar, buscar negócios sem site e mostrar a eles uma demonstração pronta.",
+      "O selo Verificado é opcional. Os planos e as regras de cada um ficam na página Verificado, dentro do app.",
+      "Precisa de ajuda? Abra um ticket em " + SITE + "/suporte ou responda este e-mail.",
+    ],
+    { label: "Abrir o SemSite", href: SITE },
   );
 }
