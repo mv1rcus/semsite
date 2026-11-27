@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { analyzeBusinessLocally } from "@/lib/business-analysis-local";
+import { analyzeBusinessLocally, withSignature } from "@/lib/business-analysis-local";
 import { analysisMessage, type BusinessAnalysisInput } from "@/lib/business-analysis";
 
 const base: BusinessAnalysisInput = {
@@ -60,5 +60,38 @@ describe("analyzeBusinessLocally", () => {
       expect(opportunity.basis.length).toBeGreaterThan(0);
     }
     expect(result.opportunities[0]?.title).toBe("Evolução do site atual");
+  });
+});
+
+describe("melhorias da Análise", () => {
+  it("reconhece mais segmentos e não confunde barbearia com bar", () => {
+    const barber = analyzeBusinessLocally({ ...base, name: "Barbearia do Zé", segment: "Barbearia", services: "", social: "", website: "unknown" });
+    expect(barber.opportunities.map((o) => o.title)).toContain("Agendamento facilitado");
+    const casos: [string, string][] = [["Imobiliária", "Vitrine de imóveis"], ["Contabilidade", "Serviços contábeis explicados"], ["Escola de idiomas", "Cursos e matrícula pelo WhatsApp"], ["Estética automotiva", "Serviços e pedido de orçamento"], ["Floricultura", "Vitrine online de produtos"], ["Pousada", "Quartos, fotos e pedido de reserva"]];
+    for (const [segment, title] of casos) {
+      const r = analyzeBusinessLocally({ ...base, name: "Negócio X", segment, services: "", social: "", website: "unknown" });
+      expect(r.opportunities.map((o) => o.title), segment).toContain(title);
+    }
+  });
+
+  it("oferece 3 aberturas sem afirmar que viu o trabalho, sem preço e com o nome", () => {
+    for (const website of ["none", "existing", "unknown"] as const) {
+      const r = analyzeBusinessLocally({ ...base, website });
+      expect(r.openings).toHaveLength(3);
+      expect(r.opening).toBe(r.openings[0]!.text);
+      for (const o of r.openings) {
+        expect(o.text).toContain("Pizzaria Bella Vista");
+        expect(o.text.toLowerCase()).not.toContain("acompanhei");
+        expect(o.text.toLowerCase()).not.toContain("r$");
+      }
+    }
+    expect(analyzeBusinessLocally({ ...base, website: "unknown" }).openings[0]!.text).not.toContain("ainda não tem site");
+  });
+
+  it("gera 2 mensagens de acompanhamento e assina com o nome", () => {
+    const r = analyzeBusinessLocally(base);
+    expect(r.followUps).toHaveLength(2);
+    expect(withSignature(r.followUps[0]!.text, "Ana")).toMatch(/\n\nAna$/);
+    expect(withSignature(r.followUps[0]!.text, " ")).toBe(r.followUps[0]!.text);
   });
 });
