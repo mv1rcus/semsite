@@ -246,9 +246,9 @@ function Login() {
         <div className="mt-6 space-y-3">
           {[
             ["Posso testar sem pagar?", `Sim. A conta gratuita permite ${FREE_DAILY_SEARCHES} buscas de clientes por dia. Sites de demonstração e os demais recursos do Verificado exigem um plano pago.`],
-            ["Por que preciso entrar com Google?", "É a forma de acesso disponível no momento. Sua conta permite guardar seus clientes e acessar a plataforma."],
+            ["Preciso ter conta Google?", "Não. Você pode entrar com o Google ou criar a conta com e-mail e senha. Se esquecer a senha, é só pedir o link de nova senha no seu e-mail. A conta permite guardar seus clientes e acessar a plataforma."],
             ["De onde vêm os negócios listados?", "Dos dados abertos da Overture Maps. Mostramos registros com telefone e sem site próprio cadastrado na base. A cobertura e a atualização variam por município; confirme as informações antes de abordar."],
-            ["Preciso instalar alguma coisa?", "Não. O SemSite funciona no navegador, no celular e no computador. É só entrar com a sua conta Google."],
+            ["Preciso instalar alguma coisa?", "Não. O SemSite funciona no navegador, no celular e no computador. É só entrar com o Google ou com e-mail e senha."],
             ["O plano renova automaticamente?", "Não. O Verificado custa R$ 8,99 por mês, em pagamento único: quando o período acaba, nada é cobrado e o selo sai sozinho. Para continuar, você paga de novo quando quiser. O plano anual segue a mesma regra, sem débito automático."],
             ["O SemSite envia mensagens sozinho?", "Você inicia a conversa com o cliente pelo WhatsApp. A plataforma ajuda com a demonstração e a mensagem de abordagem."],
             ["O SemSite garante que vou fechar clientes?", "Não. A plataforma ajuda na prospecção e na apresentação do seu trabalho. A negociação e os resultados dependem de cada caso."],
