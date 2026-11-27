@@ -116,3 +116,17 @@ export function welcomeEmail(to: string): MailMessage {
     { label: "Abrir o SemSite", href: SITE },
   );
 }
+
+export function expiringEmail(to: string, endsIso: string): MailMessage {
+  const ends = fmtDate(endsIso);
+  return build(
+    to,
+    "Seu selo Verificado vence em breve",
+    "Seu período está acabando",
+    [
+      `Seu selo Verificado vale até ${ends ?? "os próximos dias"}.`,
+      "Para continuar com o selo, é só renovar na página Verificado. O pagamento é único por período e não renova sozinho: se você não renovar, o selo sai sozinho e nada é cobrado.",
+    ],
+    { label: "Renovar meu selo", href: `${SITE}/verificado` },
+  );
+}

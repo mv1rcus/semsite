@@ -41,3 +41,10 @@ describe("renovação e boas-vindas", () => {
     expect(welcomeEmail("a@b.co").html).not.toMatch(/Marcus/i);
   });
 });
+
+import { expiringEmail } from "@/lib/email-templates";
+it("aviso de vencimento cita a data e o link de renovação", () => {
+  const m = expiringEmail("a@b.co", "2026-12-05T12:00:00.000Z");
+  expect(m.text).toContain("05/12/2026");
+  expect(m.html).toContain("/verificado");
+});

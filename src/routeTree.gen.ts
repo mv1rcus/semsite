@@ -38,6 +38,7 @@ import { Route as AuthenticatedPostPostIdRouteImport } from './routes/_authentic
 import { Route as AuthenticatedTagTagRouteImport } from './routes/_authenticated/tag.$tag'
 import { Route as AuthenticatedUUsernameRouteImport } from './routes/_authenticated/u.$username'
 import { Route as SiteSlugCodeRouteImport } from './routes/site.$slug.$code'
+import { Route as ApiPublicJobsExpiryRemindersRouteImport } from './routes/api/public/jobs/expiry-reminders'
 import { Route as ApiPublicJobsSemsiteDailyPostRouteImport } from './routes/api/public/jobs/semsite-daily-post'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
@@ -189,6 +190,12 @@ const SiteSlugCodeRoute = SiteSlugCodeRouteImport.update({
   path: '/site/$slug/$code',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicJobsExpiryRemindersRoute =
+  ApiPublicJobsExpiryRemindersRouteImport.update({
+    id: '/api/public/jobs/expiry-reminders',
+    path: '/api/public/jobs/expiry-reminders',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicJobsSemsiteDailyPostRoute =
   ApiPublicJobsSemsiteDailyPostRouteImport.update({
     id: '/api/public/jobs/semsite-daily-post',
@@ -231,6 +238,7 @@ export interface FileRoutesByFullPath {
   '/u/$username': typeof AuthenticatedUUsernameRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
   '/mensagens/': typeof AuthenticatedMensagensIndexRoute
+  '/api/public/jobs/expiry-reminders': typeof ApiPublicJobsExpiryRemindersRoute
   '/api/public/jobs/semsite-daily-post': typeof ApiPublicJobsSemsiteDailyPostRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -263,6 +271,7 @@ export interface FileRoutesByTo {
   '/u/$username': typeof AuthenticatedUUsernameRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
   '/mensagens': typeof AuthenticatedMensagensIndexRoute
+  '/api/public/jobs/expiry-reminders': typeof ApiPublicJobsExpiryRemindersRoute
   '/api/public/jobs/semsite-daily-post': typeof ApiPublicJobsSemsiteDailyPostRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -297,6 +306,7 @@ export interface FileRoutesById {
   '/_authenticated/u/$username': typeof AuthenticatedUUsernameRoute
   '/site/$slug/$code': typeof SiteSlugCodeRoute
   '/_authenticated/mensagens/': typeof AuthenticatedMensagensIndexRoute
+  '/api/public/jobs/expiry-reminders': typeof ApiPublicJobsExpiryRemindersRoute
   '/api/public/jobs/semsite-daily-post': typeof ApiPublicJobsSemsiteDailyPostRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -331,6 +341,7 @@ export interface FileRouteTypes {
     | '/u/$username'
     | '/site/$slug/$code'
     | '/mensagens/'
+    | '/api/public/jobs/expiry-reminders'
     | '/api/public/jobs/semsite-daily-post'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -363,6 +374,7 @@ export interface FileRouteTypes {
     | '/u/$username'
     | '/site/$slug/$code'
     | '/mensagens'
+    | '/api/public/jobs/expiry-reminders'
     | '/api/public/jobs/semsite-daily-post'
     | '/api/public/payments/webhook'
   id:
@@ -396,6 +408,7 @@ export interface FileRouteTypes {
     | '/_authenticated/u/$username'
     | '/site/$slug/$code'
     | '/_authenticated/mensagens/'
+    | '/api/public/jobs/expiry-reminders'
     | '/api/public/jobs/semsite-daily-post'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
@@ -411,6 +424,7 @@ export interface RootRouteChildren {
   PortfolioUsernameRoute: typeof PortfolioUsernameRoute
   VitrineIdRoute: typeof VitrineIdRoute
   SiteSlugCodeRoute: typeof SiteSlugCodeRoute
+  ApiPublicJobsExpiryRemindersRoute: typeof ApiPublicJobsExpiryRemindersRoute
   ApiPublicJobsSemsiteDailyPostRoute: typeof ApiPublicJobsSemsiteDailyPostRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
@@ -620,6 +634,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteSlugCodeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/jobs/expiry-reminders': {
+      id: '/api/public/jobs/expiry-reminders'
+      path: '/api/public/jobs/expiry-reminders'
+      fullPath: '/api/public/jobs/expiry-reminders'
+      preLoaderRoute: typeof ApiPublicJobsExpiryRemindersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/jobs/semsite-daily-post': {
       id: '/api/public/jobs/semsite-daily-post'
       path: '/api/public/jobs/semsite-daily-post'
@@ -695,6 +716,7 @@ const rootRouteChildren: RootRouteChildren = {
   PortfolioUsernameRoute: PortfolioUsernameRoute,
   VitrineIdRoute: VitrineIdRoute,
   SiteSlugCodeRoute: SiteSlugCodeRoute,
+  ApiPublicJobsExpiryRemindersRoute: ApiPublicJobsExpiryRemindersRoute,
   ApiPublicJobsSemsiteDailyPostRoute: ApiPublicJobsSemsiteDailyPostRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
