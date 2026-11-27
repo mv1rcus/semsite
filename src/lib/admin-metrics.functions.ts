@@ -29,8 +29,18 @@ function lastDays(n: number): string[] {
 
 export const adminMetrics = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }): Promise<AdminMetrics> => {
+  .handler(async ({ context }): Promise<AdminMetrics | { error: string }> => {
     if (context.userId !== OWNER_ID) throw new Error("Não autorizado");
+    try {
+      return await compute();
+    } catch (e) {
+      console.error("metrics: falha:", e);
+      return { error: e instanceof Error ? e.message.slice(0, 300) : "erro desconhecido" };
+    }
+  });
+
+async function compute(): Promise<AdminMetrics> {
+  {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const admin = supabaseAdmin as any;
     const now = Date.now();
@@ -115,4 +125,5 @@ export const adminMetrics = createServerFn({ method: "GET" })
       searches: { today: sumFrom(today), d7: sumFrom(d7), d30: sumFrom(d30), activeUsers7: new Set(srows.filter((r) => r.day >= d7).map((r) => r.user_id)).size, perDay: days14.map((day) => ({ day, count: sByDay.get(day) ?? 0 })) },
       demos: { today: dFrom(today), d7: dFrom(d7), d30: dFrom(d30), total: drows.length, opens: drows.reduce((s, r) => s + (r.open_count ?? 0), 0), topCategories: [...cat.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5).map(([name, count]) => ({ name, count })) },
     };
-  });
+  }
+}
