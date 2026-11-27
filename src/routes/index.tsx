@@ -5,6 +5,7 @@ import { ArrowRight, Lock, Search, MonitorSmartphone, MessageCircle, Eye, Star, 
 import presentation from "@/assets/semsite-apresentacao.mp4.asset.json";
 import { lovable } from "@/integrations/lovable";
 import { supabase } from "@/integrations/supabase/client";
+import { EmailAuthDialog } from "@/components/EmailAuthDialog";
 import { FREE_DAILY_SEARCHES, VERIFIED_PLANS } from "@/lib/verified-plans";
 
 export const Route = createFileRoute("/")({
@@ -38,6 +39,7 @@ function Login() {
   }, [navigate]);
 
   const [askTerms, setAskTerms] = useState(false);
+  const [emailAuth, setEmailAuth] = useState(false);
   const [accepted, setAccepted] = useState(false);
 
   function signIn() {
@@ -94,8 +96,9 @@ function Login() {
             <h1 className="mt-3 font-display text-6xl leading-[0.9] sm:text-7xl">Encontre quem<br /><span className="text-gradient-primary">precisa de site.</span></h1>
             <p className="mt-4 max-w-sm text-sm text-muted-foreground">Ache o negócio, mostre o site pronto, feche pelo WhatsApp e cobre por Pix. Do primeiro contato ao dinheiro na conta.</p>
             {googleButton("Começar com Google", "mt-8 w-full max-w-md")}
+            <button type="button" onClick={() => setEmailAuth(true)} className="mt-3 w-full max-w-md rounded-2xl border border-border px-5 py-3 text-sm font-bold transition-colors hover:border-primary/60 hover:text-primary">Entrar ou criar conta com e-mail</button>
             {error && <p role="alert" className="mt-3 text-sm text-primary">{error}</p>}
-            <p className="mt-6 flex items-center gap-2 text-[0.7rem] font-bold tracking-[0.2em] text-muted-foreground"><Lock className="size-3.5 text-primary" /> ACESSO SEGURO COM SUA CONTA GOOGLE</p>
+            <p className="mt-6 flex items-center gap-2 text-[0.7rem] font-bold tracking-[0.2em] text-muted-foreground"><Lock className="size-3.5 text-primary" /> ACESSO SEGURO COM GOOGLE OU E-MAIL</p>
             <p className="mt-3 text-xs text-muted-foreground">Ao continuar, você concorda com os <Link to="/termos" className="underline hover:text-foreground">Termos de Uso</Link> e a <Link to="/privacidade" className="underline hover:text-foreground">Política de Privacidade</Link>.</p>
           </section>
 
@@ -277,6 +280,7 @@ function Login() {
           <Link to="/suporte" className="hover:text-foreground">Suporte</Link>
         </nav>
       </footer>
+      {emailAuth && <EmailAuthDialog onClose={() => setEmailAuth(false)} onSignedIn={() => { setEmailAuth(false); navigate({ to: "/buscar" }); }} />}
       {askTerms && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-black/70 px-4" role="dialog" aria-modal="true" aria-labelledby="termos-titulo" onClick={() => setAskTerms(false)}>
           <div className="w-full max-w-md rounded-2xl border border-border bg-background p-6" onClick={(e) => e.stopPropagation()}>
