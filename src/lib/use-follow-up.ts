@@ -38,7 +38,7 @@ export function useFollowUp() {
   }
   return { clients, storageError,
     track: (lead: Lead, stage?: Stage) => write((current) => trackClient(current, lead, stage)),
-    update: (id: string, patch: Partial<Pick<FollowUpClient, "stage" | "stageDate" | "nextContact" | "nextStep" | "noResponse">>) => write((current) => current.map((client) => client.id === id ? updateClient(client, patch) : client)),
+    update: (id: string, patch: Partial<Pick<FollowUpClient, "stage" | "stageDate" | "nextContact" | "nextStep" | "noResponse" | "category">>) => write((current) => current.map((client) => client.id === id ? updateClient(client, patch) : client)),
     remove: (ids: string[]) => write((current) => removeClients(current, ids)),
     restore: (imported: FollowUpClient[]) => write((current) => mergeClients(current, imported)),
   };

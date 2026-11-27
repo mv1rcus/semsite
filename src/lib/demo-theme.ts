@@ -15,7 +15,7 @@ const LOOKS: Record<string, Look> = {
   pet: warm("oklch(0.58 0.15 150)", "oklch(0.82 0.15 95)"),
   services: luxe("oklch(0.5 0.12 195)", "oklch(0.75 0.12 165)"),
 };
-const DARK_WORDS = /barb|hamburg|burger|lava|jato|est[eé]tica auto|tatu|pub|bar\b|choper|oficina|mec[aâ]n/i;
+const DARK_WORDS = /\b(?:barb|hamburg|burger|lava ?jato|lava ?car|lavagem|jato|est[eé]tica auto|tatu\b|tatuag|pub\b|bar\b|choper|oficina|mec[aâ]n)/i;
 export function demoThemeStyle(category: string): CSSProperties {
   const sector = demoSector(category);
   let l = LOOKS[sector] ?? (LOOKS["services"] as Look);

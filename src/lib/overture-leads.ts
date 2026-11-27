@@ -97,11 +97,11 @@ export function filterRecords(rows: PlaceRecord[], category: string) {
   const matching = rows.filter((r) => {
     // Nome de outro ramo conhecido ("Oficina do Lanche") fica fora, mesmo que a categoria do Overture esteja errada.
     if (!matchesSearch(r.n, null, category)) return false;
-    if (!keywords.length) return normalize(r.n).includes(term);
+    if (!keywords.length) return new RegExp(`\\b${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`).test(normalize(r.n));
     if (keywords.some((k) => (r.sub ?? '').includes(k))) return true;
     if (!hints.length) return false;
     const name = normalize(r.n);
-    return hints.some((h) => name.includes(h));
+    return hints.some((h) => new RegExp(`\\b${h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`).test(name));
   });
   const leads = matching.map((r) => recordToLead(r, category)).filter((l): l is Lead => l !== null);
   return { leads: rankProspects(leads), scanned: matching.length };

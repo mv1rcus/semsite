@@ -84,7 +84,7 @@ const specificPhotos: [RegExp, string][] = [
   [/grafica|impress|copiador|xerox/, print],
   [/advoca|juridic/, law],
   [/academ|crossfit/, gym],
-  [/pet|veterin/, pet],
+  [/pet\b|petshop|veterin/, pet],
   [/marmit|espetinh|restaur|buffet/, food],
   [/oficina|mecanic|funilar|moto/, auto],
   [/confeit|doce|bolo/, bakery],
@@ -96,5 +96,5 @@ const specificPhotos: [RegExp, string][] = [
 /** Visual overrides only: existing catalog, draft and saved records stay unchanged. */
 export function demonstrationPhoto(category: string): string {
   const normalized = category.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-  return specificPhotos.find(([pattern]) => pattern.test(normalized))?.[1] ?? covers[demoSector(category)];
+  return specificPhotos.find(([pattern]) => new RegExp(`\\b(?:${pattern.source})`).test(normalized))?.[1] ?? covers[demoSector(category)];
 }

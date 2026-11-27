@@ -25,7 +25,7 @@ export const LAYOUTS: Record<LayoutId, DemoLayout> = {
     steps: ["Conte o que precisa", "Receba o orçamento", "Serviço resolvido"] },
 };
 export const LAYOUT_IDS = Object.keys(LAYOUTS) as LayoutId[];
-const VIP = /barb|tatu|est[eé]tica auto|lava|jato|pub|bar\b|choper/i;
+const VIP = /\b(?:barb|tatu\b|tatuag|est[eé]tica auto|lava ?jato|lava ?car|lavagem|jato|pub\b|bar\b|choper)/i;
 export function autoLayout(category: string): LayoutId {
   if (VIP.test(category)) return "vip";
   const s = demoSector(category);

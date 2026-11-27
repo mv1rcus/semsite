@@ -33,3 +33,24 @@ describe("ramo não confunde palavra solta", () => {
   it("busca oficina mantém oficina de verdade", () => expect(matchesSearch("Auto Mecânica Silva", null, "oficina mecânica")).toBe(true));
 });
 it("Misscake segue confeitaria", () => expect(detectNiche("Misscakejf", null)).toBe("Confeitaria"));
+
+describe("ramo em camadas (forte vence fraco)", () => {
+  const casos: [string, string][] = [
+    ["Pizzaria Beleza", "Pizzaria"],
+    ["Oficina de Arte", "Serviços locais"],
+    ["Cãotinho da Beleza Petshop", "Pet shop"],
+    ["Divino Lanches Tatuí", "Hamburgueria"],
+    ["Sorria Tatuí", "Serviços locais"],
+    ["Aline Cunha Advogada", "Advocacia"],
+  ];
+  for (const [nome, esperado] of casos) it(nome, () => expect(detectNiche(nome, null)).toBe(esperado));
+});
+
+import { reviewNiches, type FollowUpClient } from "@/lib/follow-up";
+describe("Revisar ramo", () => {
+  const c = (name: string, category: string | null) => ({ id: name, name, category } as unknown as FollowUpClient);
+  it("sugere só quando o nome indica outro ramo", () => {
+    const r = reviewNiches([c("Oficina do Lanche", "Oficina mecânica"), c("Barbearia do Zé", "Barbearia"), c("Studio X", "Serviços locais")]);
+    expect(r).toEqual([{ id: "Oficina do Lanche", name: "Oficina do Lanche", before: "Oficina mecânica", after: "Hamburgueria" }]);
+  });
+});

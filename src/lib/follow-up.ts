@@ -1,3 +1,4 @@
+import { knownNiche } from "./business-niche";
 import { z } from "zod";
 import type { Lead } from "./leads";
 
@@ -38,7 +39,7 @@ export function trackClient(clients: FollowUpClient[], lead: Lead, stage?: Stage
   };
   return previous ? clients.map((old) => old.id === lead.id ? client : old) : [client, ...clients];
 }
-export function updateClient(client: FollowUpClient, patch: Partial<Pick<FollowUpClient, "stage" | "stageDate" | "nextContact" | "nextStep" | "noResponse">>, now = new Date().toISOString()): FollowUpClient {
+export function updateClient(client: FollowUpClient, patch: Partial<Pick<FollowUpClient, "stage" | "stageDate" | "nextContact" | "nextStep" | "noResponse" | "category">>, now = new Date().toISOString()): FollowUpClient {
   if (patch.stage && patch.stage !== client.stage) return { ...client, ...patch, stageDate: now, events: [...client.events, { stage: patch.stage, date: now }] };
   const events = [...client.events];
   if (patch.stageDate) {
@@ -67,4 +68,13 @@ export function localDateInput(value: string) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "";
   return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+}
+/** Sugestões de "Revisar ramo": clientes salvos cujo ramo, pelo nome, difere da categoria guardada. */
+export function reviewNiches(clients: FollowUpClient[]): { id: string; name: string; before: string; after: string }[] {
+  const out: { id: string; name: string; before: string; after: string }[] = [];
+  for (const c of clients) {
+    const after = knownNiche(c.name, null);
+    if (after && after !== (c.category ?? "").trim()) out.push({ id: c.id, name: c.name, before: c.category?.trim() || "Sem ramo", after });
+  }
+  return out;
 }
