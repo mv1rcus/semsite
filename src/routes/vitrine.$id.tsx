@@ -117,6 +117,7 @@ type Search = { n?: string; w?: string; c?: string; e?: string };
 const OPEN_VITRINE = new Set(["mare-sushi", "velocity-club", "brasa-e-pao", "alva-estetica", "casa-vinha"]);
 
 export const Route = createFileRoute("/vitrine/$id")({
+  headers: () => ({ "cache-control": "public, max-age=300, stale-while-revalidate=600" }),
   validateSearch: (s: Record<string, unknown>): Search => ({
     ...(typeof s["n"] === "string" ? { n: s["n"].slice(0, 80) } : {}),
     ...(typeof s["w"] === "string" ? { w: s["w"].replace(/\D/g, "").slice(0, 15) } : {}),
