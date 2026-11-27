@@ -111,7 +111,7 @@ import { getPremium } from "@/lib/premium-models";
 import { authorizeModelUse, getModelCode } from "@/lib/vitrine.functions";
 import { getModel, modelLink, type ModelClient } from "@/lib/site-models";
 
-type Search = { n?: string; w?: string; c?: string };
+type Search = { n?: string; w?: string; c?: string; e?: string };
 
 /** Os 5 modelos da home: abertos para qualquer pessoa. Os demais exigem o selo Verificado. */
 const OPEN_VITRINE = new Set(["mare-sushi", "velocity-club", "brasa-e-pao", "alva-estetica", "casa-vinha"]);
@@ -121,6 +121,7 @@ export const Route = createFileRoute("/vitrine/$id")({
     ...(typeof s["n"] === "string" ? { n: s["n"].slice(0, 80) } : {}),
     ...(typeof s["w"] === "string" ? { w: s["w"].replace(/\D/g, "").slice(0, 15) } : {}),
     ...(typeof s["c"] === "string" ? { c: s["c"].slice(0, 60) } : {}),
+    ...(s["e"] === "1" || s["e"] === 1 ? { e: "1" } : {}),
   }),
   loader: ({ params }) => { if (params.id === "silva-lima") throw redirect({ to: "/vitrine/$id", params: { id: "toledo-azevedo" } }); const m = getPremium(params.id) ?? getModel(params.id); if (!m) throw notFound(); return m.id; },
   head: ({ params }) => { const m = getPremium(params.id) ?? getModel(params.id); return { meta: [{ title: `${m ? m.ramoLabel : "Modelo"} | Vitrine SemSite` }, { name: "robots", content: "noindex" }] }; },
@@ -136,6 +137,7 @@ function Viewer() {
   const [client, setClient] = useState<ModelClient>({ name: sp.n ?? "", whatsapp: sp.w ?? "", city: sp.c ?? "" });
   const [open, setOpen] = useState(false);
   const [done, setDone] = useState("");
+  const embed = sp.e === "1";
   const field = "h-9 min-w-[44%] flex-1 rounded-lg sm:min-w-0 border border-border bg-card px-2.5 text-sm outline-none focus:border-primary";
   const primary = "inline-flex h-10 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg bg-foreground px-4 text-sm font-bold text-background hover:opacity-90";
   const btn = "inline-flex h-10 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-border px-3 text-sm font-bold hover:bg-muted";
@@ -172,8 +174,8 @@ function Viewer() {
       <div className="sticky top-0 z-50 border-b border-border bg-background/95 px-3 py-2 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center gap-2">
           <Link to="/vitrine" className="mr-auto whitespace-nowrap text-sm font-bold hover:underline">← Vitrine</Link>
-          {premium && !verified && <Link to="/verificado" className={primary} title="Só para quem tem o selo Verificado"><Lock className="size-4" />Baixar código<span className="hidden sm:inline"> · Verificado</span></Link>}
-          {premium && verified && <button type="button" disabled={done === "w"} onClick={async () => {
+          {!embed && premium && !verified && <Link to="/verificado" className={primary} title="Só para quem tem o selo Verificado"><Lock className="size-4" />Baixar código<span className="hidden sm:inline"> · Verificado</span></Link>}
+          {!embed && premium && verified && <button type="button" disabled={done === "w"} onClick={async () => {
             setDone("w");
             try {
               const r = await getModelCode({ data: { id, name: client.name, whatsapp: client.whatsapp, city: client.city } });

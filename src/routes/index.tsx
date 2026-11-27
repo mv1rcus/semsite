@@ -373,7 +373,7 @@ function FanShowcase() {
             <a href={`/vitrine/${preview.slug}`} target="_blank" rel="noopener" className="ml-auto mr-3 text-sm font-semibold underline">Abrir página</a>
             <button type="button" onClick={() => setPreview(null)} aria-label="Fechar prévia" className="rounded-full border border-border p-2"><X className="size-5" /></button>
           </div>
-          <iframe title={`Prévia ${preview.name}`} src={`/vitrine/${preview.slug}`} className="w-full flex-1 bg-card" />
+          <iframe title={`Prévia ${preview.name}`} src={`/vitrine/${preview.slug}?e=1`} className="w-full flex-1 bg-card" />
         </div>,
         document.body,
       )}
