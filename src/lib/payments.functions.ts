@@ -65,6 +65,17 @@ export const createVerifiedCheckout = createServerFn({ method: "POST" })
         ...(isRecurring ? {} : { payment_method_types: ["card", "pix"] as ("card" | "pix")[] }),
         // Automatic tax isn't supported for this seller account country, so no tax automation is added.
         metadata: { userId, managed_payments: "false", ...(plan?.months ? { paid_months: String(plan.months) } : {}) },
+        // Checkout com a cara do SemSite: fundo escuro do app, botão no rosa da marca,
+        // cantos arredondados (radius 12px do app) e Titillium Web, a fonte aceita pelo
+        // Checkout mais próxima da Barlow do site.
+        branding_settings: {
+          background_color: "#140c0c",
+          button_color: "#f3204d",
+          border_style: "rounded",
+          font_family: "titillium_web",
+          display_name: "SemSite",
+          icon: { type: "url", url: "https://semsite.lovable.app/favicon.png" },
+        },
         ...(isRecurring
           ? { subscription_data: { metadata: { userId } } }
           : { payment_intent_data: { ...(description ? { description } : {}), metadata: { userId } } }),
