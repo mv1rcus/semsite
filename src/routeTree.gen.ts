@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as SlugRouteImport } from './routes/$slug'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as RedefinirSenhaRouteImport } from './routes/redefinir-senha'
 import { Route as SuporteRouteImport } from './routes/suporte'
 import { Route as TermosRouteImport } from './routes/termos'
 import { Route as AuthenticatedAnaliseRouteImport } from './routes/_authenticated/analise'
@@ -59,6 +60,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const PrivacidadeRoute = PrivacidadeRouteImport.update({
   id: '/privacidade',
   path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RedefinirSenhaRoute = RedefinirSenhaRouteImport.update({
+  id: '/redefinir-senha',
+  path: '/redefinir-senha',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SuporteRoute = SuporteRouteImport.update({
@@ -213,6 +219,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$slug': typeof SlugRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/redefinir-senha': typeof RedefinirSenhaRoute
   '/suporte': typeof SuporteRoute
   '/termos': typeof TermosRoute
   '/analise': typeof AuthenticatedAnaliseRoute
@@ -246,6 +253,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$slug': typeof SlugRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/redefinir-senha': typeof RedefinirSenhaRoute
   '/suporte': typeof SuporteRoute
   '/termos': typeof TermosRoute
   '/analise': typeof AuthenticatedAnaliseRoute
@@ -281,6 +289,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/$slug': typeof SlugRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/redefinir-senha': typeof RedefinirSenhaRoute
   '/suporte': typeof SuporteRoute
   '/termos': typeof TermosRoute
   '/_authenticated/analise': typeof AuthenticatedAnaliseRoute
@@ -316,6 +325,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$slug'
     | '/privacidade'
+    | '/redefinir-senha'
     | '/suporte'
     | '/termos'
     | '/analise'
@@ -349,6 +359,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$slug'
     | '/privacidade'
+    | '/redefinir-senha'
     | '/suporte'
     | '/termos'
     | '/analise'
@@ -383,6 +394,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/$slug'
     | '/privacidade'
+    | '/redefinir-senha'
     | '/suporte'
     | '/termos'
     | '/_authenticated/analise'
@@ -418,6 +430,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   SlugRoute: typeof SlugRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
+  RedefinirSenhaRoute: typeof RedefinirSenhaRoute
   SuporteRoute: typeof SuporteRoute
   TermosRoute: typeof TermosRoute
   DemoIdRoute: typeof DemoIdRoute
@@ -457,6 +470,13 @@ declare module '@tanstack/react-router' {
       path: '/privacidade'
       fullPath: '/privacidade'
       preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/redefinir-senha': {
+      id: '/redefinir-senha'
+      path: '/redefinir-senha'
+      fullPath: '/redefinir-senha'
+      preLoaderRoute: typeof RedefinirSenhaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/suporte': {
@@ -710,6 +730,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   SlugRoute: SlugRoute,
   PrivacidadeRoute: PrivacidadeRoute,
+  RedefinirSenhaRoute: RedefinirSenhaRoute,
   SuporteRoute: SuporteRoute,
   TermosRoute: TermosRoute,
   DemoIdRoute: DemoIdRoute,
