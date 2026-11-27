@@ -3,7 +3,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX, Store, X, History, Radar, ScanSearch, RotateCw, SlidersHorizontal, HeartPulse, Utensils, Scissors, Car, House, PawPrint, Dumbbell, BriefcaseBusiness, ArrowUpRight, Mail, Instagram, Facebook, Flame, Copy, type LucideIcon } from "lucide-react";
+import { MapPin, MessageCircle, Phone, Search, Star, Check, Loader2, ExternalLink, PanelsTopLeft, AlertTriangle, RefreshCw, SearchX, Store, X, History, Radar, ScanSearch, RotateCw, SlidersHorizontal, HeartPulse, Utensils, Scissors, Car, House, PawPrint, Dumbbell, BriefcaseBusiness, ArrowUpRight, Mail, Instagram, Facebook, Flame, Copy, Sparkles, type LucideIcon } from "lucide-react";
 import { searchLeads, type Lead } from "@/lib/leads.functions";
 import { clientSearchError } from "@/lib/search-errors";
 import { filterProspects, type ProspectFilter, type ProspectOrder } from "@/lib/prospect-filters";
@@ -18,6 +18,7 @@ import { isMobilePhone, phoneCallLink, prospectPriority, rankProspects } from "@
 import { approachReason, HEAT_LABEL, leadHeat } from "@/lib/lead-priority";
 import { nextSuggestedCity } from "@/lib/cities";
 import { draftForClient } from "@/lib/demonstrations";
+import { ANALYSIS_PREFILL_KEY, prefillFromLead } from "@/lib/analysis-history";
 import { ProspectTabs } from "@/components/ProspectTabs";
 import { FirstStepsCard } from "@/components/FirstStepsCard";
 import { useFollowUp } from "@/lib/use-follow-up";
@@ -172,6 +173,10 @@ function Buscar() {
     try { localStorage.setItem("contacted-leads", JSON.stringify([...updated])); }
     catch { /* The current session still tracks contacted leads. */ }
     return true;
+  }
+  function analyze(lead: Lead) {
+    try { sessionStorage.setItem(ANALYSIS_PREFILL_KEY, JSON.stringify(prefillFromLead(lead, activeQuery?.city ?? city))); navigate({ to: "/analise" }); }
+    catch { setError("Permita o armazenamento deste navegador para abrir a análise do negócio."); }
   }
   function demonstrate(lead: Lead) {
     followUp.track(lead);
@@ -347,6 +352,7 @@ function Buscar() {
                 <div className="mt-4"><ClientStageSelect value={followUp.clients.find((client) => client.id === l.id)?.stage ?? "new"} onChange={(stage) => followUp.track(l, stage)} label={`Etapa de ${l.name}`} /></div>
                 <Button variant="ghost" size="sm" className="mt-2" onClick={() => { if (followUp.track(l)) navigate({ to: "/clientes" }); }}>Acompanhar e definir lembrete</Button>
                 <Button variant="outline" className="mt-4" onClick={() => demonstrate(l)}><PanelsTopLeft />Demonstração do site</Button>
+                <Button variant="outline" className="mt-2" onClick={() => analyze(l)}><Sparkles />Análise comercial</Button>
                 <Button variant="outline" className="mt-2" onClick={() => setBizXrayLead(l)}><ScanSearch />Raio-X do negócio</Button>
                 <Button variant="outline" className="mt-2" onClick={() => setXrayLead(l)}><Radar />Roteiro de vendas</Button>
                 <div className="mt-auto flex gap-2 pt-4">
