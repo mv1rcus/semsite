@@ -74,7 +74,7 @@ export const createVerifiedCheckout = createServerFn({ method: "POST" })
           border_style: "rounded",
           font_family: "titillium_web",
           display_name: "SemSite",
-          icon: { type: "url", url: "https://semsite.lovable.app/favicon.png" },
+          // Sem `icon`: a API rejeita branding icon com ui_mode embedded_page.
         },
         ...(isRecurring
           ? { subscription_data: { metadata: { userId } } }
