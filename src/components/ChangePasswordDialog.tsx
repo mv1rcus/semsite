@@ -36,7 +36,7 @@ export function ChangePasswordDialog({ email, open, onOpenChange }: { email: str
     try {
       const check = await supabase.auth.signInWithPassword({ email, password: current });
       if (check.error) { setError(check.error.message.toLowerCase().includes("invalid login") ? "Senha atual incorreta." : friendlyChange(check.error.message)); return; }
-      const { error: err } = await supabase.auth.updateUser({ password: next });
+      const { error: err } = await supabase.auth.updateUser({ password: next, current_password: current });
       if (err) { setError(friendlyChange(err.message)); return; }
       // Mantém este aparelho conectado e derruba todos os outros.
       await supabase.auth.signOut({ scope: "others" });
