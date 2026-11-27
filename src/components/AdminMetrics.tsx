@@ -56,7 +56,7 @@ export function MetricsView({ m, run }: { m: M; run: () => void }) {
       <Section title="Pagamentos recebidos">
         {!m.payments.available ? <p className="mt-2 text-sm text-muted-foreground">Não consegui consultar a Stripe agora. Tente atualizar.</p> : (
           <>
-            <div className="mt-2 grid grid-cols-2 gap-3 sm:grid-cols-4"><Stat label="7 dias" value={brl(m.payments.gross7Cents)} sub={`${m.payments.count7} pagamentos`} /><Stat label="30 dias" value={brl(m.payments.gross30Cents)} sub={`${m.payments.count30} pagamentos`} /></div>
+            <div className="mt-2 grid grid-cols-2 gap-3 sm:grid-cols-4"><Stat label="7 dias" value={brl(m.payments.gross7Cents)} sub={`${m.payments.count7} ${m.payments.count7 === 1 ? "pagamento" : "pagamentos"}`} /><Stat label="30 dias" value={brl(m.payments.gross30Cents)} sub={`${m.payments.count30} ${m.payments.count30 === 1 ? "pagamento" : "pagamentos"}`} /></div>
             <p className="mt-1 text-xs text-muted-foreground">Valores já descontam reembolsos. Não inclui taxas da Stripe.</p>
             {m.payments.last.length > 0 && <ul className="mt-2 flex flex-col gap-1">{m.payments.last.map((p, i) => <li key={i} className="app-card flex justify-between p-2 text-sm"><span>{brl(p.cents)}</span><span className="text-muted-foreground">{p.method} · {fmt(p.at)}</span></li>)}</ul>}
           </>
