@@ -17,3 +17,34 @@ describe("e-mails transacionais", () => {
     expect(refundEmail("a@b.co").subject).toMatch(/Reembolso/);
   });
 });
+
+import { ticketOpenedEmail, ticketReplyEmail } from "@/lib/email-templates";
+describe("ticket emails", () => {
+  it("inclui o número do ticket e escapa HTML", () => {
+    const a = ticketOpenedEmail("a@b.com", 7, "Oi <b>");
+    expect(a.subject).toContain("#7");
+    expect(a.html).not.toContain("<b>");
+    const r = ticketReplyEmail("a@b.com", 7, "Assunto", "Linha 1\nLinha 2 <script>");
+    expect(r.subject).toContain("#7");
+    expect(r.html).not.toContain("<script>");
+  });
+});
+
+import { welcomeEmail } from "@/lib/email-templates";
+describe("renovação e boas-vindas", () => {
+  it("assinatura sem período fala de renovação automática e cancelamento", () => {
+    expect(paymentConfirmedEmail("a@b.co").text).toContain("renova automaticamente");
+    expect(paymentConfirmedEmail("a@b.co", 1).text).toContain("não renova sozinho");
+  });
+  it("boas-vindas assinada só SemSite", () => {
+    expect(welcomeEmail("a@b.co").subject).toMatch(/Bem-vindo/);
+    expect(welcomeEmail("a@b.co").html).not.toMatch(/Marcus/i);
+  });
+});
+
+import { expiringEmail } from "@/lib/email-templates";
+it("aviso de vencimento cita a data e o link de renovação", () => {
+  const m = expiringEmail("a@b.co", "2026-12-05T12:00:00.000Z");
+  expect(m.text).toContain("05/12/2026");
+  expect(m.html).toContain("/verificado");
+});

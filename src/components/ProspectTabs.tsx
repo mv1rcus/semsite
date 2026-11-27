@@ -1,4 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { sendWelcomeEmail } from "@/lib/welcome.functions";
 import { useEffect, useRef, useState } from "react";
 import { notificationsSeenAt } from "@/lib/social-unread";
 import { supabase } from "@/integrations/supabase/client";
@@ -40,12 +42,16 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
   // A bolinha do topo mostra a foto do usuário; se ele não tem foto, mostra o bonequinho.
   const [avatar, setAvatar] = useState("");
   const [isOwner, setIsOwner] = useState(false);
+  const sendWelcome = useServerFn(sendWelcomeEmail);
   useEffect(() => {
     let alive = true;
     const load = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
       if (alive) setIsOwner(user.id === "60254e77-1a4c-4be8-8b77-3d29a537785f");
+      try {
+        if (!sessionStorage.getItem("semsite-welcome")) { sessionStorage.setItem("semsite-welcome", "1"); void sendWelcome(); }
+      } catch { /* sessionStorage indisponível: ignora */ }
       const { data } = await supabase.from("profiles").select("avatar_url").eq("id", user.id).maybeSingle();
       if (alive) setAvatar(data?.avatar_url ?? "");
     };
@@ -105,7 +111,7 @@ export function ProspectTabs({ active }: { active: ProspectTabKey }) {
                 <Link to="/feed" onClick={close} className={item(active === "feed")}><Newspaper className="size-5" />Feed</Link>
                 <Link to="/pessoas" onClick={close} className={item(active === "people")}><UserSearch className="size-5" />Pesquisar pessoas</Link>
                 <Link to="/verificado" onClick={close} className={item(false)}><VerifiedBadge size={20} />Obter verificado</Link>
-                {isOwner && <Link to="/contas" onClick={close} className={item(false)}><Users className="size-5" />Contas do site</Link>}
+                {isOwner && <Link to="/contas" onClick={close} className={item(false)}><Users className="size-5" />Painel do SemSite</Link>}
                 <button type="button" onClick={signOut} className={item(false)}><LogOut className="size-5" />Sair</button>
               </div>
             </nav>

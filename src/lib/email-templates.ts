@@ -43,7 +43,9 @@ export function paymentConfirmedEmail(to: string, months?: number | null, untilI
     [
       "Recebemos seu pagamento e o selo Verificado já está ativo na sua conta.",
       ...(periodo ? [`Período contratado: ${periodo}${until ? `, válido até ${until}` : ""}.`] : until ? [`Válido até ${until}.`] : []),
-      "O pagamento é único por período e não renova sozinho: você só paga de novo se quiser mais um período.",
+      ...(periodo
+        ? ["Este pagamento é único por período e não renova sozinho: você só paga de novo se quiser mais um período."]
+        : ["Sua assinatura renova automaticamente a cada período. Você pode cancelar quando quiser em Verificado > Gerenciar ou cancelar assinatura: o cancelamento vale para as próximas cobranças e o período já pago continua valendo até o fim."]),
     ],
     { label: "Ver meu selo Verificado", href: `${SITE}/verificado` },
   );
@@ -76,5 +78,55 @@ export function refundEmail(to: string): MailMessage {
       "O valor volta para a forma de pagamento usada na compra. Dependendo do banco ou do cartão, pode levar alguns dias úteis para aparecer.",
     ],
     { label: "Voltar ao SemSite", href: SITE },
+  );
+}
+
+export function ticketOpenedEmail(to: string, number: number, subject: string): MailMessage {
+  return build(
+    to,
+    `Recebemos seu ticket #${number}`,
+    `Ticket #${number} recebido`,
+    [
+      `Recebemos sua mensagem sobre "${subject}". Seu número de atendimento é #${number}.`,
+      "Vamos responder por e-mail assim que possível. Guarde este número se precisar falar de novo sobre o mesmo assunto.",
+    ],
+  );
+}
+
+export function ticketReplyEmail(to: string, number: number, subject: string, reply: string): MailMessage {
+  const paragraphs = reply.split(/\n+/).map((p) => p.trim()).filter(Boolean);
+  return build(
+    to,
+    `Resposta ao seu ticket #${number}`,
+    `Resposta ao ticket #${number}`,
+    [`Sobre: ${subject}`, ...paragraphs, "Se precisar de mais alguma coisa, abra um novo ticket em " + SITE + "/suporte citando o número #" + number + "."],
+  );
+}
+
+export function welcomeEmail(to: string): MailMessage {
+  return build(
+    to,
+    "Bem-vindo ao SemSite",
+    "Sua conta foi criada",
+    [
+      "Sua conta no SemSite está pronta. Agora é só entrar, buscar negócios sem site e mostrar a eles uma demonstração pronta.",
+      "O selo Verificado é opcional. Os planos e as regras de cada um ficam na página Verificado, dentro do app.",
+      "Precisa de ajuda? Abra um ticket em " + SITE + "/suporte ou responda este e-mail.",
+    ],
+    { label: "Abrir o SemSite", href: SITE },
+  );
+}
+
+export function expiringEmail(to: string, endsIso: string): MailMessage {
+  const ends = fmtDate(endsIso);
+  return build(
+    to,
+    "Seu selo Verificado vence em breve",
+    "Seu período está acabando",
+    [
+      `Seu selo Verificado vale até ${ends ?? "os próximos dias"}.`,
+      "Para continuar com o selo, é só renovar na página Verificado. O pagamento é único por período e não renova sozinho: se você não renovar, o selo sai sozinho e nada é cobrado.",
+    ],
+    { label: "Renovar meu selo", href: `${SITE}/verificado` },
   );
 }
