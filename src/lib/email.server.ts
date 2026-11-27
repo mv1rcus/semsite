@@ -37,7 +37,9 @@ export async function sendOnce(dedupeKey: string, kind: string, msg: MailMessage
   try {
     if (!EMAIL_RE.test(msg.to)) return;
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const claim = await supabaseAdmin.from("email_log" as any).insert({ dedupe_key: dedupeKey, kind } as any);
+    let claim = await supabaseAdmin.from("email_log" as any).insert({ dedupe_key: dedupeKey, kind, to_email: msg.to, subject: msg.subject } as any);
+    // Coluna nova ainda não criada no banco (42703): registra sem os detalhes.
+    if (claim.error && claim.error.code === "42703") claim = await supabaseAdmin.from("email_log" as any).insert({ dedupe_key: dedupeKey, kind } as any);
     if (claim.error) {
       if (claim.error.code === "23505") return; // já enviado
       console.error("email: não consegui registrar o envio, enviando mesmo assim:", claim.error.message);
