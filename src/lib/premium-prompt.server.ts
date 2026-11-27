@@ -8,6 +8,7 @@ const SECTIONS: Record<PremiumKey, string> = {
   relojoaria: "hero preto com relógio em destaque e anéis de medidas, corte diagonal com card branco, faixa de oficina, promoções com foto sobreposta e assinatura de voucher",
   viagens: "hero de paisagem com mochileira, destinos em cards com foto, tipos de viagem, newsletter e selos de confiança",
   chocolateria: "hero marrom com trufas e miniaturas, sobre com barra de chocolate, três caixas em molduras douradas alternadas e rodapé ondulado com newsletter",
+  solar: "hero com foto e filtro azul, título central e botão laranja, três cartões (casa, empresa, usina) e passos de instalação",
   sup: "hero de foto arredondado com remadores, motivos numerados, galeria em mosaico, depoimentos, pranchas e roteiros com preço",
   spahotel: "hero em moldura de vidro com casa na montanha, estatisticas, depoimento e servicos de suites, termas e massagens", pequeno: "hero com criança aviadora, boas-vindas com fotos, lista de diferenciais e programas em cards com foto",
   sushi: "hero com prato de sushi ilustrado, sobre, menu especial de salmão, cardápio com abas e reserva de mesa",
