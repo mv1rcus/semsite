@@ -4,13 +4,13 @@ const NICHE_WORDS: [RegExp, string][] = [
   [/lava ?jato|lava ?car|lavagem|lavarapido/, "Lava jato"], [/estetica auto|detail|polimento|insulfilm/, "Estética automotiva"],
   [/borrach|pneu/, "Borracharia"], [/auto ?eletric/, "Auto elétrica"], [/funilar/, "Funilaria e pintura"],
   [/moto ?pec|motopec/, "Moto peças"], [/autopec|auto pec/, "Autopeças"], [/oficina|mecanic/, "Oficina mecânica"],
-  [/barbear|barber|barba/, "Barbearia"], [/tattoo|tatu|piercing/, "Estúdio de tatuagem"],
+  [/barbear|barber|barba\b/, "Barbearia"], [/tattoo|tatuag|tatu\b|piercing/, "Estúdio de tatuagem"],
   [/manicure|nail|esmalter|unha/, "Manicure"], [/sobrancel|cilio|lash/, "Design de sobrancelhas e cílios"],
   [/depila/, "Depilação"], [/salao|cabele|hair|beauty|beleza/, "Salão de beleza"], [/estetica|spa\b/, "Clínica de estética"],
   [/odonto|dentist|dental|sorriso/, "Dentista"], [/fisio/, "Fisioterapia"], [/psicolog/, "Psicólogo"], [/nutri/, "Nutricionista"],
   [/farmac|drogaria/, "Farmácia"], [/laborat/, "Laboratório"], [/otica/, "Ótica"],
   [/pizz/, "Pizzaria"], [/hamburg|burger|lanchon|lanche/, "Hamburgueria"], [/acai|sorvet/, "Açaiteria e sorveteria"],
-  [/confeit|doceria|bolo|cake/, "Confeitaria"], [/padaria|panific/, "Padaria"], [/cafeter|coffee/, "Cafeteria"],
+  [/confeit|doceria|bolos?\b|cake/, "Confeitaria"], [/padaria|panific/, "Padaria"], [/cafeter|coffee/, "Cafeteria"],
   [/marmit/, "Marmitaria"], [/espetinh/, "Espetinho"], [/buffet/, "Buffet"], [/restaur/, "Restaurante"],
   [/pet ?shop|banho e tosa|veterin|\bpet\b/, "Pet shop"], [/adestra/, "Adestramento"],
   [/academ|crossfit|fitness|gym/, "Academia"], [/pilates/, "Pilates"],
@@ -21,13 +21,26 @@ const NICHE_WORDS: [RegExp, string][] = [
   [/gesso|drywall/, "Gesseiro"], [/pintor|pintura residencial/, "Pintor"], [/material.*constr|madeireira|home center/, "Material de construção"],
   [/assistencia tecnica|celular|informatica|conserto/, "Assistência técnica"], [/costur|alfaiat|ateli/, "Costura"],
   [/fotograf|foto ?studio/, "Fotógrafo"], [/auto ?escola|cfc\b/, "Auto escola"], [/idioma|ingles|english/, "Escola de idiomas"],
-  [/escola|curso|reforco/, "Escola e cursos"], [/floricult|flores/, "Floricultura"],
+  [/escola de samba|bloco carnavalesco/, "Escola de samba"], [/escola\b|cursos?\b|reforco/, "Escola e cursos"], [/floricult|flores\b(?! da cunha)/, "Floricultura"],
 ];
 const GENERIC = /^(servi[cç]os?( locais)?|consultoria|empresa|loja|com[eé]rcio|neg[oó]cio|ponto de interesse|estabelecimento)?$/i;
-const find = (t: string) => { const n = norm(t); return NICHE_WORDS.find(([re]) => re.test(n))?.[1]; };
+// Cada termo só casa no começo de uma palavra ("unha" não casa em "Cunha"). Se o nome tem dois ramos, vale o último
+// ("Oficina do Lanche" é lanche); em empate de posição vale a ordem da lista.
+const WORD_START = NICHE_WORDS.map(([re, label]) => [new RegExp(`\\b(?:${re.source})`), label] as [RegExp, string]);
+const find = (t: string) => {
+  const n = norm(t);
+  let best: { at: number; label: string } | undefined;
+  for (const [re, label] of WORD_START) {
+    const m = re.exec(n);
+    if (m && (!best || m.index > best.at)) best = { at: m.index, label };
+  }
+  return best?.label;
+};
 export function detectNiche(name: string, category: string | null | undefined, query?: string): string {
   const cat = (category ?? "").trim();
-  return find(name) ?? (!GENERIC.test(cat) && find(cat) ? cat : undefined) ?? (query ? find(query) : undefined) ?? (cat || "Serviços locais");
+  const structured = !GENERIC.test(cat) && find(cat) ? cat : undefined;
+  // Categoria estruturada (Overture/Google) vence o nome; o nome decide quando a categoria falta ou é genérica.
+  return structured ?? find(name) ?? (query ? find(query) : undefined) ?? (cat || "Serviços locais");
 }
 const SMALL = /^(de|da|do|das|dos|e|em|a|o)$/;
 /** Limpa nomes do Google: tira slogans após | – - : e normaliza MAIÚSCULAS. */

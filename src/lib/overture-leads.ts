@@ -1,4 +1,4 @@
-import { cleanBusinessName, detectNiche } from './business-niche';
+import { cleanBusinessName, detectNiche, matchesSearch } from './business-niche';
 import { rankProspects, type Lead } from './leads';
 
 export const normalize = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
@@ -95,6 +95,8 @@ export function filterRecords(rows: PlaceRecord[], category: string) {
   const keywords = categoryKeywords(category);
   const hints = categoryNameHints(category);
   const matching = rows.filter((r) => {
+    // Nome de outro ramo conhecido ("Oficina do Lanche") fica fora, mesmo que a categoria do Overture esteja errada.
+    if (!matchesSearch(r.n, null, category)) return false;
     if (!keywords.length) return normalize(r.n).includes(term);
     if (keywords.some((k) => (r.sub ?? '').includes(k))) return true;
     if (!hints.length) return false;
