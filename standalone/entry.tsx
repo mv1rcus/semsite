@@ -83,6 +83,7 @@ import { PassoAltoFold } from "../src/components/models/PassoAltoFold";
 import { LuminaFold } from "../src/components/models/LuminaFold";
 import { VidaLeveFold } from "../src/components/models/VidaLeveFold";
 import { LuaClaraFold } from "../src/components/models/LuaClaraFold";
+import { StrideDistrict } from "../src/components/models/StrideDistrict";
 import { IsadoraMelloFold } from "../src/components/models/IsadoraMelloFold";
 import { CrescerFalarFold } from "../src/components/models/CrescerFalarFold";
 import { HelenaFold } from "../src/components/models/HelenaFold";
@@ -120,6 +121,7 @@ else if (__MODEL__ === "sala-rubra") root.render(<DarkroomFold client={cfg.clien
 else if (__MODEL__ === "eixo-pilates") root.render(<EixoFold client={cfg.client} />);
 else if (__MODEL__ === "atico-pilates") root.render(<AticoFold client={cfg.client} />);
 else if (__MODEL__ === "lua-clara-doula") root.render(<LuaClaraFold client={cfg.client} />);
+else if (__MODEL__ === "stride-district") root.render(<StrideDistrict client={cfg.client} />);
 else if (__MODEL__ === "isadora-mello") root.render(<IsadoraMelloFold client={cfg.client} />);
 else if (__MODEL__ === "crescer-e-falar") root.render(<CrescerFalarFold client={cfg.client} />);
 else if (__MODEL__ === "vida-leve-nutricao") root.render(<VidaLeveFold client={cfg.client} />);
