@@ -54,3 +54,14 @@ describe("Revisar ramo", () => {
     expect(r).toEqual([{ id: "Oficina do Lanche", name: "Oficina do Lanche", before: "Oficina mecânica", after: "Hamburgueria" }]);
   });
 });
+
+describe("açaiteria e sorveteria separadas", () => {
+  const casos: [string, string][] = [
+    ["Açaí do Zé", "Açaiteria"], ["Sorveteria Gelato", "Sorveteria"], ["Açaí e Sorvetes Polar", "Açaiteria e sorveteria"], ["Sorvetes e Açaí da Vila", "Açaiteria e sorveteria"],
+  ];
+  for (const [nome, esperado] of casos) it(nome, () => expect(detectNiche(nome, null)).toBe(esperado));
+  it("busca sorveteria mantém quem vende os dois e tira açaiteria pura", () => {
+    expect(matchesSearch("Açaí e Sorvetes Polar", null, "sorveteria")).toBe(true);
+    expect(matchesSearch("Açaí do Zé", null, "sorveteria")).toBe(false);
+  });
+});

@@ -20,13 +20,20 @@ import healthLab from "@/assets/demo-lab.jpg";
 import foodBakery from "@/assets/demo-bakery.jpg";
 import foodCoffee from "@/assets/demo-coffee.jpg";
 import foodIce from "@/assets/demo-icecream.jpg";
+import foodAcai from "@/assets/demo-acai.jpg";
+import foodAcai2 from "@/assets/demo-acai2.jpg";
+import foodSorv from "@/assets/demo-sorvete.jpg";
+import foodSorv2 from "@/assets/demo-sorvete2.jpg";
 import foodPizzeria from "@/assets/demo-pizzeria.jpg";
 import foodBurgerShop from "@/assets/demo-burger.jpg";
 /** Fotos por ramo de comida: evita bolo no lugar de pão e a mesma foto repetida. Sem ramo específico, usa as fotos do catálogo. */
 function foodPhotoSet(category: string): string[] | null {
   const c = category.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
   if (/\b(?:padar|panific|confeit|doce|bolo)/.test(c)) return [foodBakery, dessert, foodBakery, foodCoffee];
-  if (/\b(?:sorvet|acai|gelat)/.test(c)) return [foodIce, foodIce, foodIce, foodIce];
+  const hasAcai = /\bacai/.test(c), hasSorv = /\b(?:sorvet|gelat|picol)/.test(c);
+  if (hasAcai && hasSorv) return [foodIce, foodAcai, foodSorv, foodIce];
+  if (hasAcai) return [foodAcai, foodAcai2, foodAcai, foodAcai2];
+  if (hasSorv) return [foodSorv, foodSorv2, foodSorv, foodSorv2];
   if (/\b(?:cafeter|cafe\b)/.test(c)) return [foodCoffee, dessert, foodBakery, foodCoffee];
   if (/\bpizz/.test(c)) return [foodPizzeria, pizza, foodPizzeria, pizza];
   if (/\b(?:hamb|burger)/.test(c)) return [foodBurgerShop, burger, foodBurgerShop, burger];
@@ -84,7 +91,7 @@ export function DemoSite({ demo: raw, layout: forced }: { demo: Demonstration & 
     {view === "home" && <>
       <section className="mx-auto grid max-w-6xl items-center gap-8 px-6 py-8 md:grid-cols-[1fr_1.1fr]">
         <div><img src={cover} alt={`Imagem ilustrativa para ${demo.category}`} className="mb-6 aspect-[16/10] w-full rounded-2xl object-cover md:hidden" /><p className="inline-flex items-center gap-2 rounded-full bg-muted px-3 py-1 text-xs font-medium text-primary"><Truck className="size-4" />{L.ribbon}</p><h1 className="demo-brand mt-5 text-4xl font-normal leading-[1.05] sm:text-6xl">Bateu a fome? <span className="text-primary">A gente resolve.</span></h1><p className="mt-5 max-w-md text-muted-foreground">{description}</p><div className="mt-7 flex flex-wrap gap-3"><Button size="lg" onClick={() => go("catalog")}>Ver cardápio<ArrowRight /></Button><Button size="lg" variant="whatsapp" onClick={() => choose("")}><MessageCircle />{L.cta}</Button></div></div>
-        <div className={`grid gap-3 ${heroItems.length > 1 ? "grid-cols-2" : ""}`}>{heroItems.map((it, i) => <button key={it.title} onClick={() => choose(it.title)} className={`group relative overflow-hidden rounded-2xl ${i === 0 ? (heroItems.length > 1 ? "col-span-2 aspect-[16/9]" : "aspect-[4/3]") : "aspect-square"}`}><img src={foodImg(it, items.indexOf(it))} alt={`${it.title} — ilustrativo`} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /><span className="absolute bottom-2 left-2 rounded-full bg-card px-3 py-1 text-xs font-medium">{it.title}</span></button>)}</div>
+        <div className={`grid gap-3 ${heroItems.length > 1 ? "grid-cols-2" : ""}`}>{heroItems.map((it, i) => <button key={it.title} onClick={() => choose(it.title)} className={`group relative overflow-hidden rounded-2xl ${i === 0 ? (heroItems.length > 1 ? "col-span-2 aspect-[16/9]" : "aspect-[4/3]") : (heroItems.length === 2 ? "col-span-2 aspect-[16/7]" : "aspect-square")}`}><img src={foodImg(it, items.indexOf(it))} alt={`${it.title} — ilustrativo`} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /><span className="absolute bottom-2 left-2 rounded-full bg-card px-3 py-1 text-xs font-medium">{it.title}</span></button>)}</div>
       </section>
       <section className="bg-primary text-primary-foreground"><div className="mx-auto flex max-w-6xl flex-wrap justify-around gap-4 px-6 py-5 text-sm font-medium">{L.features.map(f => <span key={f.t}>✦ {f.t}</span>)}</div></section>
       <section className="mx-auto max-w-6xl px-6 py-12"><h2 className="font-display text-4xl font-normal">Peça em 3 passos</h2><ol className="mt-6 grid gap-6 sm:grid-cols-3">{L.steps.map((s, i) => <li key={s} className="flex items-center gap-4"><span className="grid size-14 shrink-0 place-items-center rounded-full bg-primary font-display text-2xl text-primary-foreground">{i + 1}</span><span className="font-semibold">{s}</span></li>)}</ol></section>

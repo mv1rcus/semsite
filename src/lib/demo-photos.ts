@@ -22,6 +22,8 @@ import plumber from "@/assets/demo-plumber.jpg";
 import repair from "@/assets/demo-repair.jpg";
 import tailor from "@/assets/demo-tailor.jpg";
 import coffee from "@/assets/demo-coffee.jpg";
+import acaiPhoto from "@/assets/demo-acai.jpg";
+import sorvetePhoto from "@/assets/demo-sorvete.jpg";
 import icecream from "@/assets/demo-icecream.jpg";
 import lab from "@/assets/demo-lab.jpg";
 import nutrition from "@/assets/demo-nutrition.jpg";
@@ -74,6 +76,8 @@ const specificPhotos: [RegExp, string][] = [
   [/assistencia tecnica|conserto|eletron/, repair],
   [/costur|alfaiat/, tailor],
   [/cafeter|cafe/, coffee],
+  [/^(?!.*sorvet)(?=.*acai)/, acaiPhoto],
+  [/^(?!.*acai)(?=.*(?:sorvet|gelat|picol))/, sorvetePhoto],
   [/sorvet|acai/, icecream],
   [/laborat/, lab],
   [/nutric/, nutrition],

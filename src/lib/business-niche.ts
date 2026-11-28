@@ -10,7 +10,7 @@ const NICHE_WORDS: [RegExp, string][] = [
   [/depila/, "Depilação"], [/salao|cabele/, "Salão de beleza"],
   [/odonto|dentist|dental/, "Dentista"], [/fisio/, "Fisioterapia"], [/psicolog/, "Psicólogo"], [/nutricion/, "Nutricionista"],
   [/farmac|drogaria/, "Farmácia"], [/laborat/, "Laboratório"], [/otica/, "Ótica"],
-  [/pizz/, "Pizzaria"], [/hamburg|burger|lanchon|lanche/, "Hamburgueria"], [/acai|sorvet/, "Açaiteria e sorveteria"],
+  [/pizz/, "Pizzaria"], [/hamburg|burger|lanchon|lanche/, "Hamburgueria"], [/acai/, "Açaiteria"], [/sorvet|gelateria|picol/, "Sorveteria"],
   [/confeit|doceria/, "Confeitaria"], [/padaria|panific/, "Padaria"], [/cafeter|coffee/, "Cafeteria"],
   [/marmit/, "Marmitaria"], [/espetinh/, "Espetinho"], [/buffet/, "Buffet"], [/restaur/, "Restaurante"],
   [/pet ?shop|banho e tosa|veterin/, "Pet shop"], [/adestra/, "Adestramento"],
@@ -49,7 +49,12 @@ const last = (n: string, list: [RegExp, string][]) => {
   }
   return best?.label;
 };
-const find = (t: string) => { const n = norm(t); return last(n, STRONG) ?? last(n, WEAK); };
+const find = (t: string) => {
+  const n = norm(t);
+  const r = last(n, STRONG) ?? last(n, WEAK);
+  // Vende os dois: o nome cita açaí e sorvete.
+  return (r === "Açaiteria" || r === "Sorveteria") && /\bacai/.test(n) && /\b(?:sorvet|gelat)/.test(n) ? "Açaiteria e sorveteria" : r;
+};
 export function detectNiche(name: string, category: string | null | undefined, query?: string): string {
   const cat = (category ?? "").trim();
   const structured = !GENERIC.test(cat) && find(cat) ? cat : undefined;
@@ -75,5 +80,5 @@ export function matchesSearch(name: string, category: string | null | undefined,
   const wanted = find(query);
   if (!wanted) return true;
   const got = knownNiche(name, category);
-  return !got || got === wanted;
+  return !got || got === wanted || (got === "Açaiteria e sorveteria" && (wanted === "Açaiteria" || wanted === "Sorveteria"));
 }
