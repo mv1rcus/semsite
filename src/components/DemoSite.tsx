@@ -12,6 +12,10 @@ import { demoThemeStyle } from "@/lib/demo-theme";
 import { Button } from "./ui/button";
 import { DemoContact } from "./DemoContact";
 import { ArrowRight, MessageCircle, MapPin, Clock, ShieldCheck, Star, Zap, CheckCircle2, Phone, Navigation, Scissors, Sparkles, Stethoscope, Truck } from "lucide-react";
+import galBeauty from "@/assets/demo-beauty.jpg";
+import galNails from "@/assets/demo-manicure.jpg";
+import galSpa from "@/assets/demo-waxing.jpg";
+const beautyGallery = [galBeauty, galNails, galSpa];
 const photos = { pizza, burger, plate, dessert };
 type View = "home" | "catalog" | "contact";
 type Item = { title: string; text: string; price?: string; photo?: keyof typeof photos };
@@ -90,19 +94,25 @@ export function DemoSite({ demo: raw, layout: forced }: { demo: Demonstration & 
 
   // ---------- BEAUTY: revista / spa ----------
   if (L.id === "beauty") return shell(<>
-    <header className="px-6 pb-4 pt-10 text-center"><p className="text-xs uppercase tracking-[0.4em] text-muted-foreground">{demo.category}</p><h1 className="demo-brand mx-auto mt-3 max-w-3xl break-words font-display text-4xl italic sm:text-6xl">{demo.name}</h1>{nav("mt-6 flex justify-center gap-8 text-sm italic", "text-primary underline underline-offset-8", "text-muted-foreground")}</header>
+    <header className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-6"><div><p className="text-[11px] uppercase tracking-[0.3em] text-muted-foreground">{demo.category}</p><h1 className="demo-brand mt-1 break-words font-display text-3xl font-normal sm:text-4xl">{demo.name}</h1></div>{nav("flex gap-6 text-sm", "text-primary underline underline-offset-8", "text-muted-foreground")}</header>
     {view === "home" && <>
-      <section className="mx-auto grid max-w-6xl grid-cols-3 gap-3 px-6 py-6">{[cover, img(items[0] ?? { title: "", text: "" }), cover].map((s, i) => <img key={i} src={s} alt="Imagem ilustrativa" className={`h-full w-full object-cover ${i === 1 ? "aspect-[3/4] rounded-t-full" : "mt-12 aspect-[3/4] rounded-[2rem]"}`} />)}</section>
-      <section className="mx-auto max-w-2xl px-6 py-10 text-center"><Sparkles className="mx-auto size-6 text-primary" /><p className="mt-4 font-display text-2xl italic leading-relaxed sm:text-3xl">“{L.ribbon}.”</p><p className="mt-4 text-muted-foreground">{description}</p><Button className="mt-8 rounded-full px-8" size="lg" onClick={() => choose("")}>Quero reservar meu momento</Button></section>
-      <section className="bg-muted py-14"><div className="mx-auto max-w-3xl px-6"><h2 className="text-center font-display text-3xl italic">Procedimentos</h2>{beautyList(items.slice(0, 4))}</div></section>
-      {whyBlock("mx-auto max-w-6xl px-6 py-14 text-center")}
-      {reviewsBlock("mx-auto max-w-6xl px-6 py-14 text-center")}
+      <section className="mx-auto grid max-w-6xl items-center gap-10 px-6 pb-12 pt-4 md:grid-cols-[1fr_1fr]">
+        <div><Sparkles className="size-5 text-primary" /><p className="mt-4 font-display text-3xl font-normal leading-tight sm:text-5xl">{L.ribbon}</p><p className="mt-4 max-w-md text-muted-foreground">{description}</p><div className="mt-7 flex flex-wrap gap-3"><Button className="rounded-full px-7" size="lg" onClick={() => choose("")}>Quero reservar meu momento</Button><Button className="rounded-full px-7" size="lg" variant="outline" onClick={() => go("catalog")}>Ver procedimentos</Button></div></div>
+        <img src={beautyGallery[0]} alt="Ambiente ilustrativo" className="aspect-[4/5] w-full rounded-t-full rounded-b-3xl object-cover" />
+      </section>
+      <section className="border-y bg-card"><div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-6 py-8 text-center sm:grid-cols-4">{[{ n: rating ?? "4,9", l: "avaliação média" }, { n: `${items.length}+`, l: "procedimentos" }, { n: "100%", l: "hora marcada" }, { n: "1 dia", l: "resposta no WhatsApp" }].map(x => <div key={x.l}><p className="font-display text-3xl font-normal text-primary">{x.n}</p><p className="mt-1 text-xs text-muted-foreground">{x.l}</p></div>)}</div></section>
+      <section className="mx-auto max-w-6xl px-6 py-14"><h2 className="font-display text-2xl font-normal sm:text-3xl">Conheça o espaço</h2><div className="mt-6 grid gap-4 sm:grid-cols-3">{beautyGallery.map((g, i) => <figure key={i}><img src={g} alt="Imagem ilustrativa do espaço" loading="lazy" className="aspect-[4/3] w-full rounded-2xl object-cover" /><figcaption className="mt-2 text-xs text-muted-foreground">{["Ambiente", "Cuidado com as mãos", "Sala de tratamentos"][i]}</figcaption></figure>)}</div></section>
+      <section className="bg-muted py-14"><div className="mx-auto max-w-3xl px-6"><h2 className="text-center font-display text-2xl font-normal sm:text-3xl">Procedimentos</h2>{beautyList(items.slice(0, 4))}<div className="mt-6 text-center"><Button variant="outline" className="rounded-full" onClick={() => go("catalog")}>Ver todos <ArrowRight /></Button></div></div></section>
+      <section className="mx-auto max-w-6xl px-6 py-14"><h2 className="font-display text-2xl font-normal sm:text-3xl">Como funciona</h2><ol className="mt-6 grid gap-4 sm:grid-cols-3">{L.steps.map((st, i) => <li key={st} className="rounded-2xl border bg-card p-5"><span className="flex size-8 items-center justify-center rounded-full bg-primary text-sm font-medium text-primary-foreground">{i + 1}</span><p className="mt-3 text-sm font-medium">{st}</p></li>)}</ol></section>
+      <section className="mx-auto max-w-3xl px-6 pb-14"><div className="rounded-3xl border bg-card p-6 sm:p-8"><h2 className="font-display text-2xl font-normal">Reserve seu horário</h2><p className="mt-1 text-sm text-muted-foreground">Escolha o procedimento e a gente continua pelo WhatsApp.</p><div className="mt-5 flex flex-wrap gap-2">{items.slice(0, 4).map(it => <button key={it.title} type="button" onClick={() => setInterest(it.title)} aria-pressed={interest === it.title} className={`rounded-full border px-4 py-2 text-sm ${interest === it.title ? "border-primary bg-primary text-primary-foreground" : ""}`}>{it.title}</button>)}</div><Button className="mt-6 w-full rounded-full sm:w-auto sm:px-8" size="lg" onClick={() => choose(interest)}><MessageCircle />Reservar pelo WhatsApp</Button></div></section>
+      {whyBlock("mx-auto max-w-6xl px-6 py-10")}
+      {reviewsBlock("mx-auto max-w-6xl px-6 py-14")}
     </>}
     {view === "catalog" && <section className="mx-auto max-w-3xl px-6 py-10">{beautyList(items)}</section>}
     {view === "contact" && contactView}
-  </>, <footer className="py-10 text-center"><p className="font-display text-lg italic text-muted-foreground">{demo.name}</p><p className="mt-2 text-xs text-muted-foreground">{place} · {L.hours}</p></footer>);
+  </>, <footer className="border-t py-10 text-center"><p className="font-display text-lg font-normal text-muted-foreground">{demo.name}</p><p className="mt-2 text-xs text-muted-foreground">{place} · {L.hours}</p></footer>);
 
-  function beautyList(list: Item[]) { return <ul className="mt-8 space-y-4">{list.map(it => <li key={it.title}><button onClick={() => choose(it.title)} className="flex w-full items-center gap-5 rounded-full border bg-card p-2 pr-6 text-left"><img src={img(it)} alt="" loading="lazy" className="size-16 shrink-0 rounded-full object-cover" /><span className="min-w-0 flex-1"><span className="block font-display text-xl italic">{it.title}</span><span className="block text-xs text-muted-foreground">{it.text}</span></span><span className="flex shrink-0 flex-col items-end">{it.price && <span className="text-sm font-bold not-italic">{it.price}</span>}<span className="text-sm text-primary">{L.itemCta}</span></span></button></li>)}</ul>; }
+  function beautyList(list: Item[]) { return <ul className="mt-8 space-y-4">{list.map((it, i) => <li key={it.title}><button onClick={() => choose(it.title)} className="flex w-full items-center gap-5 rounded-full border bg-card p-2 pr-6 text-left"><img src={it.photo ? photos[it.photo] : beautyGallery[i % beautyGallery.length]} alt="" loading="lazy" className="size-16 shrink-0 rounded-full object-cover" /><span className="min-w-0 flex-1"><span className="block text-base font-medium">{it.title}</span><span className="block text-xs text-muted-foreground">{it.text}</span></span><span className="flex shrink-0 flex-col items-end">{it.price && <span className="text-sm font-medium">{it.price}</span>}<span className="text-sm text-primary">{L.itemCta}</span></span></button></li>)}</ul>; }
 
   // ---------- HEALTH: clínica de alto padrão ----------
   if (L.id === "health") return shell(<>
