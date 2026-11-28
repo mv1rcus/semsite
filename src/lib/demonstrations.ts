@@ -36,16 +36,18 @@ export function demonstrationLink(id: string, origin: string, name?: string, slu
   const path = slug && DEMO_SLUG_RE.test(slug) ? `/${slug}` : name ? `/site/${demonstrationSlug(name)}/${demonstrationCode(id)}` : `/demo/${encodeURIComponent(id)}`;
   return `${local ? url.origin : "https://semsite.lovable.app"}${path}`;
 }
+const ws = (re: RegExp) => new RegExp(`\\b(?:${re.source})`, re.flags);
 export function demoSector(category: string): Sector {
   const c = category.toLocaleLowerCase("pt-BR");
-  if (/academ|gym|crossfit|pilates|muscula|fitness/.test(c)) return "gym";
-  if (/copiador|gr[aá]fic/.test(c)) return "services";
-  if (/advoga|jurídic|juridic|direito/.test(c)) return "law";
-  if (/pet|veterin|banho e tosa/.test(c)) return "pet";
-  if (/oficina|mecân|mecan|auto|funilar|pneu|lava/.test(c)) return "auto";
-  if (/dent|clín|clinic|saúde|fisi|médic|odonto|psic/.test(c)) return "health";
-  if (/barb|beleza|salão|salao|estét|manicure|cabele/.test(c)) return "beauty";
-  if (/restaur|padar|caf[eé]|lanch|pizz|hamb|açaí|acai|doce|confeit|comida|bar\b/.test(c)) return "food";
+  if (ws(/auto ?escola|cfc/).test(c)) return "services";
+  if (ws(/academ|gym|crossfit|pilates|muscula|fitness/).test(c)) return "gym";
+  if (ws(/copiador|gr[aá]fic/).test(c)) return "services";
+  if (ws(/advoga|jurídic|juridic|direito/).test(c)) return "law";
+  if (ws(/pet\b|petshop|pet shop|veterin|banho e tosa/).test(c)) return "pet";
+  if (ws(/oficina|mecân|mecan|auto(?! ?escola)|funilar|pneu|lava ?jato|lava ?car|lavagem/).test(c)) return "auto";
+  if (ws(/dent|clín|clinic|saúde|fisi|médic|odonto|psic/).test(c)) return "health";
+  if (ws(/barb|beleza|salão|salao|estét|manicure|cabele/).test(c)) return "beauty";
+  if (ws(/restaur|padar|caf[eé]|lanch|pizz|hamb|açaí|acai|doce|confeit|comida|bar\b/).test(c)) return "food";
   return "services";
 }
 

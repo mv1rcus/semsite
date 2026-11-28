@@ -7,7 +7,7 @@ export type LeadHeat = "quente" | "morno" | "frio";
 export const HEAT_LABEL: Record<LeadHeat, string> = { quente: "Quente", morno: "Morno", frio: "Frio" };
 
 /** Segmentos que costumam fechar site rápido: decisão simples e dono acessível pelo WhatsApp. */
-const HIGH_CONVERSION_RE = /barbear|barber|pizz|odonto|dentist|sal[aã]o|cabele|est[ée]tica|oficina|mec[aâ]nic/i;
+const HIGH_CONVERSION_RE = /\b(?:barbear|barber|pizz|odonto|dentist|sal[aã]o|cabele|est[ée]tica|oficina|mec[aâ]nic)/i;
 
 export function leadHeatScore(lead: Lead): { score: number; reasons: string[] } {
   let score = 0;

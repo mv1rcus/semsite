@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel } from "@/components/ui/alert-dialog";
 import { ClientStageSelect } from "@/components/ClientStageSelect";
 import { useFollowUp } from "@/lib/use-follow-up";
-import { dueToday, localDateInput, reminderDue, STAGES } from "@/lib/follow-up";
+import { dueToday, localDateInput, reminderDue, reviewNiches, STAGES } from "@/lib/follow-up";
 import { getClosedSales, getMonthlyResults, recordClosedSale } from "@/lib/results.functions";
 import { countStageEventsInRange, formatBRL, monthRange, parseReaisToCents } from "@/lib/results";
 import { whatsappLink } from "@/lib/message";
@@ -40,6 +40,8 @@ function Clientes() {
   const [pendingDelete, setPendingDelete] = useState<string[]>([]);
   const [notice, setNotice] = useState("");
   const [limit, setLimit] = useState(12);
+  const [reviewing, setReviewing] = useState(false);
+  const nicheReview = useMemo(() => reviewNiches(clients), [clients]);
   const fileRef = useRef<HTMLInputElement>(null);
   const loadResults = useServerFn(getMonthlyResults);
   const loadSales = useServerFn(getClosedSales);
@@ -96,6 +98,7 @@ function Clientes() {
         </div>
         {results && !results.salesReady && <p className="mt-3 text-xs text-muted-foreground">O registro de vendas ainda não está ativo neste banco; "Fechadas" e "Valor fechado" zerados até a migração rodar.</p>}
       </section>
+      {nicheReview.length > 0 && <section className="mt-6 border-b pb-5" aria-label="Revisar ramo"><div className="flex flex-wrap items-center justify-between gap-3"><div><h2 className="text-lg font-semibold">Revisar ramo</h2><p className="text-sm text-muted-foreground">{nicheReview.length} {nicheReview.length === 1 ? "cliente tem" : "clientes têm"} ramo diferente do que o nome indica.</p></div><Button variant="outline" size="sm" onClick={() => setReviewing(v => !v)}>{reviewing ? "Fechar" : "Ver antes e depois"}</Button></div>{reviewing && <div className="mt-4 grid gap-2">{nicheReview.map(item => <div key={item.id} className="flex flex-wrap items-center justify-between gap-2 text-sm"><span className="min-w-0 break-words font-medium">{item.name}</span><span className="text-muted-foreground">{item.before} → <b className="text-foreground">{item.after}</b></span><Button size="sm" variant="secondary" onClick={() => update(item.id, { category: item.after })}>Aceitar</Button></div>)}<Button className="mt-2 w-fit" onClick={() => nicheReview.forEach(item => update(item.id, { category: item.after }))}><Check />Aceitar todos</Button></div>}</section>}
       <div className="mt-7 grid grid-cols-2 gap-x-5 gap-y-6 border-b pb-5 sm:grid-cols-4">
         {[{ label: "Total de clientes", count: clients.length, icon: Users }, { label: "Contato pendente", count: due.length, icon: Bell }, { label: "Sem resposta", count: unanswered.length, icon: MessageCircleOff }, { label: "Fechados", count: clients.filter(c => c.stage === "closed").length, icon: Trophy }].map(item => <div key={item.label}><item.icon className="mb-2 size-4 text-primary" /><p className="text-2xl font-bold">{item.count}</p><p className="mt-1 text-xs text-muted-foreground">{item.label}</p></div>)}
       </div>
