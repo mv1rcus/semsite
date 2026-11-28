@@ -69,3 +69,7 @@ describe("link curto nomedaempresademo", () => {
     expect(shortLink("4821be4e-1251-4766-9d13-764d9c17b339", "https://id-preview--x.lovable.app", "Pizzaria", "pizzariadomarcusdemo")).toBe("https://semsite.lovable.app/pizzariadomarcusdemo");
   });
 });
+
+describe("sector for acai and sorveteria labels", () => {
+  it("treats all as food", () => { for (const c of ["Açaiteria", "Sorveteria", "Açaiteria e sorveteria", "Açaí", "Acaiteria"]) expect(demoSector(c)).toBe("food"); });
+});

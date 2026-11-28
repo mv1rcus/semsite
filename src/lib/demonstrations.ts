@@ -47,7 +47,7 @@ export function demoSector(category: string): Sector {
   if (ws(/oficina|mecân|mecan|auto(?! ?escola)|funilar|pneu|lava ?jato|lava ?car|lavagem/).test(c)) return "auto";
   if (ws(/dent|clín|clinic|saúde|fisi|médic|odonto|psic/).test(c)) return "health";
   if (ws(/barb|beleza|salão|salao|estét|manicure|cabele/).test(c)) return "beauty";
-  if (ws(/restaur|padar|caf[eé]|lanch|pizz|hamb|açaí|acai|sorvet|gelat|churrasc|marmit|espet|buffet|doce|confeit|comida|bar\b/).test(c)) return "food";
+  if (ws(/restaur|padar|caf[eé]|lanch|pizz|hamb|a[çc]a[ií]|sorvet|gelat|churrasc|marmit|espet|buffet|doce|confeit|comida|bar\b/).test(c)) return "food";
   return "services";
 }
 
