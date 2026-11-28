@@ -25,8 +25,7 @@ import foodBurgerShop from "@/assets/demo-burger.jpg";
 /** Fotos por ramo de comida: evita bolo no lugar de pão e a mesma foto repetida. Sem ramo específico, usa as fotos do catálogo. */
 function foodPhotoSet(category: string): string[] | null {
   const c = category.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-  if (/\b(?:padar|panific)/.test(c)) return [foodBakery, dessert, foodBakery, foodCoffee];
-  if (/\b(?:confeit|doce|bolo)/.test(c)) return [dessert, foodBakery, dessert, foodCoffee];
+  if (/\b(?:padar|panific|confeit|doce|bolo)/.test(c)) return [foodBakery, dessert, foodBakery, foodCoffee];
   if (/\b(?:sorvet|acai|gelat)/.test(c)) return [foodIce, foodIce, foodIce, foodIce];
   if (/\b(?:cafeter|cafe\b)/.test(c)) return [foodCoffee, dessert, foodBakery, foodCoffee];
   if (/\bpizz/.test(c)) return [foodPizzeria, pizza, foodPizzeria, pizza];
@@ -76,6 +75,8 @@ export function DemoSite({ demo: raw, layout: forced }: { demo: Demonstration & 
   const foodSet = foodPhotoSet(demo.category);
   const foodImg = (it: Item, i: number) => foodSet ? foodSet[i % foodSet.length]! : img(it);
   const distinctFood = items.map((it, i) => ({ it, i, src: foodImg(it, i) })).filter((x, k, all) => all.findIndex(y => y.src === x.src) === k);
+  const popular = (foodSet ? distinctFood.map(x => x.it) : items).slice(0, 4);
+  const popularCols = popular.length >= 4 ? "lg:grid-cols-4" : popular.length === 3 ? "sm:grid-cols-3" : "";
   const heroItems = foodSet ? distinctFood.slice(0, 3).map(x => x.it) : items.slice(0, 3);
   // ---------- GASTRONOMIA: cardápio digital ----------
   if (L.id === "gastro") return shell(<>
@@ -87,7 +88,7 @@ export function DemoSite({ demo: raw, layout: forced }: { demo: Demonstration & 
       </section>
       <section className="bg-primary text-primary-foreground"><div className="mx-auto flex max-w-6xl flex-wrap justify-around gap-4 px-6 py-5 text-sm font-medium">{L.features.map(f => <span key={f.t}>✦ {f.t}</span>)}</div></section>
       <section className="mx-auto max-w-6xl px-6 py-12"><h2 className="font-display text-4xl font-normal">Peça em 3 passos</h2><ol className="mt-6 grid gap-6 sm:grid-cols-3">{L.steps.map((s, i) => <li key={s} className="flex items-center gap-4"><span className="grid size-14 shrink-0 place-items-center rounded-full bg-primary font-display text-2xl text-primary-foreground">{i + 1}</span><span className="font-semibold">{s}</span></li>)}</ol></section>
-      {(!foodSet || distinctFood.length > 1) && <section className="mx-auto max-w-6xl px-6 pb-12"><h2 className="font-display text-3xl font-normal sm:text-4xl">Mais pedidos</h2><div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{(foodSet ? distinctFood.map(x => x.it) : items).slice(0, 4).map((it) => <button key={it.title} onClick={() => choose(it.title)} className="overflow-hidden rounded-2xl border bg-card text-left"><img src={foodImg(it, items.indexOf(it))} alt={`${it.title} — ilustrativo`} loading="lazy" className="aspect-[4/3] w-full object-cover" /><span className="block p-4"><span className="block text-base font-medium">{it.title}</span><span className="block text-xs text-muted-foreground">{it.text}</span>{it.price && <span className="mt-1 block text-sm font-medium text-primary">{it.price}</span>}</span></button>)}</div></section>}
+      {(!foodSet || distinctFood.length > 1) && <section className="mx-auto max-w-6xl px-6 pb-12"><h2 className="font-display text-3xl font-normal sm:text-4xl">Mais pedidos</h2><div className={`mt-6 grid gap-4 sm:grid-cols-2 ${popularCols}`}>{popular.map((it) => <button key={it.title} onClick={() => choose(it.title)} className="overflow-hidden rounded-2xl border bg-card text-left"><img src={foodImg(it, items.indexOf(it))} alt={`${it.title} — ilustrativo`} loading="lazy" className="aspect-[4/3] w-full object-cover" /><span className="block p-4"><span className="block text-base font-medium">{it.title}</span><span className="block text-xs text-muted-foreground">{it.text}</span>{it.price && <span className="mt-1 block text-sm font-medium text-primary">{it.price}</span>}</span></button>)}</div></section>}
       {whyBlock("mx-auto max-w-6xl px-6 pb-12")}
       {reviewsBlock("mx-auto max-w-6xl px-6 pb-12")}
       <section className="mx-auto max-w-3xl px-6 pb-12"><h2 className="font-display text-3xl font-normal sm:text-4xl">Dúvidas comuns</h2><div className="mt-5 divide-y rounded-2xl border bg-card">{[{ q: "Como faço o pedido?", a: "Escolha no cardápio e mande pelo WhatsApp. A gente confirma o valor e o tempo." }, { q: "Vocês entregam?", a: "Entregamos na região e também dá para retirar no balcão. Pergunte pelo WhatsApp o seu endereço." }, { q: "Quais as formas de pagamento?", a: "Combinado no pedido. Pergunte pelo WhatsApp o que está disponível." }, { q: "Aceitam encomendas?", a: "Sim, para quantidades maiores e datas especiais. Chame com antecedência." }].map(f => <details key={f.q} className="p-5"><summary className="cursor-pointer list-none text-sm font-medium">{f.q}</summary><p className="mt-2 text-sm text-muted-foreground">{f.a}</p></details>)}</div></section>
